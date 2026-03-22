@@ -330,16 +330,22 @@
         }
 
         function copyBibtex() {
-            const bibtex = `@article{oreina{{ "{{ $submission->published_at?->year ?? date('Y') }}" }},
-  author = {{ "{{ $submission->author?->name ?? 'Auteur' }}" }},
-  title = {{ "{{ $submission->title }}" }},
-  journal = {Revue scientifique OREINA},
-  year = {{ "{{ $submission->published_at?->year ?? date('Y') }}" }},
-  @if($submission->journalIssue)volume = {{ "{{ $submission->journalIssue->volume_number }}" }},
-  number = {{ "{{ $submission->journalIssue->issue_number }}" }},@endif
-  @if($submission->start_page && $submission->end_page)pages = {{ "{{ $submission->start_page }}" }}--{{ "{{ $submission->end_page }}" }},@endif
-  @if($submission->doi)doi = {{ "{{ $submission->doi }}" }}@endif
-}`;
+            const bibtex = '@article{oreina{{ $submission->published_at?->year ?? date("Y") }},\n' +
+                '  author = {{{ $submission->author?->name ?? "Auteur" }}},\n' +
+                '  title = {{{ addslashes($submission->title) }}},\n' +
+                '  journal = {Revue scientifique OREINA},\n' +
+                '  year = {{{ $submission->published_at?->year ?? date("Y") }}},\n' +
+                @if($submission->journalIssue)
+                '  volume = {{{ $submission->journalIssue->volume_number }}},\n' +
+                '  number = {{{ $submission->journalIssue->issue_number }}},\n' +
+                @endif
+                @if($submission->start_page && $submission->end_page)
+                '  pages = {{{ $submission->start_page }}--{{ $submission->end_page }}},\n' +
+                @endif
+                @if($submission->doi)
+                '  doi = {{{ $submission->doi }}}\n' +
+                @endif
+                '}';
             navigator.clipboard.writeText(bibtex).then(() => {
                 alert('BibTeX copié !');
             });
