@@ -277,7 +277,7 @@
                         <p class="text-sm text-slate-700 font-mono leading-relaxed">
                             {{ $submission->author?->name ?? 'Auteur' }} ({{ $submission->published_at?->year ?? date('Y') }}).
                             {{ $submission->title }}.
-                            <em>OREINA</em>@if($submission->journalIssue), {{ $submission->journalIssue->volume_number }}({{ $submission->journalIssue->issue_number }})@endif@if($submission->start_page && $submission->end_page), {{ $submission->start_page }}-{{ $submission->end_page }}@endif.
+                            <em>OREINA</em>@if($submission->journalIssue), {{ $submission->journalIssue->volume_number }}({{ $submission->journalIssue->issue_number }})@endif{{""}}@if($submission->start_page && $submission->end_page), {{ $submission->start_page }}-{{ $submission->end_page }}@endif.
                             @if($submission->doi) https://doi.org/{{ $submission->doi }}@endif
                         </p>
                     </div>
