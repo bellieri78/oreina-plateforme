@@ -320,6 +320,31 @@
         </div>
     </div>
 
+    @php
+        $bibtexYear = $submission->published_at?->year ?? date('Y');
+        $bibtexAuthor = $submission->author?->name ?? 'Auteur';
+        $bibtexTitle = str_replace(['"', '\\'], ['\"', '\\\\'], $submission->title);
+        $bibtexLines = [
+            "@article{oreina{$bibtexYear},",
+            "  author = {{$bibtexAuthor}},",
+            "  title = {{$bibtexTitle}},",
+            "  journal = {Revue scientifique OREINA},",
+            "  year = {{$bibtexYear}},",
+        ];
+        if ($submission->journalIssue) {
+            $bibtexLines[] = "  volume = {{$submission->journalIssue->volume_number}},";
+            $bibtexLines[] = "  number = {{$submission->journalIssue->issue_number}},";
+        }
+        if ($submission->start_page && $submission->end_page) {
+            $bibtexLines[] = "  pages = {{$submission->start_page}--{$submission->end_page}},";
+        }
+        if ($submission->doi) {
+            $bibtexLines[] = "  doi = {{$submission->doi}}";
+        }
+        $bibtexLines[] = "}";
+        $bibtexString = implode("\n", $bibtexLines);
+    @endphp
+
     @push('scripts')
     <script>
         function copyCitation() {
@@ -330,22 +355,7 @@
         }
 
         function copyBibtex() {
-            const bibtex = '@article{oreina{{ $submission->published_at?->year ?? date("Y") }},\n' +
-                '  author = {{{ $submission->author?->name ?? "Auteur" }}},\n' +
-                '  title = {{{ addslashes($submission->title) }}},\n' +
-                '  journal = {Revue scientifique OREINA},\n' +
-                '  year = {{{ $submission->published_at?->year ?? date("Y") }}},\n' +
-                @if($submission->journalIssue)
-                '  volume = {{{ $submission->journalIssue->volume_number }}},\n' +
-                '  number = {{{ $submission->journalIssue->issue_number }}},\n' +
-                @endif
-                @if($submission->start_page && $submission->end_page)
-                '  pages = {{{ $submission->start_page }}--{{ $submission->end_page }}},\n' +
-                @endif
-                @if($submission->doi)
-                '  doi = {{{ $submission->doi }}}\n' +
-                @endif
-                '}';
+            const bibtex = @json($bibtexString);
             navigator.clipboard.writeText(bibtex).then(() => {
                 alert('BibTeX copié !');
             });
