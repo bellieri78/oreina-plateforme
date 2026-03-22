@@ -130,6 +130,23 @@
                 </div>
                 @error('pdf_file')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
             </div>
+
+            <div class="form-group">
+                <label class="form-label" for="featured_image">Image de couverture (pour les cartes articles)</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" name="featured_image" id="featured_image" class="form-input" accept="image/*">
+                    @if(isset($submission) && $submission->featured_image)
+                        <div class="current-file" style="flex-direction: column; align-items: flex-start;">
+                            <img src="{{ Storage::url($submission->featured_image) }}" alt="Image de couverture" style="max-width: 200px; max-height: 150px; border-radius: 0.375rem; margin-bottom: 0.5rem;">
+                            <label style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer;">
+                                <input type="checkbox" name="remove_featured_image" value="1">
+                                <span style="font-size: 0.75rem;">Supprimer l'image</span>
+                            </label>
+                        </div>
+                    @endif
+                </div>
+                @error('featured_image')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+            </div>
         </div>
     </div>
 

@@ -95,6 +95,7 @@ class SubmissionController extends Controller
             'end_page' => 'nullable|integer|min:1',
             'manuscript_file' => 'nullable|file|mimes:doc,docx,pdf,odt|max:20480',
             'pdf_file' => 'nullable|file|mimes:pdf|max:20480',
+            'featured_image' => 'nullable|image|max:5120',
         ]);
 
         if ($validated['status'] === 'submitted' && empty($validated['submitted_at'])) {
@@ -114,6 +115,11 @@ class SubmissionController extends Controller
         if ($request->hasFile('pdf_file')) {
             $validated['pdf_file'] = $request->file('pdf_file')
                 ->store('submissions/pdfs', 'public');
+        }
+
+        if ($request->hasFile('featured_image')) {
+            $validated['featured_image'] = $request->file('featured_image')
+                ->store('submissions/images', 'public');
         }
 
         $submission = Submission::create($validated);
@@ -158,6 +164,7 @@ class SubmissionController extends Controller
             'end_page' => 'nullable|integer|min:1',
             'manuscript_file' => 'nullable|file|mimes:doc,docx,pdf,odt|max:20480',
             'pdf_file' => 'nullable|file|mimes:pdf|max:20480',
+            'featured_image' => 'nullable|image|max:5120',
             // Content fields
             'content_html' => 'nullable|string',
             'content_blocks' => 'nullable|string',
@@ -224,6 +231,18 @@ class SubmissionController extends Controller
             }
             $validated['pdf_file'] = $request->file('pdf_file')
                 ->store('submissions/pdfs', 'public');
+        }
+
+        // Handle featured image
+        if ($request->has('remove_featured_image') && $submission->featured_image) {
+            Storage::disk('public')->delete($submission->featured_image);
+            $validated['featured_image'] = null;
+        } elseif ($request->hasFile('featured_image')) {
+            if ($submission->featured_image) {
+                Storage::disk('public')->delete($submission->featured_image);
+            }
+            $validated['featured_image'] = $request->file('featured_image')
+                ->store('submissions/images', 'public');
         }
 
         $submission->update($validated);

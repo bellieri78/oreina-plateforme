@@ -20,6 +20,7 @@ class Submission extends Model
         'author_affiliations',
         'manuscript_file',
         'pdf_file',
+        'featured_image',
         'co_authors',
         'keywords',
         'status',

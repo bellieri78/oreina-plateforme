@@ -75,11 +75,15 @@
                         <div class="grid md:grid-cols-4 gap-0">
                             <div class="md:col-span-1 h-48 sm:h-64 md:h-auto bg-slate-200 overflow-hidden relative">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                <div class="w-full h-full bg-oreina-teal/20 flex items-center justify-center">
-                                    <svg class="w-16 h-16 text-oreina-teal/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                </div>
+                                @if($article->featured_image)
+                                    <img src="{{ Storage::url($article->featured_image) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-oreina-teal/20 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-oreina-teal/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                    </div>
+                                @endif
                             </div>
                             <div class="md:col-span-3 p-5 sm:p-6 lg:p-8">
                                 <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
