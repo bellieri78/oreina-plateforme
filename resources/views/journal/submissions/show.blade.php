@@ -1,0 +1,298 @@
+@extends('layouts.journal')
+
+@section('title', $submission->title)
+@section('meta_description', 'Détails de votre soumission à la revue OREINA.')
+
+@section('content')
+    <div class="py-8 sm:py-12 px-4 sm:px-6 lg:px-12 bg-gray-50 min-h-screen">
+        <div class="max-w-4xl mx-auto">
+            {{-- Header --}}
+            <div class="mb-8">
+                <a href="{{ route('journal.submissions.index') }}" class="inline-flex items-center gap-2 text-slate-600 hover:text-oreina-turquoise transition mb-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                    Mes soumissions
+                </a>
+
+                <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                    <div class="flex-1">
+                        @php
+                            $statusColors = [
+                                'draft' => 'bg-slate-100 text-slate-700',
+                                'submitted' => 'bg-blue-100 text-blue-700',
+                                'desk_review' => 'bg-yellow-100 text-yellow-700',
+                                'in_review' => 'bg-purple-100 text-purple-700',
+                                'revision' => 'bg-orange-100 text-orange-700',
+                                'accepted' => 'bg-green-100 text-green-700',
+                                'rejected' => 'bg-red-100 text-red-700',
+                                'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
+                            ];
+                            $statusLabels = \App\Models\Submission::getStatuses();
+                        @endphp
+                        <span class="inline-flex px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submission->status] ?? 'bg-slate-100 text-slate-700' }}">
+                            {{ $statusLabels[$submission->status] ?? $submission->status }}
+                        </span>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-oreina-dark mt-3">{{ $submission->title }}</h1>
+                    </div>
+
+                    @if($submission->status === 'revision')
+                        <a href="{{ route('journal.submissions.edit', $submission) }}" class="btn-turquoise">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1M12 12V4m0 0L8 8m4-4 4 4"/>
+                            </svg>
+                            Soumettre révision
+                        </a>
+                    @endif
+                </div>
+            </div>
+
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-green-800 font-medium">{{ session('success') }}</p>
+                    </div>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-red-800 font-medium">{{ session('error') }}</p>
+                    </div>
+                </div>
+            @endif
+
+            <div class="space-y-6">
+                {{-- Timeline/Status --}}
+                <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6">
+                    <h2 class="text-lg font-bold text-oreina-dark mb-4">Suivi de votre soumission</h2>
+
+                    <div class="relative">
+                        @php
+                            $steps = [
+                                ['key' => 'submitted', 'label' => 'Soumis', 'date' => $submission->submitted_at],
+                                ['key' => 'in_review', 'label' => 'En évaluation', 'date' => null],
+                                ['key' => 'decision', 'label' => 'Décision', 'date' => $submission->decision_at],
+                                ['key' => 'published', 'label' => 'Publié', 'date' => $submission->published_at],
+                            ];
+
+                            $currentStepIndex = match($submission->status) {
+                                'draft' => -1,
+                                'submitted', 'desk_review' => 0,
+                                'in_review' => 1,
+                                'revision', 'accepted', 'rejected' => 2,
+                                'published' => 3,
+                                default => 0,
+                            };
+                        @endphp
+
+                        <div class="flex items-center justify-between">
+                            @foreach($steps as $index => $step)
+                                <div class="flex flex-col items-center flex-1">
+                                    <div class="relative flex items-center justify-center w-10 h-10 rounded-full border-2 {{ $index <= $currentStepIndex ? 'bg-oreina-turquoise border-oreina-turquoise text-white' : 'bg-white border-slate-300 text-slate-400' }}">
+                                        @if($index < $currentStepIndex)
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                        @else
+                                            <span class="text-sm font-bold">{{ $index + 1 }}</span>
+                                        @endif
+                                    </div>
+                                    <span class="mt-2 text-xs font-semibold {{ $index <= $currentStepIndex ? 'text-oreina-dark' : 'text-slate-400' }}">
+                                        {{ $step['label'] }}
+                                    </span>
+                                    @if($step['date'])
+                                        <span class="text-xs text-slate-500">{{ $step['date']->format('d/m/Y') }}</span>
+                                    @endif
+                                </div>
+
+                                @if(!$loop->last)
+                                    <div class="flex-1 h-0.5 {{ $index < $currentStepIndex ? 'bg-oreina-turquoise' : 'bg-slate-200' }} -mt-6"></div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Decision (if any) --}}
+                @if($submission->decision)
+                    <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6">
+                        <h2 class="text-lg font-bold text-oreina-dark mb-4">Décision éditoriale</h2>
+
+                        @php
+                            $decisionColors = [
+                                'accept' => 'bg-green-100 text-green-700 border-green-200',
+                                'minor_revision' => 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                                'major_revision' => 'bg-orange-100 text-orange-700 border-orange-200',
+                                'reject' => 'bg-red-100 text-red-700 border-red-200',
+                            ];
+                            $decisionLabels = \App\Models\Submission::getDecisions();
+                        @endphp
+
+                        <div class="p-4 rounded-xl border {{ $decisionColors[$submission->decision] ?? 'bg-slate-100 border-slate-200' }}">
+                            <div class="flex items-center gap-3 mb-2">
+                                @if($submission->decision === 'accept')
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                @elseif($submission->decision === 'reject')
+                                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                @else
+                                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                    </svg>
+                                @endif
+                                <span class="font-bold text-lg">{{ $decisionLabels[$submission->decision] ?? $submission->decision }}</span>
+                            </div>
+
+                            @if($submission->decision_at)
+                                <p class="text-sm opacity-75">Décision rendue le {{ $submission->decision_at->format('d/m/Y à H:i') }}</p>
+                            @endif
+                        </div>
+
+                        @if($submission->editor_notes)
+                            <div class="mt-4">
+                                <h3 class="font-semibold text-slate-700 mb-2">Commentaires de l'éditeur :</h3>
+                                <div class="p-4 bg-slate-50 rounded-xl text-slate-700 text-sm leading-relaxed">
+                                    {!! nl2br(e($submission->editor_notes)) !!}
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(in_array($submission->decision, ['minor_revision', 'major_revision']) && $submission->status === 'revision')
+                            <div class="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-xl">
+                                <p class="text-orange-800 font-medium mb-2">Une révision est demandée</p>
+                                <p class="text-sm text-orange-700">Veuillez prendre en compte les commentaires ci-dessus et soumettre une version révisée de votre manuscrit.</p>
+                                <a href="{{ route('journal.submissions.edit', $submission) }}" class="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1M12 12V4m0 0L8 8m4-4 4 4"/>
+                                    </svg>
+                                    Soumettre ma révision
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                @endif
+
+                {{-- Article details --}}
+                <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6">
+                    <h2 class="text-lg font-bold text-oreina-dark mb-4">Détails de l'article</h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-1">Résumé</h3>
+                            <p class="text-slate-700 leading-relaxed">{{ $submission->abstract }}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-1">Mots-clés</h3>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach(explode(',', $submission->keywords) as $keyword)
+                                    <span class="px-3 py-1 bg-slate-100 text-slate-700 text-sm rounded-full">{{ trim($keyword) }}</span>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        @if($submission->co_authors && count($submission->co_authors) > 0)
+                            <div>
+                                <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Co-auteurs</h3>
+                                <div class="grid sm:grid-cols-2 gap-3">
+                                    @foreach($submission->co_authors as $coAuthor)
+                                        <div class="p-3 bg-slate-50 rounded-lg">
+                                            <p class="font-semibold text-slate-700">{{ $coAuthor['name'] }}</p>
+                                            @if(!empty($coAuthor['affiliation']))
+                                                <p class="text-sm text-slate-500">{{ $coAuthor['affiliation'] }}</p>
+                                            @endif
+                                            @if(!empty($coAuthor['email']))
+                                                <p class="text-sm text-slate-500">{{ $coAuthor['email'] }}</p>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Manuscript file --}}
+                <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6">
+                    <h2 class="text-lg font-bold text-oreina-dark mb-4">Manuscrit</h2>
+
+                    <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-semibold text-slate-700">Manuscrit PDF</p>
+                            <p class="text-sm text-slate-500">Soumis le {{ $submission->submitted_at?->format('d/m/Y à H:i') ?? $submission->created_at->format('d/m/Y à H:i') }}</p>
+                        </div>
+                        <a href="{{ Storage::url($submission->manuscript_file) }}" target="_blank" class="px-4 py-2 bg-oreina-turquoise text-white font-semibold rounded-lg hover:bg-oreina-teal transition">
+                            Télécharger
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Publication info (if published) --}}
+                @if($submission->status === 'published' && $submission->journalIssue)
+                    <div class="bg-gradient-to-br from-oreina-turquoise/10 to-oreina-green/10 rounded-2xl border border-oreina-turquoise/30 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-oreina-turquoise rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-lg font-bold text-oreina-dark">Publié !</h2>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-slate-500">Numéro</p>
+                                <p class="font-semibold text-slate-700">{{ $submission->journalIssue->title }}</p>
+                            </div>
+                            @if($submission->start_page && $submission->end_page)
+                                <div>
+                                    <p class="text-sm text-slate-500">Pages</p>
+                                    <p class="font-semibold text-slate-700">{{ $submission->start_page }} - {{ $submission->end_page }}</p>
+                                </div>
+                            @endif
+                            @if($submission->doi)
+                                <div class="sm:col-span-2">
+                                    <p class="text-sm text-slate-500">DOI</p>
+                                    <a href="https://doi.org/{{ $submission->doi }}" target="_blank" class="font-semibold text-oreina-turquoise hover:underline">
+                                        {{ $submission->doi }}
+                                    </a>
+                                </div>
+                            @endif
+                            @if($submission->published_at)
+                                <div>
+                                    <p class="text-sm text-slate-500">Date de publication</p>
+                                    <p class="font-semibold text-slate-700">{{ $submission->published_at->format('d/m/Y') }}</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Meta information --}}
+                <div class="text-sm text-slate-500 flex flex-wrap gap-x-6 gap-y-2">
+                    <span>Soumission #{{ $submission->id }}</span>
+                    <span>Créée le {{ $submission->created_at->format('d/m/Y à H:i') }}</span>
+                    @if($submission->updated_at != $submission->created_at)
+                        <span>Mise à jour le {{ $submission->updated_at->format('d/m/Y à H:i') }}</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

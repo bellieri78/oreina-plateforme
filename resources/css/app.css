@@ -1,0 +1,278 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+    /* Couleurs OREINA - Palette complète */
+    --color-oreina-dark: #16302B;
+    --color-oreina-green: #85B79D;
+    --color-oreina-light: #85B79D;
+    --color-oreina-beige: #DBCBC7;
+    --color-oreina-turquoise: #14B8A6;
+    --color-oreina-teal: #0f766e;
+    --color-oreina-teal-dark: #115e59;
+    --color-oreina-yellow: #EDC442;
+    --color-oreina-coral: #EF7A5C;
+    --color-oreina-blue: #356B8A;
+}
+
+/* Classes utilitaires OREINA */
+@layer components {
+    .btn-primary {
+        @apply inline-flex items-center gap-2 bg-oreina-green text-white px-6 py-3 rounded-2xl font-bold transition-all;
+        box-shadow: 0 10px 40px rgba(133, 183, 157, 0.3);
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 50px rgba(133, 183, 157, 0.4);
+    }
+
+    .btn-secondary {
+        @apply bg-white text-oreina-dark px-6 py-3 rounded-2xl font-bold border-2 transition-all;
+        border-color: #DBCBC7;
+    }
+    .btn-secondary:hover {
+        border-color: #85B79D;
+        transform: translateY(-2px);
+    }
+
+    .btn-turquoise {
+        @apply bg-oreina-turquoise text-white px-6 py-3 rounded-2xl font-bold transition-all;
+        box-shadow: 0 10px 40px rgba(20, 184, 166, 0.3);
+    }
+    .btn-turquoise:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 50px rgba(20, 184, 166, 0.4);
+    }
+
+    /* Cards */
+    .card {
+        @apply bg-white rounded-3xl p-8 transition-all cursor-pointer;
+        border: 2px solid rgba(219, 203, 199, 0.3);
+    }
+    .card:hover {
+        box-shadow: 0 20px 60px rgba(22, 48, 43, 0.15);
+        transform: translateY(-4px);
+    }
+
+    .card-alt {
+        background-color: rgba(219, 203, 199, 0.08);
+        border-color: rgba(219, 203, 199, 0.4);
+    }
+
+    /* Badge */
+    .badge {
+        @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold;
+        background-color: rgba(133, 183, 157, 0.25);
+        border: 1px solid rgba(133, 183, 157, 0.4);
+        backdrop-filter: blur(12px);
+    }
+
+    .badge-active {
+        background-color: rgba(133, 183, 157, 0.2);
+        color: #85B79D;
+    }
+
+    .badge-new {
+        background-color: rgba(237, 196, 66, 0.2);
+        color: #EDC442;
+    }
+
+    /* Header glassmorphism */
+    .header-glass {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(219, 203, 199, 0.3);
+        box-shadow: 0 1px 3px rgba(22, 48, 43, 0.08);
+    }
+
+    /* Hero gradient overlay */
+    .hero-overlay {
+        background: linear-gradient(135deg, rgba(22, 48, 43, 0.8) 0%, rgba(22, 48, 43, 0.65) 40%, rgba(133, 183, 157, 0.45) 100%);
+    }
+
+    /* Stats banner */
+    .stats-banner {
+        background: linear-gradient(135deg, #85B79D 0%, #356B8A 100%);
+        @apply rounded-3xl p-8 text-white;
+    }
+
+    /* Section backgrounds */
+    .bg-warm {
+        background: linear-gradient(135deg, rgba(219, 203, 199, 0.15) 0%, rgba(133, 183, 157, 0.1) 100%);
+    }
+
+    /* Footer gradient */
+    .footer-gradient {
+        background: linear-gradient(180deg, #1a3a35 0%, #16302B 100%);
+    }
+
+    /* Article card */
+    .article-card {
+        @apply bg-white rounded-3xl overflow-hidden transition-all;
+        border: 2px solid rgba(219, 203, 199, 0.3);
+    }
+    .article-card:hover {
+        box-shadow: 0 20px 60px rgba(22, 48, 43, 0.15);
+        transform: translateY(-4px);
+    }
+    .article-card:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Icon container */
+    .icon-box {
+        @apply inline-flex p-4 rounded-2xl;
+    }
+
+    /* Profile/Assoc card */
+    .profile-card {
+        @apply rounded-3xl p-10 transition-all;
+        border: 2px solid rgba(219, 203, 199, 0.3);
+    }
+    .profile-card:hover {
+        box-shadow: 0 20px 60px rgba(22, 48, 43, 0.15);
+        transform: translateY(-4px);
+    }
+
+    /* Journal sidebar */
+    .journal-sidebar {
+        background: linear-gradient(180deg, #0f766e 0%, #115e59 100%);
+    }
+
+    /* Journal hero overlay */
+    .journal-hero-overlay {
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.65) 0%, rgba(15, 118, 110, 0.55) 40%, rgba(20, 184, 166, 0.45) 100%);
+    }
+}
+
+/* Event card */
+.event-card {
+    @apply bg-white rounded-2xl overflow-hidden transition-all;
+    border: 1px solid rgba(219, 203, 199, 0.4);
+}
+.event-card:hover {
+    box-shadow: 0 15px 40px rgba(22, 48, 43, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Feature section */
+.feature-icon {
+    @apply w-14 h-14 rounded-2xl flex items-center justify-center;
+}
+
+/* Smooth scroll sections */
+.section-fade {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Stats cards */
+.stat-card {
+    @apply bg-white rounded-2xl p-6 text-center transition-all;
+    border: 1px solid rgba(219, 203, 199, 0.3);
+}
+.stat-card:hover {
+    box-shadow: 0 10px 30px rgba(22, 48, 43, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Link with arrow animation */
+.link-arrow {
+    @apply inline-flex items-center gap-2 font-semibold transition-all;
+}
+.link-arrow:hover {
+    gap: 0.75rem;
+}
+
+/* Content section spacing */
+.section-padding {
+    @apply py-16 sm:py-20 lg:py-24;
+}
+
+/* Form inputs for public pages */
+.form-input-public {
+    @apply w-full px-4 py-3 rounded-xl border-2 border-oreina-beige/50 bg-white transition-all;
+}
+.form-input-public:focus {
+    @apply border-oreina-green outline-none;
+    box-shadow: 0 0 0 3px rgba(133, 183, 157, 0.15);
+}
+
+/* Textarea for public pages */
+.form-textarea-public {
+    @apply w-full px-4 py-3 rounded-xl border-2 border-oreina-beige/50 bg-white transition-all resize-none;
+}
+.form-textarea-public:focus {
+    @apply border-oreina-green outline-none;
+    box-shadow: 0 0 0 3px rgba(133, 183, 157, 0.15);
+}
+
+/* Page hero (smaller than home hero) */
+.page-hero {
+    @apply relative py-20 sm:py-28 bg-cover bg-center;
+}
+.page-hero::before {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(135deg, rgba(22, 48, 43, 0.85) 0%, rgba(133, 183, 157, 0.6) 100%);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    @apply flex items-center gap-2 text-sm text-slate-500;
+}
+.breadcrumb a {
+    @apply hover:text-oreina-green transition;
+}
+.breadcrumb svg {
+    @apply w-4 h-4 text-slate-400;
+}
+
+/* Animations */
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    50% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-bounce-slow {
+    animation: bounce-slow 2s infinite;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

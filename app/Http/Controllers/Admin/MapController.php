@@ -1,0 +1,457 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Member;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class MapController extends Controller
+{
+    /**
+     * Display the interactive map.
+     */
+    public function index()
+    {
+        // Get distinct contact types for filter
+        $contactTypes = Member::whereNotNull('contact_type')
+            ->distinct()
+            ->pluck('contact_type')
+            ->filter()
+            ->values();
+
+        // Get distinct departments (first 2 digits of postal code)
+        $departments = Member::whereNotNull('postal_code')
+            ->where('postal_code', '!=', '')
+            ->selectRaw("DISTINCT LEFT(postal_code, 2) as dept")
+            ->orderBy('dept')
+            ->pluck('dept')
+            ->filter()
+            ->values();
+
+        // Stats
+        $stats = [
+            'total' => Member::count(),
+            'geolocated' => Member::whereNotNull('latitude')->whereNotNull('longitude')->count(),
+            'not_geolocated' => Member::where(function ($q) {
+                $q->whereNull('latitude')->orWhereNull('longitude');
+            })->count(),
+        ];
+
+        return view('admin.map.index', compact('contactTypes', 'departments', 'stats'));
+    }
+
+    /**
+     * Get members data for the map (JSON API).
+     */
+    public function members(Request $request)
+    {
+        $query = Member::whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->where('latitude', '!=', 0)
+            ->where('longitude', '!=', 0);
+
+        // Filter by contact type
+        if ($request->filled('contact_type')) {
+            $types = explode(',', $request->get('contact_type'));
+            $query->whereIn('contact_type', $types);
+        }
+
+        // Filter by department
+        if ($request->filled('department')) {
+            $depts = explode(',', $request->get('department'));
+            $query->where(function ($q) use ($depts) {
+                foreach ($depts as $dept) {
+                    if ($dept === 'other') {
+                        $q->orWhereNull('postal_code')
+                          ->orWhere('postal_code', '');
+                    } else {
+                        $q->orWhere('postal_code', 'like', $dept . '%');
+                    }
+                }
+            });
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->get('status'));
+        }
+
+        // Radius search
+        if ($request->filled('lat') && $request->filled('lng') && $request->filled('radius')) {
+            $lat = (float) $request->get('lat');
+            $lng = (float) $request->get('lng');
+            $radius = (float) $request->get('radius'); // in km
+
+            // Haversine formula for PostgreSQL
+            $query->whereRaw("
+                (6371 * acos(
+                    cos(radians(?)) * cos(radians(latitude)) *
+                    cos(radians(longitude) - radians(?)) +
+                    sin(radians(?)) * sin(radians(latitude))
+                )) <= ?
+            ", [$lat, $lng, $lat, $radius]);
+        }
+
+        // If radius search, add distance calculation
+        $hasRadius = $request->filled('lat') && $request->filled('lng') && $request->filled('radius');
+
+        if ($hasRadius) {
+            $lat = (float) $request->get('lat');
+            $lng = (float) $request->get('lng');
+
+            $query->selectRaw("
+                *,
+                (6371 * acos(
+                    cos(radians(?)) * cos(radians(latitude)) *
+                    cos(radians(longitude) - radians(?)) +
+                    sin(radians(?)) * sin(radians(latitude))
+                )) as distance
+            ", [$lat, $lng, $lat])
+            ->orderBy('distance');
+        } else {
+            $query->select([
+                'id', 'first_name', 'last_name', 'email', 'phone',
+                'address', 'postal_code', 'city', 'country',
+                'contact_type', 'status', 'latitude', 'longitude'
+            ]);
+        }
+
+        $members = $query->get();
+
+        return response()->json([
+            'count' => $members->count(),
+            'members' => $members->map(function ($m) use ($hasRadius) {
+                $data = [
+                    'id' => $m->id,
+                    'name' => trim($m->first_name . ' ' . $m->last_name),
+                    'email' => $m->email,
+                    'phone' => $m->phone,
+                    'address' => $m->address,
+                    'postal_code' => $m->postal_code,
+                    'city' => $m->city,
+                    'country' => $m->country,
+                    'contact_type' => $m->contact_type,
+                    'status' => $m->status,
+                    'lat' => (float) $m->latitude,
+                    'lng' => (float) $m->longitude,
+                ];
+
+                if ($hasRadius && isset($m->distance)) {
+                    $data['distance'] = round($m->distance, 1);
+                }
+
+                return $data;
+            }),
+        ]);
+    }
+
+    /**
+     * Geocode an address and return coordinates.
+     */
+    public function geocode(Request $request)
+    {
+        $request->validate(['address' => 'required|string']);
+
+        $address = $request->get('address');
+
+        try {
+            $response = $this->nominatimRequest([
+                'q' => $address,
+                'format' => 'json',
+                'limit' => 1,
+                'countrycodes' => 'fr',
+            ]);
+
+            if ($response && count($response) > 0) {
+                $result = $response[0];
+                return response()->json([
+                    'success' => true,
+                    'lat' => (float) $result['lat'],
+                    'lng' => (float) $result['lon'],
+                    'display_name' => $result['display_name'],
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur de geocodage: ' . $e->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Adresse non trouvee',
+        ], 404);
+    }
+
+    /**
+     * Make a request to Nominatim API.
+     */
+    private function nominatimRequest(array $params): ?array
+    {
+        $response = Http::withHeaders([
+            'User-Agent' => 'OREINA-Platform/1.0'
+        ])
+        ->withOptions([
+            'verify' => false, // Disable SSL verification for local development
+        ])
+        ->timeout(10)
+        ->get('https://nominatim.openstreetmap.org/search', $params);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return null;
+    }
+
+    /**
+     * Geocode a single member.
+     */
+    public function geocodeMember(Member $member)
+    {
+        if (empty($member->address) && empty($member->city)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Adresse incomplete',
+            ], 400);
+        }
+
+        $address = implode(', ', array_filter([
+            $member->address,
+            $member->postal_code,
+            $member->city,
+            $member->country ?: 'France',
+        ]));
+
+        try {
+            $response = $this->nominatimRequest([
+                'q' => $address,
+                'format' => 'json',
+                'limit' => 1,
+            ]);
+
+            if ($response && count($response) > 0) {
+                $result = $response[0];
+                $member->update([
+                    'latitude' => $result['lat'],
+                    'longitude' => $result['lon'],
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'lat' => (float) $result['lat'],
+                    'lng' => (float) $result['lon'],
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur: ' . $e->getMessage(),
+            ], 500);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Geocodage echoue',
+        ], 404);
+    }
+
+    /**
+     * Bulk geocode members without coordinates.
+     */
+    public function bulkGeocode(Request $request)
+    {
+        $limit = min((int) $request->get('limit', 50), 100);
+
+        $members = Member::where(function ($q) {
+                $q->whereNull('latitude')->orWhereNull('longitude');
+            })
+            ->where(function ($q) {
+                $q->whereNotNull('city')->where('city', '!=', '');
+            })
+            ->limit($limit)
+            ->get();
+
+        $geocoded = 0;
+        $failed = 0;
+
+        foreach ($members as $member) {
+            $address = implode(', ', array_filter([
+                $member->address,
+                $member->postal_code,
+                $member->city,
+                $member->country ?: 'France',
+            ]));
+
+            try {
+                $response = $this->nominatimRequest([
+                    'q' => $address,
+                    'format' => 'json',
+                    'limit' => 1,
+                ]);
+
+                if ($response && count($response) > 0) {
+                    $result = $response[0];
+                    $member->update([
+                        'latitude' => $result['lat'],
+                        'longitude' => $result['lon'],
+                    ]);
+                    $geocoded++;
+                } else {
+                    $failed++;
+                }
+
+                // Rate limiting - Nominatim requires 1 request per second
+                usleep(1100000);
+            } catch (\Exception $e) {
+                $failed++;
+            }
+        }
+
+        $remaining = Member::where(function ($q) {
+                $q->whereNull('latitude')->orWhereNull('longitude');
+            })
+            ->where(function ($q) {
+                $q->whereNotNull('city')->where('city', '!=', '');
+            })
+            ->count();
+
+        return response()->json([
+            'success' => true,
+            'geocoded' => $geocoded,
+            'failed' => $failed,
+            'remaining' => $remaining,
+        ]);
+    }
+
+    /**
+     * Get statistics by department for the map sidebar.
+     */
+    public function stats()
+    {
+        // Get members grouped by department (first 2 digits of postal code)
+        $stats = Member::whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->whereNotNull('postal_code')
+            ->where('postal_code', '!=', '')
+            ->selectRaw("LEFT(postal_code, 2) as department, COUNT(*) as count")
+            ->groupBy('department')
+            ->orderByDesc('count')
+            ->limit(20)
+            ->get();
+
+        // French department names
+        $deptNames = [
+            '01' => 'Ain', '02' => 'Aisne', '03' => 'Allier', '04' => 'Alpes-de-Haute-Provence',
+            '05' => 'Hautes-Alpes', '06' => 'Alpes-Maritimes', '07' => 'Ardeche', '08' => 'Ardennes',
+            '09' => 'Ariege', '10' => 'Aube', '11' => 'Aude', '12' => 'Aveyron',
+            '13' => 'Bouches-du-Rhone', '14' => 'Calvados', '15' => 'Cantal', '16' => 'Charente',
+            '17' => 'Charente-Maritime', '18' => 'Cher', '19' => 'Correze', '21' => 'Cote-d\'Or',
+            '22' => 'Cotes-d\'Armor', '23' => 'Creuse', '24' => 'Dordogne', '25' => 'Doubs',
+            '26' => 'Drome', '27' => 'Eure', '28' => 'Eure-et-Loir', '29' => 'Finistere',
+            '2A' => 'Corse-du-Sud', '2B' => 'Haute-Corse', '30' => 'Gard', '31' => 'Haute-Garonne',
+            '32' => 'Gers', '33' => 'Gironde', '34' => 'Herault', '35' => 'Ille-et-Vilaine',
+            '36' => 'Indre', '37' => 'Indre-et-Loire', '38' => 'Isere', '39' => 'Jura',
+            '40' => 'Landes', '41' => 'Loir-et-Cher', '42' => 'Loire', '43' => 'Haute-Loire',
+            '44' => 'Loire-Atlantique', '45' => 'Loiret', '46' => 'Lot', '47' => 'Lot-et-Garonne',
+            '48' => 'Lozere', '49' => 'Maine-et-Loire', '50' => 'Manche', '51' => 'Marne',
+            '52' => 'Haute-Marne', '53' => 'Mayenne', '54' => 'Meurthe-et-Moselle', '55' => 'Meuse',
+            '56' => 'Morbihan', '57' => 'Moselle', '58' => 'Nievre', '59' => 'Nord',
+            '60' => 'Oise', '61' => 'Orne', '62' => 'Pas-de-Calais', '63' => 'Puy-de-Dome',
+            '64' => 'Pyrenees-Atlantiques', '65' => 'Hautes-Pyrenees', '66' => 'Pyrenees-Orientales',
+            '67' => 'Bas-Rhin', '68' => 'Haut-Rhin', '69' => 'Rhone', '70' => 'Haute-Saone',
+            '71' => 'Saone-et-Loire', '72' => 'Sarthe', '73' => 'Savoie', '74' => 'Haute-Savoie',
+            '75' => 'Paris', '76' => 'Seine-Maritime', '77' => 'Seine-et-Marne', '78' => 'Yvelines',
+            '79' => 'Deux-Sevres', '80' => 'Somme', '81' => 'Tarn', '82' => 'Tarn-et-Garonne',
+            '83' => 'Var', '84' => 'Vaucluse', '85' => 'Vendee', '86' => 'Vienne',
+            '87' => 'Haute-Vienne', '88' => 'Vosges', '89' => 'Yonne', '90' => 'Territoire de Belfort',
+            '91' => 'Essonne', '92' => 'Hauts-de-Seine', '93' => 'Seine-Saint-Denis', '94' => 'Val-de-Marne',
+            '95' => 'Val-d\'Oise', '971' => 'Guadeloupe', '972' => 'Martinique', '973' => 'Guyane',
+            '974' => 'La Reunion', '976' => 'Mayotte',
+        ];
+
+        return response()->json([
+            'success' => true,
+            'stats' => $stats->map(function ($item) use ($deptNames) {
+                return [
+                    'department' => $item->department,
+                    'name' => $deptNames[$item->department] ?? $item->department,
+                    'count' => $item->count,
+                ];
+            }),
+        ]);
+    }
+
+    /**
+     * Export members within radius as CSV.
+     */
+    public function exportRadius(Request $request)
+    {
+        $request->validate([
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
+            'radius' => 'required|numeric|min:1',
+        ]);
+
+        $lat = (float) $request->get('lat');
+        $lng = (float) $request->get('lng');
+        $radius = (float) $request->get('radius');
+
+        $members = Member::whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->whereRaw("
+                (6371 * acos(
+                    cos(radians(?)) * cos(radians(latitude)) *
+                    cos(radians(longitude) - radians(?)) +
+                    sin(radians(?)) * sin(radians(latitude))
+                )) <= ?
+            ", [$lat, $lng, $lat, $radius])
+            ->orderByRaw("
+                (6371 * acos(
+                    cos(radians(?)) * cos(radians(latitude)) *
+                    cos(radians(longitude) - radians(?)) +
+                    sin(radians(?)) * sin(radians(latitude))
+                ))
+            ", [$lat, $lng, $lat])
+            ->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="contacts_rayon_' . $radius . 'km_' . date('Y-m-d') . '.csv"',
+        ];
+
+        $callback = function () use ($members, $lat, $lng) {
+            $file = fopen('php://output', 'w');
+            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            fputcsv($file, ['Nom', 'Prenom', 'Email', 'Telephone', 'Adresse', 'CP', 'Ville', 'Type', 'Distance (km)'], ';');
+
+            foreach ($members as $m) {
+                $distance = 6371 * acos(
+                    cos(deg2rad($lat)) * cos(deg2rad($m->latitude)) *
+                    cos(deg2rad($m->longitude) - deg2rad($lng)) +
+                    sin(deg2rad($lat)) * sin(deg2rad($m->latitude))
+                );
+
+                fputcsv($file, [
+                    $m->last_name,
+                    $m->first_name,
+                    $m->email,
+                    $m->phone,
+                    $m->address,
+                    $m->postal_code,
+                    $m->city,
+                    $m->contact_type,
+                    number_format($distance, 1),
+                ], ';');
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+}

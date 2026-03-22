@@ -1,0 +1,1078 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Submission;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+
+class ArticleLatexService
+{
+    protected string $tempDir;
+    protected string $pdflatexPath;
+    protected string $driver;
+    protected string $apiUrl;
+    protected int $apiTimeout;
+    protected bool $debugMode = false;
+    protected bool $compilationSucceeded = false;
+
+    public function __construct()
+    {
+        // Read configuration
+        $this->driver = config('services.latex.driver', 'local');
+        $this->apiUrl = config('services.latex.api_url', 'https://latexonline.cc/compile');
+        $this->apiTimeout = config('services.latex.api_timeout', 60);
+
+        // Default to MiKTeX installation path on Windows
+        $defaultPath = PHP_OS_FAMILY === 'Windows'
+            ? 'C:\\Program Files\\MiKTeX\\miktex\\bin\\x64\\pdflatex.exe'
+            : '/usr/bin/pdflatex';
+
+        $this->pdflatexPath = config('services.latex.pdflatex_path', $defaultPath);
+        $this->debugMode = config('app.debug', false);
+    }
+
+    /**
+     * Generate PDF from LaTeX
+     */
+    public function generatePdf(Submission $submission): string
+    {
+        $submission->load(['author', 'editor', 'journalIssue']);
+
+        // Create temp directory with debug prefix if enabled
+        $prefix = $this->debugMode ? 'debug_' : '';
+        $this->tempDir = storage_path('app/temp/latex/' . $prefix . $submission->id . '_' . time());
+        if (!is_dir($this->tempDir)) {
+            mkdir($this->tempDir, 0755, true);
+        }
+
+        $this->compilationSucceeded = false;
+
+        try {
+            // Generate LaTeX content
+            $texContent = $this->generateLatexContent($submission);
+
+            // Write .tex file
+            $texFile = $this->tempDir . '/article.tex';
+            file_put_contents($texFile, $texContent);
+
+            Log::info('LaTeX file generated', ['path' => $texFile, 'driver' => $this->driver]);
+
+            // Copy images (only needed for local compilation)
+            if ($this->driver === 'local') {
+                $this->copyImages($submission);
+            }
+
+            // Compile LaTeX based on driver
+            if ($this->driver === 'api') {
+                $this->compileViaApi($texContent, $submission);
+            } else {
+                // Local compilation (run twice for references)
+                $this->compileLaTeX($texFile);
+                $this->compileLaTeX($texFile);
+            }
+
+            $this->compilationSucceeded = true;
+
+            // Move PDF to storage
+            $pdfPath = $this->movePdfToStorage($submission);
+
+            // Update submission
+            $submission->update(['pdf_file' => $pdfPath]);
+
+            return $pdfPath;
+
+        } finally {
+            // Only cleanup if compilation succeeded or not in debug mode
+            if ($this->compilationSucceeded || !$this->debugMode) {
+                $this->cleanup();
+            } else {
+                Log::warning('Debug mode: keeping temp files for inspection', [
+                    'temp_dir' => $this->tempDir
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Get LaTeX configuration
+     */
+    protected function getConfig(string $key, $default = null)
+    {
+        return config("latex.{$key}", $default);
+    }
+
+    /**
+     * Generate LaTeX preamble (packages, geometry, colors, etc.)
+     */
+    protected function generatePreamble(string $title): string
+    {
+        // Get config values
+        $fontSize = $this->getConfig('fonts.base_size', '11pt');
+        $fontPackage = $this->getConfig('fonts.main', 'lmodern');
+
+        $margins = $this->getConfig('margins', []);
+        $top = $margins['top'] ?? 22;
+        $bottom = $margins['bottom'] ?? 28;
+        $left = $margins['left'] ?? 18;
+        $right = $margins['right'] ?? 18;
+
+        $colors = $this->getConfig('colors', []);
+        $colorPrimary = $colors['primary'] ?? 'EA580C';
+        $colorSecondary = $colors['secondary'] ?? '0D9488';
+        $colorText = $colors['text'] ?? '333333';
+        $colorGray = $colors['gray'] ?? '555555';
+        $colorLight = $colors['light_gray'] ?? 'F7F7F7';
+
+        $spacing = $this->getConfig('spacing', []);
+        $sectionBefore = $spacing['section_before'] ?? 18;
+        $sectionAfter = $spacing['section_after'] ?? 8;
+        $subsectionBefore = $spacing['subsection_before'] ?? 12;
+        $subsectionAfter = $spacing['subsection_after'] ?? 6;
+
+        $header = $this->getConfig('header', []);
+        $headerLeft = $header['left'] ?? 'Chersotis';
+        $headerRight = $header['right'] ?? 'Une revue oreina';
+
+        $journal = $this->getConfig('journal', []);
+        $journalName = $journal['name'] ?? 'Chersotis';
+
+        // Font package selection
+        $fontPackageLatex = match ($fontPackage) {
+            'times' => "\\usepackage{mathptmx}",
+            'palatino' => "\\usepackage{palatino}",
+            'helvetica' => "\\usepackage{helvet}\n\\renewcommand{\\familydefault}{\\sfdefault}",
+            default => "\\usepackage{lmodern}",
+        };
+
+        return <<<PREAMBLE
+\\documentclass[{$fontSize},a4paper]{article}
+
+% PACKAGES
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+{$fontPackageLatex}
+\\usepackage[french]{babel}
+\\usepackage{geometry}
+\\usepackage{xcolor}
+\\usepackage{graphicx}
+\\usepackage{fancyhdr}
+\\usepackage{titlesec}
+\\usepackage{enumitem}
+\\usepackage{hyperref}
+\\usepackage{parskip}
+\\usepackage{ragged2e}
+\\usepackage[babel=true]{microtype}
+\\usepackage{lastpage}
+
+% GEOMETRY
+\\geometry{
+    a4paper,
+    top={$top}mm,
+    bottom={$bottom}mm,
+    left={$left}mm,
+    right={$right}mm,
+    headheight=15pt,
+    footskip=18mm
+}
+
+% COLORS
+\\definecolor{chersotisOrange}{HTML}{{$colorPrimary}}
+\\definecolor{chersotisTeal}{HTML}{{$colorSecondary}}
+\\definecolor{chersotisGray}{HTML}{{$colorGray}}
+\\definecolor{chersotisText}{HTML}{{$colorText}}
+\\definecolor{chersotisLightGray}{HTML}{{$colorLight}}
+
+% HYPERREF
+\\hypersetup{
+    colorlinks=true,
+    linkcolor=chersotisTeal,
+    urlcolor=chersotisTeal,
+    citecolor=chersotisTeal,
+    pdftitle={{$title}}
+}
+
+% SECTION STYLING
+\\titleformat{\\section}
+    {\\normalfont\\large\\bfseries\\color{chersotisTeal}}
+    {\\thesection.}{0.5em}{}
+
+\\titleformat{\\subsection}
+    {\\normalfont\\normalsize\\bfseries\\color{black}}
+    {\\thesubsection.}{0.5em}{}
+
+\\titlespacing*{\\section}{0pt}{{$sectionBefore}pt}{{$sectionAfter}pt}
+\\titlespacing*{\\subsection}{0pt}{{$subsectionBefore}pt}{{$subsectionAfter}pt}
+
+% HEADER & FOOTER
+\\pagestyle{fancy}
+\\fancyhf{}
+
+% Header for pages 2+
+\\fancyhead[L]{\\small\\textbf{\\textcolor{chersotisTeal}{{$headerLeft}}}}
+\\fancyhead[R]{\\small\\textcolor{chersotisGray}{{$headerRight}}}
+\\renewcommand{\\headrulewidth}{0.5pt}
+\\renewcommand{\\headrule}{\\hbox to\\headwidth{\\color{chersotisTeal}\\leaders\\hrule height \\headrulewidth\\hfill}}
+PREAMBLE;
+    }
+
+    /**
+     * Generate LaTeX content
+     */
+    protected function generateLatexContent(Submission $submission): string
+    {
+        $author = $submission->author;
+        $issue = $submission->journalIssue;
+        $editor = $submission->editor;
+
+        // Prepare data
+        $title = $this->escapeLatex($submission->title);
+        $abstract = $this->escapeLatex($submission->abstract ?? '');
+        $authorName = $this->escapeLatex($author?->name ?? 'Auteur');
+        $authorEmail = $author?->email ?? '';
+        $editorName = $editor ? $this->escapeLatex($editor->name) : '';
+
+        // Affiliations
+        $affiliations = $submission->author_affiliations ?? [];
+        if (empty($affiliations) && $author?->affiliation) {
+            $affiliations = [$author->affiliation];
+        }
+
+        // Keywords
+        $keywords = $this->formatKeywords($submission->keywords);
+
+        // Dates
+        $receivedDate = $this->formatDate($submission->received_at ?? $submission->submitted_at);
+        $acceptedDate = $this->formatDate($submission->accepted_at ?? $submission->decision_at);
+        $publishedDate = $this->formatDate($submission->published_at);
+        $year = $submission->published_at?->format('Y') ?? now()->format('Y');
+
+        // Volume info
+        $volumeInfo = '';
+        if ($issue) {
+            $volumeInfo = $issue->volume_number . '(' . $issue->issue_number . ')';
+            if ($submission->start_page && $submission->end_page) {
+                $volumeInfo .= ' : ' . $submission->start_page . '-' . $submission->end_page;
+            }
+        }
+
+        // DOI
+        $doi = $submission->doi ?? '';
+        $doiUrl = $doi ? 'https://doi.org/' . $doi : '';
+
+        // Short title
+        $shortTitle = $this->escapeLatex(Str::limit($submission->title, 50));
+
+        // Build affiliations LaTeX
+        $affiliationsLatex = '';
+        $letters = range('a', 'z');
+        foreach ($affiliations as $index => $aff) {
+            $affiliationsLatex .= "\\textsuperscript{" . $letters[$index] . "}" . $this->escapeLatex($aff) . "\\\\\n";
+        }
+
+        // Build content blocks
+        $contentLatex = $this->buildContentBlocks($submission->content_blocks ?? []);
+
+        // Build acknowledgements
+        $acknowledgementsLatex = '';
+        if ($submission->acknowledgements) {
+            $acknowledgementsLatex = "
+\\vspace{12pt}
+\\hrule
+\\vspace{8pt}
+
+{\\normalsize\\textbf{\\textcolor{chersotisTeal}{Remerciements}}}
+
+\\vspace{4pt}
+
+{\\small " . $this->escapeLatex($submission->acknowledgements) . "}
+";
+        }
+
+        // Build references
+        $referencesLatex = '';
+        if (!empty($submission->references)) {
+            $referencesLatex = "
+\\vspace{12pt}
+\\hrule
+\\vspace{8pt}
+
+{\\normalsize\\textbf{\\textcolor{chersotisTeal}{Références}}}
+
+\\vspace{6pt}
+
+{\\small
+\\begin{description}[style=unboxed,leftmargin=1.5em,labelsep=0pt,font=\\normalfont]
+";
+            foreach ($submission->references as $ref) {
+                $referencesLatex .= "\\item " . $this->escapeLatex($ref) . "\n";
+            }
+            $referencesLatex .= "\\end{description}\n}\n";
+        }
+
+        // Get config values for document body
+        $journal = $this->getConfig('journal', []);
+        $journalName = $journal['name'] ?? 'Chersotis';
+        $journalSubtitle = $journal['subtitle'] ?? 'By oreina';
+        $issnPrint = $journal['issn_print'] ?? '0044-586X';
+        $issnElectronic = $journal['issn_electronic'] ?? '2107-7207';
+        $license = $journal['license'] ?? 'Creative Commons CC-BY 4.0';
+
+        $firstPage = $this->getConfig('first_page', []);
+        $leftColWidth = $firstPage['left_column_width'] ?? 0.28;
+        $rightColWidth = $firstPage['right_column_width'] ?? 0.68;
+
+        $sizes = $this->getConfig('sizes', []);
+        $journalTitleSize = $sizes['journal_title'] ?? 22;
+        $articleTitleSize = $sizes['article_title'] ?? 15;
+
+        // Build preamble
+        $preamble = $this->generatePreamble($title);
+
+        // Build the complete LaTeX document
+        return <<<LATEX
+{$preamble}
+
+% Footer
+\\fancyfoot[L]{\\footnotesize\\textcolor{chersotisGray}{{$authorName} ({$year}), \\textbf{\\textcolor{chersotisTeal}{Chersotis}} {$volumeInfo}. \\url{{$doiUrl}}}}
+\\fancyfoot[R]{\\footnotesize\\textcolor{chersotisGray}{\\thepage}}
+\\renewcommand{\\footrulewidth}{0.3pt}
+
+% First page style
+\\fancypagestyle{firstpage}{
+    \\fancyhf{}
+    \\renewcommand{\\headrulewidth}{0pt}
+    \\fancyfoot[L]{\\footnotesize\\textcolor{chersotisOrange}{\\textbf{Citation}} \\textcolor{chersotisGray}{{$authorName} ({$year}), {$shortTitle}. \\textbf{\\textcolor{chersotisTeal}{Chersotis}} {$volumeInfo}. \\url{{$doiUrl}}}}
+    \\fancyfoot[R]{\\footnotesize\\textcolor{chersotisGray}{\\thepage}}
+    \\renewcommand{\\footrulewidth}{0.3pt}
+}
+
+\\begin{document}
+\\thispagestyle{firstpage}
+
+% HEADER - TWO COLUMNS
+\\noindent
+\\begin{minipage}[t]{{$leftColWidth}\\textwidth}
+    \\raggedright
+    {\\fontsize{{$journalTitleSize}}{26}\\selectfont\\textbf{\\textcolor{chersotisOrange}{{$journalName}}}}\\\\[2pt]
+    {\\small\\textcolor{chersotisGray}{{$journalSubtitle}}}
+
+    \\vspace{12pt}
+
+    {\\small
+    \\textbf{Reçu :} {$receivedDate}\\\\[3pt]
+    \\textbf{Accepté :} {$acceptedDate}\\\\[3pt]
+    \\textbf{Publié :} {$publishedDate}
+
+    \\vspace{8pt}
+    \\hrule
+    \\vspace{8pt}
+
+    \\textbf{Correspondance}\\\\
+    {$authorName}\\\\
+    \\textcolor{chersotisTeal}{\\small {$authorEmail}}
+
+    \\vspace{8pt}
+    \\hrule
+    \\vspace{8pt}
+
+    \\textcolor{chersotisTeal}{\\small\\url{{$doiUrl}}}
+
+    \\vspace{8pt}
+
+    ISSN {$issnPrint} (print)\\\\
+    ISSN {$issnElectronic} (electronic)
+
+    \\vspace{10pt}
+
+    \\fcolorbox{blue!30}{blue!5}{\\parbox{0.85\\linewidth}{\\footnotesize\\textcolor{blue!70}{Licensed under\\\\{$license}}}}
+    }
+\\end{minipage}%
+\\hfill
+\\vrule width 0.5pt
+\\hfill
+\\begin{minipage}[t]{{$rightColWidth}\\textwidth}
+    {\\fontsize{{$articleTitleSize}}{18}\\selectfont\\textbf{\\textcolor{chersotisOrange}{\\textit{{$title}}}}}
+
+    \\vspace{10pt}
+
+    {\\normalsize {$authorName}\\textsuperscript{a}}
+
+    \\vspace{6pt}
+
+    {\\small\\textcolor{chersotisGray}{
+{$affiliationsLatex}    }}
+
+    \\vspace{10pt}
+
+    {\\normalsize\\textbf{\\textcolor{chersotisTeal}{Original research}}}
+
+    \\vspace{8pt}
+
+    \\colorbox{chersotisLightGray}{%
+        \\parbox{0.95\\linewidth}{%
+            \\vspace{6pt}
+            {\\small\\textbf{\\textcolor{chersotisTeal}{Résumé}}}\\\\[4pt]
+            {\\small\\justifying {$abstract}}
+            \\vspace{6pt}
+        }%
+    }
+
+    \\vspace{8pt}
+
+    {\\small\\textbf{\\textcolor{chersotisTeal}{Mots-clés}} {$keywords}}
+\\end{minipage}
+
+\\vspace{16pt}
+
+% MAIN CONTENT
+{$contentLatex}
+
+{$acknowledgementsLatex}
+
+{$referencesLatex}
+
+\\end{document}
+LATEX;
+    }
+
+    /**
+     * Build content blocks LaTeX
+     */
+    protected function buildContentBlocks(array $blocks): string
+    {
+        $latex = '';
+        $imageIndex = 0;
+
+        foreach ($blocks as $block) {
+            $type = $block['type'] ?? 'paragraph';
+            $content = $block['content'] ?? '';
+
+            switch ($type) {
+                case 'heading':
+                    $latex .= "\n\\section*{" . $this->escapeLatex($content) . "}\n\n";
+                    break;
+
+                case 'subheading':
+                    $latex .= "\n\\subsection*{" . $this->escapeLatex($content) . "}\n\n";
+                    break;
+
+                case 'paragraph':
+                    $latex .= $this->convertHtmlToLatex($content) . "\n\n";
+                    break;
+
+                case 'list':
+                    $items = $block['items'] ?? [];
+                    if (empty($items) && !empty($content)) {
+                        $items = array_filter(array_map('trim', explode("\n", $content)));
+                    }
+                    if (!empty($items)) {
+                        $latex .= "\\begin{itemize}[nosep,leftmargin=1.5em]\n";
+                        foreach ($items as $item) {
+                            $latex .= "    \\item " . $this->escapeLatex($item) . "\n";
+                        }
+                        $latex .= "\\end{itemize}\n\n";
+                    }
+                    break;
+
+                case 'image':
+                    $imagePath = $block['url'] ?? $block['src'] ?? '';
+                    $caption = $block['caption'] ?? '';
+                    $align = $block['align'] ?? 'center';
+                    $width = $block['width'] ?? 'auto';
+
+                    if (!empty($imagePath)) {
+                        $filename = $this->getImageFilename($imagePath, $imageIndex);
+                        if ($filename) {
+                            $imageIndex++;
+
+                            // Calculate width
+                            $widthParam = '0.9\\textwidth';
+                            if ($width !== 'auto' && is_numeric($width)) {
+                                $widthParam = ($width / 100) . '\\textwidth';
+                            } elseif ($align === 'full') {
+                                $widthParam = '\\textwidth';
+                            }
+
+                            $latex .= "\\begin{figure}[htbp]\n";
+
+                            // Alignment
+                            switch ($align) {
+                                case 'left':
+                                    $latex .= "    \\raggedright\n";
+                                    break;
+                                case 'right':
+                                    $latex .= "    \\raggedleft\n";
+                                    break;
+                                default:
+                                    $latex .= "    \\centering\n";
+                            }
+
+                            $latex .= "    \\includegraphics[width={$widthParam},keepaspectratio]{{$filename}}\n";
+                            if (!empty($caption)) {
+                                $latex .= "    \\caption{" . $this->escapeLatex($caption) . "}\n";
+                            }
+                            $latex .= "\\end{figure}\n\n";
+                        }
+                    }
+                    break;
+
+                case 'table':
+                    $headers = $block['headers'] ?? [];
+                    $rows = $block['rows'] ?? [];
+                    $caption = $block['caption'] ?? '';
+
+                    if (!empty($headers)) {
+                        $numCols = count($headers);
+                        $colSpec = str_repeat('l', $numCols);
+
+                        $latex .= "\\begin{table}[htbp]\n";
+                        $latex .= "    \\centering\n";
+                        $latex .= "    \\begin{tabular}{|" . implode('|', array_fill(0, $numCols, 'l')) . "|}\n";
+                        $latex .= "    \\hline\n";
+
+                        // Headers
+                        $headerCells = array_map(fn($h) => "\\textbf{" . $this->escapeLatex($h) . "}", $headers);
+                        $latex .= "    " . implode(' & ', $headerCells) . " \\\\\n";
+                        $latex .= "    \\hline\n";
+
+                        // Rows
+                        foreach ($rows as $row) {
+                            $rowCells = array_map(fn($c) => $this->escapeLatex($c), $row);
+                            $latex .= "    " . implode(' & ', $rowCells) . " \\\\\n";
+                        }
+
+                        $latex .= "    \\hline\n";
+                        $latex .= "    \\end{tabular}\n";
+
+                        if (!empty($caption)) {
+                            $latex .= "    \\caption{" . $this->escapeLatex($caption) . "}\n";
+                        }
+
+                        $latex .= "\\end{table}\n\n";
+                    }
+                    break;
+
+                case 'quote':
+                    $latex .= "\\begin{quote}\n";
+                    $latex .= "\\textit{" . $this->escapeLatex($content) . "}\n";
+                    $latex .= "\\end{quote}\n\n";
+                    break;
+            }
+        }
+
+        return $latex;
+    }
+
+    /**
+     * Get image filename based on source type
+     */
+    protected function getImageFilename(string $imagePath, int $index): ?string
+    {
+        // Handle data URLs (base64 embedded images)
+        if (Str::startsWith($imagePath, 'data:image/')) {
+            if (preg_match('/^data:image\/(\w+);base64,/', $imagePath, $matches)) {
+                $extension = $matches[1] === 'jpeg' ? 'jpg' : $matches[1];
+                return "image_" . ($index + 1) . ".{$extension}";
+            }
+            return null;
+        }
+
+        // Handle storage paths
+        if (Str::startsWith($imagePath, '/storage/')) {
+            return basename($imagePath);
+        }
+
+        // Handle regular paths
+        if (!Str::startsWith($imagePath, 'http')) {
+            return basename($imagePath);
+        }
+
+        // External URLs not supported
+        return null;
+    }
+
+    /**
+     * Escape LaTeX special characters
+     */
+    protected function escapeLatex(string $text): string
+    {
+        $replacements = [
+            '\\' => '\\textbackslash{}',
+            '{' => '\\{',
+            '}' => '\\}',
+            '$' => '\\$',
+            '&' => '\\&',
+            '%' => '\\%',
+            '#' => '\\#',
+            '_' => '\\_',
+            '^' => '\\textasciicircum{}',
+            '~' => '\\textasciitilde{}',
+        ];
+
+        $text = str_replace(
+            array_keys($replacements),
+            array_values($replacements),
+            $text
+        );
+
+        // Greek letters and special characters
+        $text = str_replace(
+            ['α', 'β', 'γ', 'δ', 'µ', '±', '°', '×', '÷', '≤', '≥', '≠', '∞'],
+            ['$\\alpha$', '$\\beta$', '$\\gamma$', '$\\delta$', '$\\mu$', '$\\pm$', '$^\\circ$', '$\\times$', '$\\div$', '$\\leq$', '$\\geq$', '$\\neq$', '$\\infty$'],
+            $text
+        );
+
+        return $text;
+    }
+
+    /**
+     * Convert HTML formatting to LaTeX
+     * Handles: <strong>, <em>, <u>, <sub>, <sup>
+     */
+    protected function convertHtmlToLatex(string $text): string
+    {
+        // Split text by HTML tags, process each part separately
+        // This regex captures both the tags and the text between them
+        $pattern = '/(<\/?(?:strong|em|b|i|u|sub|sup)>)/i';
+        $parts = preg_split($pattern, $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+        $result = '';
+        foreach ($parts as $part) {
+            // Check if this part is an HTML tag
+            if (preg_match('/^<\/?(?:strong|em|b|i|u|sub|sup)>$/i', $part)) {
+                // Convert HTML tag to LaTeX
+                $tag = strtolower($part);
+                switch ($tag) {
+                    case '<strong>':
+                    case '<b>':
+                        $result .= '\\textbf{';
+                        break;
+                    case '</strong>':
+                    case '</b>':
+                        $result .= '}';
+                        break;
+                    case '<em>':
+                    case '<i>':
+                        $result .= '\\textit{';
+                        break;
+                    case '</em>':
+                    case '</i>':
+                        $result .= '}';
+                        break;
+                    case '<u>':
+                        $result .= '\\underline{';
+                        break;
+                    case '</u>':
+                        $result .= '}';
+                        break;
+                    case '<sub>':
+                        $result .= '\\textsubscript{';
+                        break;
+                    case '</sub>':
+                        $result .= '}';
+                        break;
+                    case '<sup>':
+                        $result .= '\\textsuperscript{';
+                        break;
+                    case '</sup>':
+                        $result .= '}';
+                        break;
+                }
+            } else {
+                // Escape LaTeX special characters in text content
+                $result .= $this->escapeLatex($part);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Format keywords
+     */
+    protected function formatKeywords($keywords): string
+    {
+        if (is_array($keywords)) {
+            return $this->escapeLatex(implode(' ; ', $keywords));
+        }
+        if (is_string($keywords)) {
+            return $this->escapeLatex(str_replace(',', ' ;', $keywords));
+        }
+        return '';
+    }
+
+    /**
+     * Format date
+     */
+    protected function formatDate($date): string
+    {
+        if (!$date) {
+            return '—';
+        }
+        return $date->format('d/m/Y');
+    }
+
+    /**
+     * Copy images to temp directory (for local compilation)
+     */
+    protected function copyImages(Submission $submission): void
+    {
+        $blocks = $submission->content_blocks ?? [];
+        $imageIndex = 0;
+
+        foreach ($blocks as $block) {
+            if (($block['type'] ?? '') !== 'image') {
+                continue;
+            }
+
+            $imagePath = $block['url'] ?? $block['src'] ?? '';
+            if (empty($imagePath)) {
+                continue;
+            }
+
+            $imageIndex++;
+
+            // Handle data URLs (base64 embedded images)
+            if (Str::startsWith($imagePath, 'data:image/')) {
+                if (preg_match('/^data:image\/(\w+);base64,(.+)$/', $imagePath, $matches)) {
+                    $extension = $matches[1] === 'jpeg' ? 'jpg' : $matches[1];
+                    $filename = "image_{$imageIndex}.{$extension}";
+                    $content = base64_decode($matches[2]);
+                    file_put_contents($this->tempDir . '/' . $filename, $content);
+
+                    Log::info('Data URL image saved for local compilation', ['filename' => $filename]);
+                }
+            }
+            // Handle storage paths
+            elseif (Str::startsWith($imagePath, '/storage/')) {
+                $storagePath = str_replace('/storage/', '', $imagePath);
+                $fullPath = storage_path('app/public/' . $storagePath);
+
+                if (file_exists($fullPath)) {
+                    $filename = basename($fullPath);
+                    copy($fullPath, $this->tempDir . '/' . $filename);
+                }
+            }
+        }
+    }
+
+    /**
+     * Collect images as base64 resources for API compilation
+     */
+    protected function collectImagesForApi(Submission $submission): array
+    {
+        $images = [];
+        $blocks = $submission->content_blocks ?? [];
+        $imageIndex = 0;
+
+        foreach ($blocks as $block) {
+            if (($block['type'] ?? '') !== 'image') {
+                continue;
+            }
+
+            $imagePath = $block['url'] ?? $block['src'] ?? '';
+            if (empty($imagePath)) {
+                continue;
+            }
+
+            $imageIndex++;
+            $filename = null;
+            $base64Content = null;
+
+            // Handle data URLs (base64 embedded images)
+            if (Str::startsWith($imagePath, 'data:image/')) {
+                // Extract mime type and base64 data
+                if (preg_match('/^data:image\/(\w+);base64,(.+)$/', $imagePath, $matches)) {
+                    $extension = $matches[1] === 'jpeg' ? 'jpg' : $matches[1];
+                    $filename = "image_{$imageIndex}.{$extension}";
+                    $base64Content = $matches[2];
+
+                    Log::info('Data URL image found', ['filename' => $filename]);
+                }
+            }
+            // Handle storage paths
+            elseif (Str::startsWith($imagePath, '/storage/')) {
+                $storagePath = str_replace('/storage/', '', $imagePath);
+                $fullPath = storage_path('app/public/' . $storagePath);
+
+                if (file_exists($fullPath)) {
+                    $filename = basename($fullPath);
+                    $base64Content = base64_encode(file_get_contents($fullPath));
+                }
+            }
+            // Handle external URLs
+            elseif (Str::startsWith($imagePath, 'http')) {
+                Log::warning('External image URL not supported in API mode', ['url' => $imagePath]);
+                continue;
+            }
+
+            if ($filename && $base64Content) {
+                $images[] = [
+                    'path' => $filename,
+                    'file' => $base64Content,
+                ];
+
+                Log::info('Image added to API request', [
+                    'filename' => $filename,
+                    'size' => strlen($base64Content),
+                ]);
+            }
+        }
+
+        return $images;
+    }
+
+    /**
+     * Compile LaTeX
+     */
+    protected function compileLaTeX(string $texFile): void
+    {
+        // Change to temp directory for compilation
+        $currentDir = getcwd();
+        chdir($this->tempDir);
+
+        // Build command with proper escaping for Windows
+        $cmd = sprintf(
+            '"%s" -interaction=nonstopmode "%s" 2>&1',
+            $this->pdflatexPath,
+            basename($texFile)
+        );
+
+        // Execute
+        $output = [];
+        $returnCode = 0;
+        exec($cmd, $output, $returnCode);
+
+        // Restore directory
+        chdir($currentDir);
+
+        $outputStr = implode("\n", $output);
+
+        if ($returnCode !== 0) {
+            Log::warning('LaTeX compilation warnings', [
+                'return_code' => $returnCode,
+                'output' => $outputStr,
+            ]);
+        }
+
+        // Check PDF exists
+        $pdfFile = $this->tempDir . '/article.pdf';
+        if (!file_exists($pdfFile)) {
+            // Read log file for detailed error
+            $logFile = $this->tempDir . '/article.log';
+            $logContent = file_exists($logFile) ? file_get_contents($logFile) : 'No log file';
+
+            // Extract error lines from log
+            $errorLines = [];
+            if (preg_match_all('/^!.*$/m', $logContent, $matches)) {
+                $errorLines = array_slice($matches[0], 0, 5);
+            }
+
+            Log::error('LaTeX compilation failed', [
+                'return_code' => $returnCode,
+                'output' => $outputStr,
+                'tex_file' => $texFile,
+                'temp_dir' => $this->tempDir,
+                'error_lines' => $errorLines,
+            ]);
+
+            $errorMsg = !empty($errorLines)
+                ? implode(' | ', $errorLines)
+                : substr($outputStr, 0, 500);
+
+            throw new \RuntimeException('LaTeX compilation failed: ' . $errorMsg);
+        }
+    }
+
+    /**
+     * Compile LaTeX via external API (for shared hosting)
+     * Uses YtoTech LaTeX API: https://github.com/YtoTech/latex-on-http
+     */
+    protected function compileViaApi(string $texContent, Submission $submission): void
+    {
+        $apiUrl = 'https://latex.ytotech.com/builds/sync';
+        Log::info('Compiling LaTeX via YtoTech API');
+
+        try {
+            // Build HTTP client
+            $http = Http::timeout($this->apiTimeout);
+
+            // Disable SSL verification in development (Windows cert issues)
+            if (config('app.debug') && PHP_OS_FAMILY === 'Windows') {
+                $http = $http->withoutVerifying();
+            }
+
+            // Build resources array with main .tex file
+            $resources = [
+                [
+                    'main' => true,
+                    'content' => $texContent,
+                ]
+            ];
+
+            // Add images as base64-encoded resources
+            $images = $this->collectImagesForApi($submission);
+            foreach ($images as $image) {
+                $resources[] = $image;
+            }
+
+            Log::info('LaTeX API request', [
+                'images_count' => count($images),
+                'image_names' => array_column($images, 'path'),
+            ]);
+
+            // YtoTech API expects JSON with compiler and resources
+            $response = $http->post($apiUrl, [
+                'compiler' => 'pdflatex',
+                'resources' => $resources,
+            ]);
+
+            if (!$response->successful()) {
+                $errorBody = $response->json() ?? $response->body();
+                Log::error('LaTeX API error', [
+                    'status' => $response->status(),
+                    'body' => is_array($errorBody) ? json_encode($errorBody) : substr($errorBody, 0, 500),
+                ]);
+
+                $errorMsg = is_array($errorBody) && isset($errorBody['error'])
+                    ? $errorBody['error']
+                    : 'Status ' . $response->status();
+
+                throw new \RuntimeException('LaTeX API error: ' . $errorMsg);
+            }
+
+            // Check if response is PDF (starts with %PDF)
+            $body = $response->body();
+            if (!str_starts_with($body, '%PDF')) {
+                // Might be JSON error response
+                $json = $response->json();
+                if ($json && isset($json['error'])) {
+                    throw new \RuntimeException('LaTeX compilation error: ' . $json['error']);
+                }
+                if ($json && isset($json['logs'])) {
+                    Log::error('LaTeX API compilation logs', ['logs' => $json['logs']]);
+                    throw new \RuntimeException('LaTeX compilation failed. Check logs.');
+                }
+
+                Log::error('LaTeX API did not return PDF', [
+                    'response_start' => substr($body, 0, 200),
+                ]);
+                throw new \RuntimeException('LaTeX API did not return a valid PDF');
+            }
+
+            // Save PDF to temp directory
+            $pdfFile = $this->tempDir . '/article.pdf';
+            file_put_contents($pdfFile, $body);
+
+            Log::info('LaTeX API compilation successful', ['size' => strlen($body)]);
+
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            Log::error('LaTeX API connection error', ['error' => $e->getMessage()]);
+            throw new \RuntimeException('Cannot connect to LaTeX API: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Move PDF to storage
+     */
+    protected function movePdfToStorage(Submission $submission): string
+    {
+        $pdfFile = $this->tempDir . '/article.pdf';
+        $filename = $this->generateFilename($submission);
+        $storagePath = 'submissions/pdfs/' . $filename;
+
+        if ($submission->pdf_file && Storage::disk('public')->exists($submission->pdf_file)) {
+            Storage::disk('public')->delete($submission->pdf_file);
+        }
+
+        Storage::disk('public')->put($storagePath, file_get_contents($pdfFile));
+
+        return $storagePath;
+    }
+
+    /**
+     * Generate filename
+     */
+    protected function generateFilename(Submission $submission): string
+    {
+        $slug = Str::slug($submission->title);
+        $slug = substr($slug, 0, 50);
+
+        $issue = $submission->journalIssue;
+        if ($issue) {
+            $prefix = "chersotis-{$issue->volume_number}-{$issue->issue_number}";
+        } else {
+            $prefix = "article";
+        }
+
+        return "{$prefix}-{$submission->id}-{$slug}.pdf";
+    }
+
+    /**
+     * Cleanup temp files
+     */
+    protected function cleanup(): void
+    {
+        if (empty($this->tempDir) || !is_dir($this->tempDir)) {
+            return;
+        }
+
+        $files = glob($this->tempDir . '/*');
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                @unlink($file);
+            }
+        }
+        @rmdir($this->tempDir);
+    }
+
+    /**
+     * Stream PDF
+     */
+    public function stream(Submission $submission): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $pdfPath = $this->generatePdf($submission);
+        $fullPath = storage_path('app/public/' . $pdfPath);
+
+        return response()->file($fullPath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . basename($pdfPath) . '"',
+        ]);
+    }
+
+    /**
+     * Download PDF
+     */
+    public function download(Submission $submission): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $pdfPath = $this->generatePdf($submission);
+        $fullPath = storage_path('app/public/' . $pdfPath);
+
+        return response()->download($fullPath, basename($pdfPath));
+    }
+
+    /**
+     * Check if can generate PDF
+     */
+    public function canGeneratePdf(Submission $submission): bool
+    {
+        return in_array($submission->status, [
+            Submission::STATUS_ACCEPTED,
+            Submission::STATUS_PUBLISHED,
+        ]);
+    }
+
+    /**
+     * Get PDF URL
+     */
+    public function getPdfUrl(Submission $submission): ?string
+    {
+        if ($submission->pdf_file && Storage::disk('public')->exists($submission->pdf_file)) {
+            return Storage::url($submission->pdf_file);
+        }
+        return null;
+    }
+}
