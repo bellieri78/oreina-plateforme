@@ -185,7 +185,9 @@
                             @endif
                         @endforeach
                     </div>
-                    @elseif($submission->content_html)
+                    @endif
+
+                    @if($submission->content_html)
                     <div class="prose prose-slate max-w-none mb-8">
                         {!! $submission->content_html !!}
                     </div>
