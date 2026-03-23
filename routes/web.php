@@ -7,6 +7,11 @@ use App\Http\Controllers\Hub\HomeController;
 use App\Http\Controllers\Hub\PageController;
 use App\Http\Controllers\Journal\JournalController;
 use App\Http\Controllers\Journal\SubmissionController;
+use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
+use App\Http\Controllers\Member\ProfileController as MemberProfileController;
+use App\Http\Controllers\Member\MembershipController as MemberMembershipController;
+use App\Http\Controllers\Member\DocumentController as MemberDocumentController;
+use App\Http\Controllers\Member\JournalController as MemberJournalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,6 +78,37 @@ Route::prefix('revue')->name('journal.')->group(function () {
         Route::get('/{submission}/revision', [SubmissionController::class, 'edit'])->name('edit');
         Route::put('/{submission}', [SubmissionController::class, 'update'])->name('update');
     });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Member Routes (Espace membre)
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(function () {
+    // Dashboard
+    Route::get('/', [MemberDashboardController::class, 'index'])->name('dashboard');
+
+    // Profile
+    Route::get('/profil', [MemberProfileController::class, 'index'])->name('profile');
+    Route::put('/profil', [MemberProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profil/preferences', [MemberProfileController::class, 'preferences'])->name('profile.preferences');
+    Route::put('/profil/preferences', [MemberProfileController::class, 'updatePreferences'])->name('profile.preferences.update');
+
+    // Membership
+    Route::get('/adhesion', [MemberMembershipController::class, 'index'])->name('membership');
+    Route::get('/adhesion/carte', [MemberMembershipController::class, 'downloadCard'])->name('membership.card');
+    Route::get('/adhesion/attestation', [MemberMembershipController::class, 'downloadAttestation'])->name('membership.attestation');
+
+    // Documents
+    Route::get('/documents', [MemberDocumentController::class, 'index'])->name('documents');
+    Route::get('/documents/cerfa/{donation}', [MemberDocumentController::class, 'downloadCerfa'])->name('documents.cerfa');
+    Route::get('/documents/adhesion/{membership}', [MemberDocumentController::class, 'downloadMembershipReceipt'])->name('documents.membership-receipt');
+
+    // Journal
+    Route::get('/revue', [MemberJournalController::class, 'index'])->name('journal');
+    Route::get('/revue/{issue}/telecharger', [MemberJournalController::class, 'download'])->name('journal.download');
 });
 
 /*

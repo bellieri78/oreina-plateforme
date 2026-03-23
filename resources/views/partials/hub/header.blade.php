@@ -29,14 +29,23 @@
                 </a>
             </nav>
 
-            {{-- CTA + Mobile menu button --}}
+            {{-- CTA + Member area + Mobile menu button --}}
             <div class="flex items-center gap-4">
-                <a href="{{ route('hub.membership') }}" class="btn-primary">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                    </svg>
-                    <span class="hidden sm:inline">Adhérer</span>
-                </a>
+                @auth
+                    <a href="{{ route('member.dashboard') }}" class="hidden sm:flex items-center gap-2 text-oreina-dark font-medium hover:text-oreina-green transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Mon espace
+                    </a>
+                @else
+                    <a href="{{ route('hub.membership') }}" class="btn-primary">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                        <span class="hidden sm:inline">Adhérer</span>
+                    </a>
+                @endauth
 
                 {{-- Mobile menu button --}}
                 <button type="button" class="lg:hidden p-2 rounded-xl hover:bg-oreina-beige/50 transition" id="mobile-menu-btn" aria-label="Menu">
@@ -68,6 +77,16 @@
                 <a href="{{ route('hub.contact') }}" class="block px-4 py-3 rounded-xl hover:bg-oreina-beige/30 transition font-medium {{ request()->routeIs('hub.contact') ? 'bg-oreina-beige/30 text-oreina-green' : 'text-oreina-dark' }}">
                     Contact
                 </a>
+                @auth
+                <div class="border-t border-oreina-beige/30 mt-2 pt-2">
+                    <a href="{{ route('member.dashboard') }}" class="block px-4 py-3 rounded-xl hover:bg-oreina-green/10 transition font-medium text-oreina-green">
+                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Mon espace
+                    </a>
+                </div>
+                @endauth
             </div>
         </div>
     </div>
