@@ -42,10 +42,10 @@
     <div class="filters-bar">
         <div class="filters-row">
             <div class="filter-group">
-                <select id="filterType" class="form-select">
-                    <option value="">Tous les types</option>
-                    @foreach($contactTypes as $type)
-                    <option value="{{ $type }}">{{ ucfirst($type) }}</option>
+                <select id="filterProfileType" class="form-select">
+                    <option value="">Tous les profils</option>
+                    @foreach($profileTypes as $key => $label)
+                    <option value="{{ $key }}">{{ $label }}</option>
                     @endforeach
                 </select>
             </div>
@@ -152,16 +152,20 @@
                 {{-- Legende des types --}}
                 <div class="radius-source-legend">
                     <span class="source-legend-item">
-                        <span class="legend-dot" style="background: var(--color-oreina-green);"></span>
-                        Adherent
+                        <span class="legend-dot" style="background: #2C5F2D;"></span>
+                        Adhérent
                     </span>
                     <span class="source-legend-item">
                         <span class="legend-dot" style="background: #d97706;"></span>
-                        Donateur
+                        Ancien adhérent
                     </span>
                     <span class="source-legend-item">
                         <span class="legend-dot" style="background: #6366f1;"></span>
-                        Prospect
+                        Contact
+                    </span>
+                    <span class="source-legend-item">
+                        <span class="legend-dot" style="background: #8b5cf6;"></span>
+                        Organisme
                     </span>
                 </div>
 
@@ -224,24 +228,20 @@
             <div class="card-body">
                 <div class="legend">
                     <div class="legend-item">
-                        <span class="legend-marker" style="background: var(--color-oreina-green);"></span>
-                        <span>Adherent</span>
+                        <span class="legend-marker" style="background: #2C5F2D;"></span>
+                        <span>Adhérent (à jour)</span>
                     </div>
                     <div class="legend-item">
                         <span class="legend-marker" style="background: #d97706;"></span>
-                        <span>Donateur</span>
+                        <span>Ancien adhérent</span>
                     </div>
                     <div class="legend-item">
                         <span class="legend-marker" style="background: #6366f1;"></span>
-                        <span>Prospect</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-marker" style="background: #ec4899;"></span>
-                        <span>Partenaire</span>
+                        <span>Contact</span>
                     </div>
                     <div class="legend-item">
                         <span class="legend-marker" style="background: #8b5cf6;"></span>
-                        <span>Institution</span>
+                        <span>Organisme</span>
                     </div>
                 </div>
             </div>
@@ -1024,14 +1024,21 @@
 const defaultCenter = [46.603354, 1.888334]; // France center
 const defaultZoom = 6;
 
-// Contact type colors
-const typeColors = {
-    'adherent': 'var(--color-oreina-green, #2C5F2D)',
-    'donateur': '#d97706',
-    'prospect': '#6366f1',
-    'partenaire': '#ec4899',
-    'institution': '#8b5cf6',
+// Profile type colors
+const profileColors = {
+    'adherent': '#2C5F2D',
+    'ancien_adherent': '#d97706',
+    'contact': '#6366f1',
+    'organisme': '#8b5cf6',
     'default': '#2C5F2D'
+};
+
+// Profile type labels
+const profileLabels = {
+    'adherent': 'Adhérent (à jour)',
+    'ancien_adherent': 'Ancien adhérent',
+    'contact': 'Contact',
+    'organisme': 'Organisme'
 };
 
 // Global variables
@@ -1185,7 +1192,7 @@ function searchContactsInRadius() {
         lat: radiusCenter.lat,
         lng: radiusCenter.lng,
         radius: radiusKm,
-        contact_type: document.getElementById('filterType').value,
+        profile_type: document.getElementById('filterProfileType').value,
         department: document.getElementById('filterDepartment').value,
         status: document.getElementById('filterStatus').value
     };
@@ -1234,7 +1241,7 @@ function displayRadiusResults(contacts) {
         html += `
             <div class="radius-contact-item">
                 <div class="radius-contact-name">
-                    <span class="legend-dot" style="background: ${getTypeColor(contact.contact_type)};"></span>
+                    <span class="legend-dot" style="background: ${getProfileColor(contact.profile_type)};"></span>
                     <a href="{{ url('extranet/members') }}/${contact.id}">${escapeHtml(contact.name)}</a>
                 </div>
                 <div class="radius-contact-info">
@@ -1305,7 +1312,7 @@ function displayMarkers(members) {
     if (members.length === 0) return;
 
     members.forEach(member => {
-        const color = getTypeColor(member.contact_type);
+        const color = getProfileColor(member.profile_type);
 
         const icon = L.divIcon({
             className: 'custom-marker-wrapper',
@@ -1317,9 +1324,10 @@ function displayMarkers(members) {
         const marker = L.marker([member.lat, member.lng], { icon: icon });
 
         // Popup content
+        const profileLabel = profileLabels[member.profile_type] || member.profile_type;
         const popupContent = `
             <div class="popup-title">${escapeHtml(member.name)}</div>
-            ${member.contact_type ? `<div class="popup-info"><strong>Type:</strong> ${escapeHtml(member.contact_type)}</div>` : ''}
+            ${member.profile_type ? `<div class="popup-info"><strong>Profil:</strong> ${escapeHtml(profileLabel)}</div>` : ''}
             ${member.city ? `<div class="popup-info"><strong>Ville:</strong> ${escapeHtml(member.city)}</div>` : ''}
             <a href="{{ url('extranet/members') }}/${member.id}" class="popup-link">Voir la fiche &rarr;</a>
         `;
@@ -1335,11 +1343,10 @@ function displayMarkers(members) {
     });
 }
 
-// Get color for contact type
-function getTypeColor(type) {
-    if (!type) return typeColors.default;
-    const key = type.toLowerCase();
-    return typeColors[key] || typeColors.default;
+// Get color for profile type
+function getProfileColor(profileType) {
+    if (!profileType) return profileColors.default;
+    return profileColors[profileType] || profileColors.default;
 }
 
 // Load department statistics
@@ -1403,10 +1410,11 @@ function zoomToDepartment(dept) {
 function showContactPanel(member) {
     const panel = document.getElementById('contactPanel');
     const content = document.getElementById('contactPanelContent');
+    const profileLabel = profileLabels[member.profile_type] || member.profile_type;
 
     content.innerHTML = `
         <div class="contact-panel-name">${escapeHtml(member.name)}</div>
-        ${member.contact_type ? `<div class="contact-panel-type">${escapeHtml(member.contact_type)}</div>` : ''}
+        ${member.profile_type ? `<div class="contact-panel-type">${escapeHtml(profileLabel)}</div>` : ''}
         <div class="contact-panel-info">
             ${member.email ? `
             <div class="contact-panel-row">
@@ -1450,8 +1458,8 @@ function closeContactPanel() {
 function applyFilters() {
     const filters = {};
 
-    const type = document.getElementById('filterType').value;
-    if (type) filters.contact_type = type;
+    const profileType = document.getElementById('filterProfileType').value;
+    if (profileType) filters.profile_type = profileType;
 
     const dept = document.getElementById('filterDepartment').value;
     if (dept) filters.department = dept;
@@ -1476,7 +1484,7 @@ function applyFilters() {
 
 // Reset filters
 function resetFilters() {
-    document.getElementById('filterType').value = '';
+    document.getElementById('filterProfileType').value = '';
     document.getElementById('filterDepartment').value = '';
     document.getElementById('filterStatus').value = '';
     loadMembers();

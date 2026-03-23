@@ -10,16 +10,55 @@ use Illuminate\Support\Facades\Http;
 class MapController extends Controller
 {
     /**
+     * Profile type constants for the map legend
+     */
+    public const PROFILE_ADHERENT = 'adherent';
+    public const PROFILE_ANCIEN_ADHERENT = 'ancien_adherent';
+    public const PROFILE_CONTACT = 'contact';
+    public const PROFILE_ORGANISME = 'organisme';
+
+    /**
+     * Get profile types with labels for filters
+     */
+    public static function getProfileTypes(): array
+    {
+        return [
+            self::PROFILE_ADHERENT => 'Adhérent (à jour)',
+            self::PROFILE_ANCIEN_ADHERENT => 'Ancien adhérent',
+            self::PROFILE_CONTACT => 'Contact',
+            self::PROFILE_ORGANISME => 'Organisme',
+        ];
+    }
+
+    /**
+     * Determine the profile type for a member
+     */
+    public function getProfileType(Member $member): string
+    {
+        // Check if it's an organization (not individual)
+        if ($member->contact_type && $member->contact_type !== Member::TYPE_INDIVIDUEL) {
+            return self::PROFILE_ORGANISME;
+        }
+
+        // Check membership status
+        if ($member->isCurrentMember()) {
+            return self::PROFILE_ADHERENT;
+        }
+
+        if ($member->wasEverMember()) {
+            return self::PROFILE_ANCIEN_ADHERENT;
+        }
+
+        return self::PROFILE_CONTACT;
+    }
+
+    /**
      * Display the interactive map.
      */
     public function index()
     {
-        // Get distinct contact types for filter
-        $contactTypes = Member::whereNotNull('contact_type')
-            ->distinct()
-            ->pluck('contact_type')
-            ->filter()
-            ->values();
+        // Profile types for filter
+        $profileTypes = self::getProfileTypes();
 
         // Get distinct departments (first 2 digits of postal code)
         $departments = Member::whereNotNull('postal_code')
@@ -39,7 +78,7 @@ class MapController extends Controller
             })->count(),
         ];
 
-        return view('admin.map.index', compact('contactTypes', 'departments', 'stats'));
+        return view('admin.map.index', compact('profileTypes', 'departments', 'stats'));
     }
 
     /**
@@ -47,16 +86,12 @@ class MapController extends Controller
      */
     public function members(Request $request)
     {
-        $query = Member::whereNotNull('latitude')
+        // We need memberships for profile type calculation
+        $query = Member::with('memberships')
+            ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->where('latitude', '!=', 0)
             ->where('longitude', '!=', 0);
-
-        // Filter by contact type
-        if ($request->filled('contact_type')) {
-            $types = explode(',', $request->get('contact_type'));
-            $query->whereIn('contact_type', $types);
-        }
 
         // Filter by department
         if ($request->filled('department')) {
@@ -102,7 +137,7 @@ class MapController extends Controller
             $lng = (float) $request->get('lng');
 
             $query->selectRaw("
-                *,
+                members.*,
                 (6371 * acos(
                     cos(radians(?)) * cos(radians(latitude)) *
                     cos(radians(longitude) - radians(?)) +
@@ -110,40 +145,48 @@ class MapController extends Controller
                 )) as distance
             ", [$lat, $lng, $lat])
             ->orderBy('distance');
-        } else {
-            $query->select([
-                'id', 'first_name', 'last_name', 'email', 'phone',
-                'address', 'postal_code', 'city', 'country',
-                'contact_type', 'status', 'latitude', 'longitude'
-            ]);
         }
 
         $members = $query->get();
 
+        // Filter by profile type (post-query since it's calculated)
+        $profileTypeFilter = $request->get('profile_type');
+
+        $result = $members->map(function ($m) use ($hasRadius) {
+            $profileType = $this->getProfileType($m);
+
+            $data = [
+                'id' => $m->id,
+                'name' => trim($m->first_name . ' ' . $m->last_name) ?: $m->last_name ?: 'Sans nom',
+                'email' => $m->email,
+                'phone' => $m->phone,
+                'address' => $m->address,
+                'postal_code' => $m->postal_code,
+                'city' => $m->city,
+                'country' => $m->country,
+                'profile_type' => $profileType,
+                'contact_type' => $m->contact_type,
+                'status' => $m->status,
+                'lat' => (float) $m->latitude,
+                'lng' => (float) $m->longitude,
+            ];
+
+            if ($hasRadius && isset($m->distance)) {
+                $data['distance'] = round($m->distance, 1);
+            }
+
+            return $data;
+        });
+
+        // Apply profile type filter if set
+        if ($profileTypeFilter) {
+            $types = explode(',', $profileTypeFilter);
+            $result = $result->filter(fn($m) => in_array($m['profile_type'], $types));
+        }
+
         return response()->json([
-            'count' => $members->count(),
-            'members' => $members->map(function ($m) use ($hasRadius) {
-                $data = [
-                    'id' => $m->id,
-                    'name' => trim($m->first_name . ' ' . $m->last_name),
-                    'email' => $m->email,
-                    'phone' => $m->phone,
-                    'address' => $m->address,
-                    'postal_code' => $m->postal_code,
-                    'city' => $m->city,
-                    'country' => $m->country,
-                    'contact_type' => $m->contact_type,
-                    'status' => $m->status,
-                    'lat' => (float) $m->latitude,
-                    'lng' => (float) $m->longitude,
-                ];
-
-                if ($hasRadius && isset($m->distance)) {
-                    $data['distance'] = round($m->distance, 1);
-                }
-
-                return $data;
-            }),
+            'count' => $result->count(),
+            'members' => $result->values(),
         ]);
     }
 
@@ -400,7 +443,8 @@ class MapController extends Controller
         $lng = (float) $request->get('lng');
         $radius = (float) $request->get('radius');
 
-        $members = Member::whereNotNull('latitude')
+        $members = Member::with('memberships')
+            ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->whereRaw("
                 (6371 * acos(
@@ -423,11 +467,14 @@ class MapController extends Controller
             'Content-Disposition' => 'attachment; filename="contacts_rayon_' . $radius . 'km_' . date('Y-m-d') . '.csv"',
         ];
 
-        $callback = function () use ($members, $lat, $lng) {
+        $controller = $this;
+        $callback = function () use ($members, $lat, $lng, $controller) {
             $file = fopen('php://output', 'w');
             fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-            fputcsv($file, ['Nom', 'Prenom', 'Email', 'Telephone', 'Adresse', 'CP', 'Ville', 'Type', 'Distance (km)'], ';');
+            fputcsv($file, ['Nom', 'Prenom', 'Email', 'Telephone', 'Adresse', 'CP', 'Ville', 'Profil', 'Distance (km)'], ';');
+
+            $profileLabels = self::getProfileTypes();
 
             foreach ($members as $m) {
                 $distance = 6371 * acos(
@@ -435,6 +482,9 @@ class MapController extends Controller
                     cos(deg2rad($m->longitude) - deg2rad($lng)) +
                     sin(deg2rad($lat)) * sin(deg2rad($m->latitude))
                 );
+
+                $profileType = $controller->getProfileType($m);
+                $profileLabel = $profileLabels[$profileType] ?? $profileType;
 
                 fputcsv($file, [
                     $m->last_name,
@@ -444,7 +494,7 @@ class MapController extends Controller
                     $m->address,
                     $m->postal_code,
                     $m->city,
-                    $m->contact_type,
+                    $profileLabel,
                     number_format($distance, 1),
                 ], ';');
             }
