@@ -324,24 +324,25 @@
         $bibtexYear = $submission->published_at?->year ?? date('Y');
         $bibtexAuthor = $submission->author?->name ?? 'Auteur';
         $bibtexTitle = str_replace(['"', '\\'], ['\"', '\\\\'], $submission->title);
+        $lb = '{'; $rb = '}';
         $bibtexLines = [
-            "@article{oreina{$bibtexYear},",
-            "  author = {{$bibtexAuthor}},",
-            "  title = {{$bibtexTitle}},",
-            "  journal = {Revue scientifique OREINA},",
-            "  year = {{$bibtexYear}},",
+            "@article{$lb}oreina{$bibtexYear},",
+            "  author = {$lb}{$bibtexAuthor}{$rb},",
+            "  title = {$lb}{$bibtexTitle}{$rb},",
+            "  journal = {$lb}Revue scientifique OREINA{$rb},",
+            "  year = {$lb}{$bibtexYear}{$rb},",
         ];
         if ($submission->journalIssue) {
-            $bibtexLines[] = "  volume = {{$submission->journalIssue->volume_number}},";
-            $bibtexLines[] = "  number = {{$submission->journalIssue->issue_number}},";
+            $bibtexLines[] = "  volume = {$lb}{$submission->journalIssue->volume_number}{$rb},";
+            $bibtexLines[] = "  number = {$lb}{$submission->journalIssue->issue_number}{$rb},";
         }
         if ($submission->start_page && $submission->end_page) {
-            $bibtexLines[] = "  pages = {{$submission->start_page}--{$submission->end_page}},";
+            $bibtexLines[] = "  pages = {$lb}{$submission->start_page}--{$submission->end_page}{$rb},";
         }
         if ($submission->doi) {
-            $bibtexLines[] = "  doi = {{$submission->doi}}";
+            $bibtexLines[] = "  doi = {$lb}{$submission->doi}{$rb}";
         }
-        $bibtexLines[] = "}";
+        $bibtexLines[] = "{$rb}";
         $bibtexString = implode("\n", $bibtexLines);
     @endphp
 
