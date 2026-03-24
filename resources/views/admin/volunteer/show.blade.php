@@ -282,7 +282,8 @@
     <script>
         function openEditModal(participation) {
             const form = document.getElementById('edit-participant-form');
-            form.action = '{{ route('admin.volunteer.participants.update', [$activity, '']) }}/' + participation.member_id;
+            const baseUrl = '{{ url('extranet/volunteer/activities/' . $activity->id . '/participants') }}';
+            form.action = baseUrl + '/' + participation.member_id;
             document.getElementById('edit_status').value = participation.status;
             document.getElementById('edit_hours_worked').value = participation.hours_worked || '';
             document.getElementById('edit_notes').value = participation.notes || '';
