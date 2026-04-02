@@ -277,6 +277,7 @@
                 $authMember = \App\Models\Member::where('user_id', $authUser->id)->first();
                 $initials = strtoupper(substr($authMember?->first_name ?? $authUser->name, 0, 1) . substr($authMember?->last_name ?? '', 0, 1));
                 $department = $authMember?->postal_code ? substr($authMember->postal_code, 0, 2) : null;
+                $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
             @endphp
             <div class="text-center mb-6">
                 <div class="relative inline-block mb-2">
@@ -299,6 +300,19 @@
                 </div>
             </div>
 
+            {{-- Member's GT --}}
+            @if($authMemberGroups->count() > 0)
+            <div class="mb-4 px-1 sidebar-profile-details">
+                <div class="text-white/40 text-[10px] font-semibold uppercase tracking-wider mb-2">Mes GT</div>
+                @foreach($authMemberGroups as $gt)
+                <div class="flex items-center gap-2 mb-1">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background: {{ $gt->color }}; flex-shrink: 0;"></div>
+                    <span class="text-white/60 text-xs truncate">{{ $gt->name }}</span>
+                </div>
+                @endforeach
+            </div>
+            @endif
+
             {{-- Navigation --}}
             <nav class="space-y-0.5 flex-1">
                 <a href="{{ route('member.dashboard') }}" class="member-nav-item {{ request()->routeIs('member.dashboard') ? 'active' : '' }}">
@@ -313,7 +327,7 @@
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
                     <span class="nav-label">Mon adhésion</span>
                 </a>
-                <a href="#" class="member-nav-item disabled" title="Bientôt disponible">
+                <a href="{{ route('member.contributions') }}" class="member-nav-item {{ request()->routeIs('member.contributions*') || request()->routeIs('member.work-groups*') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                     <span class="nav-label">Mes contributions</span>
                 </a>
@@ -328,6 +342,10 @@
                 <a href="{{ route('member.journal') }}" class="member-nav-item {{ request()->routeIs('member.journal*') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                     <span class="nav-label">La revue</span>
+                </a>
+                <a href="{{ route('member.lepis') }}" class="member-nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                    <span class="nav-label">Lepis</span>
                 </a>
                 <a href="{{ route('member.profile.preferences') }}" class="member-nav-item {{ request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>

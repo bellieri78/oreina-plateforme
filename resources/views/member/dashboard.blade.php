@@ -30,23 +30,30 @@
         </div>
     </div>
 
-    {{-- GT Placeholder cards --}}
+    {{-- GT cards --}}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div class="gt-card-placeholder">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <div class="label">Validation ID</div>
-            <div class="sub">Bientôt disponible</div>
-        </div>
-        <div class="gt-card-placeholder">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-            <div class="label">SeqRef Barcoding</div>
-            <div class="sub">Bientôt disponible</div>
-        </div>
-        <div class="gt-card-placeholder">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
-            <div class="label">Traits de vie</div>
-            <div class="sub">Bientôt disponible</div>
-        </div>
+        @if($workGroups->count() > 0)
+            @foreach($workGroups as $gt)
+            <div style="background: linear-gradient(135deg, {{ $gt->color }}, {{ $gt->color }}dd); padding: 1.25rem; border-radius: 1rem; color: white; min-height: 100px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: -15px; right: -15px; width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.15);"></div>
+                <div>
+                    <div style="font-weight: 700; font-size: 0.9375rem;">{{ $gt->name }}</div>
+                    <div style="font-size: 0.6875rem; opacity: 0.85; margin-top: 0.25rem;">{{ Str::limit($gt->description, 40) }}</div>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem;">
+                    <div style="font-size: 0.6875rem; opacity: 0.8;">{{ $gt->members_count }} membres</div>
+                    @if(in_array($gt->id, $myGroupIds))
+                        <span style="font-size: 0.625rem; background: rgba(255,255,255,0.25); padding: 0.125rem 0.5rem; border-radius: 9999px;">Membre</span>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        @else
+            <div class="gt-card-placeholder">
+                <div class="label">Groupes de travail</div>
+                <div class="sub">Aucun groupe actif</div>
+            </div>
+        @endif
     </div>
 
     {{-- Stats row --}}

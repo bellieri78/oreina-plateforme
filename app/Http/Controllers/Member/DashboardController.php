@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use App\Models\JournalIssue;
 use App\Models\Member;
+use App\Models\WorkGroup;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -32,6 +33,10 @@ class DashboardController extends Controller
                 ->get();
         }
 
+        // Work Groups
+        $workGroups = WorkGroup::active()->withCount('members')->orderBy('name')->limit(3)->get();
+        $myGroupIds = $member?->workGroups()->pluck('work_groups.id')->toArray() ?? [];
+
         // Stats
         $stats = [
             'total_donations' => $member?->donations()->sum('amount') ?? 0,
@@ -46,6 +51,8 @@ class DashboardController extends Controller
             'isCurrentMember',
             'recentDonations',
             'latestIssues',
+            'workGroups',
+            'myGroupIds',
             'stats'
         ));
     }
