@@ -36,16 +36,28 @@
         @endforeach
     @endif
 
-    {{-- Placeholder for future widgets (map, chat) --}}
-    <div class="mt-6 p-4 bg-gray-50 rounded-xl border border-dashed border-gray-200 text-center">
-        <div class="text-gray-300 text-2xl mb-2">🗺️</div>
-        <div class="text-xs text-gray-400 font-medium">Carte des membres</div>
-        <div class="text-[10px] text-gray-300">Bientôt disponible</div>
+    {{-- Map widget --}}
+    <div class="mt-6">
+        <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold text-oreina-dark">Carte des membres</h3>
+            <a href="{{ route('member.map') }}" class="text-[10px] text-oreina-green hover:underline">Agrandir →</a>
+        </div>
+        <x-member.map-france :compact="true" />
     </div>
 
-    <div class="mt-3 p-4 bg-gray-50 rounded-xl border border-dashed border-gray-200 text-center">
-        <div class="text-gray-300 text-2xl mb-2">💬</div>
-        <div class="text-xs text-gray-400 font-medium">Discussion membres</div>
-        <div class="text-[10px] text-gray-300">Bientôt disponible</div>
+    {{-- Chat widget --}}
+    <div class="mt-4">
+        <div class="flex items-center justify-between mb-2">
+            <h3 class="text-xs font-bold text-oreina-dark">💬 Discussion</h3>
+            <a href="{{ route('member.chat') }}" class="text-[10px] text-oreina-green hover:underline">Ouvrir →</a>
+        </div>
+        @php
+            $chatMember = $authMember ?? (\Auth::check() ? \App\Models\Member::where('user_id', \Auth::id())->first() : null);
+        @endphp
+        @if($chatMember)
+            @livewire('member.chat', ['memberId' => $chatMember->id, 'expanded' => false])
+        @else
+            <p class="text-[10px] text-gray-400 text-center py-2">Connectez-vous pour discuter</p>
+        @endif
     </div>
 </aside>
