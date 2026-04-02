@@ -10,7 +10,7 @@ class ChatController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $member = Member::where('user_id', $user->id)->firstOrFail();
+        $member = Member::where('user_id', $user->id)->first();
 
         return view('member.chat.index', compact('member'));
     }

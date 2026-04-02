@@ -10,7 +10,11 @@
     </div>
 
     <div class="member-card">
-        @livewire('member.chat', ['memberId' => $member->id, 'expanded' => true])
+        @if($member)
+            @livewire('member.chat', ['memberId' => $member->id, 'expanded' => true])
+        @else
+            <p class="text-gray-400 text-sm text-center py-6">Complétez votre profil pour accéder au chat</p>
+        @endif
     </div>
 </div>
 @endsection
