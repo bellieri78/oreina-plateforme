@@ -274,8 +274,8 @@
             {{-- Profile summary --}}
             @php
                 $authUser = auth()->user();
-                $authMember = \App\Models\Member::where('user_id', $authUser->id)->first();
-                $initials = strtoupper(substr($authMember?->first_name ?? $authUser->name, 0, 1) . substr($authMember?->last_name ?? '', 0, 1));
+                $authMember = $authUser ? \App\Models\Member::where('user_id', $authUser->id)->first() : null;
+                $initials = strtoupper(substr($authMember?->first_name ?? $authUser?->name ?? 'U', 0, 1) . substr($authMember?->last_name ?? '', 0, 1));
                 $department = $authMember?->postal_code ? substr($authMember->postal_code, 0, 2) : null;
                 $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
             @endphp

@@ -216,7 +216,7 @@ class Member extends Model
 
     public function workGroups(): BelongsToMany
     {
-        return $this->belongsToMany(WorkGroup::class)
+        return $this->belongsToMany(WorkGroup::class, 'work_group_member')
             ->withPivot('role', 'joined_at')
             ->withTimestamps();
     }
