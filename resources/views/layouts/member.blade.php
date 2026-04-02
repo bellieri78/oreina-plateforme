@@ -7,7 +7,6 @@
     <title>@yield('title', 'Mon espace') - OREINA</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
 
     <style>
         /* === 3-COLUMN MEMBER LAYOUT === */
@@ -469,7 +468,6 @@
         }
     </script>
 
-    @livewireScripts
     @stack('scripts')
 </body>
 </html>
