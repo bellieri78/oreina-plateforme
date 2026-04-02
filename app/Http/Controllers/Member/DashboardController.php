@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
-use App\Models\Member;
 use App\Models\JournalIssue;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,18 +14,17 @@ class DashboardController extends Controller
         $user = auth()->user();
         $member = Member::where('user_id', $user->id)->first();
 
-        // Get membership info
         $currentMembership = $member?->currentMembership();
         $isCurrentMember = $member?->isCurrentMember() ?? false;
 
-        // Get recent donations
+        // Recent donations
         $recentDonations = $member?->donations()
             ->orderBy('donation_date', 'desc')
             ->limit(3)
             ->get() ?? collect();
 
-        // Get latest journal issues (for members)
-        $latestIssues = [];
+        // Latest journal issues (for members)
+        $latestIssues = collect();
         if ($isCurrentMember) {
             $latestIssues = JournalIssue::where('status', 'published')
                 ->orderBy('publication_date', 'desc')
