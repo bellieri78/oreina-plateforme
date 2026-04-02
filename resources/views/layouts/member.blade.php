@@ -77,19 +77,24 @@
             overflow-y: auto;
         }
 
-        /* Shared component styles */
+        /* Shared component styles — aligned with hub visual language */
         .member-card {
             background: white;
-            border-radius: 1rem;
-            border: 1px solid #ede7e2;
-            padding: 1.25rem;
+            border-radius: 1.5rem;
+            border: 2px solid rgba(219, 203, 199, 0.3);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .member-card:hover {
+            box-shadow: 0 20px 60px rgba(22, 48, 43, 0.1);
+            transform: translateY(-2px);
         }
         .member-card-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             margin-bottom: 1rem;
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             font-weight: 700;
             color: #16302B;
         }
@@ -100,60 +105,93 @@
         }
         .member-stat {
             text-align: center;
-            padding: 1rem;
-            background: #faf8f6;
-            border-radius: 0.75rem;
+            padding: 1.25rem 1rem;
+            background: white;
+            border-radius: 1.5rem;
+            border: 2px solid rgba(219, 203, 199, 0.3);
+            transition: all 0.3s ease;
+        }
+        .member-stat:hover {
+            box-shadow: 0 10px 30px rgba(22, 48, 43, 0.08);
+            transform: translateY(-2px);
         }
         .member-stat-value {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 800;
-            color: #2C5F2D;
+            color: #85B79D;
         }
         .member-stat-label {
             font-size: 0.75rem;
-            color: #999;
-            margin-top: 0.125rem;
+            color: #64748b;
+            margin-top: 0.25rem;
         }
         .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.375rem;
-            padding: 0.25rem 0.75rem;
+            padding: 0.375rem 0.875rem;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
+            backdrop-filter: blur(12px);
         }
         .status-badge.active {
-            background: rgba(34, 197, 94, 0.1);
-            color: #16a34a;
+            background: rgba(133, 183, 157, 0.25);
+            border: 1px solid rgba(133, 183, 157, 0.4);
+            color: #2C5F2D;
         }
         .status-badge.expired {
             background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
             color: #dc2626;
         }
         .btn-member {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1rem;
+            padding: 0.625rem 1.25rem;
             background: #85B79D;
             color: white;
-            border-radius: 0.75rem;
+            border-radius: 1rem;
             font-weight: 600;
             font-size: 0.8125rem;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
+            box-shadow: 0 10px 40px rgba(133, 183, 157, 0.3);
+            text-decoration: none;
         }
         .btn-member:hover {
             background: #6fa386;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(133, 183, 157, 0.4);
+        }
+        .btn-member-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: white;
+            color: #16302B;
+            border: 2px solid rgba(219, 203, 199, 0.5);
+            border-radius: 1rem;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-member-outline:hover {
+            border-color: #85B79D;
+            transform: translateY(-2px);
         }
 
         /* GT placeholder cards */
         .gt-card-placeholder {
             padding: 1.25rem;
-            border-radius: 1rem;
-            background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
+            border-radius: 1.5rem;
+            background: linear-gradient(135deg, rgba(219, 203, 199, 0.15), rgba(133, 183, 157, 0.08));
+            border: 2px dashed rgba(219, 203, 199, 0.4);
             min-height: 100px;
             display: flex;
             flex-direction: column;
@@ -169,6 +207,18 @@
         }
         .gt-card-placeholder .sub {
             font-size: 0.625rem;
+        }
+
+        /* Interactive links in feed/documents */
+        .member-link {
+            color: #85B79D;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .member-link:hover {
+            color: #2C5F2D;
+            text-decoration: underline;
         }
 
         /* === RESPONSIVE === */

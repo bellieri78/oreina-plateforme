@@ -31,22 +31,23 @@
     </div>
 
     {{-- GT cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         @if($workGroups->count() > 0)
             @foreach($workGroups as $gt)
-            <div style="background: linear-gradient(135deg, {{ $gt->color }}, {{ $gt->color }}dd); padding: 1.25rem; border-radius: 1rem; color: white; min-height: 100px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
-                <div style="position: absolute; top: -15px; right: -15px; width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.15);"></div>
+            <a href="{{ $gt->website_url ?? route('member.work-groups') }}" class="block" style="background: linear-gradient(135deg, {{ $gt->color }}, {{ $gt->color }}cc); padding: 1.5rem; border-radius: 1.5rem; color: white; min-height: 110px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: all 0.3s ease; box-shadow: 0 10px 30px {{ $gt->color }}40;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 15px 40px {{ $gt->color }}50'" onmouseleave="this.style.transform='';this.style.boxShadow='0 10px 30px {{ $gt->color }}40'">
+                <div style="position: absolute; top: -20px; right: -20px; width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.12);"></div>
+                <div style="position: absolute; bottom: -10px; left: -10px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08);"></div>
                 <div>
                     <div style="font-weight: 700; font-size: 0.9375rem;">{{ $gt->name }}</div>
-                    <div style="font-size: 0.6875rem; opacity: 0.85; margin-top: 0.25rem;">{{ Str::limit($gt->description, 40) }}</div>
+                    <div style="font-size: 0.6875rem; opacity: 0.85; margin-top: 0.25rem;">{{ Str::limit($gt->description, 50) }}</div>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem;">
                     <div style="font-size: 0.6875rem; opacity: 0.8;">{{ $gt->members_count }} membres</div>
                     @if(in_array($gt->id, $myGroupIds))
-                        <span style="font-size: 0.625rem; background: rgba(255,255,255,0.25); padding: 0.125rem 0.5rem; border-radius: 9999px;">Membre</span>
+                        <span style="font-size: 0.625rem; background: rgba(255,255,255,0.25); padding: 0.2rem 0.625rem; border-radius: 9999px; font-weight: 600; backdrop-filter: blur(8px);">Membre</span>
                     @endif
                 </div>
-            </div>
+            </a>
             @endforeach
         @else
             <div class="gt-card-placeholder">
@@ -57,7 +58,7 @@
     </div>
 
     {{-- Stats row --}}
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div class="member-stat">
             <div class="member-stat-value">{{ $stats['membership_years'] }}</div>
             <div class="member-stat-label">Année(s) adhésion</div>
@@ -70,8 +71,8 @@
             <div class="member-stat-value">{{ $stats['donation_count'] }}</div>
             <div class="member-stat-label">Don(s)</div>
         </div>
-        <div class="member-stat" style="border: 2px dashed #e0d8d3; background: transparent;">
-            <div class="member-stat-value text-gray-300">—</div>
+        <div class="member-stat" style="border: 2px dashed rgba(219,203,199,0.4); background: rgba(219,203,199,0.06);">
+            <div class="member-stat-value" style="color: #DBCBC7;">—</div>
             <div class="member-stat-label">Observations <span class="text-[10px]">(bientôt)</span></div>
         </div>
     </div>
@@ -127,9 +128,9 @@
             <span class="dot" style="background: #14B8A6;"></span>
             Derniers numéros de la revue
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             @foreach($latestIssues as $issue)
-            <div class="border border-gray-100 rounded-xl p-3 hover:border-oreina-green/50 transition">
+            <div class="border-2 border-oreina-beige/30 rounded-2xl p-4 hover:border-oreina-turquoise/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                 <div class="text-xs text-gray-400 mb-0.5">Vol. {{ $issue->volume_number }} — N°{{ $issue->issue_number }}</div>
                 <div class="font-semibold text-sm text-oreina-dark mb-1">{{ $issue->title ?? 'OREINA' }}</div>
                 <div class="text-[10px] text-gray-300 mb-2">{{ $issue->publication_date?->translatedFormat('F Y') }}</div>
