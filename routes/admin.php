@@ -25,6 +25,8 @@ use App\Http\Controllers\Admin\ImportExportController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\WorkGroupController;
+use App\Http\Controllers\Admin\LepisBulletinController;
+use App\Http\Controllers\Admin\LepisSuggestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -240,6 +242,16 @@ Route::middleware(['web', 'auth'])->prefix('extranet')->name('admin.')->group(fu
     Route::resource('work-groups', WorkGroupController::class)->except(['show'])->names('work-groups');
     Route::post('work-groups/{workGroup}/members', [WorkGroupController::class, 'addMember'])->name('work-groups.add-member');
     Route::delete('work-groups/{workGroup}/members/{member}', [WorkGroupController::class, 'removeMember'])->name('work-groups.remove-member');
+
+    // Lepis Bulletins
+    Route::resource('lepis', LepisBulletinController::class)->except(['show'])->names('lepis');
+    Route::post('lepis/{bulletin}/toggle-publish', [LepisBulletinController::class, 'togglePublish'])->name('lepis.toggle-publish');
+
+    // Lepis Suggestions
+    Route::get('lepis-suggestions', [LepisSuggestionController::class, 'index'])->name('lepis-suggestions.index');
+    Route::get('lepis-suggestions/{suggestion}', [LepisSuggestionController::class, 'show'])->name('lepis-suggestions.show');
+    Route::post('lepis-suggestions/{suggestion}/noted', [LepisSuggestionController::class, 'markAsNoted'])->name('lepis-suggestions.noted');
+    Route::delete('lepis-suggestions/{suggestion}', [LepisSuggestionController::class, 'destroy'])->name('lepis-suggestions.destroy');
 
     // RGPD
     Route::prefix('rgpd')->name('rgpd.')->group(function () {
