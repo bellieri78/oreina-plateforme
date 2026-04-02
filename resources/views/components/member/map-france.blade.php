@@ -114,11 +114,13 @@
     ];
 
     // Color scale: light green (few) to dark green (many)
-    function getDeptColor(int $count, int $max): string {
-        if ($count === 0) return '#f3f4f6';
-        $ratio = min($count / max($max, 1), 1);
-        $lightness = 90 - (50 * $ratio); // 90% (light) to 40% (dark)
-        return "hsl(150, 40%, {$lightness}%)";
+    if (!function_exists('getDeptColor')) {
+        function getDeptColor(int $count, int $max): string {
+            if ($count === 0) return '#f3f4f6';
+            $ratio = min($count / max($max, 1), 1);
+            $lightness = 90 - (50 * $ratio); // 90% (light) to 40% (dark)
+            return "hsl(150, 40%, {$lightness}%)";
+        }
     }
 @endphp
 
