@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\BrevoController;
 use App\Http\Controllers\Admin\ImportExportController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\WorkGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -234,6 +235,11 @@ Route::middleware(['web', 'auth'])->prefix('extranet')->name('admin.')->group(fu
         Route::get('/columns/{type}', [ImportExportController::class, 'getColumnsForType'])->name('columns');
         Route::get('/mapping/{type}', [ImportExportController::class, 'getMappingForType'])->name('mapping');
     });
+
+    // Work Groups (Groupes de travail)
+    Route::resource('work-groups', WorkGroupController::class)->except(['show'])->names('work-groups');
+    Route::post('work-groups/{workGroup}/members', [WorkGroupController::class, 'addMember'])->name('work-groups.add-member');
+    Route::delete('work-groups/{workGroup}/members/{member}', [WorkGroupController::class, 'removeMember'])->name('work-groups.remove-member');
 
     // RGPD
     Route::prefix('rgpd')->name('rgpd.')->group(function () {
