@@ -1,184 +1,676 @@
 @extends('layouts.journal')
 
 @section('title', 'Accueil')
-@section('meta_description', 'Revue OREINA - Accès libre à des articles scientifiques de haute qualité sur les Lépidoptères de France.')
+@section('meta_description', 'Chersotis - Revue scientifique OREINA. Accès libre à des articles de haute qualité sur les Lépidoptères de France.')
+
+@push('styles')
+<style>
+    /* ── Hero ── */
+    .hero { padding: 0; }
+
+    .hero-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 92vh;
+        border-radius: 0;
+        background:
+            linear-gradient(rgba(15,118,110,0.52), rgba(13,75,70,0.72)),
+            url('/images/journal-hero.jpg') center/cover;
+        box-shadow: var(--shadow);
+        display: flex;
+        align-items: flex-end;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+
+    .hero-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(15,118,110,0.10), transparent 55%);
+        pointer-events: none;
+    }
+
+    .hero-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(13,75,70,0.12) 52%, rgba(13,75,70,0.30) 100%);
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: var(--container);
+        margin: 0 auto;
+        padding: 48px 16px 56px;
+        color: white;
+    }
+
+    .hero .eyebrow {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.14);
+        margin-bottom: 18px;
+    }
+
+    .hero h1 {
+        margin: 0;
+        max-width: 900px;
+        font-size: clamp(38px, 5.5vw, 68px);
+        font-weight: 700;
+        line-height: 0.96;
+        letter-spacing: -0.02em;
+        color: white;
+    }
+
+    .hero p {
+        margin: 16px 0 0;
+        max-width: 680px;
+        color: rgba(255,255,255,0.90);
+        font-size: 18px;
+        line-height: 1.72;
+        text-wrap: balance;
+    }
+
+    .hero-actions {
+        margin-top: 26px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .hero-bottom {
+        margin-top: 34px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: end;
+        gap: 20px;
+        flex-wrap: wrap;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        width: min(100%, 540px);
+    }
+
+    .hero-stat {
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.14);
+        backdrop-filter: blur(10px);
+        min-height: 88px;
+    }
+
+    .hero-stat strong {
+        display: block;
+        font-size: 26px;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin-bottom: 6px;
+    }
+
+    .hero-stat span {
+        color: rgba(255,255,255,0.82);
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+    /* ── Sections ── */
+    section { padding: 36px 0; }
+
+    .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 16px;
+        margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1;
+        letter-spacing: -0.05em;
+    }
+
+    .section-head p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        max-width: 760px;
+        line-height: 1.7;
+    }
+
+    .text-link {
+        color: var(--accent, #0f766e);
+        font-size: 14px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    /* ── Eyebrow ── */
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+        height: 46px;
+        padding: 0 18px;
+        border-radius: 14px;
+        border: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        font-weight: 800;
+        transition: 0.2s ease;
+        white-space: nowrap;
+        font-family: inherit;
+        font-size: inherit;
+        text-decoration: none;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+        background: var(--accent, #0f766e);
+        color: white;
+        box-shadow: 0 12px 24px rgba(15,118,110,0.18);
+    }
+
+    .btn-secondary {
+        background: rgba(53,107,138,0.08);
+        color: var(--blue);
+        border: 1px solid rgba(53,107,138,0.14);
+    }
+
+    .btn-ghost-light {
+        background: rgba(255,255,255,0.14);
+        color: white;
+        border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    /* ── Icons ── */
+    .icon {
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 18px;
+    }
+
+    .icon svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2;
+    }
+
+    .icon-white { color: white; }
+    .icon-teal { color: var(--accent, #0f766e); }
+    .icon-blue { color: var(--blue); }
+
+    /* ── Articles grid ── */
+    .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .article-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease;
+    }
+
+    .article-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 48px rgba(15,118,110,0.10);
+    }
+
+    .article-card-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .article-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+
+    .article-card-meta .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        border: 1px solid transparent;
+    }
+
+    .tag-teal {
+        background: rgba(20,184,166,0.10);
+        color: var(--accent, #0f766e);
+        border-color: rgba(20,184,166,0.14);
+    }
+
+    .article-date {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .article-card h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+    }
+
+    .article-card h3 a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .article-card h3 a:hover {
+        color: var(--accent, #0f766e);
+    }
+
+    .article-card-abstract {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .article-card-author {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    .article-keywords {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .keyword {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--surface-soft, rgba(0,0,0,0.03));
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .article-card-footer {
+        margin-top: auto;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .article-doi {
+        font-size: 12px;
+        font-family: monospace;
+        color: var(--muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 60%;
+    }
+
+    /* ── Featured article (first card spans full width) ── */
+    .article-card-featured {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+    }
+
+    .article-card-featured .article-card-media {
+        min-height: 320px;
+        background-size: cover;
+        background-position: center;
+        background-color: rgba(20,184,166,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .article-card-featured .article-card-body {
+        padding: 30px;
+    }
+
+    .article-card-featured h3 {
+        font-size: 28px;
+    }
+
+    .article-card-featured .article-card-abstract {
+        -webkit-line-clamp: 4;
+        font-size: 15px;
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+    }
+
+    .empty-state h3 {
+        margin: 16px 0 6px;
+        font-size: 20px;
+        letter-spacing: -0.02em;
+    }
+
+    .empty-state p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+    }
+
+    /* ── CTA panel ── */
+    .cta-panel {
+        position: relative;
+        overflow: hidden;
+        padding: 38px;
+        background: var(--forest);
+        color: white;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+    }
+
+    .cta-panel::after {
+        content: "";
+        position: absolute;
+        right: -34px;
+        bottom: -34px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: rgba(20,184,166,0.14);
+    }
+
+    .cta-panel > * { position: relative; z-index: 1; }
+
+    .cta-panel .eyebrow {
+        background: rgba(255,255,255,0.10);
+        border: 1px solid rgba(255,255,255,0.12);
+        color: rgba(255,255,255,0.86);
+        margin-bottom: 14px;
+    }
+
+    .cta-panel h2 {
+        margin: 12px 0 10px;
+        font-size: clamp(26px, 3.5vw, 36px);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+        color: white;
+    }
+
+    .cta-panel p {
+        margin: 0;
+        max-width: 760px;
+        color: rgba(255,255,255,0.82);
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .content-actions {
+        margin-top: 22px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1080px) {
+        .articles-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .article-card-featured {
+            grid-template-columns: 1fr;
+        }
+
+        .article-card-featured .article-card-media {
+            min-height: 220px;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .hero-content {
+            padding: 28px 16px 36px;
+        }
+
+        .hero-card {
+            min-height: 82vh;
+        }
+
+        .hero-bottom {
+            flex-direction: column;
+        }
+
+        .hero-stats {
+            grid-template-columns: 1fr;
+            width: 100%;
+        }
+
+        .section-head {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .cta-panel {
+            padding: 22px;
+        }
+
+        .article-card-body {
+            padding: 18px;
+        }
+    }
+</style>
+@endpush
 
 @section('content')
-    {{-- Hero Section --}}
-    <div class="relative h-[60vh] sm:h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden bg-cover bg-center" style="background-image: url('/images/journal-hero.jpg');">
-        <div class="absolute inset-0 journal-hero-overlay"></div>
+    {{-- 1. Hero Section --}}
+    <section class="hero">
+        <article class="hero-card">
+            <div class="hero-content">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="book-open-text"></i>Peer-reviewed &middot; Open access</div>
+                <h1>Chersotis, la revue scientifique d'OREINA</h1>
+                <p>Articles originaux sur la systématique, l'écologie, la biogéographie et la conservation des Lépidoptères de France. Relecture par les pairs et publication en flux continu.</p>
 
-        <div class="relative z-10 text-white px-4 sm:px-6 lg:px-20 max-w-5xl">
-            <div class="badge text-oreina-beige mb-4 sm:mb-8">
-                <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-                </svg>
-                <span class="text-xs sm:text-sm font-semibold text-white">Publication en flux continu</span>
-            </div>
+                <div class="hero-actions">
+                    <a href="{{ route('journal.articles.index') }}" class="btn btn-primary"><i class="icon icon-white" data-lucide="library"></i>Explorer les articles</a>
+                    <a href="{{ route('journal.submit') }}" class="btn btn-ghost-light"><i class="icon icon-white" data-lucide="upload"></i>Soumettre un manuscrit</a>
+                </div>
 
-            <h1 class="text-3xl sm:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight tracking-tight">
-                Revue scientifique<br />OREINA
-            </h1>
-
-            <p class="text-lg sm:text-2xl lg:text-3xl mb-4 sm:mb-8 font-medium leading-tight text-oreina-beige">
-                Publications sur les Lépidoptères de France
-            </p>
-
-            <p class="text-sm sm:text-base lg:text-xl mb-4 sm:mb-6 opacity-95 leading-relaxed max-w-3xl">
-                Accès libre à des articles scientifiques de haute qualité, soumis à une relecture par les pairs
-                et publiés en flux continu pour une diffusion rapide des découvertes.
-            </p>
-
-            <p class="text-xs sm:text-sm lg:text-lg mb-6 sm:mb-12 opacity-90 leading-relaxed max-w-2xl">
-                Contribuez à la science en publiant vos travaux ou en explorant les dernières recherches.
-            </p>
-
-            <a href="#articles" class="btn-turquoise text-sm sm:text-base lg:text-lg inline-flex items-center gap-2 sm:gap-3">
-                <span>Explorer les articles</span>
-                <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <polyline points="9 18 15 12 9 6"/>
-                </svg>
-            </a>
-        </div>
-
-        <button onclick="document.getElementById('articles').scrollIntoView({ behavior: 'smooth' })" class="hidden sm:flex absolute bottom-6 sm:bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 animate-bounce-slow cursor-pointer">
-            <span class="text-white text-xs sm:text-sm font-medium opacity-75">Découvrir</span>
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <polyline points="6 9 12 15 18 9"/>
-            </svg>
-        </button>
-    </div>
-
-    {{-- Articles Section --}}
-    <div id="articles" class="py-8 sm:py-12 px-4 sm:px-6 lg:px-12 bg-gray-50">
-        <div class="max-w-7xl mx-auto">
-            {{-- Section header --}}
-            <div class="mb-6 sm:mb-8">
-                <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                    <div class="p-2 sm:p-3 rounded-2xl bg-oreina-turquoise/10">
-                        <svg class="w-5 h-5 sm:w-7 sm:h-7 text-oreina-turquoise" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-oreina-dark">Derniers articles</h2>
-                        <p class="text-slate-600 text-xs sm:text-sm lg:text-base mt-1">{{ $recentArticles->count() }} articles récents</p>
+                <div class="hero-bottom">
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <strong>{{ $recentArticles->count() }}+</strong>
+                            <span>articles publiés en accès libre</span>
+                        </div>
+                        <div class="hero-stat">
+                            <strong>DOI</strong>
+                            <span>attribution Crossref pour chaque article</span>
+                        </div>
+                        <div class="hero-stat">
+                            <strong>Pairs</strong>
+                            <span>relecture par un comité scientifique</span>
+                        </div>
                     </div>
                 </div>
             </div>
+        </article>
+    </section>
+
+    {{-- 2. Articles Section --}}
+    <section id="articles" style="background:white; width:100vw; margin-left:calc(50% - 50vw); padding-left:calc(50vw - 50%); padding-right:calc(50vw - 50%);">
+        <div class="container">
+            <div class="section-head">
+                <div>
+                    <h2>Derniers articles</h2>
+                    <p>Les publications les plus récentes de la revue, en accès libre.</p>
+                </div>
+                <a href="{{ route('journal.articles.index') }}" class="text-link"><i class="icon icon-teal" data-lucide="arrow-right"></i>Tous les articles</a>
+            </div>
 
             @if($recentArticles->count() > 0)
-                {{-- Articles grid --}}
-                <div class="space-y-4 sm:space-y-6">
-                    @foreach($recentArticles as $article)
-                    <article class="article-card group">
-                        <div class="grid md:grid-cols-4 gap-0">
-                            <div class="md:col-span-1 h-48 sm:h-64 md:h-auto bg-slate-200 overflow-hidden relative">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                @if($article->featured_image)
-                                    <img src="{{ Storage::url($article->featured_image) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
-                                @else
-                                    <div class="w-full h-full bg-oreina-teal/20 flex items-center justify-center">
-                                        <svg class="w-16 h-16 text-oreina-teal/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                        </svg>
-                                    </div>
-                                @endif
+                @php
+                    $featuredArticle = $recentArticles->first();
+                    $otherArticles = $recentArticles->skip(1);
+                @endphp
+
+                <div class="articles-grid">
+                    {{-- Featured article --}}
+                    <article class="article-card article-card-featured">
+                        <div class="article-card-media" style="background-image: url('{{ $featuredArticle->featured_image ? Storage::url($featuredArticle->featured_image) : '' }}');">
+                            @unless($featuredArticle->featured_image)
+                                <i class="icon" data-lucide="file-text" style="width:48px;height:48px;color:rgba(15,118,110,0.25);"></i>
+                            @endunless
+                        </div>
+                        <div class="article-card-body">
+                            <div class="article-card-meta">
+                                <span class="tag tag-teal"><i class="icon icon-teal" data-lucide="flask-conical"></i>Article scientifique</span>
+                                <span class="article-date">{{ $featuredArticle->published_at?->translatedFormat('d F Y') ?? 'Non publié' }}</span>
                             </div>
-                            <div class="md:col-span-3 p-5 sm:p-6 lg:p-8">
-                                <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                                    <span class="px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold rounded-lg bg-oreina-turquoise/10 text-oreina-teal">
-                                        Article scientifique
-                                    </span>
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-slate-500 text-xs sm:text-sm">
-                                        <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                                        </svg>
-                                        <span>{{ $article->published_at?->format('d/m/Y') ?? 'Non publié' }}</span>
-                                    </div>
-                                </div>
-
-                                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 leading-tight text-oreina-dark">
-                                    {{ $article->title }}
-                                </h3>
-
-                                <p class="text-slate-600 text-sm sm:text-base mb-3 sm:mb-4 leading-relaxed line-clamp-2">
-                                    {{ $article->abstract }}
-                                </p>
-
-                                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-                                    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                    </svg>
-                                    <span class="text-xs sm:text-sm font-medium text-slate-700">{{ $article->author?->name ?? 'Auteur inconnu' }}</span>
-                                </div>
-
-                                @if($article->keywords && is_array($article->keywords) && count($article->keywords) > 0)
-                                <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-5">
-                                    @foreach(array_slice($article->keywords, 0, 3) as $keyword)
-                                    <span class="px-2 sm:px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-lg">{{ $keyword }}</span>
+                            <h3><a href="{{ route('journal.articles.show', $featuredArticle) }}">{{ $featuredArticle->title }}</a></h3>
+                            <div class="article-card-author">
+                                <i class="icon" data-lucide="user" style="width:14px;height:14px;flex:0 0 14px;"></i>
+                                {{ $featuredArticle->author?->name ?? 'Auteur inconnu' }}
+                            </div>
+                            <p class="article-card-abstract">{{ $featuredArticle->abstract }}</p>
+                            @if($featuredArticle->keywords && is_array($featuredArticle->keywords) && count($featuredArticle->keywords) > 0)
+                                <div class="article-keywords">
+                                    @foreach(array_slice($featuredArticle->keywords, 0, 4) as $keyword)
+                                        <span class="keyword">{{ $keyword }}</span>
                                     @endforeach
                                 </div>
+                            @endif
+                            <div class="article-card-footer">
+                                @if($featuredArticle->doi)
+                                    <span class="article-doi">DOI: {{ $featuredArticle->doi }}</span>
+                                @else
+                                    <span class="article-doi">{{ $featuredArticle->journalIssue?->full_reference ?? '' }}</span>
                                 @endif
+                                <a href="{{ route('journal.articles.show', $featuredArticle) }}" class="text-link"><i class="icon icon-teal" data-lucide="arrow-right"></i>Lire</a>
+                            </div>
+                        </div>
+                    </article>
 
-                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-oreina-beige/50">
-                                    @if($article->doi)
-                                    <p class="text-xs sm:text-sm text-slate-500 font-mono break-all">DOI: {{ $article->doi }}</p>
-                                    @else
-                                    <p class="text-xs sm:text-sm text-slate-500">{{ $article->journalIssue?->full_reference ?? '' }}</p>
-                                    @endif
-                                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
-                                        <a href="{{ route('journal.articles.show', $article) }}" class="flex items-center justify-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-oreina-turquoise text-white rounded-lg hover:shadow-md transition-all font-semibold text-xs sm:text-sm">
-                                            Lire l'article
-                                            <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <polyline points="9 18 15 12 9 6"/>
-                                            </svg>
-                                        </a>
-                                    </div>
+                    {{-- Other articles --}}
+                    @foreach($otherArticles as $article)
+                    <article class="article-card">
+                        <div class="article-card-body">
+                            <div class="article-card-meta">
+                                <span class="tag tag-teal"><i class="icon icon-teal" data-lucide="flask-conical"></i>Article</span>
+                                <span class="article-date">{{ $article->published_at?->translatedFormat('d F Y') ?? 'Non publié' }}</span>
+                            </div>
+                            <h3><a href="{{ route('journal.articles.show', $article) }}">{{ $article->title }}</a></h3>
+                            <div class="article-card-author">
+                                <i class="icon" data-lucide="user" style="width:14px;height:14px;flex:0 0 14px;"></i>
+                                {{ $article->author?->name ?? 'Auteur inconnu' }}
+                            </div>
+                            <p class="article-card-abstract">{{ $article->abstract }}</p>
+                            @if($article->keywords && is_array($article->keywords) && count($article->keywords) > 0)
+                                <div class="article-keywords">
+                                    @foreach(array_slice($article->keywords, 0, 3) as $keyword)
+                                        <span class="keyword">{{ $keyword }}</span>
+                                    @endforeach
                                 </div>
+                            @endif
+                            <div class="article-card-footer">
+                                @if($article->doi)
+                                    <span class="article-doi">DOI: {{ $article->doi }}</span>
+                                @else
+                                    <span class="article-doi">{{ $article->journalIssue?->full_reference ?? '' }}</span>
+                                @endif
+                                <a href="{{ route('journal.articles.show', $article) }}" class="text-link"><i class="icon icon-teal" data-lucide="arrow-right"></i>Lire</a>
                             </div>
                         </div>
                     </article>
                     @endforeach
                 </div>
-
-                <div class="mt-8 sm:mt-12 flex justify-center">
-                    <a href="{{ route('journal.articles.index') }}" class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-white text-slate-700 rounded-xl hover:bg-slate-50 transition-all font-semibold border border-oreina-beige/60 hover:shadow-md text-sm sm:text-base text-center">
-                        Voir tous les articles
-                    </a>
-                </div>
             @else
-                <div class="text-center py-12 bg-white rounded-2xl border border-oreina-beige/50">
-                    <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <h3 class="text-lg font-semibold text-slate-900">Aucun article publié</h3>
-                    <p class="text-slate-500 mt-1">Les premiers articles seront bientôt disponibles.</p>
+                <div class="empty-state">
+                    <i class="icon" data-lucide="file-text" style="width:48px;height:48px;color:var(--muted);margin:0 auto;display:block;"></i>
+                    <h3>Aucun article publié</h3>
+                    <p>Les premiers articles seront bientôt disponibles.</p>
                 </div>
             @endif
         </div>
-    </div>
+    </section>
 
-    {{-- CTA Submit --}}
-    <div class="py-12 sm:py-16 px-4 sm:px-6 lg:px-12 bg-white">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="p-3 rounded-2xl bg-oreina-turquoise/10 inline-flex mb-6">
-                <svg class="w-8 h-8 text-oreina-turquoise" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>
-                </svg>
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-oreina-dark mb-4">Publiez vos recherches</h2>
-            <p class="text-slate-600 mb-8 max-w-2xl mx-auto">
-                La revue OREINA publie des articles originaux sur la systématique, l'écologie, la biogéographie et la conservation des Lépidoptères. Soumettez votre manuscrit pour une relecture par les pairs.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('journal.submit') }}" class="btn-turquoise">
-                    Soumettre un article
-                </a>
-                <a href="{{ route('journal.authors') }}" class="btn-secondary">
-                    Instructions aux auteurs
-                </a>
-            </div>
+    {{-- 3. CTA Section --}}
+    <section>
+        <div class="container">
+            <article class="cta-panel">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="pen-tool"></i>Appel à contributions</div>
+                <h2>Publiez vos recherches dans la revue OREINA</h2>
+                <p>La revue publie des articles originaux sur la systématique, l'écologie, la biogéographie et la conservation des Lépidoptères. Soumettez votre manuscrit pour une relecture par les pairs et une diffusion en accès libre avec attribution DOI.</p>
+                <div class="content-actions">
+                    <a href="{{ route('journal.submit') }}" class="btn btn-primary"><i class="icon icon-white" data-lucide="upload"></i>Soumettre un manuscrit</a>
+                    <a href="{{ route('journal.authors') }}" class="btn btn-ghost-light"><i class="icon icon-white" data-lucide="book-open"></i>Instructions aux auteurs</a>
+                </div>
+            </article>
         </div>
-    </div>
+    </section>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+</script>
+@endpush

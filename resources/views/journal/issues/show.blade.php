@@ -4,14 +4,12 @@
 @section('meta_description', $issue->description)
 
 @section('content')
-    <div class="py-8 sm:py-12 px-4 sm:px-6 lg:px-12 bg-gray-50 min-h-screen">
-        <div class="max-w-7xl mx-auto">
+    <div style="padding: 36px 0;">
+        <div class="container">
             {{-- Breadcrumb --}}
             <nav class="flex items-center text-sm text-slate-500 mb-8">
-                <a href="{{ route('journal.issues.index') }}" class="hover:text-oreina-turquoise transition">Archives</a>
-                <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <polyline points="9 18 15 12 9 6"/>
-                </svg>
+                <a href="{{ route('journal.issues.index') }}" class="hover:underline transition" style="color:inherit">Archives</a>
+                <i data-lucide="chevron-right" style="width:16px;height:16px;margin:0 8px"></i>
                 <span class="text-slate-900">{{ $issue->title }}</span>
             </nav>
 
@@ -19,7 +17,7 @@
                 {{-- Cover & Info --}}
                 <div class="lg:col-span-1">
                     <div class="bg-white rounded-3xl p-6 border border-oreina-beige/50 sticky top-24">
-                        <div class="aspect-[3/4] bg-gradient-to-br from-oreina-teal to-oreina-teal-dark rounded-2xl mb-6 flex items-center justify-center">
+                        <div class="aspect-[3/4] rounded-2xl mb-6 flex items-center justify-center" style="background:linear-gradient(135deg,var(--accent),#0d5c55)">
                             @if($issue->cover_image)
                                 <img src="{{ Storage::url($issue->cover_image) }}" alt="{{ $issue->title }}" class="w-full h-full object-cover rounded-2xl">
                             @else
@@ -30,7 +28,7 @@
                             @endif
                         </div>
 
-                        <h1 class="text-2xl font-bold text-oreina-dark mb-2">{{ $issue->title }}</h1>
+                        <h1 class="text-2xl font-bold mb-2">{{ $issue->title }}</h1>
                         <p class="text-slate-500 mb-4">{{ $issue->publication_date?->translatedFormat('F Y') }}</p>
 
                         @if($issue->description)
@@ -53,7 +51,8 @@
                         </div>
 
                         @if($issue->pdf_file)
-                        <a href="{{ Storage::url($issue->pdf_file) }}" class="btn-turquoise w-full mt-6 text-center" target="_blank">
+                        <a href="{{ Storage::url($issue->pdf_file) }}" class="btn btn-primary w-full mt-6 justify-center" target="_blank">
+                            <i data-lucide="download"></i>
                             Télécharger le PDF
                         </a>
                         @endif
@@ -62,14 +61,14 @@
 
                 {{-- Articles --}}
                 <div class="lg:col-span-2">
-                    <h2 class="text-xl font-bold text-oreina-dark mb-6">Sommaire</h2>
+                    <h2 class="text-xl font-bold mb-6">Sommaire</h2>
 
                     @if($articles->count() > 0)
                         <div class="space-y-4">
                             @foreach($articles as $article)
                             <article class="bg-white rounded-2xl p-6 border border-oreina-beige/50 hover:shadow-lg transition">
-                                <h3 class="font-bold text-oreina-dark mb-2">
-                                    <a href="{{ route('journal.articles.show', $article) }}" class="hover:text-oreina-turquoise transition">
+                                <h3 class="font-bold mb-2">
+                                    <a href="{{ route('journal.articles.show', $article) }}" class="hover:underline" style="color:inherit;--hover:var(--accent)">
                                         {{ $article->title }}
                                     </a>
                                 </h3>
