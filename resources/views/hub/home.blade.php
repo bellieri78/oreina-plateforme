@@ -6,7 +6,7 @@
 @push('styles')
 <style>
     /* ── Hero ── */
-    .hero { padding: 0 0 34px; }
+    .hero { padding: 0; }
 
     .hero-card {
         position: relative;
@@ -171,7 +171,7 @@
         display: grid;
         grid-template-columns: 1.5fr 0.95fr;
         gap: 18px;
-        align-items: start;
+        align-items: stretch;
     }
 
     .news-feature,
@@ -260,6 +260,7 @@
     .news-list {
         display: grid;
         gap: 14px;
+        grid-template-rows: 1fr 1fr;
     }
 
     .news-item {
@@ -637,7 +638,7 @@
     </section>
 
     {{-- 2. Actualités Section --}}
-    <section id="actualites">
+    <section id="actualites" style="background:white; width:100vw; margin-left:calc(50% - 50vw); padding-left:calc(50vw - 50%); padding-right:calc(50vw - 50%);"  >
         <div class="container">
             <div class="section-head">
                 <div>
@@ -647,25 +648,37 @@
                 <a href="{{ route('hub.articles.index') }}" class="text-link"><i class="icon icon-blue" data-lucide="arrow-right"></i>Toutes les actualités</a>
             </div>
 
-            @if(isset($latestArticles) && $latestArticles->count() > 0)
+            @php
+                // Merge featured + latest articles, deduplicate, take up to 4
+                $allArticles = collect()
+                    ->merge($featuredArticles ?? collect())
+                    ->merge($latestArticles ?? collect())
+                    ->unique('id')
+                    ->sortByDesc('published_at')
+                    ->values();
+                $mainArticle = $allArticles->first();
+                $sideArticles = $allArticles->skip(1)->take(2);
+            @endphp
+
+            @if($mainArticle)
                 <div class="news-layout">
                     {{-- Featured article --}}
                     <article class="news-feature">
-                        <div class="news-feature-media" style="background-image: url('{{ $latestArticles->first()->featured_image ? Storage::url($latestArticles->first()->featured_image) : '/images/actu2.jpg' }}');"></div>
+                        <div class="news-feature-media" style="background-image: url('{{ $mainArticle->featured_image ? Storage::url($mainArticle->featured_image) : '/images/actu2.jpg' }}');"></div>
                         <div class="news-feature-body">
-                            <div class="tag tag-gold"><i class="icon icon-gold" data-lucide="calendar-days"></i>Événement</div>
-                            <div class="news-date">{{ $latestArticles->first()->published_at->format('d F Y') }}</div>
-                            <h3><a href="{{ route('hub.articles.show', $latestArticles->first()) }}">{{ $latestArticles->first()->title }}</a></h3>
-                            <p>{{ $latestArticles->first()->summary }}</p>
+                            <div class="tag tag-gold"><i class="icon icon-gold" data-lucide="calendar-days"></i>{{ ucfirst($mainArticle->category ?? 'Actualité') }}</div>
+                            <div class="news-date">{{ $mainArticle->published_at->translatedFormat('d F Y') }}</div>
+                            <h3><a href="{{ route('hub.articles.show', $mainArticle) }}">{{ $mainArticle->title }}</a></h3>
+                            <p>{{ $mainArticle->summary }}</p>
                         </div>
                     </article>
 
                     {{-- News list --}}
                     <div class="news-list">
-                        @foreach($latestArticles->skip(1)->take(3) as $article)
+                        @foreach($sideArticles as $article)
                         <article class="news-item">
-                            <div class="tag tag-blue"><i class="icon icon-blue" data-lucide="microscope"></i>Article</div>
-                            <div class="news-date">{{ $article->published_at->format('d F Y') }}</div>
+                            <div class="tag tag-blue"><i class="icon icon-blue" data-lucide="microscope"></i>{{ ucfirst($article->category ?? 'Article') }}</div>
+                            <div class="news-date">{{ $article->published_at->translatedFormat('d F Y') }}</div>
                             <h3><a href="{{ route('hub.articles.show', $article) }}">{{ $article->title }}</a></h3>
                             <p>{{ Str::limit($article->summary, 120) }}</p>
                         </article>
