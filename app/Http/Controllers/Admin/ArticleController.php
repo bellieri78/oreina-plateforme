@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ArticleController extends Controller
@@ -83,6 +84,8 @@ class ArticleController extends Controller
             'author_id' => 'nullable|exists:users,id',
             'is_featured' => 'boolean',
             'published_at' => 'nullable|date',
+            'featured_image' => 'nullable|image|max:5120',
+            'document' => 'nullable|file|max:20480',
         ]);
 
         if (empty($validated['slug'])) {
@@ -98,6 +101,17 @@ class ArticleController extends Controller
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
         }
+
+        if ($request->hasFile('featured_image')) {
+            $validated['featured_image'] = $request->file('featured_image')->store('articles/images', 'public');
+        }
+        unset($validated['featured_image_input']);
+
+        if ($request->hasFile('document')) {
+            $validated['document_name'] = $request->file('document')->getClientOriginalName();
+            $validated['document_path'] = $request->file('document')->store('articles/documents', 'public');
+        }
+        unset($validated['document']);
 
         $article = Article::create($validated);
 
@@ -131,6 +145,8 @@ class ArticleController extends Controller
             'is_featured' => 'boolean',
             'published_at' => 'nullable|date',
             'validation_notes' => 'nullable|string',
+            'featured_image' => 'nullable|image|max:5120',
+            'document' => 'nullable|file|max:20480',
         ]);
 
         if (empty($validated['slug'])) {
@@ -148,6 +164,29 @@ class ArticleController extends Controller
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
         }
+
+        if ($request->hasFile('featured_image')) {
+            if ($article->featured_image) {
+                Storage::disk('public')->delete($article->featured_image);
+            }
+            $validated['featured_image'] = $request->file('featured_image')->store('articles/images', 'public');
+        }
+
+        if ($request->hasFile('document')) {
+            if ($article->document_path) {
+                Storage::disk('public')->delete($article->document_path);
+            }
+            $validated['document_name'] = $request->file('document')->getClientOriginalName();
+            $validated['document_path'] = $request->file('document')->store('articles/documents', 'public');
+        }
+
+        if ($request->boolean('remove_document') && $article->document_path) {
+            Storage::disk('public')->delete($article->document_path);
+            $validated['document_path'] = null;
+            $validated['document_name'] = null;
+        }
+
+        unset($validated['document'], $validated['remove_document']);
 
         $article->update($validated);
 

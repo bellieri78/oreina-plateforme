@@ -64,6 +64,38 @@
             </label>
         </div>
 
+        {{-- Image à la une --}}
+        <div class="form-group">
+            <label class="form-label" for="featured_image">Image à la une</label>
+            @if(isset($article) && $article->featured_image)
+                <div style="margin-bottom: 0.5rem;">
+                    <img src="{{ Storage::url($article->featured_image) }}" alt="Image actuelle" style="max-height: 120px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                </div>
+            @endif
+            <input type="file" name="featured_image" id="featured_image" class="form-input" accept="image/*">
+            <p style="color: #6b7280; font-size: 0.75rem; margin-top: 0.25rem;">JPG, PNG ou WebP. Max 5 Mo.</p>
+            @error('featured_image')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+        </div>
+
+        {{-- Document à télécharger --}}
+        <div class="form-group">
+            <label class="form-label" for="document">Document joint</label>
+            @if(isset($article) && $article->document_path)
+                <div style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: #f3f4f6; border-radius: 8px; font-size: 0.875rem;">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span>{{ $article->document_name ?? 'Document joint' }}</span>
+                    <a href="{{ Storage::url($article->document_path) }}" target="_blank" style="color: #356B8A; font-weight: 600; margin-left: auto;">Voir</a>
+                </div>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem; color: #dc2626; margin-bottom: 0.5rem;">
+                    <input type="checkbox" name="remove_document" value="1" style="width: auto;">
+                    <span>Supprimer le document</span>
+                </label>
+            @endif
+            <input type="file" name="document" id="document" class="form-input">
+            <p style="color: #6b7280; font-size: 0.75rem; margin-top: 0.25rem;">PDF, Word, etc. Max 20 Mo.</p>
+            @error('document')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+        </div>
+
         @if(isset($article))
             <div class="form-group">
                 <label class="form-label" for="validation_notes">Notes de validation</label>
