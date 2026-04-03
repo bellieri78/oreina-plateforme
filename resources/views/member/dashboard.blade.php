@@ -6,7 +6,7 @@
 
 @section('topbar-actions')
     <button class="btn btn-secondary"><i data-lucide="database"></i>Explorer Artemisiae</button>
-    <button class="btn btn-primary"><i data-lucide="plus"></i>Ajouter une observation</button>
+    <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
 @endsection
 
 @section('content')
@@ -36,54 +36,47 @@
             </p>
 
             <div class="quick-actions">
-                <button class="btn btn-primary"><i data-lucide="plus"></i>Ajouter une observation</button>
+                <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
                 <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
-                <a href="{{ route('member.work-groups') }}" class="btn btn-secondary"><i data-lucide="users"></i>Voir les groupes</a>
+                <a href="{{ route('member.lepis') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
             </div>
         </article>
 
         {{-- Right: welcome-side (mini-cards) --}}
         <div class="welcome-side">
             {{-- Latest journal issue --}}
-            @if($isCurrentMember && $latestIssues->count() > 0)
-                @php $latestIssue = $latestIssues->first(); @endphp
-                <article class="mini-card blue">
-                    <div>
-                        <strong>Vol.&nbsp;{{ $latestIssue->volume_number }} — N°{{ $latestIssue->issue_number }}</strong>
-                        <p>Dernier numéro de la revue disponible en consultation.</p>
-                    </div>
-                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Lire le numéro</a>
-                </article>
-            @else
-                <article class="mini-card blue">
-                    <div>
-                        <strong>Revue OREINA</strong>
-                        <p>Accédez aux publications scientifiques du réseau.</p>
-                    </div>
-                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Voir les numéros</a>
-                </article>
-            @endif
-
-            {{-- Membership status --}}
-            <article class="mini-card sage">
+            {{-- Chersotis (revue scientifique) --}}
+            <article class="mini-card blue">
                 <div>
-                    <strong>Cotisation</strong>
-                    @if($isCurrentMember && $currentMembership)
-                        <p>Votre adhésion est active jusqu'au {{ $currentMembership->end_date->format('d/m/Y') }}.</p>
+                    <strong>Chersotis</strong>
+                    @if($isCurrentMember && $latestIssues->count() > 0)
+                        <p>Dernier numéro disponible : Vol.&nbsp;{{ $latestIssues->first()->volume_number }} — N°{{ $latestIssues->first()->issue_number }}</p>
                     @else
-                        <p>Votre adhésion a expiré. Renouvelez pour accéder à tous les services.</p>
+                        <p>La revue scientifique d'OREINA. Articles, publications et soumissions.</p>
                     @endif
                 </div>
-                <a href="{{ route('member.membership') }}" class="text-link"><i data-lucide="credit-card"></i>Gérer mon adhésion</a>
+                <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Consulter Chersotis</a>
             </article>
 
-            {{-- Submit article --}}
+            {{-- Lepis (bulletin adhérents) --}}
+            <article class="mini-card sage">
+                <div>
+                    <strong>Lepis</strong>
+                    <p>Le bulletin trimestriel des adhérents. Actualités, synthèses et contributions.</p>
+                </div>
+                <a href="{{ route('member.lepis') }}" class="text-link"><i data-lucide="newspaper"></i>Consulter Lepis</a>
+            </article>
+
+            {{-- Soumettre --}}
             <article class="mini-card" style="background:var(--blue); color:white;">
                 <div>
-                    <strong style="color:white;">Soumettre un article</strong>
-                    <p style="color:rgba(255,255,255,0.85);">Proposer une contribution pour la revue ou les publications OREINA.</p>
+                    <strong style="color:white;">Soumettre</strong>
+                    <p style="color:rgba(255,255,255,0.85);">Proposer un article pour Chersotis ou une contribution pour Lepis.</p>
                 </div>
-                <span class="text-link" style="color:white;"><i data-lucide="file-plus"></i>Soumettre</span>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <a href="{{ route('journal.submit') }}" class="text-link" style="color:white;"><i data-lucide="file-plus"></i>Chersotis</a>
+                    <a href="{{ route('member.lepis.suggest') }}" class="text-link" style="color:rgba(255,255,255,0.7);"><i data-lucide="newspaper"></i>Lepis</a>
+                </div>
             </article>
         </div>
     </section>
@@ -283,7 +276,7 @@
                 <div class="panel-head">
                     <div>
                         <h2>Derniers numéros</h2>
-                        <p>Les publications récentes de la revue OREINA.</p>
+                        <p>Les publications récentes de Chersotis, la revue scientifique d'OREINA.</p>
                     </div>
                     <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="arrow-right"></i>Tous les numéros</a>
                 </div>
