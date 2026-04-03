@@ -214,6 +214,13 @@ class Member extends Model
             ->withTimestamps();
     }
 
+    public function workGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(WorkGroup::class, 'work_group_member')
+            ->withPivot('role', 'joined_at')
+            ->withTimestamps();
+    }
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'member_tag')

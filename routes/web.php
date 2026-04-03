@@ -12,6 +12,10 @@ use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\Member\MembershipController as MemberMembershipController;
 use App\Http\Controllers\Member\DocumentController as MemberDocumentController;
 use App\Http\Controllers\Member\JournalController as MemberJournalController;
+use App\Http\Controllers\Member\WorkGroupController as MemberWorkGroupController;
+use App\Http\Controllers\Member\LepisController as MemberLepisController;
+use App\Http\Controllers\Member\CommunityController as MemberCommunityController;
+use App\Http\Controllers\Member\ChatController as MemberChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -109,6 +113,26 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
     // Journal
     Route::get('/revue', [MemberJournalController::class, 'index'])->name('journal');
     Route::get('/revue/{issue}/telecharger', [MemberJournalController::class, 'download'])->name('journal.download');
+
+    // Work Groups
+    Route::get('/groupes-de-travail', [MemberWorkGroupController::class, 'index'])->name('work-groups');
+    Route::get('/groupes-de-travail/{workGroup:slug}', [MemberWorkGroupController::class, 'show'])->name('work-groups.show');
+
+    // Lepis
+    Route::get('/lepis', [MemberLepisController::class, 'index'])->name('lepis');
+    Route::get('/lepis/suggerer', [MemberLepisController::class, 'suggest'])->name('lepis.suggest');
+    Route::post('/lepis/suggerer', [MemberLepisController::class, 'storeSuggestion'])->name('lepis.suggest.store');
+    Route::get('/lepis/{bulletin}/telecharger', [MemberLepisController::class, 'download'])->name('lepis.download');
+
+    // Community
+    Route::get('/communaute', [MemberCommunityController::class, 'index'])->name('community');
+    Route::get('/carte', [MemberCommunityController::class, 'map'])->name('map');
+
+    // Chat
+    Route::get('/chat', [MemberChatController::class, 'index'])->name('chat');
+
+    // Mes contributions
+    Route::get('/contributions', [MemberWorkGroupController::class, 'contributions'])->name('contributions');
 });
 
 /*

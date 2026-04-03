@@ -1,180 +1,374 @@
 @extends('layouts.member')
 
 @section('title', 'Tableau de bord')
-@section('subtitle', 'Bienvenue dans votre espace personnel')
+@section('page-title', 'Tableau de bord membre')
+@section('page-subtitle', 'Un cockpit naturaliste simple, lisible et orienté action')
+
+@section('topbar-actions')
+    <button class="btn btn-secondary"><i data-lucide="database"></i>Explorer Artemisiae</button>
+    <button class="btn btn-primary"><i data-lucide="plus"></i>Ajouter une observation</button>
+@endsection
 
 @section('content')
-<div class="space-y-6">
-    {{-- Welcome card --}}
-    <div class="member-card bg-gradient-to-r from-oreina-green/10 to-oreina-turquoise/10">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-                <h2 class="text-2xl font-bold text-oreina-dark mb-2">
-                    Bonjour {{ $member?->first_name ?? $user->name }} !
-                </h2>
+
+    {{-- ═══════════════════════════════════════════════════
+         WELCOME SECTION  (1.35fr + 0.95fr)
+    ═══════════════════════════════════════════════════ --}}
+    <section class="welcome">
+
+        {{-- Left: welcome-main --}}
+        <article class="welcome-main">
+            <div class="eyebrow">
+                <i data-lucide="leaf"></i>
                 @if($isCurrentMember)
-                    <p class="text-gray-600">
-                        Votre adhésion est valide jusqu'au
-                        <span class="font-semibold text-oreina-green">{{ $currentMembership->end_date->format('d/m/Y') }}</span>
-                    </p>
+                    Bienvenue sur votre espace OREINA
                 @else
-                    <p class="text-gray-600">
-                        Vous n'avez pas d'adhésion active.
-                        <a href="{{ route('hub.membership') }}" class="text-oreina-green font-semibold hover:underline">Adhérez maintenant</a>
-                    </p>
+                    Votre adhésion a expiré
                 @endif
             </div>
-            @if($isCurrentMember)
-                <span class="status-badge active">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                    </svg>
-                    Adhérent à jour
-                </span>
+
+            <h1>Bonjour {{ $member?->first_name ?? $user->name }}, prêt à contribuer au réseau aujourd'hui&nbsp;?</h1>
+
+            <p>
+                Cet espace membre est pensé comme un outil d'action&nbsp;: suivre vos contributions,
+                retrouver vos dernières activités, accéder rapidement à Artemisiae
+                et rester connecté à la vie du réseau.
+            </p>
+
+            <div class="quick-actions">
+                <button class="btn btn-primary"><i data-lucide="plus"></i>Ajouter une observation</button>
+                <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
+                <a href="{{ route('member.work-groups') }}" class="btn btn-secondary"><i data-lucide="users"></i>Voir les groupes</a>
+            </div>
+        </article>
+
+        {{-- Right: welcome-side (mini-cards) --}}
+        <div class="welcome-side">
+            {{-- Latest journal issue --}}
+            @if($isCurrentMember && $latestIssues->count() > 0)
+                @php $latestIssue = $latestIssues->first(); @endphp
+                <article class="mini-card blue">
+                    <div>
+                        <strong>Vol.&nbsp;{{ $latestIssue->volume_number }} — N°{{ $latestIssue->issue_number }}</strong>
+                        <p>Dernier numéro de la revue disponible en consultation.</p>
+                    </div>
+                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Lire le numéro</a>
+                </article>
             @else
-                <span class="status-badge expired">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                    </svg>
-                    Adhésion expirée
-                </span>
+                <article class="mini-card blue">
+                    <div>
+                        <strong>Revue OREINA</strong>
+                        <p>Accédez aux publications scientifiques du réseau.</p>
+                    </div>
+                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Voir les numéros</a>
+                </article>
             @endif
-        </div>
-    </div>
 
-    {{-- Stats --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="member-stat">
-            <div class="member-stat-value">{{ $stats['membership_years'] }}</div>
-            <div class="member-stat-label">Année(s) d'adhésion</div>
-        </div>
-        <div class="member-stat">
-            <div class="member-stat-value">{{ number_format($stats['total_donations'], 0, ',', ' ') }} €</div>
-            <div class="member-stat-label">Total des dons</div>
-        </div>
-        <div class="member-stat">
-            <div class="member-stat-value">{{ $stats['donation_count'] }}</div>
-            <div class="member-stat-label">Don(s) effectué(s)</div>
-        </div>
-    </div>
+            {{-- Membership status --}}
+            <article class="mini-card sage">
+                <div>
+                    <strong>Cotisation</strong>
+                    @if($isCurrentMember && $currentMembership)
+                        <p>Votre adhésion est active jusqu'au {{ $currentMembership->end_date->format('d/m/Y') }}.</p>
+                    @else
+                        <p>Votre adhésion a expiré. Renouvelez pour accéder à tous les services.</p>
+                    @endif
+                </div>
+                <a href="{{ route('member.membership') }}" class="text-link"><i data-lucide="credit-card"></i>Gérer mon adhésion</a>
+            </article>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {{-- Quick actions --}}
-        <div class="member-card">
-            <div class="member-card-header">
-                <svg class="w-5 h-5 text-oreina-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                <h3 class="member-card-title">Actions rapides</h3>
-            </div>
-            <div class="space-y-3">
-                <a href="{{ route('member.profile') }}" class="document-item">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                        </div>
-                        <span class="font-medium text-oreina-dark">Modifier mon profil</span>
+            {{-- Submit article --}}
+            <article class="mini-card" style="background:var(--blue); color:white;">
+                <div>
+                    <strong style="color:white;">Soumettre un article</strong>
+                    <p style="color:rgba(255,255,255,0.85);">Proposer une contribution pour la revue ou les publications OREINA.</p>
+                </div>
+                <span class="text-link" style="color:white;"><i data-lucide="file-plus"></i>Soumettre</span>
+            </article>
+        </div>
+    </section>
+
+    {{-- ═══════════════════════════════════════════════════
+         MAIN GRID  (1.15fr + 0.95fr)
+    ═══════════════════════════════════════════════════ --}}
+    <section class="grid">
+
+        {{-- ── LEFT STACK ── --}}
+        <div class="stack">
+
+            {{-- Contributions panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Mes contributions</h2>
+                        <p>Un résumé de vos indicateurs : adhésion, dons, participations.</p>
                     </div>
-                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
+                </div>
 
-                @if($isCurrentMember)
-                <a href="{{ route('member.membership.card') }}" class="document-item">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/>
-                            </svg>
-                        </div>
-                        <span class="font-medium text-oreina-dark">Télécharger ma carte</span>
+                <div class="contrib-grid">
+                    <div class="stat">
+                        <strong>{{ $stats['membership_years'] }}</strong>
+                        <span>année(s) d'adhésion</span>
                     </div>
-                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                    </svg>
-                </a>
+                    <div class="stat">
+                        <strong>{{ number_format($stats['total_donations'], 0, ',', ' ') }}&nbsp;€</strong>
+                        <span>total des dons</span>
+                    </div>
+                    <div class="stat">
+                        <strong>{{ $stats['donation_count'] }}</strong>
+                        <span>don(s) enregistré(s)</span>
+                    </div>
+                </div>
+            </article>
+
+            {{-- Activity feed panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Activité récente</h2>
+                        <p>Votre flux personnel et les dernières actions dans vos espaces.</p>
+                    </div>
+                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>Tout voir</a>
+                </div>
+
+                @if($member)
+                    @livewire('member.activity-feed', ['memberId' => $member->id, 'isCurrentMember' => $isCurrentMember])
+                @else
+                    <div class="activity-list">
+                        <article class="activity-item">
+                            <div class="bullet"><i data-lucide="user-round"></i></div>
+                            <div>
+                                <strong>Complétez votre profil</strong>
+                                <p>Renseignez vos informations pour accéder à toutes les fonctionnalités de votre espace membre.</p>
+                            </div>
+                            <div class="time">Maintenant</div>
+                        </article>
+                    </div>
                 @endif
+            </article>
 
-                <a href="{{ route('member.documents') }}" class="document-item">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                            </svg>
-                        </div>
-                        <span class="font-medium text-oreina-dark">Mes documents</span>
-                    </div>
-                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-
-        {{-- Recent donations --}}
-        <div class="member-card">
-            <div class="member-card-header">
-                <svg class="w-5 h-5 text-oreina-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <h3 class="member-card-title">Derniers dons</h3>
-            </div>
+            {{-- Recent donations panel --}}
             @if($recentDonations->count() > 0)
-                <div class="space-y-3">
-                    @foreach($recentDonations as $donation)
-                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                        <div>
-                            <div class="font-medium text-oreina-dark">{{ number_format($donation->amount, 2, ',', ' ') }} €</div>
-                            <div class="text-sm text-gray-500">{{ $donation->donation_date->format('d/m/Y') }}</div>
-                        </div>
-                        <a href="{{ route('member.documents.cerfa', $donation) }}" class="text-sm text-oreina-green hover:underline">
-                            Reçu fiscal
-                        </a>
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Derniers dons</h2>
+                        <p>Vos dons récents et reçus fiscaux disponibles.</p>
                     </div>
+                    <a href="{{ route('member.documents') }}" class="text-link"><i data-lucide="arrow-right"></i>Mes documents</a>
+                </div>
+
+                <div class="activity-list">
+                    @foreach($recentDonations as $donation)
+                    <article class="activity-item">
+                        <div class="bullet gold"><i data-lucide="heart"></i></div>
+                        <div>
+                            <strong>{{ number_format($donation->amount, 2, ',', ' ') }} €</strong>
+                            <p>Don du {{ $donation->donation_date->format('d/m/Y') }}</p>
+                        </div>
+                        <a href="{{ route('member.documents.cerfa', $donation) }}" class="text-link"><i data-lucide="download"></i>Reçu fiscal</a>
+                    </article>
                     @endforeach
                 </div>
-                <a href="{{ route('member.documents') }}" class="block mt-4 text-center text-sm text-oreina-green font-medium hover:underline">
-                    Voir tous mes documents
-                </a>
-            @else
-                <p class="text-gray-500 text-center py-4">Aucun don enregistré</p>
+            </article>
             @endif
         </div>
-    </div>
 
-    {{-- Latest journal issues (for members) --}}
-    @if($isCurrentMember && count($latestIssues) > 0)
-    <div class="member-card">
-        <div class="member-card-header">
-            <svg class="w-5 h-5 text-oreina-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-            </svg>
-            <h3 class="member-card-title">Derniers numéros de la revue</h3>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            @foreach($latestIssues as $issue)
-            <div class="border border-gray-200 rounded-lg p-4 hover:border-oreina-green transition">
-                <div class="text-sm text-gray-500 mb-1">Vol. {{ $issue->volume }} - N°{{ $issue->issue_number }}</div>
-                <div class="font-medium text-oreina-dark mb-2">{{ $issue->title ?? 'OREINA' }}</div>
-                <div class="text-xs text-gray-400 mb-3">{{ $issue->publication_date?->format('F Y') }}</div>
-                @if($issue->pdf_file)
-                <a href="{{ route('member.journal.download', $issue) }}" class="inline-flex items-center gap-1 text-sm text-oreina-green font-medium hover:underline">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        {{-- ── RIGHT STACK ── --}}
+        <div class="stack">
+
+            {{-- Réseau des adhérents (carte) --}}
+            <article class="card panel" style="background:var(--forest); color:white; border:none;">
+                <div class="panel-head">
+                    <div>
+                        <h2 style="color:white;">Réseau des adhérents</h2>
+                        <p style="color:rgba(255,255,255,0.8);">Visualiser la répartition des membres et accéder à la carte interactive.</p>
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;justify-content:center;height:160px;border-radius:16px;background:rgba(255,255,255,0.08);margin-top:10px;position:relative;overflow:hidden;">
+                    {{-- Mini silhouette France SVG --}}
+                    <svg viewBox="0 0 200 200" style="width:140px;height:140px;opacity:0.25;" fill="white">
+                        <path d="M100,10 L120,25 L140,20 L155,35 L165,55 L170,75 L160,85 L170,100 L165,115 L155,125 L145,140 L130,155 L120,170 L100,180 L85,175 L75,185 L60,175 L50,160 L40,145 L35,130 L30,115 L35,100 L30,85 L35,70 L45,55 L55,40 L70,30 L85,20 Z"/>
                     </svg>
-                    Télécharger
-                </a>
-                @endif
-            </div>
-            @endforeach
+                    <div style="position:absolute;text-align:center;">
+                        <div style="font-size:28px;font-weight:800;letter-spacing:-0.04em;">
+                            @php
+                                $totalActiveMembers = \App\Models\Member::where('is_active', true)->count();
+                            @endphp
+                            {{ $totalActiveMembers }}
+                        </div>
+                        <div style="font-size:13px;color:rgba(255,255,255,0.7);">membres actifs</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:16px;">
+                    <a href="{{ route('member.map') }}" class="btn btn-primary"><i data-lucide="map"></i>Explorer la carte</a>
+                </div>
+            </article>
+
+            {{-- Todo / Actions panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>À faire</h2>
+                        <p>Les actions qui doivent ressortir tout de suite.</p>
+                    </div>
+                </div>
+
+                <div class="todo-list">
+                    @if(!$member || !$member->biography)
+                    <article class="todo-item">
+                        <div>
+                            <strong>Compléter votre présentation membre</strong>
+                            <p>Ajoutez une courte biographie et vos centres d'intérêt pour mieux apparaître dans le réseau.</p>
+                        </div>
+                        <span class="status gold">Prioritaire</span>
+                    </article>
+                    @endif
+
+                    @if(!$isCurrentMember)
+                    <article class="todo-item">
+                        <div>
+                            <strong>Mettre à jour votre adhésion</strong>
+                            <p>Votre cotisation a expiré. Renouvelez pour continuer à accéder à tous les services.</p>
+                        </div>
+                        <span class="status blue">À traiter</span>
+                    </article>
+                    @endif
+
+                    @if($workGroups->count() > 0 && count($myGroupIds) === 0)
+                    <article class="todo-item">
+                        <div>
+                            <strong>Rejoindre un groupe de travail</strong>
+                            <p>Choisissez vos thématiques ou espaces de contribution pour personnaliser votre tableau de bord.</p>
+                        </div>
+                        <span class="status sage">Suggestion</span>
+                    </article>
+                    @endif
+                </div>
+            </article>
+
+            {{-- Espaces collaboratifs / GT panel --}}
+            @if($workGroups->count() > 0)
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Mes espaces</h2>
+                        <p>Les groupes de travail et espaces collaboratifs auxquels vous participez.</p>
+                    </div>
+                    <a href="{{ route('member.work-groups') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir tous mes espaces</a>
+                </div>
+
+                <div class="news-list">
+                    @foreach($workGroups->take(3) as $index => $gt)
+                    <article class="news-item" @if($index === 0) style="background:#EEF4F8;" @elseif($index === 1) style="background:#EEF6F1;" @else style="background:#FAF8F5;" @endif>
+                        <strong>{{ $gt->name }}</strong>
+                        <p>{{ Str::limit($gt->description, 120) }}</p>
+                        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                            @if(in_array($gt->id, $myGroupIds))
+                                <span class="badge sage">Membre</span>
+                            @endif
+                            <span class="badge">{{ $gt->members_count }} membres</span>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+            </article>
+            @endif
+
+            {{-- Journal issues panel --}}
+            @if($isCurrentMember && $latestIssues->count() > 0)
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Derniers numéros</h2>
+                        <p>Les publications récentes de la revue OREINA.</p>
+                    </div>
+                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="arrow-right"></i>Tous les numéros</a>
+                </div>
+
+                <div class="news-list">
+                    @foreach($latestIssues as $issue)
+                    <article class="news-item">
+                        <strong>{{ $issue->title ?? 'OREINA' }} — Vol.&nbsp;{{ $issue->volume_number }} N°{{ $issue->issue_number }}</strong>
+                        <p>{{ $issue->publication_date?->translatedFormat('F Y') }}</p>
+                        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                            @if($issue->pdf_file)
+                                <a href="{{ route('member.journal.download', $issue) }}" class="badge blue">Télécharger le PDF</a>
+                            @endif
+                            <span class="badge">Publié</span>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+            </article>
+            @endif
+
+            {{-- Vie du réseau --}}
+            @if($upcomingEvents->count() > 0)
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Vie du réseau</h2>
+                        <p>Prochains événements et actualités de la communauté OREINA.</p>
+                    </div>
+                    <a href="{{ route('member.community') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir l'agenda</a>
+                </div>
+
+                <div class="news-list">
+                    @foreach($upcomingEvents->take(3) as $event)
+                    <article class="news-item">
+                        <strong>{{ $event->title }}</strong>
+                        <p>{{ $event->start_date->translatedFormat('l j F Y') }} @if($event->location_city)· {{ $event->location_city }}@endif</p>
+                        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                            <span class="badge blue">{{ ucfirst($event->event_type ?? 'Événement') }}</span>
+                            @if($event->start_date->diffInDays(now()) < 7)
+                                <span class="badge gold">Bientôt</span>
+                            @endif
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+            </article>
+            @endif
+
+            {{-- Quick access panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Accès rapides</h2>
+                        <p>Trois entrées simples vers vos outils essentiels.</p>
+                    </div>
+                </div>
+
+                <div class="todo-list">
+                    <article class="todo-item">
+                        <div>
+                            <strong>Explorer Artemisiae</strong>
+                            <p>Retrouvez le portail national, vos filtres et vos espaces de consultation.</p>
+                        </div>
+                        <span class="status blue">Portail</span>
+                    </article>
+
+                    <article class="todo-item">
+                        <div>
+                            <strong>Mes ressources</strong>
+                            <p>Guides, documents, revue et contenus utiles à vos activités naturalistes.</p>
+                        </div>
+                        <span class="status sage">Documents</span>
+                    </article>
+
+                    <article class="todo-item">
+                        <div>
+                            <strong>Mon profil public</strong>
+                            <p>Vérifiez les informations visibles et la manière dont vous apparaissez dans le réseau.</p>
+                        </div>
+                        <span class="status gold">Profil</span>
+                    </article>
+                </div>
+            </article>
         </div>
-        <a href="{{ route('member.journal') }}" class="block mt-4 text-center text-sm text-oreina-green font-medium hover:underline">
-            Voir tous les numéros
-        </a>
-    </div>
-    @endif
-</div>
+    </section>
+
 @endsection

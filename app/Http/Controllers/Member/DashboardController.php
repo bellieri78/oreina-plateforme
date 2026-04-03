@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
-use App\Models\Member;
+use App\Models\Event;
 use App\Models\JournalIssue;
+use App\Models\Member;
+use App\Models\WorkGroup;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,24 +16,34 @@ class DashboardController extends Controller
         $user = auth()->user();
         $member = Member::where('user_id', $user->id)->first();
 
-        // Get membership info
         $currentMembership = $member?->currentMembership();
         $isCurrentMember = $member?->isCurrentMember() ?? false;
 
-        // Get recent donations
+        // Recent donations
         $recentDonations = $member?->donations()
             ->orderBy('donation_date', 'desc')
             ->limit(3)
             ->get() ?? collect();
 
-        // Get latest journal issues (for members)
-        $latestIssues = [];
+        // Latest journal issues (for members)
+        $latestIssues = collect();
         if ($isCurrentMember) {
             $latestIssues = JournalIssue::where('status', 'published')
                 ->orderBy('publication_date', 'desc')
                 ->limit(3)
                 ->get();
         }
+
+        // Work Groups
+        $workGroups = WorkGroup::active()->withCount('members')->orderBy('name')->limit(3)->get();
+        $myGroupIds = $member?->workGroups()->pluck('work_groups.id')->toArray() ?? [];
+
+        // Upcoming events
+        $upcomingEvents = Event::where('status', 'published')
+            ->where('start_date', '>=', now())
+            ->orderBy('start_date', 'asc')
+            ->limit(5)
+            ->get();
 
         // Stats
         $stats = [
@@ -47,7 +59,10 @@ class DashboardController extends Controller
             'isCurrentMember',
             'recentDonations',
             'latestIssues',
-            'stats'
+            'workGroups',
+            'myGroupIds',
+            'stats',
+            'upcomingEvents'
         ));
     }
 }
