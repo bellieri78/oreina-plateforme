@@ -4,18 +4,16 @@
 @section('meta_description', 'Archives de la revue OREINA - Consultez tous les numéros publiés.')
 
 @section('content')
-    <div class="py-8 sm:py-12 px-4 sm:px-6 lg:px-12 bg-gray-50 min-h-screen">
-        <div class="max-w-7xl mx-auto">
+    <div style="padding: 36px 0;">
+        <div class="container">
             {{-- Header --}}
             <div class="mb-8 sm:mb-12">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="p-3 rounded-2xl bg-oreina-turquoise/10">
-                        <svg class="w-7 h-7 text-oreina-turquoise" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-                        </svg>
+                    <div class="p-3 rounded-2xl" style="background:var(--accent-surface)">
+                        <i data-lucide="book-open" style="width:28px;height:28px;color:var(--accent)"></i>
                     </div>
                     <div>
-                        <h1 class="text-3xl sm:text-4xl font-bold text-oreina-dark">Archives</h1>
+                        <h1 class="text-3xl sm:text-4xl font-bold">Archives</h1>
                         <p class="text-slate-600 mt-1">Tous les numéros de la revue OREINA</p>
                     </div>
                 </div>
@@ -25,8 +23,8 @@
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     @foreach($issues as $issue)
                     <article class="card group">
-                        {{-- Cover placeholder --}}
-                        <div class="aspect-[3/4] bg-gradient-to-br from-oreina-teal to-oreina-teal-dark rounded-2xl mb-4 flex items-center justify-center relative overflow-hidden">
+                        {{-- Cover --}}
+                        <div class="aspect-[3/4] rounded-2xl mb-4 flex items-center justify-center relative overflow-hidden" style="background:linear-gradient(135deg,var(--accent),#0d5c55)">
                             @if($issue->cover_image)
                                 <img src="{{ Storage::url($issue->cover_image) }}" alt="{{ $issue->title }}" class="w-full h-full object-cover">
                             @else
@@ -37,7 +35,7 @@
                             @endif
                         </div>
 
-                        <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-turquoise transition">
+                        <h3 class="font-bold mb-2">
                             {{ $issue->title }}
                         </h3>
 
@@ -49,11 +47,9 @@
                         <p class="text-xs text-slate-400 mb-4">{{ $issue->page_count }} pages</p>
                         @endif
 
-                        <a href="{{ route('journal.issues.show', $issue) }}" class="inline-flex items-center gap-2 text-sm font-semibold text-oreina-turquoise hover:text-oreina-teal transition">
+                        <a href="{{ route('journal.issues.show', $issue) }}" class="text-link inline-flex items-center gap-2 text-sm font-semibold" style="color:var(--accent)">
                             Consulter
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <polyline points="9 18 15 12 9 6"/>
-                            </svg>
+                            <i data-lucide="chevron-right" style="width:16px;height:16px"></i>
                         </a>
                     </article>
                     @endforeach
@@ -64,9 +60,7 @@
                 </div>
             @else
                 <div class="text-center py-16 bg-white rounded-2xl border border-oreina-beige/50">
-                    <svg class="w-20 h-20 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-                    </svg>
+                    <i data-lucide="book-open" style="width:80px;height:80px;color:#cbd5e1;margin:0 auto 16px"></i>
                     <h3 class="text-xl font-semibold text-slate-900">Aucun numéro publié</h3>
                     <p class="text-slate-500 mt-2">Les archives seront bientôt disponibles.</p>
                 </div>
