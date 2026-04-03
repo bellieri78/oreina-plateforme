@@ -60,8 +60,10 @@
         margin: 0;
         max-width: 900px;
         font-size: clamp(42px, 6vw, 76px);
+        font-weight: 700;
         line-height: 0.94;
         letter-spacing: -0.06em;
+        color: white;
     }
 
     .hero p {
@@ -584,7 +586,7 @@
 
                 <div class="hero-bottom">
                     <div class="hero-credit">
-                        <strong style="display:block;color:white;font-size:14px;margin-bottom:4px;letter-spacing:-0.01em;">Melitaea cinxia — Mélitée du plantain</strong>
+                        <strong style="display:block;color:white;font-size:14px;margin-bottom:4px;letter-spacing:-0.01em;">Argolamprotes micella</strong>
                         <span>Photographie : OREINA</span>
                     </div>
 
@@ -800,11 +802,11 @@
             <div class="content-panel">
                 <div class="eyebrow gold"><i class="icon icon-gold" data-lucide="users-round"></i>Communauté</div>
                 <div class="content-body">
-                    <h3>Un réseau actif de naturalistes, d'experts et de contributeurs</h3>
-                    <p>OREINA, c'est avant tout une communauté. Adhésion, échanges, groupes de travail, ateliers, prospections et projets partagés : la dimension humaine est au c&#339;ur de l'association.</p>
-                    <p>C'est cette articulation entre communauté, expertise et outils qui donne à OREINA sa singularité.</p>
+                    <h3>Des groupes de travail pour contribuer activement</h3>
+                    <p>Participez activement à l'amélioration des connaissances en rejoignant nos groupes thématiques : taxonomie, écologie, conservation, et bien plus encore. Chaque groupe structure ses échanges, partage ses ressources et fait avancer des projets concrets.</p>
+                    <p>Que vous soyez débutant ou expert, il y a un espace pour vous dans le réseau OREINA.</p>
                     <div class="content-actions">
-                        <a href="{{ route('hub.about') }}" class="btn btn-secondary"><i class="icon icon-blue" data-lucide="users"></i>Découvrir le réseau</a>
+                        <a href="{{ route('member.work-groups') }}" class="btn btn-secondary"><i class="icon icon-blue" data-lucide="users"></i>Voir les groupes</a>
                         <a href="{{ route('hub.membership') }}" class="btn btn-primary"><i class="icon icon-sage" data-lucide="heart-plus"></i>Rejoindre OREINA</a>
                     </div>
                 </div>

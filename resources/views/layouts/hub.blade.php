@@ -138,23 +138,20 @@
             min-width: 0;
         }
         .brand-mark {
-            width: 52px;
             height: 52px;
-            border-radius: 16px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            display: grid;
-            place-items: center;
+            width: auto;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 900;
             color: var(--forest);
             overflow: hidden;
             flex-shrink: 0;
         }
         .brand-mark img {
-            width: 100%;
             height: 100%;
-            object-fit: cover;
+            width: auto;
         }
         .brand-text {
             display: flex;
