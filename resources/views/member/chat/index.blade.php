@@ -1,19 +1,16 @@
 @extends('layouts.member')
 
 @section('title', 'Discussion membres')
+@section('page-title', 'Discussion membres')
+@section('page-subtitle', 'Échangez avec les autres adhérents')
 
 @section('content')
 <div class="space-y-4">
-    <div>
-        <h1 class="text-xl font-bold text-oreina-dark">Discussion membres</h1>
-        <p class="text-sm text-gray-400 mt-0.5">Échangez avec les autres adhérents</p>
-    </div>
-
-    <div class="member-card">
+    <div class="card panel">
         @if($member)
             @livewire('member.chat', ['memberId' => $member->id, 'expanded' => true])
         @else
-            <p class="text-gray-400 text-sm text-center py-6">Complétez votre profil pour accéder au chat</p>
+            <p class="text-sm text-center py-6" style="color:var(--muted)">Complétez votre profil pour accéder au chat</p>
         @endif
     </div>
 </div>
