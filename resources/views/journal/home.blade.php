@@ -1,7 +1,7 @@
 @extends('layouts.journal')
 
 @section('title', 'Accueil')
-@section('meta_description', 'Revue OREINA - Accès libre à des articles scientifiques de haute qualité sur les Lépidoptères de France.')
+@section('meta_description', 'Chersotis - Revue scientifique OREINA. Accès libre à des articles de haute qualité sur les Lépidoptères de France.')
 
 @push('styles')
 <style>
@@ -11,7 +11,7 @@
     .hero-card {
         position: relative;
         overflow: hidden;
-        min-height: 60vh;
+        min-height: 92vh;
         border-radius: 0;
         background:
             linear-gradient(rgba(15,118,110,0.52), rgba(13,75,70,0.72)),
@@ -490,7 +490,7 @@
         }
 
         .hero-card {
-            min-height: 55vh;
+            min-height: 82vh;
         }
 
         .hero-bottom {
@@ -524,7 +524,7 @@
         <article class="hero-card">
             <div class="hero-content">
                 <div class="eyebrow"><i class="icon icon-white" data-lucide="book-open-text"></i>Peer-reviewed &middot; Open access</div>
-                <h1>Revue scientifique OREINA</h1>
+                <h1>Chersotis, la revue scientifique d'OREINA</h1>
                 <p>Articles originaux sur la systématique, l'écologie, la biogéographie et la conservation des Lépidoptères de France. Relecture par les pairs et publication en flux continu.</p>
 
                 <div class="hero-actions">

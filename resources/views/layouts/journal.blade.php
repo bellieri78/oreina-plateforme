@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@yield('meta_description', 'Revue OREINA - Publication scientifique sur les Lépidoptères de France')">
-    <title>@yield('title', 'Revue OREINA') - Journal des Lépidoptères de France</title>
+    <meta name="description" content="@yield('meta_description', 'Chersotis - Revue scientifique OREINA sur les Lépidoptères de France')">
+    <title>@yield('title', 'Chersotis') - Revue scientifique OREINA</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,7 +143,7 @@
         }
         .brand-mark {
             height: 52px;
-            width: 52px;
+            width: auto;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -161,7 +161,7 @@
             flex-direction: column;
             gap: 2px;
             min-width: 0;
-            border-left: 1px solid rgba(15,118,110,0.3);
+            border-left: 1px solid #DBCBC7;
             padding-left: 1rem;
         }
         .brand-text strong {
