@@ -1,152 +1,316 @@
 @extends('layouts.member')
 
 @section('title', 'Tableau de bord')
+@section('page-title', 'Tableau de bord membre')
+@section('page-subtitle', 'Un cockpit naturaliste simple, lisible et orienté action')
+
+@section('topbar-actions')
+    <button class="btn btn-secondary"><i data-lucide="database"></i>Explorer Artemisiae</button>
+    <button class="btn btn-primary"><i data-lucide="plus"></i>Ajouter une observation</button>
+@endsection
 
 @section('content')
-<div class="space-y-6">
-    {{-- Greeting header --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-            <h1 class="text-xl font-bold text-oreina-dark">
-                Bonjour, <span class="text-oreina-green">{{ $member?->first_name ?? $user->name }}</span> !
-            </h1>
-            <p class="text-sm text-gray-400 mt-0.5">
-                {{ now()->translatedFormat('l j F Y') }}
-                @if($isCurrentMember)
-                    — Bonne saison de terrain !
-                @endif
-            </p>
-        </div>
-        <div class="flex items-center gap-2">
-            @if($isCurrentMember)
-                <span class="status-badge active">
-                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                    Adhérent à jour
-                </span>
-            @else
-                <span class="status-badge expired">Adhésion expirée</span>
-                <a href="{{ route('hub.membership') }}" class="btn-member text-xs">Renouveler</a>
-            @endif
-        </div>
-    </div>
 
-    {{-- GT cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        @if($workGroups->count() > 0)
-            @foreach($workGroups as $gt)
-            <a href="{{ $gt->website_url ?? route('member.work-groups') }}" class="block" style="background: linear-gradient(135deg, {{ $gt->color }}, {{ $gt->color }}cc); padding: 1.5rem; border-radius: 1.5rem; color: white; min-height: 110px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: all 0.3s ease; box-shadow: 0 10px 30px {{ $gt->color }}40;" onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 15px 40px {{ $gt->color }}50'" onmouseleave="this.style.transform='';this.style.boxShadow='0 10px 30px {{ $gt->color }}40'">
-                <div style="position: absolute; top: -20px; right: -20px; width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.12);"></div>
-                <div style="position: absolute; bottom: -10px; left: -10px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08);"></div>
+    {{-- ═══════════════════════════════════════════════════
+         WELCOME SECTION  (1.35fr + 0.95fr)
+    ═══════════════════════════════════════════════════ --}}
+    <section class="welcome">
+
+        {{-- Left: welcome-main --}}
+        <article class="welcome-main">
+            <div class="eyebrow">
+                <i data-lucide="leaf"></i>
+                @if($isCurrentMember)
+                    Bienvenue sur votre espace OREINA
+                @else
+                    Votre adhésion a expiré
+                @endif
+            </div>
+
+            <h1>Bonjour {{ $member?->first_name ?? $user->name }}, prêt à contribuer au réseau aujourd'hui&nbsp;?</h1>
+
+            <p>
+                Cet espace membre est pensé comme un outil d'action&nbsp;: suivre vos contributions,
+                retrouver vos dernières activités, accéder rapidement à Artemisiae
+                et rester connecté à la vie du réseau.
+            </p>
+
+            <div class="quick-actions">
+                <button class="btn btn-primary"><i data-lucide="plus"></i>Ajouter une observation</button>
+                <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
+                <a href="{{ route('member.work-groups') }}" class="btn btn-secondary"><i data-lucide="users"></i>Voir les groupes</a>
+            </div>
+        </article>
+
+        {{-- Right: welcome-side (mini-cards) --}}
+        <div class="welcome-side">
+            {{-- Latest journal issue --}}
+            @if($isCurrentMember && $latestIssues->count() > 0)
+                @php $latestIssue = $latestIssues->first(); @endphp
+                <article class="mini-card blue">
+                    <div>
+                        <strong>Vol.&nbsp;{{ $latestIssue->volume_number }} — N°{{ $latestIssue->issue_number }}</strong>
+                        <p>Dernier numéro de la revue disponible en consultation.</p>
+                    </div>
+                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Lire le numéro</a>
+                </article>
+            @else
+                <article class="mini-card blue">
+                    <div>
+                        <strong>Revue OREINA</strong>
+                        <p>Accédez aux publications scientifiques du réseau.</p>
+                    </div>
+                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Voir les numéros</a>
+                </article>
+            @endif
+
+            {{-- Membership status --}}
+            <article class="mini-card sage">
                 <div>
-                    <div style="font-weight: 700; font-size: 0.9375rem;">{{ $gt->name }}</div>
-                    <div style="font-size: 0.6875rem; opacity: 0.85; margin-top: 0.25rem;">{{ Str::limit($gt->description, 50) }}</div>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem;">
-                    <div style="font-size: 0.6875rem; opacity: 0.8;">{{ $gt->members_count }} membres</div>
-                    @if(in_array($gt->id, $myGroupIds))
-                        <span style="font-size: 0.625rem; background: rgba(255,255,255,0.25); padding: 0.2rem 0.625rem; border-radius: 9999px; font-weight: 600; backdrop-filter: blur(8px);">Membre</span>
+                    <strong>Cotisation</strong>
+                    @if($isCurrentMember && $currentMembership)
+                        <p>Votre adhésion est active jusqu'au {{ $currentMembership->end_date->format('d/m/Y') }}.</p>
+                    @else
+                        <p>Votre adhésion a expiré. Renouvelez pour accéder à tous les services.</p>
                     @endif
                 </div>
-            </a>
-            @endforeach
-        @else
-            <div class="gt-card-placeholder">
-                <div class="label">Groupes de travail</div>
-                <div class="sub">Aucun groupe actif</div>
-            </div>
-        @endif
-    </div>
+                <a href="{{ route('member.membership') }}" class="text-link"><i data-lucide="credit-card"></i>Gérer mon adhésion</a>
+            </article>
 
-    {{-- Stats row --}}
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="member-stat">
-            <div class="member-stat-value">{{ $stats['membership_years'] }}</div>
-            <div class="member-stat-label">Année(s) adhésion</div>
+            {{-- Submit article --}}
+            <article class="mini-card" style="background:var(--blue); color:white;">
+                <div>
+                    <strong style="color:white;">Soumettre un article</strong>
+                    <p style="color:rgba(255,255,255,0.85);">Proposer une contribution pour la revue ou les publications OREINA.</p>
+                </div>
+                <span class="text-link" style="color:white;"><i data-lucide="file-plus"></i>Soumettre</span>
+            </article>
         </div>
-        <div class="member-stat">
-            <div class="member-stat-value">{{ number_format($stats['total_donations'], 0, ',', ' ') }} €</div>
-            <div class="member-stat-label">Total dons</div>
-        </div>
-        <div class="member-stat">
-            <div class="member-stat-value">{{ $stats['donation_count'] }}</div>
-            <div class="member-stat-label">Don(s)</div>
-        </div>
-        <div class="member-stat" style="border: 2px dashed rgba(219,203,199,0.4); background: rgba(219,203,199,0.06);">
-            <div class="member-stat-value" style="color: #DBCBC7;">—</div>
-            <div class="member-stat-label">Observations <span class="text-[10px]">(bientôt)</span></div>
-        </div>
-    </div>
+    </section>
 
-    {{-- Two columns: feed + donations --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {{-- Activity feed --}}
-        <div class="member-card">
-            <div class="member-card-header">
-                <span class="dot" style="background: #2C5F2D;"></span>
-                Activité récente
-            </div>
-            @if($member)
-                @livewire('member.activity-feed', ['memberId' => $member->id, 'isCurrentMember' => $isCurrentMember])
-            @else
-                <p class="text-gray-500 text-center py-6 text-sm">Complétez votre profil pour voir votre activité</p>
-            @endif
-        </div>
+    {{-- ═══════════════════════════════════════════════════
+         MAIN GRID  (1.15fr + 0.95fr)
+    ═══════════════════════════════════════════════════ --}}
+    <section class="grid">
 
-        {{-- Recent donations --}}
-        <div class="member-card">
-            <div class="member-card-header">
-                <span class="dot" style="background: #EDC442;"></span>
-                Derniers dons
-            </div>
-            @if($recentDonations->count() > 0)
-                <div class="space-y-2">
-                    @foreach($recentDonations as $donation)
-                    <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                        <div>
-                            <div class="font-semibold text-sm text-oreina-dark">{{ number_format($donation->amount, 2, ',', ' ') }} €</div>
-                            <div class="text-xs text-gray-400">{{ $donation->donation_date->format('d/m/Y') }}</div>
-                        </div>
-                        <a href="{{ route('member.documents.cerfa', $donation) }}" class="text-xs text-oreina-green hover:underline font-medium">
-                            Reçu fiscal →
-                        </a>
+        {{-- ── LEFT STACK ── --}}
+        <div class="stack">
+
+            {{-- Contributions panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Mes contributions</h2>
+                        <p>Un résumé de vos indicateurs : adhésion, dons, participations.</p>
                     </div>
+                </div>
+
+                <div class="contrib-grid">
+                    <div class="stat">
+                        <strong>{{ $stats['membership_years'] }}</strong>
+                        <span>année(s) d'adhésion</span>
+                    </div>
+                    <div class="stat">
+                        <strong>{{ number_format($stats['total_donations'], 0, ',', ' ') }}&nbsp;€</strong>
+                        <span>total des dons</span>
+                    </div>
+                    <div class="stat">
+                        <strong>{{ $stats['donation_count'] }}</strong>
+                        <span>don(s) enregistré(s)</span>
+                    </div>
+                </div>
+            </article>
+
+            {{-- Activity feed panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Activité récente</h2>
+                        <p>Votre flux personnel et les dernières actions dans vos espaces.</p>
+                    </div>
+                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>Tout voir</a>
+                </div>
+
+                @if($member)
+                    @livewire('member.activity-feed', ['memberId' => $member->id, 'isCurrentMember' => $isCurrentMember])
+                @else
+                    <div class="activity-list">
+                        <article class="activity-item">
+                            <div class="bullet"><i data-lucide="user-round"></i></div>
+                            <div>
+                                <strong>Complétez votre profil</strong>
+                                <p>Renseignez vos informations pour accéder à toutes les fonctionnalités de votre espace membre.</p>
+                            </div>
+                            <div class="time">Maintenant</div>
+                        </article>
+                    </div>
+                @endif
+            </article>
+
+            {{-- Recent donations panel --}}
+            @if($recentDonations->count() > 0)
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Derniers dons</h2>
+                        <p>Vos dons récents et reçus fiscaux disponibles.</p>
+                    </div>
+                    <a href="{{ route('member.documents') }}" class="text-link"><i data-lucide="arrow-right"></i>Mes documents</a>
+                </div>
+
+                <div class="activity-list">
+                    @foreach($recentDonations as $donation)
+                    <article class="activity-item">
+                        <div class="bullet gold"><i data-lucide="heart"></i></div>
+                        <div>
+                            <strong>{{ number_format($donation->amount, 2, ',', ' ') }} €</strong>
+                            <p>Don du {{ $donation->donation_date->format('d/m/Y') }}</p>
+                        </div>
+                        <a href="{{ route('member.documents.cerfa', $donation) }}" class="text-link"><i data-lucide="download"></i>Reçu fiscal</a>
+                    </article>
                     @endforeach
                 </div>
-                <a href="{{ route('member.documents') }}" class="block mt-3 text-center text-xs text-oreina-green font-medium hover:underline">
-                    Voir tous mes documents
-                </a>
-            @else
-                <p class="text-gray-400 text-center py-6 text-sm">Aucun don enregistré</p>
+            </article>
             @endif
         </div>
-    </div>
 
-    {{-- Latest journal issues --}}
-    @if($isCurrentMember && $latestIssues->count() > 0)
-    <div class="member-card">
-        <div class="member-card-header">
-            <span class="dot" style="background: #14B8A6;"></span>
-            Derniers numéros de la revue
+        {{-- ── RIGHT STACK ── --}}
+        <div class="stack">
+
+            {{-- Todo / Actions panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>À faire</h2>
+                        <p>Les actions qui doivent ressortir tout de suite.</p>
+                    </div>
+                </div>
+
+                <div class="todo-list">
+                    @if(!$member || !$member->biography)
+                    <article class="todo-item">
+                        <div>
+                            <strong>Compléter votre présentation membre</strong>
+                            <p>Ajoutez une courte biographie et vos centres d'intérêt pour mieux apparaître dans le réseau.</p>
+                        </div>
+                        <span class="status gold">Prioritaire</span>
+                    </article>
+                    @endif
+
+                    @if(!$isCurrentMember)
+                    <article class="todo-item">
+                        <div>
+                            <strong>Mettre à jour votre adhésion</strong>
+                            <p>Votre cotisation a expiré. Renouvelez pour continuer à accéder à tous les services.</p>
+                        </div>
+                        <span class="status blue">À traiter</span>
+                    </article>
+                    @endif
+
+                    @if($workGroups->count() > 0 && count($myGroupIds) === 0)
+                    <article class="todo-item">
+                        <div>
+                            <strong>Rejoindre un groupe de travail</strong>
+                            <p>Choisissez vos thématiques ou espaces de contribution pour personnaliser votre tableau de bord.</p>
+                        </div>
+                        <span class="status sage">Suggestion</span>
+                    </article>
+                    @endif
+                </div>
+            </article>
+
+            {{-- Espaces collaboratifs / GT panel --}}
+            @if($workGroups->count() > 0)
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Mes espaces</h2>
+                        <p>Les groupes de travail et espaces collaboratifs auxquels vous participez.</p>
+                    </div>
+                    <a href="{{ route('member.work-groups') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir tous mes espaces</a>
+                </div>
+
+                <div class="news-list">
+                    @foreach($workGroups->take(3) as $index => $gt)
+                    <article class="news-item" @if($index === 0) style="background:#EEF4F8;" @elseif($index === 1) style="background:#EEF6F1;" @else style="background:#FAF8F5;" @endif>
+                        <strong>{{ $gt->name }}</strong>
+                        <p>{{ Str::limit($gt->description, 120) }}</p>
+                        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                            @if(in_array($gt->id, $myGroupIds))
+                                <span class="badge sage">Membre</span>
+                            @endif
+                            <span class="badge">{{ $gt->members_count }} membres</span>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+            </article>
+            @endif
+
+            {{-- Journal issues panel --}}
+            @if($isCurrentMember && $latestIssues->count() > 0)
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Derniers numéros</h2>
+                        <p>Les publications récentes de la revue OREINA.</p>
+                    </div>
+                    <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="arrow-right"></i>Tous les numéros</a>
+                </div>
+
+                <div class="news-list">
+                    @foreach($latestIssues as $issue)
+                    <article class="news-item">
+                        <strong>{{ $issue->title ?? 'OREINA' }} — Vol.&nbsp;{{ $issue->volume_number }} N°{{ $issue->issue_number }}</strong>
+                        <p>{{ $issue->publication_date?->translatedFormat('F Y') }}</p>
+                        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                            @if($issue->pdf_file)
+                                <a href="{{ route('member.journal.download', $issue) }}" class="badge blue">Télécharger le PDF</a>
+                            @endif
+                            <span class="badge">Publié</span>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+            </article>
+            @endif
+
+            {{-- Quick access panel --}}
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Accès rapides</h2>
+                        <p>Trois entrées simples vers vos outils essentiels.</p>
+                    </div>
+                </div>
+
+                <div class="todo-list">
+                    <article class="todo-item">
+                        <div>
+                            <strong>Explorer Artemisiae</strong>
+                            <p>Retrouvez le portail national, vos filtres et vos espaces de consultation.</p>
+                        </div>
+                        <span class="status blue">Portail</span>
+                    </article>
+
+                    <article class="todo-item">
+                        <div>
+                            <strong>Mes ressources</strong>
+                            <p>Guides, documents, revue et contenus utiles à vos activités naturalistes.</p>
+                        </div>
+                        <span class="status sage">Documents</span>
+                    </article>
+
+                    <article class="todo-item">
+                        <div>
+                            <strong>Mon profil public</strong>
+                            <p>Vérifiez les informations visibles et la manière dont vous apparaissez dans le réseau.</p>
+                        </div>
+                        <span class="status gold">Profil</span>
+                    </article>
+                </div>
+            </article>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            @foreach($latestIssues as $issue)
-            <div class="border-2 border-oreina-beige/30 rounded-2xl p-4 hover:border-oreina-turquoise/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <div class="text-xs text-gray-400 mb-0.5">Vol. {{ $issue->volume_number }} — N°{{ $issue->issue_number }}</div>
-                <div class="font-semibold text-sm text-oreina-dark mb-1">{{ $issue->title ?? 'OREINA' }}</div>
-                <div class="text-[10px] text-gray-300 mb-2">{{ $issue->publication_date?->translatedFormat('F Y') }}</div>
-                @if($issue->pdf_file)
-                <a href="{{ route('member.journal.download', $issue) }}" class="inline-flex items-center gap-1 text-xs text-oreina-green font-medium hover:underline">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    Télécharger
-                </a>
-                @endif
-            </div>
-            @endforeach
-        </div>
-        <a href="{{ route('member.journal') }}" class="block mt-3 text-center text-xs text-oreina-green font-medium hover:underline">
-            Voir tous les numéros
-        </a>
-    </div>
-    @endif
-</div>
+    </section>
+
 @endsection
