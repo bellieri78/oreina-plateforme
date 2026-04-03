@@ -62,7 +62,7 @@
         font-size: clamp(42px, 6vw, 76px);
         font-weight: 700;
         line-height: 0.94;
-        letter-spacing: -0.06em;
+        letter-spacing: -0.02em;
         color: white;
     }
 
@@ -603,8 +603,8 @@
     <section class="hero">
         <article class="hero-card">
             <div class="hero-content">
-                <div class="eyebrow"><i class="icon icon-white" data-lucide="leaf"></i>Association loi 1901 · réseau naturaliste · science participative</div>
-                <h1>Observer, comprendre et protéger les Lépidoptères de France</h1>
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="leaf"></i>Association loi 1901 depuis 2007</div>
+                <h1>Connaître, comprendre, protéger les papillons de France</h1>
                 <p>OREINA fédère une communauté de naturalistes, structure la connaissance et développe des outils pour partager, qualifier et valoriser les données à l'échelle nationale.</p>
 
                 <div class="hero-actions">
