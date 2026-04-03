@@ -20,6 +20,7 @@
                 <div class="doc-nav-title">Prise en main</div>
                 <a href="#introduction" class="doc-nav-link active">Introduction</a>
                 <a href="#connexion" class="doc-nav-link">Connexion</a>
+                <a href="#roles-acces" class="doc-nav-link">Rôles et accès</a>
                 <a href="#tableau-de-bord" class="doc-nav-link">Tableau de bord</a>
             </div>
 
@@ -48,6 +49,8 @@
                 <div class="doc-nav-title">Contenu</div>
                 <a href="#articles" class="doc-nav-link">Articles</a>
                 <a href="#evenements" class="doc-nav-link">Evenements</a>
+                <a href="#groupes-travail" class="doc-nav-link">Groupes de travail</a>
+                <a href="#lepis" class="doc-nav-link">Lepis (bulletins)</a>
             </div>
 
             <div class="doc-nav-section">
@@ -115,6 +118,91 @@
                             <p>Vous serez redirige vers le tableau de bord.</p>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {{-- Rôles et accès --}}
+            <section id="roles-acces" class="doc-section">
+                <h2>Rôles et accès</h2>
+                <p>La plateforme OREINA utilise une table unique <code>users</code> avec un système de rôles pour gérer les accès aux différents espaces.</p>
+
+                <h3>Les deux points d'entrée</h3>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Espace</th>
+                                <th>URL de connexion</th>
+                                <th>Redirection après login</th>
+                                <th>Public cible</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Espace membre</strong></td>
+                                <td><code>/connexion</code></td>
+                                <td><code>/espace-membre</code></td>
+                                <td>Tous les utilisateurs (adhérents, éditeurs, admins)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Extranet (admin)</strong></td>
+                                <td><code>/extranet/login</code></td>
+                                <td><code>/extranet</code></td>
+                                <td>Éditeurs et administrateurs uniquement</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Les rôles disponibles</h3>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Rôle</th>
+                                <th>Espace membre</th>
+                                <th>Extranet</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>user</code></td>
+                                <td>✅ Oui</td>
+                                <td>❌ Non (403)</td>
+                                <td>Adhérent standard — accès à son espace personnel, chat, GT, Lepis</td>
+                            </tr>
+                            <tr>
+                                <td><code>author</code></td>
+                                <td>✅ Oui</td>
+                                <td>❌ Non (403)</td>
+                                <td>Auteur — peut soumettre des articles pour la revue</td>
+                            </tr>
+                            <tr>
+                                <td><code>reviewer</code></td>
+                                <td>✅ Oui</td>
+                                <td>❌ Non (403)</td>
+                                <td>Reviewer — peut évaluer des soumissions</td>
+                            </tr>
+                            <tr>
+                                <td><code>editor</code></td>
+                                <td>✅ Oui</td>
+                                <td>✅ Oui</td>
+                                <td>Éditeur — accès à l'administration du contenu et des membres</td>
+                            </tr>
+                            <tr>
+                                <td><code>admin</code></td>
+                                <td>✅ Oui</td>
+                                <td>✅ Oui</td>
+                                <td>Administrateur — accès complet à toutes les fonctionnalités</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-info">
+                    <strong>Middleware :</strong> Les routes <code>/extranet</code> sont protégées par le middleware <code>admin</code> qui vérifie que l'utilisateur a le rôle <code>editor</code> ou <code>admin</code>. Un adhérent qui tente d'accéder à l'extranet recevra une erreur 403.<br>
+                    <strong>Redirection guests :</strong> Un utilisateur non connecté qui tente d'accéder à <code>/espace-membre</code> est redirigé vers <code>/connexion</code>.
                 </div>
             </section>
 
@@ -1112,6 +1200,43 @@
                     <li><strong>Description</strong> : details de l'evenement</li>
                     <li><strong>Type</strong> : sortie terrain, conference, AG, etc.</li>
                 </ul>
+            </section>
+
+            {{-- Groupes de travail --}}
+            <section id="groupes-travail" class="doc-section">
+                <h2>Groupes de travail</h2>
+                <p>Gérez les espaces collaboratifs du réseau OREINA. Les GT sont visibles par les adhérents dans leur espace membre.</p>
+
+                <h3>Créer un groupe</h3>
+                <p>Accédez à <strong>Groupes de travail > Nouveau groupe</strong> et renseignez :</p>
+                <ul>
+                    <li><strong>Nom</strong> : nom du GT (ex: Taxonomie, SeqRef)</li>
+                    <li><strong>Description</strong> : objectifs et périmètre du groupe</li>
+                    <li><strong>Couleur</strong> : couleur d'affichage sur le dashboard membre</li>
+                    <li><strong>URL site web</strong> : lien vers une page de présentation (optionnel)</li>
+                    <li><strong>Actif</strong> : cocher pour rendre visible dans l'espace membre</li>
+                </ul>
+
+                <h3>Gérer les membres d'un GT</h3>
+                <p>Depuis la page d'édition d'un GT, vous pouvez ajouter ou retirer des membres. Chaque membre peut avoir le rôle <code>member</code> ou <code>leader</code>.</p>
+            </section>
+
+            {{-- Lepis --}}
+            <section id="lepis" class="doc-section">
+                <h2>Lepis (bulletins trimestriels)</h2>
+                <p>Le bulletin Lepis est un PDF trimestriel mis à disposition des adhérents dans leur espace membre.</p>
+
+                <h3>Publier un bulletin</h3>
+                <p>Accédez à <strong>Lepis > Nouveau bulletin</strong> et renseignez :</p>
+                <ul>
+                    <li><strong>Titre</strong> : titre du bulletin</li>
+                    <li><strong>Numéro</strong> et <strong>trimestre</strong> (Q1 à Q4) + <strong>année</strong></li>
+                    <li><strong>Fichier PDF</strong> : le bulletin finalisé à uploader</li>
+                    <li><strong>Publié</strong> : cocher pour rendre accessible aux adhérents</li>
+                </ul>
+
+                <h3>Suggestions d'articles</h3>
+                <p>Les adhérents peuvent soumettre des suggestions d'articles via leur espace membre. Consultez-les dans <strong>Suggestions Lepis</strong> pour les marquer comme "noté" ou les supprimer.</p>
             </section>
 
             {{-- Numeros --}}

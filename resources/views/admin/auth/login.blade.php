@@ -3,144 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - OREINA Admin</title>
-    @vite(['resources/css/admin.css'])
+    <title>Connexion Extranet - OREINA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        .login-page {
+        :root {
+            --forest: #16302B;
+            --blue: #356B8A;
+            --sage: #85B79D;
+            --gold: #EDC442;
+            --bg: #F4F1ED;
+            --surface: #FFFFFF;
+            --surface-blue: #EEF4F8;
+            --text: #1C2B27;
+            --muted: #68756F;
+            --border: rgba(22,48,43,0.10);
+            --shadow: 0 14px 32px rgba(22,48,43,0.08);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: var(--forest);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #356B8A 0%, #2d5a75 100%);
+            padding: 24px;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 0% 100%, rgba(133,183,157,0.15), transparent 40%),
+                radial-gradient(circle at 100% 0%, rgba(53,107,138,0.12), transparent 40%);
         }
         .login-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 2.5rem;
+            position: relative;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            max-width: 440px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+            padding: 40px;
         }
-        .login-logo {
-            display: flex;
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .login-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--surface-blue);
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            margin-bottom: 16px;
+            color: var(--blue);
         }
-        .login-logo img {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
+        .login-header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin: 0;
+            line-height: 1.1;
         }
-        .login-logo span {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #356B8A;
+        .login-header p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
         }
-        .login-title {
-            text-align: center;
-            font-size: 1.25rem;
-            color: #374151;
-            margin-bottom: 1.5rem;
+        .login-form {
+            display: grid;
+            gap: 20px;
         }
-        .login-form .form-group {
-            margin-bottom: 1.25rem;
-        }
-        .login-form .form-label {
+        .field label {
             display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.5rem;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
         }
-        .login-form .form-input {
+        .field input {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            height: 46px;
+            padding: 0 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            font-size: 15px;
+            font-family: inherit;
+            color: var(--text);
+            transition: 0.2s ease;
         }
-        .login-form .form-input:focus {
+        .field input:focus {
             outline: none;
-            border-color: #356B8A;
-            box-shadow: 0 0 0 3px rgba(53, 107, 138, 0.1);
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(53,107,138,0.12);
         }
-        .login-form .btn-login {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: #356B8A;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.15s ease;
-        }
-        .login-form .btn-login:hover {
-            background: #2d5a75;
-        }
-        .remember-me {
+        .error-msg {
+            padding: 12px 14px;
+            background: rgba(239,68,68,0.06);
+            border: 1px solid rgba(239,68,68,0.15);
+            color: #dc2626;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            gap: 8px;
         }
-        .remember-me input {
-            width: 1rem;
-            height: 1rem;
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--muted);
         }
-        .remember-me label {
-            font-size: 0.875rem;
-            color: #6b7280;
+        .remember input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--blue);
         }
-        .error-message {
-            background: rgba(232, 93, 117, 0.1);
-            color: #dc2626;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
+        .btn-login {
+            width: 100%;
+            height: 46px;
+            border-radius: 14px;
+            border: 0;
+            background: var(--blue);
+            color: white;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s ease;
+            box-shadow: 0 12px 24px rgba(53,107,138,0.2);
+        }
+        .btn-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 32px rgba(53,107,138,0.3);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .login-footer a {
+            color: var(--blue);
+            font-weight: 700;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="login-page">
-        <div class="login-card">
-            <div class="login-logo">
-                <img src="{{ asset('images/logo.jpg') }}" alt="OREINA" onerror="this.style.display='none'">
-                <span>OREINA</span>
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">
+                <i data-lucide="shield" style="width:28px;height:28px;"></i>
             </div>
-            <h1 class="login-title">Connexion Extranet</h1>
+            <h1>Extranet OREINA</h1>
+            <p>Espace d'administration réservé aux éditeurs et administrateurs.</p>
+        </div>
 
-            @if($errors->any())
-                <div class="error-message">
-                    {{ $errors->first() }}
-                </div>
-            @endif
+        @if($errors->any())
+            <div class="error-msg" style="margin-bottom:20px;">
+                <i data-lucide="alert-circle" style="width:16px;height:16px;flex-shrink:0;"></i>
+                {{ $errors->first() }}
+            </div>
+        @endif
 
-            <form method="POST" action="{{ route('admin.login.submit') }}" class="login-form">
-                @csrf
-                <div class="form-group">
-                    <label for="email" class="form-label">Adresse email</label>
-                    <input type="email" id="email" name="email" class="form-input" value="{{ old('email') }}" required autofocus>
-                </div>
+        <form method="POST" action="{{ route('admin.login.submit') }}" class="login-form">
+            @csrf
 
-                <div class="form-group">
-                    <label for="password" class="form-label">Mot de passe</label>
-                    <input type="password" id="password" name="password" class="form-input" required>
-                </div>
+            <div class="field">
+                <label for="email">Adresse email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="votre@email.fr">
+            </div>
 
-                <div class="remember-me">
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember">Se souvenir de moi</label>
-                </div>
+            <div class="field">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
+            </div>
 
-                <button type="submit" class="btn-login">Se connecter</button>
-            </form>
+            <label class="remember">
+                <input type="checkbox" name="remember">
+                Se souvenir de moi
+            </label>
+
+            <button type="submit" class="btn-login">
+                <i data-lucide="log-in" style="width:18px;height:18px;"></i>
+                Se connecter
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>Vous êtes adhérent ? <a href="{{ route('hub.login') }}">Connexion espace membre</a></p>
         </div>
     </div>
+
+    <script>lucide.createIcons();</script>
 </body>
 </html>
