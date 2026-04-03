@@ -158,6 +158,8 @@
             flex-direction: column;
             gap: 2px;
             min-width: 0;
+            border-left: 1px solid #DBCBC7;
+            padding-left: 1rem;
         }
         .brand-text strong {
             font-size: 18px;
@@ -177,7 +179,30 @@
             font-size: 15px;
             font-weight: 600;
         }
-        .hub-nav a:hover, .hub-nav a.active { color: var(--text); }
+        .hub-nav a {
+            position: relative;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .hub-nav a:hover {
+            color: var(--text);
+        }
+        .hub-nav a.active {
+            color: #16302B;
+            background: rgba(133, 183, 157, 0.12);
+        }
+        .hub-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: #16302B;
+            border-radius: 1px;
+        }
         .header-actions {
             display: flex;
             align-items: center;
