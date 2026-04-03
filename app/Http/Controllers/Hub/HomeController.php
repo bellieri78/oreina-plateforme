@@ -17,9 +17,8 @@ class HomeController extends Controller
             ->get();
 
         $latestArticles = Article::published()
-            ->where('is_featured', false)
             ->latest('published_at')
-            ->take(3)
+            ->take(4)
             ->get();
 
         $upcomingEvents = Event::published()

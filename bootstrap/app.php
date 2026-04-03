@@ -12,11 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->redirectGuestsTo('/extranet/login');
+        $middleware->redirectGuestsTo('/connexion');
 
         // Alias pour le middleware de vérification des permissions
         $middleware->alias([
             'permission' => \App\Http\Middleware\CheckPermission::class,
+            'admin' => \App\Http\Middleware\CheckAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

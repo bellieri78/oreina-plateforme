@@ -17,6 +17,8 @@ class Article extends Model
         'summary',
         'content',
         'featured_image',
+        'document_path',
+        'document_name',
         'category',
         'status',
         'validated_by',

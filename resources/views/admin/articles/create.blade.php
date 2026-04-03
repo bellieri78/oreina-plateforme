@@ -12,7 +12,7 @@
             <h3 class="card-title">Nouvel article</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.articles.store') }}" method="POST">
+            <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('admin.articles._form')
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">

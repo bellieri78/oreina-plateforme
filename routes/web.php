@@ -45,6 +45,12 @@ Route::get('/adhesion', [PageController::class, 'membership'])->name('hub.member
 Route::get('/a-propos', [PageController::class, 'about'])->name('hub.about');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 
+// Authentification membre (depuis le hub)
+use App\Http\Controllers\Hub\AuthController as HubAuthController;
+Route::get('/connexion', [HubAuthController::class, 'showLogin'])->name('hub.login')->middleware('guest');
+Route::post('/connexion', [HubAuthController::class, 'login'])->name('hub.login.submit')->middleware('guest');
+Route::post('/deconnexion', [HubAuthController::class, 'logout'])->name('hub.logout')->middleware('auth');
+
 /*
 |--------------------------------------------------------------------------
 | Journal Routes (Revue scientifique)

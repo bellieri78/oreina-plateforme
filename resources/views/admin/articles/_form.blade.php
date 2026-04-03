@@ -19,9 +19,57 @@
 
         <div class="form-group">
             <label class="form-label" for="content">Contenu *</label>
-            <textarea name="content" id="content" class="form-input" rows="15" required>{{ old('content', $article->content ?? '') }}</textarea>
+            <input type="hidden" name="content" id="content-input" value="{{ old('content', $article->content ?? '') }}">
+            <div id="editor" style="min-height: 450px; background: white; border: 1px solid #d1d5db; border-radius: 8px;"></div>
             @error('content')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
         </div>
+
+        @push('styles')
+        <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
+        <style>
+            .ql-container { font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+            .ql-editor { min-height: 400px; color: #1C2B27; }
+            .ql-editor h2 { font-size: 24px; font-weight: 700; margin: 1.2em 0 0.5em; }
+            .ql-editor h3 { font-size: 20px; font-weight: 700; margin: 1em 0 0.4em; }
+            .ql-editor blockquote { border-left: 3px solid #85B79D; padding-left: 16px; color: #68756F; }
+            .ql-editor a { color: #356B8A; }
+            .ql-toolbar { border-radius: 8px 8px 0 0; border-color: #d1d5db; background: #fafafa; }
+            .ql-container { border-radius: 0 0 8px 8px; border-color: #d1d5db; }
+        </style>
+        @endpush
+
+        @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const quill = new Quill('#editor', {
+                    theme: 'snow',
+                    placeholder: 'Rédigez le contenu de l\'article...',
+                    modules: {
+                        toolbar: [
+                            [{ header: [2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ list: 'ordered' }, { list: 'bullet' }],
+                            ['blockquote', 'link'],
+                            [{ align: [] }],
+                            ['clean']
+                        ]
+                    }
+                });
+
+                // Load existing content
+                const existingContent = document.getElementById('content-input').value;
+                if (existingContent) {
+                    quill.root.innerHTML = existingContent;
+                }
+
+                // Sync to hidden input on form submit
+                quill.root.closest('form').addEventListener('submit', function() {
+                    document.getElementById('content-input').value = quill.root.innerHTML;
+                });
+            });
+        </script>
+        @endpush
     </div>
 
     <div>
@@ -62,6 +110,38 @@
                 <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $article->is_featured ?? false) ? 'checked' : '' }} style="width: auto;">
                 <span>Article en vedette</span>
             </label>
+        </div>
+
+        {{-- Image à la une --}}
+        <div class="form-group">
+            <label class="form-label" for="featured_image">Image à la une</label>
+            @if(isset($article) && $article->featured_image)
+                <div style="margin-bottom: 0.5rem;">
+                    <img src="{{ Storage::url($article->featured_image) }}" alt="Image actuelle" style="max-height: 120px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                </div>
+            @endif
+            <input type="file" name="featured_image" id="featured_image" class="form-input" accept="image/*">
+            <p style="color: #6b7280; font-size: 0.75rem; margin-top: 0.25rem;">JPG, PNG ou WebP. Max 5 Mo.</p>
+            @error('featured_image')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+        </div>
+
+        {{-- Document à télécharger --}}
+        <div class="form-group">
+            <label class="form-label" for="document">Document joint</label>
+            @if(isset($article) && $article->document_path)
+                <div style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: #f3f4f6; border-radius: 8px; font-size: 0.875rem;">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span>{{ $article->document_name ?? 'Document joint' }}</span>
+                    <a href="{{ Storage::url($article->document_path) }}" target="_blank" style="color: #356B8A; font-weight: 600; margin-left: auto;">Voir</a>
+                </div>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem; color: #dc2626; margin-bottom: 0.5rem;">
+                    <input type="checkbox" name="remove_document" value="1" style="width: auto;">
+                    <span>Supprimer le document</span>
+                </label>
+            @endif
+            <input type="file" name="document" id="document" class="form-input">
+            <p style="color: #6b7280; font-size: 0.75rem; margin-top: 0.25rem;">PDF, Word, etc. Max 20 Mo.</p>
+            @error('document')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
         </div>
 
         @if(isset($article))
