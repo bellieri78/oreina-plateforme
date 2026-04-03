@@ -22,6 +22,20 @@ class WorkGroupController extends Controller
         return view('member.work-groups.index', compact('workGroups', 'myGroupIds'));
     }
 
+    public function show(WorkGroup $workGroup)
+    {
+        $workGroup->loadCount('members');
+        $workGroup->load(['members' => function ($q) {
+            $q->orderByPivot('role', 'desc')->limit(10);
+        }]);
+
+        $user = auth()->user();
+        $member = Member::where('user_id', $user->id)->first();
+        $isMember = $member ? $workGroup->members->contains($member->id) : false;
+
+        return view('member.work-groups.show', compact('workGroup', 'member', 'isMember'));
+    }
+
     public function contributions()
     {
         $user = auth()->user();

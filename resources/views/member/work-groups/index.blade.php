@@ -14,7 +14,7 @@
     @if($workGroups->count() > 0)
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($workGroups as $gt)
-            <div class="member-card" style="border-left: 4px solid {{ $gt->color ?? '#2C5F2D' }}; padding-left: 1rem;">
+            <a href="{{ route('member.work-groups.show', $gt->slug) }}" class="member-card" style="border-left: 4px solid {{ $gt->color ?? '#2C5F2D' }}; padding-left: 1rem; display:block;">
                 <div class="flex items-start justify-between mb-2">
                     <h3 class="font-bold text-sm text-oreina-dark">{{ $gt->name }}</h3>
                     @if(in_array($gt->id, $myGroupIds))
@@ -32,13 +32,11 @@
                         {{ $gt->members_count }} membre{{ $gt->members_count > 1 ? 's' : '' }}
                     </span>
 
-                    @if($gt->website_url)
-                        <a href="{{ $gt->website_url }}" target="_blank" rel="noopener" class="text-xs text-oreina-green font-medium hover:underline">
-                            En savoir plus &rarr;
-                        </a>
-                    @endif
+                    <span class="text-xs text-oreina-green font-medium">
+                        Voir le groupe &rarr;
+                    </span>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
     @else

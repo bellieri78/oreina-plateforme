@@ -116,6 +116,7 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
 
     // Work Groups
     Route::get('/groupes-de-travail', [MemberWorkGroupController::class, 'index'])->name('work-groups');
+    Route::get('/groupes-de-travail/{workGroup:slug}', [MemberWorkGroupController::class, 'show'])->name('work-groups.show');
 
     // Lepis
     Route::get('/lepis', [MemberLepisController::class, 'index'])->name('lepis');
