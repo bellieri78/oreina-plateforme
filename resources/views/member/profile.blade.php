@@ -5,7 +5,7 @@
 @section('page-subtitle', 'Gérer vos informations personnelles')
 
 @section('content')
-<div class="max-w-4xl">
+<div>
     <form action="{{ route('member.profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')

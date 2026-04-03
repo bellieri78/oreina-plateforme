@@ -5,7 +5,7 @@
 @section('page-subtitle', 'Gestion de vos consentements et communications')
 
 @section('content')
-<div class="max-w-2xl">
+<div>
     <form action="{{ route('member.profile.preferences.update') }}" method="POST">
         @csrf
         @method('PUT')
