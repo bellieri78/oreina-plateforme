@@ -27,6 +27,10 @@
                 <a href="{{ route('member.dashboard') }}" class="btn btn-secondary">
                     <i data-lucide="user-round"></i>Mon espace
                 </a>
+            @else
+                <a href="{{ route('hub.login') }}" class="btn btn-secondary">
+                    <i data-lucide="log-in"></i>Connexion
+                </a>
             @endauth
             <a href="{{ route('hub.membership') }}" class="btn btn-primary">
                 <i data-lucide="heart-plus"></i>Adhérer
@@ -54,6 +58,10 @@
             @auth
                 <a href="{{ route('member.dashboard') }}" class="btn btn-secondary">
                     <i data-lucide="user-round"></i>Mon espace
+                </a>
+            @else
+                <a href="{{ route('hub.login') }}" class="btn btn-secondary">
+                    <i data-lucide="log-in"></i>Connexion
                 </a>
             @endauth
             <a href="{{ route('hub.membership') }}" class="btn btn-primary">
