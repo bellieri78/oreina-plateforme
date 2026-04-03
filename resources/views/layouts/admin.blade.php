@@ -7,6 +7,7 @@
     <title>@yield('title', 'Admin') - OREINA</title>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @stack('styles')
 </head>
 <body class="admin-body">
     <div id="app">

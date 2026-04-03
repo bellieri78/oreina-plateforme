@@ -19,9 +19,57 @@
 
         <div class="form-group">
             <label class="form-label" for="content">Contenu *</label>
-            <textarea name="content" id="content" class="form-input" rows="15" required>{{ old('content', $article->content ?? '') }}</textarea>
+            <input type="hidden" name="content" id="content-input" value="{{ old('content', $article->content ?? '') }}">
+            <div id="editor" style="min-height: 450px; background: white; border: 1px solid #d1d5db; border-radius: 8px;"></div>
             @error('content')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
         </div>
+
+        @push('styles')
+        <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
+        <style>
+            .ql-container { font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+            .ql-editor { min-height: 400px; color: #1C2B27; }
+            .ql-editor h2 { font-size: 24px; font-weight: 700; margin: 1.2em 0 0.5em; }
+            .ql-editor h3 { font-size: 20px; font-weight: 700; margin: 1em 0 0.4em; }
+            .ql-editor blockquote { border-left: 3px solid #85B79D; padding-left: 16px; color: #68756F; }
+            .ql-editor a { color: #356B8A; }
+            .ql-toolbar { border-radius: 8px 8px 0 0; border-color: #d1d5db; background: #fafafa; }
+            .ql-container { border-radius: 0 0 8px 8px; border-color: #d1d5db; }
+        </style>
+        @endpush
+
+        @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const quill = new Quill('#editor', {
+                    theme: 'snow',
+                    placeholder: 'Rédigez le contenu de l\'article...',
+                    modules: {
+                        toolbar: [
+                            [{ header: [2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ list: 'ordered' }, { list: 'bullet' }],
+                            ['blockquote', 'link'],
+                            [{ align: [] }],
+                            ['clean']
+                        ]
+                    }
+                });
+
+                // Load existing content
+                const existingContent = document.getElementById('content-input').value;
+                if (existingContent) {
+                    quill.root.innerHTML = existingContent;
+                }
+
+                // Sync to hidden input on form submit
+                quill.root.closest('form').addEventListener('submit', function() {
+                    document.getElementById('content-input').value = quill.root.innerHTML;
+                });
+            });
+        </script>
+        @endpush
     </div>
 
     <div>
