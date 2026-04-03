@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Alias pour le middleware de vérification des permissions
         $middleware->alias([
             'permission' => \App\Http\Middleware\CheckPermission::class,
+            'admin' => \App\Http\Middleware\CheckAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

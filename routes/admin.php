@@ -44,7 +44,7 @@ Route::middleware(['web', 'guest'])->prefix('extranet')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('web');
 
 // Protected admin routes
-Route::middleware(['web', 'auth'])->prefix('extranet')->name('admin.')->group(function () {
+Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
