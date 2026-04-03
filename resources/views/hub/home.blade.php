@@ -355,37 +355,57 @@
     }
 
     /* ── Projects ── */
-    .project-list {
+    .project-grid {
         display: grid;
-        gap: 12px;
-        margin-top: 22px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
     }
-
-    .project-row {
-        display: grid;
-        grid-template-columns: 42px 1fr auto;
-        gap: 14px;
-        align-items: center;
-        padding: 16px 18px;
-        background: var(--surface);
+    .project-card {
+        padding: 28px;
+        border-radius: var(--radius-xl);
         border: 1px solid var(--border);
-        border-radius: 18px;
         box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: all 0.3s ease;
     }
-
-    .project-icon {
-        width: 42px;
-        height: 42px;
+    .project-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 48px rgba(22,48,43,0.12);
+    }
+    .project-card h3 {
+        margin: 4px 0 0;
+        font-size: 22px;
+        letter-spacing: -0.03em;
+    }
+    .project-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+    }
+    .project-card-icon {
+        width: 46px;
+        height: 46px;
         border-radius: 14px;
         display: grid;
         place-items: center;
-        background: rgba(53,107,138,0.08);
     }
-
-    .project-row:nth-child(2) .project-icon { background: rgba(133,183,157,0.16); }
-    .project-row:nth-child(3) .project-icon { background: rgba(237,196,66,0.18); }
-    .project-row:nth-child(4) .project-icon { background: rgba(239,122,92,0.12); }
-    .project-row:nth-child(5) .project-icon { background: rgba(53,107,138,0.08); }
+    .project-card-pill {
+        display: inline-flex;
+        align-self: flex-start;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--surface);
+        border: 1px solid rgba(22,48,43,0.06);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+    }
+    .project-card-wide {
+        grid-column: 1 / -1;
+    }
 
     .project-main strong {
         display: block;
@@ -527,6 +547,13 @@
 
         .hero-card {
             min-height: 88vh;
+        }
+
+        .project-grid {
+            grid-template-columns: 1fr;
+        }
+        .project-card-wide {
+            grid-column: auto;
         }
     }
 
@@ -705,7 +732,7 @@
     </section>
 
     {{-- 4. Portail & Outils Section (split, reversed) --}}
-    <section id="portail">
+    <section id="portail" style="background:white; width:100vw; margin-left:calc(50% - 50vw); padding-left:calc(50vw - 50%); padding-right:calc(50vw - 50%);">
         <div class="container split-section">
             <div class="visual-block" style="background-image: url('/images/actu1.JPG');"></div>
 
@@ -747,50 +774,45 @@
                 </div>
             </div>
 
-            <div class="project-list">
-                <article class="project-row">
-                    <div class="project-icon"><i class="icon icon-blue" data-lucide="binary"></i></div>
-                    <div class="project-main">
-                        <strong>TAXREF</strong>
-                        <span>Référentiel taxonomique national des Lépidoptères.</span>
-                    </div>
-                    <div class="project-pill">Référentiel</div>
+            <div class="project-grid">
+                <article class="project-card" style="background: var(--surface-blue);">
+                    <div class="project-card-icon" style="background: rgba(53,107,138,0.12);"><i class="icon icon-blue" data-lucide="binary"></i></div>
+                    <div class="project-card-pill">Référentiel</div>
+                    <h3>TAXREF</h3>
+                    <p>Référentiel taxonomique national des Lépidoptères. Un socle partagé pour nommer, classer et harmoniser les connaissances.</p>
+                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
                 </article>
 
-                <article class="project-row">
-                    <div class="project-icon"><i class="icon icon-sage" data-lucide="dna"></i></div>
-                    <div class="project-main">
-                        <strong>SEQREF</strong>
-                        <span>Barcoding ADN et référentiel génétique.</span>
-                    </div>
-                    <div class="project-pill">Génétique</div>
+                <article class="project-card" style="background: var(--surface-sage);">
+                    <div class="project-card-icon" style="background: rgba(133,183,157,0.16);"><i class="icon icon-sage" data-lucide="dna"></i></div>
+                    <div class="project-card-pill">Génétique</div>
+                    <h3>SEQREF</h3>
+                    <p>Barcoding ADN et référentiel génétique. Construire une bibliothèque moléculaire de référence pour les Lépidoptères de France.</p>
+                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
                 </article>
 
-                <article class="project-row">
-                    <div class="project-icon"><i class="icon icon-gold" data-lucide="search"></i></div>
-                    <div class="project-main">
-                        <strong>IDENT</strong>
-                        <span>Outils d'identification, contenus d'aide et formations.</span>
-                    </div>
-                    <div class="project-pill">Identification</div>
+                <article class="project-card" style="background: #FBF6DF;">
+                    <div class="project-card-icon" style="background: rgba(237,196,66,0.18);"><i class="icon icon-gold" data-lucide="search"></i></div>
+                    <div class="project-card-pill">Identification</div>
+                    <h3>IDENT</h3>
+                    <p>Outils d'identification, contenus d'aide et formations. Rendre la détermination accessible à tous les niveaux d'expertise.</p>
+                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
                 </article>
 
-                <article class="project-row">
-                    <div class="project-icon"><i class="icon icon-coral" data-lucide="badge-check"></i></div>
-                    <div class="project-main">
-                        <strong>QUALIF</strong>
-                        <span>Validation et qualification des données naturalistes.</span>
-                    </div>
-                    <div class="project-pill">Qualité des données</div>
+                <article class="project-card" style="background: rgba(239,122,92,0.06);">
+                    <div class="project-card-icon" style="background: rgba(239,122,92,0.12);"><i class="icon icon-coral" data-lucide="badge-check"></i></div>
+                    <div class="project-card-pill">Qualité des données</div>
+                    <h3>QUALIF</h3>
+                    <p>Validation et qualification des données naturalistes. Garantir la fiabilité des observations partagées dans le réseau.</p>
+                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
                 </article>
 
-                <article class="project-row">
-                    <div class="project-icon"><i class="icon icon-blue" data-lucide="scroll-text"></i></div>
-                    <div class="project-main">
-                        <strong>Revue scientifique</strong>
-                        <span>Publications, diffusion des connaissances et valorisation des travaux.</span>
-                    </div>
-                    <div class="project-pill">Publication</div>
+                <article class="project-card project-card-wide" style="background: var(--forest); color: white;">
+                    <div class="project-card-icon" style="background: rgba(255,255,255,0.1);"><i class="icon icon-white" data-lucide="scroll-text"></i></div>
+                    <div class="project-card-pill" style="background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.15);">Publication</div>
+                    <h3 style="color:white;">Revue scientifique</h3>
+                    <p style="color:rgba(255,255,255,0.8);">Publications avec DOI, diffusion des connaissances et valorisation des travaux du réseau. Un support de référence pour la communauté.</p>
+                    <a href="{{ route('journal.home') }}" class="text-link" style="margin-top:auto; color:var(--gold);"><i data-lucide="arrow-right"></i>Découvrir la revue</a>
                 </article>
             </div>
         </div>
