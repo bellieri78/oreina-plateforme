@@ -6,87 +6,317 @@
     <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Mon espace') - OREINA</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        /* === 3-COLUMN MEMBER LAYOUT === */
-        .member-layout {
-            display: grid;
-            grid-template-columns: 240px 1fr 280px;
-            min-height: 100vh;
+        /* === DESIGN SYSTEM V4 — CSS CUSTOM PROPERTIES === */
+        :root {
+            --forest: #16302B;
+            --sage: #85B79D;
+            --blue: #356B8A;
+            --gold: #EDC442;
+            --coral: #EF7A5C;
+            --beige: #DBCBC7;
+
+            --bg: #F4F1ED;
+            --surface: #FFFFFF;
+            --surface-soft: #FAF8F5;
+            --surface-sage: #EEF6F1;
+            --surface-blue: #EEF4F8;
+            --text: #1C2B27;
+            --muted: #68756F;
+            --border: rgba(22,48,43,0.10);
+            --shadow: 0 14px 32px rgba(22,48,43,0.08);
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+            --container: 1440px;
+            --sidebar-width: 288px;
+            --topbar-height: 76px;
         }
 
-        /* Left sidebar */
-        .member-sidebar {
-            background: linear-gradient(180deg, #16302B 0%, #1a3a35 100%);
-            padding: 1.5rem 1.25rem;
-            display: flex;
-            flex-direction: column;
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(53,107,138,0.04), transparent 18%),
+                radial-gradient(circle at 100% 0%, rgba(133,183,157,0.05), transparent 18%),
+                radial-gradient(circle at 100% 100%, rgba(237,196,66,0.05), transparent 20%);
+            z-index: -1;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; }
+        img { max-width: 100%; display: block; }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 18px;
+        }
+        .icon svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2;
+        }
+        .icon-blue { color: var(--blue); }
+        .icon-sage { color: var(--forest); }
+        .icon-gold { color: #8b6c05; }
+        .icon-coral { color: var(--coral); }
+        .icon-white { color: white; }
+
+        /* === APP GRID — 2 COLUMN (sidebar + main) === */
+        .app {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+        }
+
+        /* === SIDEBAR === */
+        .sidebar {
             position: sticky;
             top: 0;
             height: 100vh;
+            padding: 18px;
+            background: var(--forest);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            border-right: 1px solid rgba(255,255,255,0.08);
             overflow-y: auto;
         }
 
-        .member-nav-item {
+        .brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            color: rgba(255, 255, 255, 0.65);
-            font-weight: 500;
-            font-size: 0.875rem;
-            transition: all 0.2s;
-            text-decoration: none;
+            gap: 12px;
+            padding: 8px;
         }
-        .member-nav-item:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .brand-mark {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.10);
+            font-weight: 900;
+            color: white;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .brand-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .brand-text strong {
+            display: block;
+            font-size: 18px;
+            letter-spacing: -0.03em;
+        }
+        .brand-text span {
+            display: block;
+            margin-top: 2px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.66);
+        }
+
+        /* User card */
+        .user-card {
+            padding: 16px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--sage);
+            color: var(--forest);
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: inset 0 0 0 3px rgba(255,255,255,0.18);
+            flex: 0 0 54px;
+            overflow: hidden;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .user-card strong {
+            display: block;
+            font-size: 15px;
+        }
+        .user-card .user-details span {
+            display: block;
+            margin-top: 4px;
+            color: rgba(255,255,255,0.66);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .user-card .user-badge {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(133,183,157,0.25);
+            color: var(--sage);
+            padding: 2px 10px;
+            border-radius: 999px;
+        }
+
+        /* GT list in sidebar */
+        .sidebar-gt-list {
+            padding: 0 4px;
+        }
+
+        /* Navigation */
+        .nav-group {
+            display: grid;
+            gap: 4px;
+            flex: 1;
+        }
+        .nav-title {
+            padding: 0 12px 4px;
+            color: rgba(255,255,255,0.44);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            color: rgba(255,255,255,0.84);
+            border: 1px solid transparent;
+            transition: 0.2s ease;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(133,183,157,0.16);
+            border-color: rgba(133,183,157,0.18);
             color: white;
         }
-        .member-nav-item.active {
-            background: rgba(133, 183, 157, 0.2);
-            color: #85B79D;
+        .nav-item .icon {
+            color: rgba(255,255,255,0.84);
         }
-        .member-nav-item.disabled {
+        .nav-item.disabled {
             opacity: 0.35;
             pointer-events: none;
         }
-        .member-nav-item svg {
-            width: 1.25rem;
-            height: 1.25rem;
-            flex-shrink: 0;
+        .nav-item.nav-item-danger {
+            color: rgba(239,68,68,0.8);
+        }
+        .nav-item.nav-item-danger:hover {
+            background: rgba(239,68,68,0.12);
+            border-color: rgba(239,68,68,0.18);
+            color: #fca5a5;
         }
 
-        /* Right sidebar */
-        .member-sidebar-right {
-            background: #faf8f6;
-            border-left: 1px solid #ede7e2;
-            padding: 1.75rem 1.25rem;
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: grid;
+            gap: 4px;
+        }
+
+        /* === MAIN AREA === */
+        .main {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === TOPBAR (glassmorphism) === */
+        .topbar {
             position: sticky;
             top: 0;
-            height: 100vh;
-            overflow-y: auto;
+            z-index: 10;
+            min-height: var(--topbar-height);
+            background: rgba(244,241,237,0.84);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(22,48,43,0.06);
+        }
+        .topbar-inner {
+            min-height: var(--topbar-height);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .topbar-title strong {
+            display: block;
+            font-size: 20px;
+            letter-spacing: -0.03em;
+        }
+        .topbar-title span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        /* Main content */
-        .member-main {
-            background: #f5f2ef;
-            padding: 1.75rem 2rem;
-            overflow-y: auto;
+        /* === CONTENT AREA === */
+        .content {
+            padding: 24px;
+            display: grid;
+            gap: 22px;
+            flex: 1;
         }
 
-        /* Shared component styles — aligned with hub visual language */
-        .member-card {
-            background: white;
-            border-radius: 1.5rem;
-            border: 2px solid rgba(219, 203, 199, 0.3);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
+        /* === CARDS (Design System V4) === */
+        .member-card,
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
         }
         .member-card:hover {
-            box-shadow: 0 20px 60px rgba(22, 48, 43, 0.1);
+            box-shadow: 0 20px 48px rgba(22,48,43,0.12);
             transform: translateY(-2px);
+            transition: all 0.3s ease;
         }
         .member-card-header {
             display: flex;
@@ -95,108 +325,115 @@
             margin-bottom: 1rem;
             font-size: 0.9375rem;
             font-weight: 700;
-            color: #16302B;
+            color: var(--forest);
         }
         .member-card-header .dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
         }
+
+        /* Stats */
         .member-stat {
             text-align: center;
-            padding: 1.25rem 1rem;
-            background: white;
-            border-radius: 1.5rem;
-            border: 2px solid rgba(219, 203, 199, 0.3);
+            padding: 20px;
+            border-radius: 20px;
+            background: var(--surface-soft);
+            border: 1px solid rgba(22,48,43,0.06);
             transition: all 0.3s ease;
         }
         .member-stat:hover {
-            box-shadow: 0 10px 30px rgba(22, 48, 43, 0.08);
+            box-shadow: 0 10px 30px rgba(22,48,43,0.08);
             transform: translateY(-2px);
         }
         .member-stat-value {
-            font-size: 1.75rem;
+            font-size: 34px;
             font-weight: 800;
-            color: #85B79D;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            color: var(--text);
         }
         .member-stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-top: 0.25rem;
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 8px;
+            line-height: 1.5;
         }
+
+        /* Status badges */
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.375rem;
-            padding: 0.375rem 0.875rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            backdrop-filter: blur(12px);
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
         }
         .status-badge.active {
-            background: rgba(133, 183, 157, 0.25);
-            border: 1px solid rgba(133, 183, 157, 0.4);
-            color: #2C5F2D;
+            background: rgba(133,183,157,0.18);
+            color: #2f694e;
         }
         .status-badge.expired {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            background: rgba(239,68,68,0.1);
             color: #dc2626;
         }
+
+        /* === BUTTONS (Design System V4) === */
+        .btn {
+            height: 44px;
+            padding: 0 16px;
+            border-radius: 14px;
+            border: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s ease;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .btn:hover { transform: translateY(-1px); }
+
+        .btn-primary,
         .btn-member {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            background: #85B79D;
-            color: white;
-            border-radius: 1rem;
-            font-weight: 600;
-            font-size: 0.8125rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 10px 40px rgba(133, 183, 157, 0.3);
-            text-decoration: none;
+            background: var(--gold);
+            color: var(--forest);
+            box-shadow: 0 12px 24px rgba(237,196,66,0.18);
         }
+        .btn-primary:hover,
         .btn-member:hover {
-            background: #6fa386;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 50px rgba(133, 183, 157, 0.4);
+            box-shadow: 0 16px 32px rgba(237,196,66,0.28);
+            transform: translateY(-1px);
         }
+
+        .btn-secondary,
         .btn-member-outline {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            background: white;
-            color: #16302B;
-            border: 2px solid rgba(219, 203, 199, 0.5);
-            border-radius: 1rem;
-            font-weight: 600;
-            font-size: 0.8125rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
+            background: rgba(53,107,138,0.08);
+            color: var(--blue);
+            border: 1px solid rgba(53,107,138,0.14);
         }
+        .btn-secondary:hover,
         .btn-member-outline:hover {
-            border-color: #85B79D;
-            transform: translateY(-2px);
+            background: rgba(53,107,138,0.14);
+            transform: translateY(-1px);
         }
 
         /* GT placeholder cards */
         .gt-card-placeholder {
             padding: 1.25rem;
-            border-radius: 1.5rem;
+            border-radius: var(--radius-xl);
             background: linear-gradient(135deg, rgba(219, 203, 199, 0.15), rgba(133, 183, 157, 0.08));
-            border: 2px dashed rgba(219, 203, 199, 0.4);
+            border: 2px dashed rgba(22,48,43,0.12);
             min-height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #9ca3af;
+            color: var(--muted);
             text-align: center;
         }
         .gt-card-placeholder .label {
@@ -208,99 +445,192 @@
             font-size: 0.625rem;
         }
 
-        /* Interactive links in feed/documents */
+        /* Interactive links */
         .member-link {
-            color: #85B79D;
-            font-weight: 600;
+            color: var(--blue);
+            font-weight: 800;
             text-decoration: none;
             transition: all 0.2s;
         }
         .member-link:hover {
-            color: #2C5F2D;
+            color: var(--forest);
             text-decoration: underline;
+        }
+
+        /* Panels */
+        .panel {
+            padding: 24px;
+        }
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .panel-head h2 {
+            margin: 0;
+            font-size: 26px;
+            line-height: 1.02;
+            letter-spacing: -0.04em;
+        }
+        .panel-head p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 620px;
+        }
+
+        .text-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--blue);
+            font-size: 14px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* Flash messages */
+        .flash-success {
+            padding: 14px 18px;
+            background: var(--surface-sage);
+            border: 1px solid rgba(133,183,157,0.25);
+            color: #2f694e;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .flash-error {
+            padding: 14px 18px;
+            background: rgba(239,68,68,0.06);
+            border: 1px solid rgba(239,68,68,0.15);
+            color: #dc2626;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* === MOBILE OVERLAY === */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+        }
+        .sidebar-overlay.open {
+            display: block;
+        }
+
+        /* Mobile header (hidden on desktop) */
+        .member-mobile-header {
+            display: none;
         }
 
         /* === RESPONSIVE === */
 
-        /* Tablet: icon-only left sidebar, right sidebar below content */
+        /* Tablet: icon-only sidebar */
         @media (min-width: 768px) and (max-width: 1024px) {
-            .member-layout {
-                grid-template-columns: 60px 1fr;
-                grid-template-rows: 1fr auto;
+            :root {
+                --sidebar-width: 72px;
             }
-            .member-sidebar {
-                padding: 1rem 0.5rem;
+            .sidebar {
+                padding: 12px;
                 align-items: center;
             }
-            .member-sidebar .nav-label,
-            .member-sidebar .sidebar-profile-details,
-            .member-sidebar .sidebar-logo-text,
-            .member-sidebar .sidebar-user-info {
+            .sidebar .brand-text,
+            .sidebar .user-details,
+            .sidebar .sidebar-gt-list,
+            .sidebar .nav-title,
+            .sidebar .nav-label,
+            .sidebar .sidebar-footer .nav-label {
                 display: none;
             }
-            .member-sidebar .sidebar-logo-img {
-                margin: 0 auto 1rem;
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
             }
-            .member-sidebar-right {
-                grid-column: 1 / -1;
-                position: static;
-                height: auto;
-                border-left: none;
-                border-top: 1px solid #ede7e2;
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-                gap: 1rem;
-                padding: 1.5rem;
+            .brand { padding: 4px; justify-content: center; }
+            .user-card {
+                padding: 10px;
+                justify-content: center;
+            }
+            .avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                flex: 0 0 40px;
+            }
+            .nav-item {
+                padding: 12px;
+                justify-content: center;
             }
         }
 
-        /* Mobile: hamburger left sidebar, right sidebar stacked */
+        /* Mobile: hamburger sidebar */
         @media (max-width: 767px) {
-            .member-layout {
+            .app {
                 grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr auto;
             }
-            .member-sidebar {
+            .sidebar {
                 position: fixed;
-                left: -280px;
+                left: -300px;
                 top: 0;
-                width: 280px;
+                width: 288px;
                 z-index: 50;
                 transition: left 0.3s ease;
                 height: 100vh;
             }
-            .member-sidebar.open {
+            .sidebar.open {
                 left: 0;
-            }
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 40;
-            }
-            .sidebar-overlay.open {
-                display: block;
             }
             .member-mobile-header {
                 display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                background: rgba(244,241,237,0.84);
+                backdrop-filter: blur(12px);
+                border-bottom: 1px solid rgba(22,48,43,0.06);
             }
-            .member-sidebar-right {
-                position: static;
-                height: auto;
-                border-left: none;
-                border-top: 1px solid #ede7e2;
+            .member-mobile-header button {
+                background: none;
+                border: none;
+                padding: 6px;
+                border-radius: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
-            .member-main {
-                padding: 1rem;
+            .member-mobile-header button:hover {
+                background: rgba(22,48,43,0.06);
             }
-        }
-        @media (min-width: 768px) {
-            .member-mobile-header {
+            .topbar {
                 display: none;
             }
-            .sidebar-overlay {
-                display: none !important;
+            .content {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .topbar-inner {
+                padding: 14px 16px;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+            .topbar-actions {
+                width: 100%;
             }
         }
     </style>
@@ -308,110 +638,113 @@
     @stack('styles')
 </head>
 <body>
-    <div class="member-layout">
+    @php
+        $authUser = auth()->user();
+        $authMember = $authUser ? \App\Models\Member::where('user_id', $authUser->id)->first() : null;
+        $initials = strtoupper(substr($authMember?->first_name ?? $authUser?->name ?? 'U', 0, 1) . substr($authMember?->last_name ?? '', 0, 1));
+        $department = $authMember?->postal_code ? substr($authMember->postal_code, 0, 2) : null;
+        $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
+    @endphp
+
+    <div class="app">
         {{-- LEFT SIDEBAR --}}
-        <aside class="member-sidebar" id="memberSidebar">
-            {{-- Logo --}}
-            <a href="{{ route('hub.home') }}" class="flex items-center gap-2.5 mb-6">
-                <img src="/images/logo.jpg" alt="OREINA" class="sidebar-logo-img h-8 w-auto rounded-lg" onerror="this.style.display='none'">
-                <div class="sidebar-logo-text">
-                    <div class="text-white font-bold text-sm">OREINA</div>
-                    <div class="text-[10px] text-oreina-green">Mon espace</div>
+        <aside class="sidebar" id="memberSidebar">
+            {{-- Brand --}}
+            <a href="{{ route('hub.home') }}" class="brand">
+                <div class="brand-mark">
+                    <img src="/images/logo.jpg" alt="O" onerror="this.style.display='none'; this.parentNode.textContent='O';">
+                </div>
+                <div class="brand-text">
+                    <strong>OREINA</strong>
+                    <span>Espace membre</span>
                 </div>
             </a>
 
-            {{-- Profile summary --}}
-            @php
-                $authUser = auth()->user();
-                $authMember = $authUser ? \App\Models\Member::where('user_id', $authUser->id)->first() : null;
-                $initials = strtoupper(substr($authMember?->first_name ?? $authUser?->name ?? 'U', 0, 1) . substr($authMember?->last_name ?? '', 0, 1));
-                $department = $authMember?->postal_code ? substr($authMember->postal_code, 0, 2) : null;
-                $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
-            @endphp
-            <div class="text-center mb-6">
-                <div class="relative inline-block mb-2">
+            {{-- User card --}}
+            <div class="user-card">
+                <div class="avatar">
                     @if($authMember?->photo_path)
-                        <img src="{{ Storage::url($authMember->photo_path) }}" alt="" class="w-16 h-16 rounded-full border-2 border-white/20 object-cover">
+                        <img src="{{ Storage::url($authMember->photo_path) }}" alt="">
                     @else
-                        <div class="w-16 h-16 rounded-full bg-oreina-green/30 flex items-center justify-center border-2 border-white/20">
-                            <span class="text-white font-bold text-lg">{{ $initials }}</span>
-                        </div>
+                        {{ $initials }}
                     @endif
                 </div>
-                <div class="sidebar-profile-details">
-                    <div class="text-white font-semibold text-sm">{{ $authMember?->full_name ?? $authUser->name }}</div>
-                    @if($department)
-                        <div class="text-white/50 text-xs mt-0.5">Dept. {{ $department }}</div>
-                    @endif
+                <div class="user-details">
+                    <strong>{{ $authMember?->full_name ?? $authUser->name }}</strong>
+                    <span>
+                        @if($department)Dept. {{ $department }}@endif
+                    </span>
                     @if($authMember?->isCurrentMember())
-                        <span class="inline-block mt-1.5 text-[10px] font-semibold bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">Adhérent actif</span>
+                        <div class="user-badge">Adhérent actif</div>
                     @endif
                 </div>
             </div>
 
             {{-- Member's GT --}}
             @if($authMemberGroups->count() > 0)
-            <div class="mb-4 px-1 sidebar-profile-details">
-                <div class="text-white/40 text-[10px] font-semibold uppercase tracking-wider mb-2">Mes GT</div>
+            <div class="sidebar-gt-list">
+                <div class="nav-title">Mes GT</div>
                 @foreach($authMemberGroups as $gt)
-                <div class="flex items-center gap-2 mb-1">
-                    <div style="width: 8px; height: 8px; border-radius: 50%; background: {{ $gt->color }}; flex-shrink: 0;"></div>
-                    <span class="text-white/60 text-xs truncate">{{ $gt->name }}</span>
+                <div style="display:flex; align-items:center; gap:8px; padding:4px 12px;">
+                    <div style="width:8px; height:8px; border-radius:50%; background:{{ $gt->color }}; flex-shrink:0;"></div>
+                    <span class="nav-label" style="color:rgba(255,255,255,0.6); font-size:13px;">{{ $gt->name }}</span>
                 </div>
                 @endforeach
             </div>
             @endif
 
             {{-- Navigation --}}
-            <nav class="space-y-0.5 flex-1">
-                <a href="{{ route('member.dashboard') }}" class="member-nav-item {{ request()->routeIs('member.dashboard') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <nav class="nav-group">
+                <div class="nav-title">Navigation</div>
+
+                <a href="{{ route('member.dashboard') }}" class="nav-item {{ request()->routeIs('member.dashboard') ? 'active' : '' }}">
+                    <i data-lucide="layout-dashboard" class="icon"></i>
                     <span class="nav-label">Tableau de bord</span>
                 </a>
-                <a href="{{ route('member.profile') }}" class="member-nav-item {{ request()->routeIs('member.profile*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                <a href="{{ route('member.profile') }}" class="nav-item {{ request()->routeIs('member.profile*') ? 'active' : '' }}">
+                    <i data-lucide="user" class="icon"></i>
                     <span class="nav-label">Mon profil</span>
                 </a>
-                <a href="{{ route('member.membership') }}" class="member-nav-item {{ request()->routeIs('member.membership*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+                <a href="{{ route('member.membership') }}" class="nav-item {{ request()->routeIs('member.membership*') ? 'active' : '' }}">
+                    <i data-lucide="id-card" class="icon"></i>
                     <span class="nav-label">Mon adhésion</span>
                 </a>
-                <a href="{{ route('member.contributions') }}" class="member-nav-item {{ request()->routeIs('member.contributions*') || request()->routeIs('member.work-groups*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') || request()->routeIs('member.work-groups*') ? 'active' : '' }}">
+                    <i data-lucide="folder-open" class="icon"></i>
                     <span class="nav-label">Mes contributions</span>
                 </a>
-                <a href="{{ route('member.community') }}" class="member-nav-item {{ request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <a href="{{ route('member.community') }}" class="nav-item {{ request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
+                    <i data-lucide="users" class="icon"></i>
                     <span class="nav-label">Communauté</span>
                 </a>
-                <a href="{{ route('member.documents') }}" class="member-nav-item {{ request()->routeIs('member.documents*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <a href="{{ route('member.documents') }}" class="nav-item {{ request()->routeIs('member.documents*') ? 'active' : '' }}">
+                    <i data-lucide="file-text" class="icon"></i>
                     <span class="nav-label">Mes documents</span>
                 </a>
-                <a href="{{ route('member.journal') }}" class="member-nav-item {{ request()->routeIs('member.journal*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                <a href="{{ route('member.journal') }}" class="nav-item {{ request()->routeIs('member.journal*') ? 'active' : '' }}">
+                    <i data-lucide="book-open" class="icon"></i>
                     <span class="nav-label">La revue</span>
                 </a>
-                <a href="{{ route('member.lepis') }}" class="member-nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                <a href="{{ route('member.lepis') }}" class="nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
+                    <i data-lucide="newspaper" class="icon"></i>
                     <span class="nav-label">Lepis</span>
                 </a>
-                <a href="{{ route('member.profile.preferences') }}" class="member-nav-item {{ request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <a href="{{ route('member.profile.preferences') }}" class="nav-item {{ request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
+                    <i data-lucide="settings" class="icon"></i>
                     <span class="nav-label">Préférences</span>
                 </a>
             </nav>
 
-            {{-- Bottom: return + logout --}}
-            <div class="pt-4 border-t border-white/10 mt-4 sidebar-user-info">
-                <a href="{{ route('hub.home') }}" class="member-nav-item text-xs">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            {{-- Footer: return + logout --}}
+            <div class="sidebar-footer">
+                <a href="{{ route('hub.home') }}" class="nav-item">
+                    <i data-lucide="arrow-left" class="icon"></i>
                     <span class="nav-label">Retour au site</span>
                 </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="member-nav-item text-xs w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    <button type="submit" class="nav-item nav-item-danger" style="width:100%; background:none; border:none; cursor:pointer; text-align:left;">
+                        <i data-lucide="log-out" class="icon"></i>
                         <span class="nav-label">Déconnexion</span>
                     </button>
                 </form>
@@ -421,44 +754,53 @@
         {{-- MOBILE OVERLAY --}}
         <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
-        {{-- MAIN CONTENT --}}
-        <div class="member-main">
+        {{-- MAIN --}}
+        <div class="main">
             {{-- Mobile header --}}
-            <div class="member-mobile-header items-center gap-3 mb-4 -mt-2">
-                <button type="button" class="p-2 rounded-lg hover:bg-white/50" onclick="toggleMobileSidebar()">
-                    <svg class="w-6 h-6 text-oreina-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
+            <div class="member-mobile-header">
+                <button type="button" onclick="toggleMobileSidebar()">
+                    <i data-lucide="menu" style="width:24px;height:24px;color:var(--forest);"></i>
                 </button>
-                <a href="{{ route('hub.home') }}" class="flex items-center gap-2">
-                    <img src="/images/logo.jpg" alt="OREINA" class="h-7 w-auto rounded" onerror="this.style.display='none'">
-                    <span class="font-bold text-oreina-dark text-sm">Mon espace</span>
+                <a href="{{ route('hub.home') }}" style="display:flex; align-items:center; gap:8px;">
+                    <img src="/images/logo.jpg" alt="OREINA" style="height:28px; width:auto; border-radius:8px;" onerror="this.style.display='none'">
+                    <strong style="color:var(--forest); font-size:15px;">Mon espace</strong>
                 </a>
             </div>
 
-            {{-- Flash messages --}}
-            @if(session('success'))
-            <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-xl flex items-center gap-2 text-sm">
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                {{ session('success') }}
+            {{-- Topbar --}}
+            <div class="topbar">
+                <div class="topbar-inner">
+                    <div class="topbar-title">
+                        <strong>@yield('page-title', 'Tableau de bord')</strong>
+                        @hasSection('page-subtitle')
+                            <span>@yield('page-subtitle')</span>
+                        @endif
+                    </div>
+                    <div class="topbar-actions">
+                        @yield('topbar-actions')
+                    </div>
+                </div>
             </div>
-            @endif
-            @if(session('error'))
-            <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center gap-2 text-sm">
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                {{ session('error') }}
-            </div>
-            @endif
 
-            @yield('content')
+            {{-- Content --}}
+            <div class="content">
+                {{-- Flash messages --}}
+                @if(session('success'))
+                <div class="flash-success">
+                    <i data-lucide="check-circle" class="icon"></i>
+                    {{ session('success') }}
+                </div>
+                @endif
+                @if(session('error'))
+                <div class="flash-error">
+                    <i data-lucide="alert-circle" class="icon"></i>
+                    {{ session('error') }}
+                </div>
+                @endif
+
+                @yield('content')
+            </div>
         </div>
-
-        {{-- RIGHT SIDEBAR --}}
-        @hasSection('sidebar-right')
-            @yield('sidebar-right')
-        @else
-            <x-member.sidebar-right :events="$upcomingEvents ?? collect()" />
-        @endif
     </div>
 
     <script>
@@ -467,6 +809,7 @@
             document.getElementById('sidebarOverlay').classList.toggle('open');
         }
     </script>
+    <script>lucide.createIcons();</script>
 
     @stack('scripts')
 </body>
