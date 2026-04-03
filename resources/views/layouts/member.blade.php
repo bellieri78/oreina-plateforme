@@ -1012,7 +1012,7 @@
                     <i data-lucide="file-text" class="icon"></i>
                     <span class="nav-label">Mes documents</span>
                 </a>
-                <a href="{{ route('member.community') }}" class="nav-item {{ request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
+                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') || request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
                     <i data-lucide="users" class="icon"></i>
                     <span class="nav-label">Groupes et réseau</span>
                 </a>
