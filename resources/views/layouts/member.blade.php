@@ -540,6 +540,7 @@
         .welcome-main h1 {
             margin: 0;
             font-size: clamp(30px, 4vw, 46px);
+            font-weight: 700;
             line-height: 0.98;
             letter-spacing: -0.05em;
             max-width: 720px;
