@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\JournalIssue;
 use App\Models\Member;
 use App\Models\WorkGroup;
@@ -37,6 +38,13 @@ class DashboardController extends Controller
         $workGroups = WorkGroup::active()->withCount('members')->orderBy('name')->limit(3)->get();
         $myGroupIds = $member?->workGroups()->pluck('work_groups.id')->toArray() ?? [];
 
+        // Upcoming events
+        $upcomingEvents = Event::where('status', 'published')
+            ->where('start_date', '>=', now())
+            ->orderBy('start_date', 'asc')
+            ->limit(5)
+            ->get();
+
         // Stats
         $stats = [
             'total_donations' => $member?->donations()->sum('amount') ?? 0,
@@ -53,7 +61,8 @@ class DashboardController extends Controller
             'latestIssues',
             'workGroups',
             'myGroupIds',
-            'stats'
+            'stats',
+            'upcomingEvents'
         ));
     }
 }

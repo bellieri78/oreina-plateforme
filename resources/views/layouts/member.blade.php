@@ -202,7 +202,6 @@
         .nav-group {
             display: grid;
             gap: 4px;
-            flex: 1;
         }
         .nav-title {
             padding: 0 12px 4px;
@@ -492,6 +491,251 @@
             white-space: nowrap;
         }
 
+        /* === DASHBOARD COMPONENTS (Design System V4) === */
+
+        /* Welcome section */
+        .welcome {
+            display: grid;
+            grid-template-columns: 1.35fr 0.95fr;
+            gap: 18px;
+            align-items: stretch;
+        }
+        .welcome-main {
+            padding: 30px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            background: rgba(133,183,157,0.16);
+            color: #2f694e;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+        .welcome-main h1 {
+            margin: 0;
+            font-size: clamp(30px, 4vw, 46px);
+            line-height: 0.98;
+            letter-spacing: -0.05em;
+            max-width: 720px;
+        }
+        .welcome-main p {
+            margin: 14px 0 0;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.7;
+            max-width: 760px;
+        }
+        .quick-actions {
+            margin-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .welcome-side {
+            display: grid;
+            gap: 14px;
+        }
+        .mini-card {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 132px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+        }
+        .mini-card.blue { background: var(--surface-blue); }
+        .mini-card.sage { background: var(--surface-sage); }
+        .mini-card strong {
+            display: block;
+            font-size: 18px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+        .mini-card p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        /* Grid & Stack */
+        .grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.95fr;
+            gap: 18px;
+            align-items: start;
+        }
+        .stack {
+            display: grid;
+            gap: 18px;
+        }
+
+        /* Contributions grid */
+        .contrib-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .stat {
+            padding: 20px;
+            border-radius: 20px;
+            background: var(--surface-soft);
+            border: 1px solid rgba(22,48,43,0.06);
+        }
+        .stat strong {
+            display: block;
+            font-size: 34px;
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+        .stat span {
+            display: block;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Activity list */
+        .activity-list,
+        .todo-list,
+        .news-list,
+        .table-list {
+            display: grid;
+            gap: 12px;
+        }
+        .activity-item,
+        .todo-item,
+        .news-item,
+        .table-row {
+            padding: 16px;
+            border-radius: 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+        }
+        .activity-item {
+            display: grid;
+            grid-template-columns: 44px 1fr auto;
+            gap: 14px;
+            align-items: start;
+            background: var(--surface-soft);
+        }
+        .bullet {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: rgba(133,183,157,0.16);
+            flex: 0 0 44px;
+        }
+        .bullet.blue { background: rgba(53,107,138,0.10); }
+        .bullet.gold { background: rgba(237,196,66,0.18); }
+        .bullet.coral { background: rgba(239,122,92,0.12); }
+
+        .activity-item strong,
+        .todo-item strong,
+        .news-item strong,
+        .table-row strong {
+            display: block;
+            font-size: 15px;
+            line-height: 1.35;
+            letter-spacing: -0.01em;
+        }
+        .activity-item p,
+        .todo-item p,
+        .news-item p,
+        .table-row p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+        .time, .meta {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* Todo items */
+        .todo-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: start;
+            background: var(--surface-soft);
+        }
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        .status.gold { background: rgba(237,196,66,0.20); color: #8b6c05; }
+        .status.blue { background: rgba(53,107,138,0.10); color: var(--blue); }
+        .status.sage { background: rgba(133,183,157,0.18); color: #2f694e; }
+
+        /* News items */
+        .news-item {
+            background: var(--surface-soft);
+        }
+        .news-item:nth-child(1) { background: #FBF6DF; }
+        .news-item:nth-child(2) { background: #EEF4F8; }
+        .news-item:nth-child(3) { background: #EEF6F1; }
+
+        /* Observations table */
+        .obs-table {
+            display: grid;
+            gap: 10px;
+        }
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 14px;
+            align-items: center;
+            background: var(--surface-soft);
+        }
+        .table-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(22,48,43,0.06);
+            background: white;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+        .badge.blue { color: var(--blue); background: rgba(53,107,138,0.08); }
+        .badge.sage { color: #2f694e; background: rgba(133,183,157,0.16); }
+        .badge.gold { color: #8b6c05; background: rgba(237,196,66,0.18); }
+        .badge.coral { color: var(--coral); background: rgba(239,122,92,0.12); }
+
         /* Flash messages */
         .flash-success {
             padding: 14px 18px;
@@ -623,6 +867,17 @@
             }
         }
 
+        /* Dashboard responsive */
+        @media (max-width: 1240px) {
+            .welcome,
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .contrib-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
         @media (max-width: 760px) {
             .topbar-inner {
                 padding: 14px 16px;
@@ -631,6 +886,19 @@
             }
             .topbar-actions {
                 width: 100%;
+            }
+            .contrib-grid {
+                grid-template-columns: 1fr;
+            }
+            .activity-item,
+            .table-row {
+                grid-template-columns: 44px 1fr;
+            }
+            .time,
+            .table-badges,
+            .meta {
+                grid-column: 2;
+                justify-self: start;
             }
         }
     </style>
@@ -693,34 +961,47 @@
             </div>
             @endif
 
-            {{-- Navigation --}}
+            {{-- Navigation — Mon espace --}}
             <nav class="nav-group">
-                <div class="nav-title">Navigation</div>
-
+                <div class="nav-title">Mon espace</div>
                 <a href="{{ route('member.dashboard') }}" class="nav-item {{ request()->routeIs('member.dashboard') ? 'active' : '' }}">
                     <i data-lucide="layout-dashboard" class="icon"></i>
                     <span class="nav-label">Tableau de bord</span>
                 </a>
-                <a href="{{ route('member.profile') }}" class="nav-item {{ request()->routeIs('member.profile*') ? 'active' : '' }}">
-                    <i data-lucide="user" class="icon"></i>
+                <a href="{{ route('member.profile') }}" class="nav-item {{ request()->routeIs('member.profile*') && !request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
+                    <i data-lucide="user-round" class="icon"></i>
                     <span class="nav-label">Mon profil</span>
                 </a>
                 <a href="{{ route('member.membership') }}" class="nav-item {{ request()->routeIs('member.membership*') ? 'active' : '' }}">
-                    <i data-lucide="id-card" class="icon"></i>
+                    <i data-lucide="heart" class="icon"></i>
                     <span class="nav-label">Mon adhésion</span>
                 </a>
+                <a href="{{ route('member.profile.preferences') }}" class="nav-item {{ request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
+                    <i data-lucide="settings" class="icon"></i>
+                    <span class="nav-label">Préférences</span>
+                </a>
+            </nav>
+
+            {{-- Navigation — Contribuer --}}
+            <nav class="nav-group">
+                <div class="nav-title">Contribuer</div>
                 <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') || request()->routeIs('member.work-groups*') ? 'active' : '' }}">
                     <i data-lucide="folder-open" class="icon"></i>
                     <span class="nav-label">Mes contributions</span>
-                </a>
-                <a href="{{ route('member.community') }}" class="nav-item {{ request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
-                    <i data-lucide="users" class="icon"></i>
-                    <span class="nav-label">Communauté</span>
                 </a>
                 <a href="{{ route('member.documents') }}" class="nav-item {{ request()->routeIs('member.documents*') ? 'active' : '' }}">
                     <i data-lucide="file-text" class="icon"></i>
                     <span class="nav-label">Mes documents</span>
                 </a>
+                <a href="{{ route('member.community') }}" class="nav-item {{ request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
+                    <i data-lucide="users" class="icon"></i>
+                    <span class="nav-label">Groupes et réseau</span>
+                </a>
+            </nav>
+
+            {{-- Navigation — Ressources --}}
+            <nav class="nav-group">
+                <div class="nav-title">Ressources</div>
                 <a href="{{ route('member.journal') }}" class="nav-item {{ request()->routeIs('member.journal*') ? 'active' : '' }}">
                     <i data-lucide="book-open" class="icon"></i>
                     <span class="nav-label">La revue</span>
@@ -728,10 +1009,6 @@
                 <a href="{{ route('member.lepis') }}" class="nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
                     <i data-lucide="newspaper" class="icon"></i>
                     <span class="nav-label">Lepis</span>
-                </a>
-                <a href="{{ route('member.profile.preferences') }}" class="nav-item {{ request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
-                    <i data-lucide="settings" class="icon"></i>
-                    <span class="nav-label">Préférences</span>
                 </a>
             </nav>
 

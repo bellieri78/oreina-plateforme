@@ -177,6 +177,36 @@
         {{-- ── RIGHT STACK ── --}}
         <div class="stack">
 
+            {{-- Réseau des adhérents (carte) --}}
+            <article class="card panel" style="background:var(--forest); color:white; border:none;">
+                <div class="panel-head">
+                    <div>
+                        <h2 style="color:white;">Réseau des adhérents</h2>
+                        <p style="color:rgba(255,255,255,0.8);">Visualiser la répartition des membres et accéder à la carte interactive.</p>
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;justify-content:center;height:160px;border-radius:16px;background:rgba(255,255,255,0.08);margin-top:10px;position:relative;overflow:hidden;">
+                    {{-- Mini silhouette France SVG --}}
+                    <svg viewBox="0 0 200 200" style="width:140px;height:140px;opacity:0.25;" fill="white">
+                        <path d="M100,10 L120,25 L140,20 L155,35 L165,55 L170,75 L160,85 L170,100 L165,115 L155,125 L145,140 L130,155 L120,170 L100,180 L85,175 L75,185 L60,175 L50,160 L40,145 L35,130 L30,115 L35,100 L30,85 L35,70 L45,55 L55,40 L70,30 L85,20 Z"/>
+                    </svg>
+                    <div style="position:absolute;text-align:center;">
+                        <div style="font-size:28px;font-weight:800;letter-spacing:-0.04em;">
+                            @php
+                                $totalActiveMembers = \App\Models\Member::where('is_active', true)->count();
+                            @endphp
+                            {{ $totalActiveMembers }}
+                        </div>
+                        <div style="font-size:13px;color:rgba(255,255,255,0.7);">membres actifs</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:16px;">
+                    <a href="{{ route('member.map') }}" class="btn btn-primary"><i data-lucide="map"></i>Explorer la carte</a>
+                </div>
+            </article>
+
             {{-- Todo / Actions panel --}}
             <article class="card panel">
                 <div class="panel-head">
@@ -268,6 +298,34 @@
                                 <a href="{{ route('member.journal.download', $issue) }}" class="badge blue">Télécharger le PDF</a>
                             @endif
                             <span class="badge">Publié</span>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+            </article>
+            @endif
+
+            {{-- Vie du réseau --}}
+            @if($upcomingEvents->count() > 0)
+            <article class="card panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Vie du réseau</h2>
+                        <p>Prochains événements et actualités de la communauté OREINA.</p>
+                    </div>
+                    <a href="{{ route('member.community') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir l'agenda</a>
+                </div>
+
+                <div class="news-list">
+                    @foreach($upcomingEvents->take(3) as $event)
+                    <article class="news-item">
+                        <strong>{{ $event->title }}</strong>
+                        <p>{{ $event->start_date->translatedFormat('l j F Y') }} @if($event->location_city)· {{ $event->location_city }}@endif</p>
+                        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                            <span class="badge blue">{{ ucfirst($event->event_type ?? 'Événement') }}</span>
+                            @if($event->start_date->diffInDays(now()) < 7)
+                                <span class="badge gold">Bientôt</span>
+                            @endif
                         </div>
                     </article>
                     @endforeach
