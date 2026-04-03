@@ -47,7 +47,21 @@
             background: var(--bg);
             margin: 0;
             padding: 0;
+            font-size: 15px;
+            line-height: 1.6;
         }
+
+        /* Override Tailwind v4 heading resets */
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            color: var(--text);
+        }
+        h1 { font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.05em; line-height: 0.98; }
+        h2 { font-size: 26px; }
+        h3 { font-size: 20px; }
+        h4 { font-size: 16px; }
 
         body::before {
             content: "";
@@ -463,14 +477,18 @@
         .panel-head {
             display: flex;
             justify-content: space-between;
-            align-items: end;
+            align-items: start;
             gap: 14px;
             margin-bottom: 18px;
+        }
+        .panel-head > div:first-child {
+            flex: 1;
+            min-width: 0;
         }
         .panel-head h2 {
             margin: 0;
             font-size: 26px;
-            line-height: 1.02;
+            line-height: 1.05;
             letter-spacing: -0.04em;
         }
         .panel-head p {
@@ -558,9 +576,9 @@
         .mini-card.sage { background: var(--surface-sage); }
         .mini-card strong {
             display: block;
-            font-size: 18px;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
+            font-size: 24px;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
         }
         .mini-card p {
             margin: 8px 0 0;
