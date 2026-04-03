@@ -22,7 +22,6 @@
     {{-- Issues grid --}}
     <div class="card panel">
         <div class="panel-head">
-            <i data-lucide="book-open"></i>
             <div>
                 <h2>Numéros disponibles</h2>
             </div>

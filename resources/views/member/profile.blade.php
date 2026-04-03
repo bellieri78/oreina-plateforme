@@ -13,7 +13,6 @@
         {{-- Photo and basic info --}}
         <div class="card panel mb-6">
             <div class="panel-head">
-                <i data-lucide="user-round"></i>
                 <div>
                     <h2>Informations personnelles</h2>
                 </div>
@@ -91,7 +90,6 @@
         {{-- Address --}}
         <div class="card panel mb-6">
             <div class="panel-head">
-                <i data-lucide="map-pin"></i>
                 <div>
                     <h2>Adresse</h2>
                 </div>
@@ -123,7 +121,6 @@
         {{-- Interests --}}
         <div class="card panel mb-6">
             <div class="panel-head">
-                <i data-lucide="heart"></i>
                 <div>
                     <h2>Centres d'intérêt</h2>
                 </div>

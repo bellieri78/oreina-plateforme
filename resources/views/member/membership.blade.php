@@ -83,7 +83,6 @@
     @if($isCurrentMember && $member)
     <div class="card panel">
         <div class="panel-head">
-            <i data-lucide="id-card"></i>
             <div>
                 <h2>Votre carte d'adhérent</h2>
             </div>
@@ -130,7 +129,6 @@
     {{-- Membership history --}}
     <div class="card panel">
         <div class="panel-head">
-            <i data-lucide="clock"></i>
             <div>
                 <h2>Historique des adhésions</h2>
             </div>

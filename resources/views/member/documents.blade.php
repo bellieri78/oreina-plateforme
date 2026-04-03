@@ -9,7 +9,6 @@
     {{-- Fiscal receipts (Cerfa) --}}
     <div class="card panel">
         <div class="panel-head">
-            <i data-lucide="receipt"></i>
             <div>
                 <h2>Reçus fiscaux (dons)</h2>
             </div>
@@ -60,7 +59,6 @@
     {{-- Membership receipts --}}
     <div class="card panel">
         <div class="panel-head">
-            <i data-lucide="id-card"></i>
             <div>
                 <h2>Reçus d'adhésion</h2>
             </div>

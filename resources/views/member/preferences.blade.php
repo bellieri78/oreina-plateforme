@@ -12,7 +12,6 @@
 
         <div class="card panel mb-6">
             <div class="panel-head">
-                <i data-lucide="shield-check"></i>
                 <div>
                     <h2>Consentements RGPD</h2>
                 </div>
