@@ -166,35 +166,178 @@
         white-space: nowrap;
     }
 
-    /* ── News ── */
-    .news-layout {
+    /* ── Story Layout (2-column) ── */
+    .story-layout {
         display: grid;
-        grid-template-columns: 1.5fr 0.95fr;
-        gap: 18px;
-        align-items: stretch;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 28px;
+        align-items: start;
     }
 
-    .news-feature,
-    .news-item,
-    .content-panel,
-    .tool-panel,
-    .cta-panel {
+    .main-story {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    /* ── Aside News (right column) ── */
+    .aside-news {
+        position: sticky;
+        top: 100px;
+    }
+
+    .aside-news h3 {
+        margin: 0 0 20px;
+        font-size: 24px;
+        letter-spacing: -0.04em;
+    }
+
+    .aside-news-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .aside-news-item {
+        padding: 14px;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: var(--radius-xl);
+        border-radius: var(--radius-lg);
         box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 14px;
+        align-items: start;
     }
 
-    .news-feature { overflow: hidden; }
-
-    .news-feature-media {
-        height: 360px;
+    .aside-news-thumb {
+        width: 120px;
+        border-radius: 10px;
         background-size: cover;
         background-position: center;
+        grid-row: 1 / -1;
+        align-self: stretch;
+        flex-shrink: 0;
     }
 
-    .news-feature-body { padding: 26px; }
+    .aside-news-item:not(:has(.aside-news-thumb)) {
+        grid-template-columns: 1fr;
+    }
 
+    .aside-news-item .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 800;
+        border: 1px solid transparent;
+    }
+
+    .aside-news-item .news-date {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .aside-news-item h4 {
+        margin: 4px 0 4px;
+        font-size: 15px;
+        line-height: 1.2;
+        letter-spacing: -0.03em;
+    }
+
+    .aside-news-item h4 a:hover {
+        color: var(--blue);
+    }
+
+    .aside-news-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .aside-news-footer {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+    }
+
+    /* ── Content blocks (narrative) ── */
+    .content-panel {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .content-panel .eyebrow {
+        background: rgba(53,107,138,0.08);
+        color: var(--blue);
+        margin-bottom: 16px;
+    }
+
+    .content-panel .eyebrow.sage {
+        background: rgba(133,183,157,0.16);
+        color: #2f694e;
+    }
+
+    .content-panel .eyebrow.gold {
+        background: rgba(237,196,66,0.20);
+        color: #8b6c05;
+    }
+
+    .content-panel .eyebrow.blue {
+        background: rgba(53,107,138,0.10);
+        color: var(--blue);
+    }
+
+    .content-body { max-width: 680px; }
+    .content-body p { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0; }
+    .content-body p + p { margin-top: 12px; }
+
+    .content-body h3 {
+        margin: 0 0 14px;
+        font-size: 28px;
+        line-height: 1.1;
+        letter-spacing: -0.04em;
+    }
+
+    .content-actions {
+        margin-top: 22px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .split-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        align-items: center;
+    }
+
+    .visual-block {
+        min-height: 400px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .transition-text {
+        margin-top: 14px;
+        font-size: 15px;
+        color: var(--muted);
+        font-style: italic;
+        line-height: 1.6;
+    }
+
+    /* ── Tags ── */
     .tag {
         display: inline-flex;
         align-items: center;
@@ -231,139 +374,127 @@
         font-weight: 700;
     }
 
-    .news-feature h3,
-    .news-item h3,
-    .content-panel h3,
-    .tool-panel h3,
-    .cta-panel h2 {
-        margin: 12px 0 10px;
-        line-height: 1.08;
-        letter-spacing: -0.04em;
-    }
-
-    .news-feature h3 { font-size: 34px; }
-    .news-item h3,
-    .content-panel h3,
-    .tool-panel h3 { font-size: 24px; }
-
-    .news-feature p,
-    .news-item p,
-    .content-panel p,
-    .tool-panel p,
-    .cta-panel p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.7;
-    }
-
-    .news-list {
-        display: grid;
-        gap: 14px;
-        grid-template-rows: 1fr 1fr;
-    }
-
-    .news-item {
-        padding: 22px;
-        background: var(--surface-soft);
-    }
-
-    /* ── Split sections ── */
-    .split-section {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 28px;
-        align-items: center;
-    }
-
-    .visual-block {
-        min-height: 460px;
-        border-radius: 32px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    .content-panel {
-        padding: 34px;
-        background: transparent;
-        border: 0;
-        box-shadow: none;
-    }
-
-    .content-panel .eyebrow {
-        background: rgba(53,107,138,0.08);
-        color: var(--blue);
-        margin-bottom: 16px;
-    }
-
-    .content-panel .eyebrow.sage {
-        background: rgba(133,183,157,0.16);
-        color: #2f694e;
-    }
-
-    .content-panel .eyebrow.gold {
-        background: rgba(237,196,66,0.20);
-        color: #8b6c05;
-    }
-
-    .content-body { max-width: 540px; }
-    .content-body p + p { margin-top: 12px; }
-
-    .content-actions {
-        margin-top: 22px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    /* ── Tool panel ── */
-    .tool-panel {
-        padding: 30px;
-        background: #eef4f8;
-    }
-
-    .tool-kpis {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 20px;
-    }
-
-    .tool-kpi {
-        padding: 12px 14px;
-        border-radius: 16px;
-        background: rgba(255,255,255,0.72);
-        border: 1px solid rgba(22,48,43,0.06);
-        min-width: 140px;
-    }
-
-    .tool-kpi strong {
-        display: block;
-        font-size: 28px;
-        line-height: 1;
-        margin-bottom: 4px;
-        letter-spacing: -0.04em;
-        color: var(--forest);
-    }
-
-    .tool-kpi span {
-        font-size: 13px;
-        color: var(--muted);
-        line-height: 1.45;
-    }
-
-    /* ── Projects ── */
+    /* ── Project cards ── */
     .project-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 18px;
     }
+
+    .project-grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
     .project-card {
-        padding: 28px;
+        padding: 30px;
         border-radius: var(--radius-xl);
+        border: 1px solid transparent;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.06;
+        pointer-events: none;
+        background: radial-gradient(circle at 100% 100%, currentColor, transparent 60%);
+    }
+
+    .project-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 48px rgba(22,48,43,0.14);
+    }
+
+    .project-card h3 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: -0.03em;
+    }
+
+    .project-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .project-card-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+    }
+
+    .project-card-icon .icon {
+        width: 22px;
+        height: 22px;
+        flex: 0 0 22px;
+    }
+
+    .project-card-icon .icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .project-card-pill {
+        display: inline-flex;
+        align-self: flex-start;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    /* Card color themes */
+    .project-card-gold {
+        background: linear-gradient(145deg, #FBF6DF 0%, #F5EBC4 100%);
+        border-color: rgba(237,196,66,0.22);
+    }
+    .project-card-gold .project-card-pill { background: rgba(237,196,66,0.22); color: #8b6c05; }
+    .project-card-gold .project-card-icon { background: rgba(237,196,66,0.22); }
+
+    .project-card-coral {
+        background: linear-gradient(145deg, #FEF0EB 0%, #FBDDD3 100%);
+        border-color: rgba(239,122,92,0.18);
+    }
+    .project-card-coral .project-card-pill { background: rgba(239,122,92,0.16); color: #b5452a; }
+    .project-card-coral .project-card-icon { background: rgba(239,122,92,0.16); }
+
+    .project-card-sage {
+        background: linear-gradient(145deg, #EEF6F1 0%, #D6ECDF 100%);
+        border-color: rgba(133,183,157,0.24);
+    }
+    .project-card-sage .project-card-pill { background: rgba(133,183,157,0.22); color: #2f694e; }
+    .project-card-sage .project-card-icon { background: rgba(133,183,157,0.22); }
+
+    .project-card-blue {
+        background: linear-gradient(145deg, #EEF4F8 0%, #D5E5EF 100%);
+        border-color: rgba(53,107,138,0.16);
+    }
+    .project-card-blue .project-card-pill { background: rgba(53,107,138,0.14); color: var(--blue); }
+    .project-card-blue .project-card-icon { background: rgba(53,107,138,0.14); }
+
+    /* ── Publications grid ── */
+    .pub-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 18px;
+    }
+
+    .pub-card {
+        padding: 26px;
+        border-radius: var(--radius-xl);
+        background: var(--surface);
         border: 1px solid var(--border);
         box-shadow: var(--shadow);
         display: flex;
@@ -371,65 +502,100 @@
         gap: 10px;
         transition: all 0.3s ease;
     }
-    .project-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 20px 48px rgba(22,48,43,0.12);
+
+    .pub-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 40px rgba(22,48,43,0.10);
     }
-    .project-card h3 {
-        margin: 4px 0 0;
-        font-size: 22px;
+
+    .pub-card h4 {
+        margin: 0;
+        font-size: 20px;
         letter-spacing: -0.03em;
     }
-    .project-card p {
+
+    .pub-card p {
         margin: 0;
         color: var(--muted);
         font-size: 14px;
         line-height: 1.65;
     }
-    .project-card-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
+
+    .pub-card .text-link {
+        margin-top: auto;
+    }
+
+    .pub-card-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
         display: grid;
         place-items: center;
     }
-    .project-card-pill {
-        display: inline-flex;
-        align-self: flex-start;
-        padding: 6px 10px;
-        border-radius: 999px;
+
+    /* ── Tool list (sober) ── */
+    .tool-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 18px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
         background: var(--surface);
-        border: 1px solid rgba(22,48,43,0.06);
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 800;
-    }
-    .project-card-wide {
-        grid-column: 1 / -1;
     }
 
-    .project-main strong {
+    .tool-list-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.15s ease;
+    }
+
+    .tool-list-row:last-child {
+        border-bottom: 0;
+    }
+
+    .tool-list-row:hover {
+        background: var(--surface-soft);
+    }
+
+    .tool-list-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--surface-blue);
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+    }
+
+    .tool-list-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .tool-list-body strong {
         display: block;
-        font-size: 16px;
+        font-size: 15px;
         letter-spacing: -0.02em;
+        margin-bottom: 2px;
     }
 
-    .project-main span {
-        display: block;
-        margin-top: 4px;
+    .tool-list-body span {
         color: var(--muted);
-        font-size: 14px;
+        font-size: 13px;
         line-height: 1.5;
     }
 
-    .project-pill {
-        padding: 8px 10px;
-        border-radius: 999px;
-        background: var(--surface-soft);
-        border: 1px solid rgba(22,48,43,0.06);
-        color: var(--muted);
-        font-size: 12px;
+    .tool-list-stat {
+        flex-shrink: 0;
+        text-align: right;
+        font-size: 14px;
         font-weight: 800;
+        color: var(--blue);
         white-space: nowrap;
     }
 
@@ -440,6 +606,8 @@
         padding: 38px;
         background: var(--forest);
         color: white;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
     }
 
     .cta-panel::after {
@@ -462,9 +630,20 @@
         margin-bottom: 14px;
     }
 
+    .cta-panel h2 {
+        margin: 12px 0 10px;
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+        font-size: clamp(26px, 3.5vw, 38px);
+        color: white;
+    }
+
     .cta-panel p {
         max-width: 760px;
         color: rgba(255,255,255,0.82);
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.7;
     }
 
     /* ── Eyebrow base ── */
@@ -541,7 +720,15 @@
 
     /* ── Responsive ── */
     @media (max-width: 1080px) {
-        .news-layout,
+        .story-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .aside-news {
+            order: 99;
+            position: static;
+        }
+
         .split-section {
             grid-template-columns: 1fr;
         }
@@ -550,15 +737,21 @@
             min-height: 88vh;
         }
 
-        .project-grid {
-            grid-template-columns: 1fr;
+        .project-grid,
+        .project-grid-4 {
+            grid-template-columns: repeat(2, 1fr);
         }
-        .project-card-wide {
-            grid-column: auto;
+
+        .pub-grid {
+            grid-template-columns: 1fr;
         }
     }
 
     @media (max-width: 760px) {
+        .project-grid-4 {
+            grid-template-columns: 1fr;
+        }
+
         .hero-content {
             padding: 28px 16px 36px;
         }
@@ -579,20 +772,20 @@
         }
 
         .content-panel,
-        .tool-panel,
-        .cta-panel,
-        .news-feature-body,
-        .news-item {
+        .cta-panel {
             padding: 22px;
         }
 
-        .project-row {
-            grid-template-columns: 42px 1fr;
+        .pub-grid {
+            grid-template-columns: 1fr;
         }
 
-        .project-pill {
-            grid-column: 2;
-            justify-self: start;
+        .tool-list-row {
+            padding: 14px 16px;
+        }
+
+        .tool-list-stat {
+            display: none;
         }
     }
 </style>
@@ -604,8 +797,8 @@
         <article class="hero-card">
             <div class="hero-content">
                 <div class="eyebrow"><i class="icon icon-white" data-lucide="leaf"></i>Association loi 1901 depuis 2007</div>
-                <h1>Connaître, comprendre, protéger les papillons de France</h1>
-                <p>OREINA fédère une communauté de naturalistes, structure la connaissance et développe des outils pour partager, qualifier et valoriser les données à l'échelle nationale.</p>
+                <h1>Lépidoptères de France</h1>
+                <p>OREINA fédère naturalistes et scientifiques pour observer, comprendre et protéger les papillons de France.</p>
 
                 <div class="hero-actions">
                     <a href="{{ route('hub.about') }}" class="btn btn-primary"><i class="icon icon-sage" data-lucide="sparkles"></i>Découvrir OREINA</a>
@@ -637,221 +830,236 @@
         </article>
     </section>
 
-    {{-- 2. Actualités Section --}}
-    <section id="actualites" style="background:white; width:100vw; margin-left:calc(50% - 50vw); padding-left:calc(50vw - 50%); padding-right:calc(50vw - 50%);"  >
+    {{-- 2. Association + Actus (2 colonnes) --}}
+    <section style="background:white; width:100vw; margin-left:calc(50% - 50vw); padding-left:calc(50vw - 50%); padding-right:calc(50vw - 50%);">
         <div class="container">
-            <div class="section-head">
+            <div class="story-layout">
+
+                {{-- LEFT: Association --}}
                 <div>
-                    <h2>Actualités</h2>
-                    <p>Dernières nouvelles de la communauté, des projets et des publications OREINA.</p>
-                </div>
-                <a href="{{ route('hub.articles.index') }}" class="text-link"><i class="icon icon-blue" data-lucide="arrow-right"></i>Toutes les actualités</a>
-            </div>
 
-            @php
-                // Merge featured + latest articles, deduplicate, take up to 4
-                $allArticles = collect()
-                    ->merge($featuredArticles ?? collect())
-                    ->merge($latestArticles ?? collect())
-                    ->unique('id')
-                    ->sortByDesc('published_at')
-                    ->values();
-                $mainArticle = $allArticles->first();
-                $sideArticles = $allArticles->skip(1)->take(2);
-            @endphp
-
-            @if($mainArticle)
-                <div class="news-layout">
-                    {{-- Featured article --}}
-                    <article class="news-feature">
-                        <div class="news-feature-media" style="background-image: url('{{ $mainArticle->featured_image ? Storage::url($mainArticle->featured_image) : '/images/actu2.jpg' }}');"></div>
-                        <div class="news-feature-body">
-                            <div class="tag tag-gold"><i class="icon icon-gold" data-lucide="calendar-days"></i>{{ ucfirst($mainArticle->category ?? 'Actualité') }}</div>
-                            <div class="news-date">{{ $mainArticle->published_at->translatedFormat('d F Y') }}</div>
-                            <h3><a href="{{ route('hub.articles.show', $mainArticle) }}">{{ $mainArticle->title }}</a></h3>
-                            <p>{{ $mainArticle->summary }}</p>
+                    {{-- Block A: L'association --}}
+                    <div class="content-panel">
+                        <div class="eyebrow sage"><i class="icon icon-sage" data-lucide="trees"></i>L'association</div>
+                        <div class="content-body">
+                            <h3>Une association à la croisée du naturalisme et de la science</h3>
+                            <p>Sur le terrain, OREINA rassemble des naturalistes passionnés qui observent, photographient et inventorient les papillons à travers toute la France. Ce réseau de bénévoles, qu'ils soient débutants ou confirmés, participe à des sorties collectives, alimente des bases de données et transmet un savoir vivant, ancré dans l'expérience directe de la nature.</p>
+                            <p>En parallèle, l'association structure cette connaissance pour la rendre utile à la recherche. Publications scientifiques avec comité de relecture, référentiels taxonomiques, qualification des observations, barcoding génétique : OREINA produit des données fiables et contribue activement aux programmes nationaux. C'est cette double vocation — naturaliste et scientifique — qui fait sa singularité.</p>
+                            <div class="content-actions">
+                                <a href="{{ route('hub.about') }}" class="btn btn-secondary"><i class="icon icon-blue" data-lucide="info"></i>Qui sommes-nous ?</a>
+                            </div>
                         </div>
-                    </article>
-
-                    {{-- News list --}}
-                    <div class="news-list">
-                        @foreach($sideArticles as $article)
-                        <article class="news-item">
-                            <div class="tag tag-blue"><i class="icon icon-blue" data-lucide="microscope"></i>{{ ucfirst($article->category ?? 'Article') }}</div>
-                            <div class="news-date">{{ $article->published_at->translatedFormat('d F Y') }}</div>
-                            <h3><a href="{{ route('hub.articles.show', $article) }}">{{ $article->title }}</a></h3>
-                            <p>{{ Str::limit($article->summary, 120) }}</p>
-                        </article>
-                        @endforeach
                     </div>
-                </div>
-            @else
-                {{-- Static fallback content --}}
-                <div class="news-layout">
-                    <article class="news-feature">
-                        <div class="news-feature-media" style="background-image: url('/images/actu2.jpg');"></div>
-                        <div class="news-feature-body">
-                            <div class="tag tag-gold"><i class="icon icon-gold" data-lucide="calendar-days"></i>Événement</div>
-                            <div class="news-date">05 février 2026</div>
-                            <h3>Sortie terrain : à la découverte des Zygènes des Pyrénées</h3>
-                            <p>Compte-rendu, retour d'expérience et préparation des prochaines sorties : retrouvez les moments forts de nos actions de terrain.</p>
-                        </div>
-                    </article>
+                    <div class="visual-block" style="background-image: url('/images/about-mission.jpg'); margin-top: 24px; min-height: 280px;"></div>
 
-                    <div class="news-list">
-                        <article class="news-item">
-                            <div class="tag tag-blue"><i class="icon icon-blue" data-lucide="microscope"></i>Science</div>
-                            <div class="news-date">28 février 2026</div>
-                            <h3>Guide d'identification : les Sphingidés de France</h3>
-                            <p>Une mise en avant plus forte des contenus scientifiques et pédagogiques publiés par l'association.</p>
-                        </article>
-
-                        <article class="news-item">
-                            <div class="tag tag-sage"><i class="icon icon-sage" data-lucide="database"></i>Portail</div>
-                            <div class="news-date">Mars 2026</div>
-                            <h3>Mise à jour d'Artemisiae et nouvelles ressources</h3>
-                            <p>Actualités techniques, nouveautés fonctionnelles et valorisation des usages du portail.</p>
-                        </article>
-
-                        <article class="news-item">
-                            <div class="tag tag-gold"><i class="icon icon-gold" data-lucide="users"></i>Réseau</div>
-                            <div class="news-date">Avril 2026</div>
-                            <h3>Ateliers, groupes de travail et vie associative</h3>
-                            <p>Une place plus visible pour montrer qu'OREINA est aussi une communauté active.</p>
-                        </article>
-                    </div>
-                </div>
-            @endif
-        </div>
-    </section>
-
-    {{-- 3. Association Section (split) --}}
-    <section id="association">
-        <div class="container split-section">
-            <div class="content-panel">
-                <div class="eyebrow sage"><i class="icon icon-sage" data-lucide="trees"></i>L'association</div>
-                <div class="content-body">
-                    <h3>Une association scientifique et un réseau naturaliste</h3>
-                    <p>OREINA fédère des naturalistes, structure la connaissance sur les Lépidoptères, développe des outils, soutient des projets et anime des dynamiques collectives à l'échelle nationale.</p>
-                    <p>Depuis 2007, l'association mobilise chercheurs, amateurs éclairés et passionnés autour d'une mission commune : observer, comprendre et protéger les papillons de France.</p>
-                    <div class="content-actions">
-                        <a href="{{ route('hub.about') }}" class="btn btn-secondary"><i class="icon icon-blue" data-lucide="info"></i>Qui sommes-nous ?</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="visual-block" style="background-image: url('/images/about-mission.jpg');"></div>
-        </div>
-    </section>
-
-    {{-- 4. Portail & Outils Section (split, reversed) --}}
-    <section id="portail" style="background:white; width:100vw; margin-left:calc(50% - 50vw); padding-left:calc(50vw - 50%); padding-right:calc(50vw - 50%);">
-        <div class="container split-section">
-            <div class="visual-block" style="background-image: url('/images/actu1.JPG');"></div>
-
-            <div class="tool-panel">
-                <div class="eyebrow" style="background:rgba(53,107,138,0.10);color:var(--blue);"><i class="icon icon-blue" data-lucide="database"></i>Portail & outils</div>
-                <h3>Un portail national de données et d'expertise</h3>
-                <p>Artemisiae centralise les observations, les traits de vie et les références bibliographiques. Un écosystème numérique au service de la connaissance des Lépidoptères.</p>
-
-                <div class="tool-kpis">
-                    <div class="tool-kpi">
-                        <strong>2,1 M+</strong>
-                        <span>observations dans le portail</span>
-                    </div>
-                    <div class="tool-kpi">
-                        <strong>25 639</strong>
-                        <span>traits de vie mobilisables</span>
-                    </div>
-                    <div class="tool-kpi">
-                        <strong>23 520</strong>
-                        <span>références documentaires</span>
-                    </div>
                 </div>
 
-                <div class="content-actions">
-                    <a href="#" class="btn btn-primary"><i class="icon icon-sage" data-lucide="database"></i>Accéder à Artemisiae</a>
-                    <a href="#" class="btn btn-secondary"><i class="icon icon-blue" data-lucide="book-open"></i>Découvrir les outils</a>
+                {{-- RIGHT: Actus sidebar (seulement ici) --}}
+                <div class="aside-news">
+                    <h3>Actualités</h3>
+
+                    @php
+                        $allArticles = collect()
+                            ->merge($featuredArticles ?? collect())
+                            ->merge($latestArticles ?? collect())
+                            ->unique('id')
+                            ->sortByDesc('published_at')
+                            ->values();
+                    @endphp
+
+                    <div class="aside-news-list">
+                        @forelse($allArticles->take(3) as $article)
+                            <article class="aside-news-item">
+                                @if($article->featured_image)
+                                    <div class="aside-news-thumb" style="background-image: url('{{ Storage::url($article->featured_image) }}');"></div>
+                                @endif
+                                <div>
+                                    <div class="news-date">{{ $article->published_at->translatedFormat('d F Y') }}</div>
+                                    <h4><a href="{{ route('hub.articles.show', $article) }}">{{ $article->title }}</a></h4>
+                                    <p>{{ Str::limit($article->summary, 80) }}</p>
+                                </div>
+                            </article>
+                        @empty
+                            <article class="aside-news-item">
+                                <div class="aside-news-thumb" style="background-image: url('/images/actu1.JPG');"></div>
+                                <div>
+                                    <div class="news-date">Février 2026</div>
+                                    <h4>Sortie terrain dans les Pyrénées</h4>
+                                    <p>Compte-rendu et retour d'expérience.</p>
+                                </div>
+                            </article>
+                            <article class="aside-news-item">
+                                <div class="aside-news-thumb" style="background-image: url('/images/actu1.JPG');"></div>
+                                <div>
+                                    <div class="news-date">Mars 2026</div>
+                                    <h4>Mise à jour d'Artemisiae</h4>
+                                    <p>Nouveautés du portail naturaliste.</p>
+                                </div>
+                            </article>
+                            <article class="aside-news-item">
+                                <div class="aside-news-thumb" style="background-image: url('/images/DSC_379.jpg');"></div>
+                                <div>
+                                    <div class="news-date">Avril 2026</div>
+                                    <h4>Vie associative et groupes</h4>
+                                    <p>Ateliers et échanges du réseau.</p>
+                                </div>
+                            </article>
+                        @endforelse
+                    </div>
+
+                    <div class="aside-news-footer">
+                        <a href="{{ route('hub.articles.index') }}" class="text-link"><i class="icon icon-blue" data-lucide="arrow-right"></i>Toutes les actualités</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- 5. Projets Section --}}
-    <section id="projets">
-        <div class="container">
-            <div class="section-head">
-                <div>
-                    <h2>Projets et actions</h2>
-                    <p>Six projets majeurs portés par nos bénévoles, soutenus par l'OFB et l'Union Européenne.</p>
-                </div>
-            </div>
-
-            <div class="project-grid">
-                <article class="project-card" style="background: var(--surface-blue);">
-                    <div class="project-card-icon" style="background: rgba(53,107,138,0.12);"><i class="icon icon-blue" data-lucide="binary"></i></div>
-                    <div class="project-card-pill">Référentiel</div>
-                    <h3>TAXREF</h3>
-                    <p>Référentiel taxonomique national des Lépidoptères. Un socle partagé pour nommer, classer et harmoniser les connaissances.</p>
-                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
-                </article>
-
-                <article class="project-card" style="background: var(--surface-sage);">
-                    <div class="project-card-icon" style="background: rgba(133,183,157,0.16);"><i class="icon icon-sage" data-lucide="dna"></i></div>
-                    <div class="project-card-pill">Génétique</div>
-                    <h3>SEQREF</h3>
-                    <p>Barcoding ADN et référentiel génétique. Construire une bibliothèque moléculaire de référence pour les Lépidoptères de France.</p>
-                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
-                </article>
-
-                <article class="project-card" style="background: #FBF6DF;">
-                    <div class="project-card-icon" style="background: rgba(237,196,66,0.18);"><i class="icon icon-gold" data-lucide="search"></i></div>
-                    <div class="project-card-pill">Identification</div>
-                    <h3>IDENT</h3>
-                    <p>Outils d'identification, contenus d'aide et formations. Rendre la détermination accessible à tous les niveaux d'expertise.</p>
-                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
-                </article>
-
-                <article class="project-card" style="background: rgba(239,122,92,0.06);">
-                    <div class="project-card-icon" style="background: rgba(239,122,92,0.12);"><i class="icon icon-coral" data-lucide="badge-check"></i></div>
-                    <div class="project-card-pill">Qualité des données</div>
-                    <h3>QUALIF</h3>
-                    <p>Validation et qualification des données naturalistes. Garantir la fiabilité des observations partagées dans le réseau.</p>
-                    <a href="#" class="text-link" style="margin-top:auto;"><i data-lucide="arrow-right"></i>En savoir plus</a>
-                </article>
-
-                <article class="project-card project-card-wide" style="background: var(--forest); color: white;">
-                    <div class="project-card-icon" style="background: rgba(255,255,255,0.1);"><i class="icon icon-white" data-lucide="scroll-text"></i></div>
-                    <div class="project-card-pill" style="background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.15);">Publication</div>
-                    <h3 style="color:white;">Revue scientifique</h3>
-                    <p style="color:rgba(255,255,255,0.8);">Publications avec DOI, diffusion des connaissances et valorisation des travaux du réseau. Un support de référence pour la communauté.</p>
-                    <a href="{{ route('journal.home') }}" class="text-link" style="margin-top:auto; color:var(--gold);"><i data-lucide="arrow-right"></i>Découvrir la revue</a>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    {{-- 6. Réseau / Communauté Section (split) --}}
-    <section id="reseau">
+    {{-- 3. Communauté (split: photo gauche, texte droite) --}}
+    <section>
         <div class="container split-section">
             <div class="content-panel">
                 <div class="eyebrow gold"><i class="icon icon-gold" data-lucide="users-round"></i>Communauté</div>
                 <div class="content-body">
-                    <h3>Des groupes de travail pour contribuer activement</h3>
-                    <p>Participez activement à l'amélioration des connaissances en rejoignant nos groupes thématiques : taxonomie, écologie, conservation, et bien plus encore. Chaque groupe structure ses échanges, partage ses ressources et fait avancer des projets concrets.</p>
-                    <p>Que vous soyez débutant ou expert, il y a un espace pour vous dans le réseau OREINA.</p>
+                    <h3>Naturalistes, spécialistes, partenaires : un réseau pour tous</h3>
+                    <p>Au coeur du réseau, des naturalistes de terrain observent, documentent et partagent leurs découvertes au quotidien. Autour d'eux, des experts et spécialistes — taxonomistes, écologues, généticiens — structurent et valident cette connaissance. Et à l'échelle institutionnelle, des partenaires comme l'OFB, le MNHN ou le PatriNat soutiennent et relaient les travaux de l'association.</p>
+                    <p>Quel que soit votre profil, il y a un espace pour vous dans le réseau.</p>
+                    <p style="font-style:italic; color:var(--forest);">Et concrètement, comment ça se traduit ?</p>
                     <div class="content-actions">
                         <a href="{{ route('member.work-groups') }}" class="btn btn-secondary"><i class="icon icon-blue" data-lucide="users"></i>Voir les groupes</a>
                         <a href="{{ route('hub.membership') }}" class="btn btn-primary"><i class="icon icon-sage" data-lucide="heart-plus"></i>Rejoindre OREINA</a>
                     </div>
                 </div>
             </div>
-
-            <div class="visual-block" style="background-image: url('/images/actu3.JPG');"></div>
+            <div class="visual-block" style="background-image: url('/images/DSC_379.jpg');"></div>
         </div>
     </section>
 
-    {{-- 7. CTA Section --}}
+    {{-- 4. Projets et actions (pleine largeur, fond blanc) --}}
+    <section style="background:white; width:100vw; margin-left:calc(50% - 50vw); padding-left:calc(50vw - 50%); padding-right:calc(50vw - 50%);">
+        <div class="container">
+            <div class="section-head" style="flex-direction:column; align-items:flex-start;">
+                <h2>Projets et actions</h2>
+                <p>Des projets concrets, du plus accessible au plus spécialisé.</p>
+            </div>
+
+            <div class="project-grid-4">
+                <article class="pub-card">
+                    <div class="pub-card-icon" style="background: rgba(237,196,66,0.14);">
+                        <i class="icon icon-gold" data-lucide="search"></i>
+                    </div>
+                    <h4>IDENT</h4>
+                    <p>Apprendre à reconnaître les espèces, accéder aux guides et aux formations.</p>
+                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                </article>
+
+                <article class="pub-card">
+                    <div class="pub-card-icon" style="background: rgba(239,122,92,0.10);">
+                        <i class="icon icon-coral" data-lucide="badge-check"></i>
+                    </div>
+                    <h4>QUALIF</h4>
+                    <p>Valider, vérifier et garantir la fiabilité des observations partagées.</p>
+                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                </article>
+
+                <article class="pub-card">
+                    <div class="pub-card-icon" style="background: rgba(133,183,157,0.14);">
+                        <i class="icon icon-sage" data-lucide="dna"></i>
+                    </div>
+                    <h4>SEQREF</h4>
+                    <p>Construire une bibliothèque moléculaire de référence pour les Lépidoptères.</p>
+                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                </article>
+
+                <article class="pub-card">
+                    <div class="pub-card-icon" style="background: rgba(53,107,138,0.10);">
+                        <i class="icon icon-blue" data-lucide="binary"></i>
+                    </div>
+                    <h4>TAXREF</h4>
+                    <p>Nommer, classer et harmoniser les connaissances taxonomiques.</p>
+                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    {{-- 5. Publications (split: photo gauche, texte droite) --}}
+    <section>
+        <div class="container split-section">
+            <div class="visual-block" style="background-image: url('/images/lepis.png');"></div>
+
+            <div class="content-panel">
+                <div class="eyebrow blue"><i class="icon icon-blue" data-lucide="scroll-text"></i>Publications</div>
+                <div class="content-body">
+                    <h3>Publier et partager les connaissances</h3>
+                    <p>Le réseau produit deux publications complémentaires qui alimentent et valorisent les travaux de la communauté.</p>
+                </div>
+
+                <div class="pub-grid">
+                    <article class="pub-card">
+                        <div class="pub-card-icon" style="background: rgba(20,184,166,0.10);">
+                            <i class="icon" style="color:#0d9488;" data-lucide="book-open-text"></i>
+                        </div>
+                        <h4>Chersotis</h4>
+                        <p>Revue scientifique avec comité de relecture et DOI.</p>
+                        <a href="{{ route('journal.home') }}" class="text-link"><i data-lucide="arrow-right"></i>Découvrir</a>
+                    </article>
+
+                    <article class="pub-card">
+                        <div class="pub-card-icon" style="background: rgba(237,196,66,0.14);">
+                            <i class="icon icon-gold" data-lucide="newspaper"></i>
+                        </div>
+                        <h4>Lepis</h4>
+                        <p>Bulletin trimestriel des adhérents.</p>
+                        <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- 6. Outils et bases de données (split: texte gauche, photo droite) --}}
+    <section>
+        <div class="container split-section">
+            <div class="content-panel">
+                <div class="eyebrow" style="background:rgba(53,107,138,0.08); color:var(--blue);"><i class="icon icon-blue" data-lucide="database"></i>Outils & données</div>
+                <div class="content-body">
+                    <h3>Des outils numériques au service de la connaissance</h3>
+                </div>
+
+                <div class="tool-list">
+                    <div class="tool-list-row">
+                        <div class="tool-list-icon"><i class="icon icon-blue" data-lucide="database"></i></div>
+                        <div class="tool-list-body">
+                            <strong>Artemisiae</strong>
+                            <span>Portail de données naturalistes</span>
+                        </div>
+                        <div class="tool-list-stat">2,1 M+</div>
+                    </div>
+                    <div class="tool-list-row">
+                        <div class="tool-list-icon"><i class="icon icon-blue" data-lucide="bug"></i></div>
+                        <div class="tool-list-body">
+                            <strong>Lepfunc</strong>
+                            <span>Base des traits de vie</span>
+                        </div>
+                        <div class="tool-list-stat">25 639</div>
+                    </div>
+                    <div class="tool-list-row">
+                        <div class="tool-list-icon"><i class="icon icon-blue" data-lucide="library"></i></div>
+                        <div class="tool-list-body">
+                            <strong>Base bibliographique</strong>
+                            <span>Références documentaires</span>
+                        </div>
+                        <div class="tool-list-stat">23 520</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visual-block" style="background-image: url('/images/actu1.JPG');"></div>
+        </div>
+    </section>
+
+    {{-- 7. CTA Section (full width) --}}
     <section>
         <div class="container">
             <article class="cta-panel">
@@ -869,7 +1077,6 @@
 
 @push('scripts')
 <script>
-    // Re-initialize Lucide icons after Livewire/Blade rendering
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();

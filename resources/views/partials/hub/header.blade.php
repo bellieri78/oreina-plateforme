@@ -45,7 +45,7 @@
     </div>
 
     {{-- Mobile Navigation --}}
-    <div class="mobile-nav" x-show="mobileOpen" x-collapse x-cloak>
+    <div class="mobile-nav" x-show="mobileOpen" x-transition x-cloak>
         <nav class="hub-nav-mobile">
             <a href="{{ route('hub.home') }}">Accueil</a>
             <a href="{{ route('hub.about') }}">Association</a>

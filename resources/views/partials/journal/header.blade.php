@@ -38,7 +38,7 @@
     </div>
 
     {{-- Mobile Navigation --}}
-    <div class="mobile-nav" x-show="mobileOpen" x-collapse x-cloak>
+    <div class="mobile-nav" x-show="mobileOpen" x-transition x-cloak>
         <nav class="hub-nav-mobile">
             <a href="{{ route('journal.articles.index') }}" @class(['active' => request()->routeIs('journal.articles.*')])>Articles</a>
             <a href="{{ route('journal.issues.index') }}" @class(['active' => request()->routeIs('journal.issues.*')])>Numéros</a>
