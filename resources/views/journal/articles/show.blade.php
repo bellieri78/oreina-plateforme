@@ -624,12 +624,7 @@
                 <div class="license-block">
                     <div class="license-badges">
                         <div class="license-badge oa">
-                            <div class="badge-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                    <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
-                                </svg>
-                            </div>
+                            <img src="/images/open-access.png" alt="Open Access" style="height:36px;width:auto;">
                             <div>
                                 <strong>Open Access</strong>
                                 <span>Cet article est en accès libre</span>
