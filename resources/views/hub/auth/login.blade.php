@@ -150,7 +150,7 @@
         </form>
 
         <div class="login-footer">
-            <p>Pas encore membre ? <a href="{{ route('hub.membership') }}">Rejoindre OREINA</a></p>
+            <p>Pas encore de compte ? <a href="{{ route('hub.register') }}">Créer un compte</a></p>
         </div>
     </div>
 </section>

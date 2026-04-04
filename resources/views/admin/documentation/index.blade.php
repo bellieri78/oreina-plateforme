@@ -21,6 +21,7 @@
                 <a href="#introduction" class="doc-nav-link active">Introduction</a>
                 <a href="#connexion" class="doc-nav-link">Connexion</a>
                 <a href="#roles-acces" class="doc-nav-link">Rôles et accès</a>
+                <a href="#inscription" class="doc-nav-link">Inscription et rattachement</a>
                 <a href="#tableau-de-bord" class="doc-nav-link">Tableau de bord</a>
             </div>
 
@@ -203,6 +204,97 @@
                 <div class="doc-info">
                     <strong>Middleware :</strong> Les routes <code>/extranet</code> sont protégées par le middleware <code>admin</code> qui vérifie que l'utilisateur a le rôle <code>editor</code> ou <code>admin</code>. Un adhérent qui tente d'accéder à l'extranet recevra une erreur 403.<br>
                     <strong>Redirection guests :</strong> Un utilisateur non connecté qui tente d'accéder à <code>/espace-membre</code> est redirigé vers <code>/connexion</code>.
+                </div>
+            </section>
+
+            {{-- Inscription et rattachement --}}
+            <section id="inscription" class="doc-section">
+                <h2>Inscription et rattachement</h2>
+                <p>La plateforme permet à n'importe qui de créer un compte gratuitement via <code>/inscription</code>. L'adhésion à l'association n'est pas requise pour créer un compte.</p>
+
+                <h3>Processus d'inscription</h3>
+                <div class="doc-steps">
+                    <div class="doc-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <strong>Création du compte</strong>
+                            <p>L'utilisateur renseigne son nom, son email et un mot de passe. Un enregistrement est créé dans la table <code>users</code> avec le rôle <code>user</code>.</p>
+                        </div>
+                    </div>
+                    <div class="doc-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <strong>Rattachement automatique par email</strong>
+                            <p>Au moment de la création du compte, le système cherche dans la table <code>members</code> un enregistrement avec le même email et sans <code>user_id</code>. Si un adhérent est trouvé, le compte est automatiquement rattaché à sa fiche membre.</p>
+                        </div>
+                    </div>
+                    <div class="doc-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <strong>Redirection vers l'espace membre</strong>
+                            <p>L'utilisateur est connecté automatiquement et redirigé vers <code>/espace-membre</code>. Un message lui indique si son compte a été rattaché à une fiche adhérent existante.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Compte sans adhésion vs adhérent</h3>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Fonctionnalité</th>
+                                <th>Compte gratuit (sans adhésion)</th>
+                                <th>Adhérent actif</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Soumettre un article à Chersotis</td>
+                                <td>✅ Oui</td>
+                                <td>✅ Oui</td>
+                            </tr>
+                            <tr>
+                                <td>Accès au tableau de bord</td>
+                                <td>✅ Basique</td>
+                                <td>✅ Complet</td>
+                            </tr>
+                            <tr>
+                                <td>Télécharger la revue Chersotis (PDF)</td>
+                                <td>❌ Non</td>
+                                <td>✅ Oui</td>
+                            </tr>
+                            <tr>
+                                <td>Accès au bulletin Lepis</td>
+                                <td>❌ Non</td>
+                                <td>✅ Oui</td>
+                            </tr>
+                            <tr>
+                                <td>Chat adhérents</td>
+                                <td>❌ Non</td>
+                                <td>✅ Oui</td>
+                            </tr>
+                            <tr>
+                                <td>Groupes de travail</td>
+                                <td>❌ Non</td>
+                                <td>✅ Oui</td>
+                            </tr>
+                            <tr>
+                                <td>Carte des membres</td>
+                                <td>❌ Non</td>
+                                <td>✅ Oui</td>
+                            </tr>
+                            <tr>
+                                <td>Documents (Cerfa, attestations)</td>
+                                <td>❌ Non</td>
+                                <td>✅ Oui</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-info">
+                    <strong>Rattachement manuel :</strong> Si l'email du compte ne correspond pas à celui de la fiche adhérent (email différent, faute de frappe...), un administrateur peut rattacher manuellement le compte en modifiant le champ <code>user_id</code> de la fiche membre dans l'extranet, ou en mettant à jour l'email de l'adhérent pour qu'il corresponde.<br><br>
+                    <strong>Important :</strong> Le rattachement automatique ne fonctionne que si l'adhérent a été créé dans l'extranet <strong>avant</strong> la création du compte. Si le compte est créé en premier, il faudra rattacher manuellement après création de la fiche adhérent.
                 </div>
             </section>
 

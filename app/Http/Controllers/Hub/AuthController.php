@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Hub;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -32,6 +36,48 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'Ces identifiants ne correspondent pas à nos enregistrements.',
         ])->onlyInput('email');
+    }
+
+    public function showRegister()
+    {
+        if (Auth::check()) {
+            return redirect()->route('member.dashboard');
+        }
+
+        return view('hub.auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Password::min(8)],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'user',
+        ]);
+
+        // Rattachement automatique à une fiche Member existante par email
+        $member = Member::where('email', $validated['email'])
+            ->whereNull('user_id')
+            ->first();
+
+        if ($member) {
+            $member->update(['user_id' => $user->id]);
+        }
+
+        Auth::login($user);
+
+        return redirect()->route('member.dashboard')
+            ->with('success', $member
+                ? 'Bienvenue ! Votre compte a été rattaché à votre fiche adhérent.'
+                : 'Bienvenue ! Votre compte a été créé avec succès.'
+            );
     }
 
     public function logout(Request $request)

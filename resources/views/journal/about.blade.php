@@ -30,12 +30,12 @@
 
                     <h3 class="text-lg font-semibold mt-6 mb-3">Domaines de publication</h3>
                     <ul>
-                        <li><strong>Taxonomie</strong> — Classification, nomenclature et systématique des Lépidoptères de France</li>
-                        <li><strong>Faunistique</strong> — Présence, répartition et statut des espèces sur le territoire français</li>
-                        <li><strong>Inventaires</strong> — Compilations et analyses de données d'inventaires avec portée scientifique</li>
-                        <li><strong>Travaux de recherche</strong> — Études originales répondant à des questions scientifiques précises</li>
-                        <li><strong>Écologie et biologie des espèces</strong> — Cycle de vie, comportement et relations écologiques</li>
-                        <li><strong>Acquisition de données</strong> — Méthodes et outils pour l'obtention de données sur les Lépidoptères</li>
+                        <li>Taxonomie - classification, nomenclature et systématique des Lépidoptères de France</li>
+                        <li>Faunistique - présence, répartition et statut des espèces sur le territoire français</li>
+                        <li>Inventaires - compilations et analyses de données d'inventaires avec portée scientifique</li>
+                        <li>Travaux de recherche - études originales répondant à des questions scientifiques précises</li>
+                        <li>Écologie et biologie des espèces - cycle de vie, comportement et relations écologiques</li>
+                        <li>Acquisition de données - méthodes et outils pour l'obtention de données sur les Lépidoptères</li>
                     </ul>
 
                     <h3 class="text-lg font-semibold mt-6 mb-3">Public cible</h3>
@@ -107,20 +107,13 @@
                         de lecture strict avec experts externes. Ce processus garantit la qualité et la rigueur
                         scientifique des publications.
                     </p>
-                    <div class="grid sm:grid-cols-3 gap-6 mt-8 not-prose">
-                        <div class="text-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style="background:var(--accent-surface)">
-                                <i data-lucide="check-circle" style="width:24px;height:24px;color:var(--accent)"></i>
-                            </div>
-                            <h3 class="font-semibold mb-1">Double aveugle</h3>
-                            <p class="text-sm text-slate-600">Anonymat des auteurs et relecteurs</p>
-                        </div>
+                    <div class="grid sm:grid-cols-2 gap-6 mt-8 not-prose">
                         <div class="text-center">
                             <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style="background:var(--accent-surface)">
                                 <i data-lucide="clock" style="width:24px;height:24px;color:var(--accent)"></i>
                             </div>
                             <h3 class="font-semibold mb-1">Délai rapide</h3>
-                            <p class="text-sm text-slate-600">Décision sous 8 semaines</p>
+                            <p class="text-sm text-slate-600">Décision sous 4 semaines</p>
                         </div>
                         <div class="text-center">
                             <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style="background:var(--accent-surface)">

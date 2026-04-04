@@ -50,6 +50,8 @@ Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
 use App\Http\Controllers\Hub\AuthController as HubAuthController;
 Route::get('/connexion', [HubAuthController::class, 'showLogin'])->name('hub.login')->middleware('guest');
 Route::post('/connexion', [HubAuthController::class, 'login'])->name('hub.login.submit')->middleware('guest');
+Route::get('/inscription', [HubAuthController::class, 'showRegister'])->name('hub.register')->middleware('guest');
+Route::post('/inscription', [HubAuthController::class, 'register'])->name('hub.register.submit')->middleware('guest');
 Route::post('/deconnexion', [HubAuthController::class, 'logout'])->name('hub.logout')->middleware('auth');
 
 /*

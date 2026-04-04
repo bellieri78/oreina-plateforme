@@ -45,40 +45,40 @@
                         </p>
                         <ul>
                             <li>
-                                <strong>Taxonomie</strong> — Travaux inédits portant sur la classification,
+                                <strong>Taxonomie</strong> : travaux inédits portant sur la classification,
                                 nomenclature et systématique des Lépidoptères de France : descriptions d'espèces
                                 nouvelles pour la science, révisions de groupes ou complexes d'espèces, analyses
                                 phylogénétiques, synonymies et changements nomenclaturaux, taxonomie intégrative.
                             </li>
                             <li>
-                                <strong>Faunistique</strong> — Données sur la présence, répartition et statut
+                                <strong>Faunistique</strong> : données sur la présence, répartition et statut
                                 des espèces sur le territoire français : premières mentions nationales, régionales
                                 ou départementales, extensions ou contractions d'aire de répartition documentées,
                                 redécouvertes d'espèces considérées comme éteintes localement, bilans faunistiques
                                 régionaux avec analyse biogéographique, espèces introduites.
                             </li>
                             <li>
-                                <strong>Inventaires</strong> — Compilations et analyses de données d'inventaires
+                                <strong>Inventaires</strong> : compilations et analyses de données d'inventaires
                                 avec portée scientifique : inventaires exhaustifs, synthèses pluriannuelles avec
                                 analyse temporelle, comparaisons inter-sites ou inter-régionales, protocoles
                                 d'inventaire.
                             </li>
                             <li>
-                                <strong>Travaux de recherche</strong> — Études originales répondant à des
+                                <strong>Travaux de recherche</strong> : études originales répondant à des
                                 questions scientifiques précises : écologie des populations et communautés,
                                 biologie de la reproduction et développement, interactions plantes-insectes,
                                 réponses au changement climatique, génétique des populations, biologie de la
                                 conservation.
                             </li>
                             <li>
-                                <strong>Écologie et biologie des espèces</strong> — Études approfondies du cycle
+                                <strong>Écologie et biologie des espèces</strong> : études approfondies du cycle
                                 de vie, comportement et relations écologiques : cycles biologiques détaillés avec
                                 iconographie, études comportementales documentées, relations plantes-hôtes
                                 spécialisées, adaptations à des milieux particuliers, stratégies de survie et
                                 reproduction.
                             </li>
                             <li>
-                                <strong>Acquisition de données</strong> — Méthodes et outils pour l'obtention
+                                <strong>Acquisition de données</strong> : méthodes et outils pour l'obtention
                                 de données sur les Lépidoptères : techniques d'observation ou de capture innovantes,
                                 protocoles de suivi standardisés, méthodes d'identification (génétique, chimique...),
                                 outils informatiques d'analyse, techniques de conservation des spécimens.
@@ -228,11 +228,21 @@
             </div>
 
             {{-- CTA --}}
-            <div class="mt-8 text-center">
-                <a href="{{ route('journal.submit') }}" class="btn btn-primary inline-flex items-center gap-2">
-                    Soumettre un article
-                    <i data-lucide="chevron-right"></i>
-                </a>
+            <div class="mt-8 p-6 rounded-2xl text-center" style="background:var(--accent-surface); border: 1px solid rgba(15,118,110,0.15);">
+                <p class="text-sm mb-4" style="color:var(--accent)">
+                    <i data-lucide="info" style="width:16px;height:16px;display:inline;vertical-align:text-bottom;"></i>
+                    <strong>Pas besoin d'être adhérent pour soumettre un article.</strong> Il suffit de créer un compte gratuit sur la plateforme OREINA.
+                </p>
+                <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                    <a href="{{ route('journal.submit') }}" class="btn btn-primary">
+                        <i data-lucide="file-plus"></i>
+                        Soumettre un article
+                    </a>
+                    <a href="{{ route('hub.login') }}" class="btn btn-secondary">
+                        <i data-lucide="user-round-plus"></i>
+                        Créer un compte
+                    </a>
+                </div>
             </div>
         </div>
     </div>

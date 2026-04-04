@@ -137,16 +137,20 @@
             {{-- CTA --}}
             <div class="rounded-3xl p-8 text-center text-white" style="background:linear-gradient(135deg,var(--accent),#0d5c55)">
                 <h2 class="text-2xl font-bold mb-4">Prêt à soumettre ?</h2>
-                <p class="mb-6 max-w-lg mx-auto" style="color:rgba(255,255,255,0.80)">
-                    Connectez-vous à votre espace membre pour soumettre votre manuscrit.
-                    Pas encore membre ? Rejoignez l'association OREINA.
+                <p class="mb-2 max-w-lg mx-auto" style="color:rgba(255,255,255,0.80)">
+                    Créez un compte gratuit sur la plateforme OREINA pour soumettre votre manuscrit.
+                </p>
+                <p class="mb-6 max-w-lg mx-auto text-sm" style="color:rgba(255,255,255,0.65)">
+                    Pas besoin d'être adhérent pour soumettre un article à Chersotis.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#" class="px-6 py-3 font-semibold rounded-xl hover:shadow-lg transition" style="background:white;color:var(--accent)">
+                    <a href="{{ route('hub.login') }}" class="px-6 py-3 font-semibold rounded-xl hover:shadow-lg transition" style="background:white;color:var(--accent)">
+                        <i data-lucide="log-in" style="width:18px;height:18px;display:inline;vertical-align:text-bottom;"></i>
                         Se connecter
                     </a>
-                    <a href="{{ route('hub.membership') }}" class="btn btn-ghost-light">
-                        Devenir membre
+                    <a href="{{ route('hub.login') }}" class="btn btn-ghost-light">
+                        <i data-lucide="user-round-plus" style="width:18px;height:18px;"></i>
+                        Créer un compte
                     </a>
                 </div>
             </div>
