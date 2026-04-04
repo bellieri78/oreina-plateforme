@@ -278,33 +278,191 @@
         line-height: 1.75;
         margin-bottom: 16px;
     }
+    /* Figures — reduced with zoom */
     .article-content figure {
         margin: 32px 0;
-    }
-    .article-content figure img {
-        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
         border-radius: var(--radius-lg);
-        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+    .figure-preview {
+        position: relative;
+        cursor: zoom-in;
+        max-height: 400px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f8f6;
+    }
+    .figure-preview img {
+        max-height: 400px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+        transition: 0.2s ease;
+    }
+    .figure-preview:hover img {
+        opacity: 0.92;
+    }
+    .figure-actions {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        gap: 6px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+    .figure-preview:hover .figure-actions {
+        opacity: 1;
+    }
+    .figure-action-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(8px);
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.15s ease;
+    }
+    .figure-action-btn:hover {
+        background: rgba(0,0,0,0.75);
     }
     .article-content figcaption {
-        margin-top: 12px;
+        padding: 14px 18px;
         font-size: 13px;
         color: var(--muted);
-        text-align: center;
-        font-style: italic;
+        line-height: 1.55;
+        border-top: 1px solid var(--border);
+        background: var(--surface);
     }
+    .article-content figcaption strong {
+        color: var(--forest);
+        font-size: 13px;
+    }
+
+    /* Lightbox */
+    .lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(0,0,0,0.88);
+        backdrop-filter: blur(6px);
+        align-items: center;
+        justify-content: center;
+        cursor: zoom-out;
+        padding: 40px;
+    }
+    .lightbox.open {
+        display: flex;
+    }
+    .lightbox img {
+        max-width: 95vw;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s ease;
+    }
+    .lightbox-close:hover {
+        background: rgba(255,255,255,0.25);
+    }
+    .lightbox-caption {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.8);
+        font-size: 13px;
+        text-align: center;
+        max-width: 600px;
+        line-height: 1.5;
+    }
+    .lightbox-download {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        height: 44px;
+        padding: 0 18px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: inherit;
+        transition: 0.2s ease;
+        text-decoration: none;
+    }
+    .lightbox-download:hover {
+        background: rgba(255,255,255,0.25);
+    }
+
+    /* Tables — reduced with zoom */
     .article-content .content-table {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: var(--radius-lg);
-        padding: 24px;
         margin: 32px 0;
+        overflow: hidden;
     }
     .article-content .content-table .table-caption {
         font-size: 13px;
         font-weight: 600;
         color: var(--muted);
-        margin-bottom: 14px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+    }
+    .table-scroll {
+        padding: 18px;
+        overflow-x: auto;
+        max-height: 350px;
+        overflow-y: auto;
+        position: relative;
+    }
+    .table-expand-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+        border-top: 1px solid var(--border);
+        background: var(--surface);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+        transition: 0.15s ease;
+    }
+    .table-expand-btn:hover {
+        background: var(--accent-surface);
     }
     .article-content table {
         width: 100%;
@@ -699,7 +857,17 @@
                                 @endphp
                                 @if($imgSrc)
                                 <figure>
-                                    <img src="{{ $imgSrc }}" alt="{{ $imgCaption }}">
+                                    <div class="figure-preview" onclick="openLightbox('{{ $imgSrc }}', 'Figure {{ $blockIndex + 1 }}. {{ addslashes($imgCaption) }}')">
+                                        <img src="{{ $imgSrc }}" alt="{{ $imgCaption }}">
+                                        <div class="figure-actions">
+                                            <button class="figure-action-btn" title="Agrandir" onclick="event.stopPropagation(); openLightbox('{{ $imgSrc }}', 'Figure {{ $blockIndex + 1 }}. {{ addslashes($imgCaption) }}')">
+                                                <i data-lucide="maximize-2" style="width:16px;height:16px;"></i>
+                                            </button>
+                                            <a class="figure-action-btn" href="{{ $imgSrc }}" download title="Télécharger" onclick="event.stopPropagation();">
+                                                <i data-lucide="download" style="width:16px;height:16px;"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                     @if($imgCaption)
                                     <figcaption>
                                         <strong>Figure {{ $blockIndex + 1 }}.</strong> {{ $imgCaption }}
@@ -717,7 +885,7 @@
                                         <strong>Tableau {{ $blockIndex + 1 }}.</strong> {{ $block['caption'] }}
                                     </p>
                                     @endif
-                                    <div style="overflow-x:auto">
+                                    <div class="table-scroll">
                                         <table>
                                             <thead>
                                                 @if(isset($tableData[0]))
@@ -889,8 +1057,39 @@
         $bibtexString = implode("\n", $bibtexLines);
     @endphp
 
+    {{-- Lightbox --}}
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">
+            <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+        <a class="lightbox-download" id="lightbox-download" href="#" download onclick="event.stopPropagation();">
+            <i data-lucide="download" style="width:16px;height:16px;"></i>
+            Télécharger
+        </a>
+        <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation();">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
     @push('scripts')
     <script>
+        function openLightbox(src, caption) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-caption').textContent = caption || '';
+            document.getElementById('lightbox-download').href = src;
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
         function copyCitation() {
             const citation = document.querySelector('#citation-block .citation-text').innerText;
             navigator.clipboard.writeText(citation).then(() => {
