@@ -1,16 +1,16 @@
 <header class="site-header" x-data="{ mobileOpen: false }">
     <div class="container site-header-inner">
         {{-- Brand --}}
-        <a href="{{ route('journal.home') }}" class="brand">
-            <div class="brand-mark">
+        <div class="brand">
+            <a href="{{ route('hub.home') }}" class="brand-mark">
                 <img src="/images/logo.jpg" alt="O" onerror="this.style.display='none'; this.nextElementSibling.style.display='';">
                 <span style="display:none;font-weight:900;">O</span>
-            </div>
-            <div class="brand-text">
+            </a>
+            <a href="{{ route('journal.home') }}" class="brand-text">
                 <strong>CHERSOTIS</strong>
                 <span>Revue scientifique OREINA</span>
-            </div>
-        </a>
+            </a>
+        </div>
 
         {{-- Desktop Navigation --}}
         <nav class="hub-nav">
