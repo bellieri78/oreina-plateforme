@@ -55,9 +55,9 @@
             </div>
 
             <div class="doc-nav-section">
-                <div class="doc-nav-title">Revue scientifique</div>
+                <div class="doc-nav-title">Revue Chersotis</div>
                 <a href="#numeros" class="doc-nav-link">Numeros</a>
-                <a href="#soumissions" class="doc-nav-link">Soumissions</a>
+                <a href="#soumissions" class="doc-nav-link">Workflow editorial</a>
                 <a href="#reviews" class="doc-nav-link">Reviews</a>
             </div>
 
@@ -1347,11 +1347,19 @@
 
             {{-- Soumissions --}}
             <section id="soumissions" class="doc-section">
-                <h2>Soumissions</h2>
-                <p>Gerez les manuscrits soumis a la revue scientifique. Cette section detaille le processus complet depuis la soumission jusqu'a la publication.</p>
+                <h2>Workflow editorial -- Chersotis</h2>
+                <p>Ce document decrit le processus editorial complet de la revue <strong>Chersotis</strong>, journal scientifique de l'association OREINA consacre aux Lepidopteres de France. Le workflow couvre l'ensemble du cycle de vie d'un manuscrit, depuis la soumission par l'auteur jusqu'a la publication en ligne avec attribution d'un DOI. Trois roles interviennent dans ce processus : l'<strong>auteur</strong>, le <strong>redacteur en chef</strong> (editeur) et les <strong>reviewers</strong> (relecteurs experts). Chaque manuscrit transite par une serie de statuts qui garantissent la rigueur scientifique et la tracabilite editoriale.</p>
 
-                <h3>Workflow editorial complet</h3>
-                <p>Le processus de publication suit un workflow rigoureux en plusieurs etapes, impliquant auteurs, editeurs et reviewers.</p>
+                <div class="doc-info">
+                    <strong>Important :</strong> L'adhesion a OREINA n'est pas requise pour soumettre un manuscrit a Chersotis. Toute personne disposant d'un compte sur oreina.org peut soumettre un article.
+                </div>
+
+                {{-- ========================================== --}}
+                {{-- 1. Schema du workflow                      --}}
+                {{-- ========================================== --}}
+
+                <h3>Schema du workflow</h3>
+                <p>Le parcours principal d'un manuscrit suit les etapes ci-dessous. Deux embranchements sont possibles : la demande de revision (retour a l'auteur) et le rejet (a deux moments du processus).</p>
 
                 {{-- Visual workflow diagram --}}
                 <div class="workflow-diagram">
@@ -1458,7 +1466,7 @@
                                 </svg>
                                 Revision demandee
                             </div>
-                            <div class="branch-description">L'auteur corrige son manuscrit selon les commentaires des reviewers, puis resoumet</div>
+                            <div class="branch-description">L'auteur corrige son manuscrit selon les commentaires des reviewers, puis resoumet. Le manuscrit retourne en review ou est directement accepte.</div>
                         </div>
                         <div class="workflow-branch rejected">
                             <div class="branch-label">
@@ -1467,144 +1475,343 @@
                                 </svg>
                                 Rejet possible
                             </div>
-                            <div class="branch-description">A l'etape "Eval. initiale" ou apres la review, l'editeur peut rejeter le manuscrit</div>
+                            <div class="branch-description">Le rejet peut intervenir a deux moments : lors de l'evaluation initiale (desk reject) ou apres la relecture par les pairs</div>
                         </div>
                     </div>
                 </div>
 
-                <h3>Detail des etapes</h3>
+                {{-- ========================================== --}}
+                {{-- 2. Etapes detaillees                       --}}
+                {{-- ========================================== --}}
+
+                <h3>Etapes detaillees</h3>
                 <div class="workflow-details">
+
+                    {{-- 1. Brouillon --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header draft">
                             <span class="detail-number">1</span>
-                            <span class="detail-title">Brouillon</span>
+                            <span class="detail-title">Brouillon (draft)</span>
                         </div>
                         <div class="detail-content">
-                            <p><strong>Qui :</strong> Auteur</p>
-                            <p><strong>Quoi :</strong> L'auteur prepare son manuscrit (titre, resume, mots-cles, fichier). Il peut sauvegarder son travail et y revenir plus tard.</p>
-                            <p><strong>Action :</strong> Cliquer sur "Soumettre" quand le manuscrit est pret.</p>
+                            <p><strong>Qui agit :</strong> Auteur</p>
+                            <p><strong>Ce qui se passe :</strong> L'auteur cree un compte sur oreina.org (page /inscription), puis accede au formulaire de soumission a l'adresse <code>/revue/mes-soumissions/nouvelle</code>. Il prepare son manuscrit en renseignant les informations requises (voir section "Contenu de la soumission" ci-dessous). Le brouillon est sauvegarde automatiquement et l'auteur peut y revenir a tout moment.</p>
+                            <p><strong>Action pour passer a l'etape suivante :</strong> L'auteur clique sur "Soumettre" lorsque le manuscrit est complet.</p>
                         </div>
                     </div>
 
+                    {{-- 2. Soumis --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header submitted">
                             <span class="detail-number">2</span>
-                            <span class="detail-title">Soumis</span>
+                            <span class="detail-title">Soumis (submitted)</span>
                         </div>
                         <div class="detail-content">
-                            <p><strong>Qui :</strong> Auteur → Editeur</p>
-                            <p><strong>Quoi :</strong> Le manuscrit est envoye a l'editeur. Un email de confirmation est envoye a l'auteur.</p>
-                            <p><strong>Action :</strong> L'editeur recoit la soumission et peut passer a l'evaluation initiale.</p>
+                            <p><strong>Qui agit :</strong> Editeur (redacteur en chef)</p>
+                            <p><strong>Ce qui se passe :</strong> Le manuscrit arrive dans l'extranet. L'editeur recoit une notification. L'auteur recoit un email de confirmation et peut suivre l'avancement de sa soumission depuis son espace membre (<code>/espace-membre</code>).</p>
+                            <p><strong>Action pour passer a l'etape suivante :</strong> L'editeur clique sur "Evaluer" pour demarrer l'evaluation initiale.</p>
                         </div>
                     </div>
 
+                    {{-- 3. Evaluation initiale --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header desk-review">
                             <span class="detail-number">3</span>
-                            <span class="detail-title">Evaluation initiale (Desk Review)</span>
+                            <span class="detail-title">Evaluation initiale (desk_review)</span>
                         </div>
                         <div class="detail-content">
-                            <p><strong>Qui :</strong> Editeur</p>
-                            <p><strong>Quoi :</strong> L'editeur verifie que le manuscrit correspond a la ligne editoriale, qu'il est complet et bien formate.</p>
+                            <p><strong>Qui agit :</strong> Editeur</p>
+                            <p><strong>Ce qui se passe :</strong> L'editeur lit le manuscrit et verifie trois criteres : le sujet correspond-il a la ligne editoriale de Chersotis ? Le manuscrit est-il complet (titre, resume, bibliographie) ? Le formatage est-il correct ?</p>
+                            <p><strong>Delai indicatif :</strong> 1 semaine</p>
                             <p><strong>Actions possibles :</strong></p>
                             <ul>
-                                <li><span class="badge badge-success">Envoyer en review</span> - Le manuscrit est valide, on passe aux reviewers</li>
-                                <li><span class="badge badge-danger">Rejeter</span> - Le manuscrit ne correspond pas aux criteres (desk reject)</li>
+                                <li><span class="badge badge-success">Envoyer en review</span> -- Le manuscrit est recevable, l'editeur l'envoie aux relecteurs</li>
+                                <li><span class="badge badge-danger">Rejeter</span> -- Le manuscrit ne correspond pas aux criteres de la revue (desk reject). L'auteur est notifie avec un motif.</li>
                             </ul>
                         </div>
                     </div>
 
+                    {{-- 4. En review --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header in-review">
                             <span class="detail-number">4</span>
-                            <span class="detail-title">En review (Peer Review)</span>
+                            <span class="detail-title">En relecture (in_review)</span>
                         </div>
                         <div class="detail-content">
-                            <p><strong>Qui :</strong> Editeur + Reviewers</p>
-                            <p><strong>Quoi :</strong> L'editeur assigne 2 a 3 reviewers experts du domaine. Chaque reviewer evalue le manuscrit de maniere independante et anonyme.</p>
-                            <p><strong>Processus :</strong></p>
+                            <p><strong>Qui agit :</strong> Editeur (assignation) + Reviewers (evaluation)</p>
+                            <p><strong>Ce qui se passe :</strong> L'editeur assigne 1 a 3 relecteurs experts depuis l'extranet (<code>/extranet/reviews/create</code>). Chaque reviewer recoit un email d'invitation avec une date limite. Les reviewers evaluent le manuscrit de maniere independante.</p>
+                            <p><strong>Delai indicatif :</strong> 4 semaines pour chaque reviewer</p>
+                            <p><strong>Processus cote reviewer :</strong></p>
                             <ol>
-                                <li>L'editeur selectionne les reviewers et les invite</li>
-                                <li>Les reviewers acceptent ou declinent l'invitation</li>
-                                <li>Les reviewers evaluent le manuscrit (30 jours par defaut)</li>
-                                <li>Chaque reviewer soumet sa recommandation et ses commentaires</li>
+                                <li>Reception de l'email d'invitation</li>
+                                <li>Acceptation ou declinaison de la relecture</li>
+                                <li>Evaluation du manuscrit (30 jours par defaut)</li>
+                                <li>Soumission d'une recommandation et de commentaires (voir section "Decisions" ci-dessous)</li>
                             </ol>
-                            <p><strong>Recommandations possibles :</strong> Accepter / Revisions mineures / Revisions majeures / Rejeter</p>
-                        </div>
-                    </div>
-
-                    <div class="workflow-detail-card">
-                        <div class="detail-header revision">
-                            <span class="detail-number">4b</span>
-                            <span class="detail-title">Revision</span>
-                        </div>
-                        <div class="detail-content">
-                            <p><strong>Qui :</strong> Auteur</p>
-                            <p><strong>Quoi :</strong> Si les reviewers demandent des corrections, l'auteur recoit les commentaires et doit reviser son manuscrit.</p>
-                            <p><strong>Action :</strong> L'auteur soumet une version revisee. Le manuscrit retourne en review ou est directement accepte selon les corrections demandees.</p>
-                        </div>
-                    </div>
-
-                    <div class="workflow-detail-card">
-                        <div class="detail-header accepted">
-                            <span class="detail-number">5</span>
-                            <span class="detail-title">Accepte</span>
-                        </div>
-                        <div class="detail-content">
-                            <p><strong>Qui :</strong> Editeur</p>
-                            <p><strong>Quoi :</strong> Le manuscrit est accepte pour publication. L'auteur est notifie. L'editeur prepare la publication.</p>
-                            <p><strong>Actions disponibles :</strong></p>
+                            <p><strong>Actions de l'editeur une fois les relectures terminees :</strong></p>
                             <ul>
-                                <li><strong>Generer le PDF</strong> - Creer le PDF final avec la mise en page de la revue</li>
-                                <li><strong>Assigner un DOI</strong> - Attribuer un identifiant unique (local ou via Crossref)</li>
-                                <li><strong>Assigner a un numero</strong> - Placer l'article dans un numero de la revue</li>
-                                <li><strong>Definir les pages</strong> - Indiquer la pagination dans le numero</li>
+                                <li><span class="badge badge-success">Accepter</span> -- Le manuscrit est accepte pour publication</li>
+                                <li><span class="badge badge-warning">Demander revision</span> -- L'auteur doit corriger son manuscrit</li>
+                                <li><span class="badge badge-danger">Rejeter</span> -- Le manuscrit n'est pas publiable</li>
                             </ul>
                         </div>
                     </div>
 
+                    {{-- 4b. Revision --}}
+                    <div class="workflow-detail-card">
+                        <div class="detail-header revision">
+                            <span class="detail-number">4b</span>
+                            <span class="detail-title">Revision demandee (revision)</span>
+                        </div>
+                        <div class="detail-content">
+                            <p><strong>Qui agit :</strong> Auteur</p>
+                            <p><strong>Ce qui se passe :</strong> L'auteur recoit les commentaires des relecteurs (commentaires destines a l'auteur uniquement -- les commentaires confidentiels pour l'editeur ne sont pas transmis). L'auteur corrige son manuscrit en tenant compte des remarques.</p>
+                            <p><strong>Delai indicatif :</strong> 4 semaines</p>
+                            <p><strong>Action pour passer a l'etape suivante :</strong> L'auteur soumet la version revisee. Selon l'ampleur des corrections demandees (mineures ou majeures), le manuscrit retourne en relecture ou est directement accepte par l'editeur.</p>
+                        </div>
+                    </div>
+
+                    {{-- 5. Accepte --}}
+                    <div class="workflow-detail-card">
+                        <div class="detail-header accepted">
+                            <span class="detail-number">5</span>
+                            <span class="detail-title">Accepte (accepted)</span>
+                        </div>
+                        <div class="detail-content">
+                            <p><strong>Qui agit :</strong> Editeur</p>
+                            <p><strong>Ce qui se passe :</strong> Le manuscrit est accepte pour publication dans Chersotis. L'auteur est notifie. L'editeur prepare la mise en forme finale.</p>
+                            <p><strong>Actions disponibles :</strong></p>
+                            <ul>
+                                <li><strong>Generer le PDF</strong> -- Creer le document final avec la mise en page de Chersotis (en-tete, logo, citation)</li>
+                                <li><strong>Assigner un DOI</strong> -- Attribuer un identifiant unique via Crossref ou en local</li>
+                                <li><strong>Assigner a un numero</strong> -- Placer l'article dans un numero de Chersotis</li>
+                                <li><strong>Definir les pages</strong> -- Indiquer la pagination dans le numero</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- 6. Publie --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header published">
                             <span class="detail-number">6</span>
-                            <span class="detail-title">Publie</span>
+                            <span class="detail-title">Publie (published)</span>
                         </div>
                         <div class="detail-content">
-                            <p><strong>Qui :</strong> Editeur</p>
-                            <p><strong>Quoi :</strong> L'article est publie et visible sur le site public de la revue. Le DOI est actif et redirige vers l'article.</p>
+                            <p><strong>Qui agit :</strong> Editeur</p>
+                            <p><strong>Ce qui se passe :</strong> L'article est publie et accessible sur le site public de Chersotis a l'adresse <code>/revue/articles/</code>. Le DOI est actif et redirige vers la fiche de l'article.</p>
                             <p><strong>Elements publies :</strong></p>
                             <ul>
                                 <li>Fiche article sur le site (titre, auteurs, resume, mots-cles)</li>
                                 <li>PDF telechargeable avec mise en page professionnelle</li>
-                                <li>DOI actif (ex: 10.24349/xxxx-123)</li>
+                                <li>DOI actif (ex : 10.24349/xxxx-123)</li>
                                 <li>Metadonnees pour les moteurs de recherche academiques</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
+                {{-- ========================================== --}}
+                {{-- 3. Roles et responsabilites                --}}
+                {{-- ========================================== --}}
+
+                <h3>Roles et responsabilites</h3>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Qui</th>
+                                <th>Responsabilites</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Auteur</strong></td>
+                                <td>Toute personne disposant d'un compte oreina.org (adhesion non requise)</td>
+                                <td>Soumettre un manuscrit complet ; reviser le manuscrit si demande ; accepter les conditions de soumission</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Editeur</strong></td>
+                                <td>Redacteur en chef de Chersotis</td>
+                                <td>Evaluer la recevabilite des manuscrits (desk review) ; assigner les reviewers ; prendre la decision editoriale finale (accepter, demander revision, rejeter) ; preparer la publication (DOI, PDF, numero)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reviewer</strong></td>
+                                <td>Expert du domaine, invite par l'editeur</td>
+                                <td>Accepter ou decliner l'invitation ; evaluer le manuscrit dans le delai imparti ; soumettre une recommandation argumentee ; fournir des commentaires pour l'auteur et des commentaires confidentiels pour l'editeur</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- ========================================== --}}
+                {{-- 4. Delais indicatifs                       --}}
+                {{-- ========================================== --}}
+
+                <h3>Delais indicatifs</h3>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Etape</th>
+                                <th>Responsable</th>
+                                <th>Delai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Evaluation initiale (desk review)</td>
+                                <td>Editeur</td>
+                                <td>1 semaine</td>
+                            </tr>
+                            <tr>
+                                <td>Relecture par les pairs (peer review)</td>
+                                <td>Reviewers</td>
+                                <td>4 semaines</td>
+                            </tr>
+                            <tr>
+                                <td>Revision du manuscrit</td>
+                                <td>Auteur</td>
+                                <td>4 semaines</td>
+                            </tr>
+                            <tr>
+                                <td>Preparation de la publication</td>
+                                <td>Editeur</td>
+                                <td>Variable (selon le calendrier du numero)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- ========================================== --}}
+                {{-- 5. Contenu de la soumission                --}}
+                {{-- ========================================== --}}
+
+                <h3>Contenu de la soumission</h3>
+                <p>Pour soumettre un manuscrit a Chersotis, l'auteur doit fournir les elements suivants via le formulaire en ligne (<code>/revue/mes-soumissions/nouvelle</code>) :</p>
+
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Champ</th>
+                                <th>Obligatoire</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Titre</strong></td>
+                                <td>Oui</td>
+                                <td>Titre complet du manuscrit</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resume</strong></td>
+                                <td>Oui</td>
+                                <td>Resume de l'article (abstract)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mots-cles</strong></td>
+                                <td>Oui</td>
+                                <td>Mots-cles pour l'indexation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Co-auteurs</strong></td>
+                                <td>Non</td>
+                                <td>Liste des co-auteurs eventuels</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fichier PDF</strong></td>
+                                <td>Oui</td>
+                                <td>Manuscrit au format PDF</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Conditions</strong></td>
+                                <td>Oui</td>
+                                <td>Acceptation des conditions de soumission</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-info">
+                    <strong>Suivi par l'auteur :</strong> Apres soumission, l'auteur peut suivre en temps reel l'avancement de son manuscrit depuis son espace membre (<code>/espace-membre</code>). Le statut est mis a jour a chaque changement d'etape.
+                </div>
+
+                {{-- ========================================== --}}
+                {{-- 6. Decisions editoriales                   --}}
+                {{-- ========================================== --}}
+
+                <h3>Decisions editoriales</h3>
+                <p>Les reviewers soumettent une recommandation parmi les quatre suivantes. L'editeur prend ensuite la decision finale en s'appuyant sur l'ensemble des evaluations recues.</p>
+
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Decision</th>
+                                <th>Signification</th>
+                                <th>Consequence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge badge-success">Accepter en l'etat</span></td>
+                                <td>Le manuscrit est publiable tel quel</td>
+                                <td>Statut → <strong>accepted</strong>. L'editeur prepare la publication.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-warning">Revisions mineures</span></td>
+                                <td>Corrections legeres requises (coquilles, clarifications, references)</td>
+                                <td>Statut → <strong>revision</strong>. L'auteur corrige et resoumet. L'editeur peut accepter directement apres revision.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-warning">Revisions majeures</span></td>
+                                <td>Modifications substantielles necessaires (methodologie, analyse, structure)</td>
+                                <td>Statut → <strong>revision</strong>. L'auteur corrige et resoumet. Le manuscrit repasse generalement en relecture.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-danger">Rejeter</span></td>
+                                <td>Le manuscrit n'est pas publiable dans Chersotis</td>
+                                <td>Statut → <strong>rejected</strong>. L'auteur est notifie avec les motifs.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>Chaque reviewer fournit deux types de commentaires :</p>
+                <ul>
+                    <li><strong>Commentaires pour l'auteur</strong> -- transmis a l'auteur avec la decision</li>
+                    <li><strong>Commentaires confidentiels pour l'editeur</strong> -- visibles uniquement par l'editeur, non transmis a l'auteur</li>
+                </ul>
+
+                {{-- ========================================== --}}
+                {{-- 7. Publication                             --}}
+                {{-- ========================================== --}}
+
                 <h3>Publication d'un article</h3>
-                <p>Lorsqu'un article est <strong>accepte</strong>, une section "Publication" apparait sur sa fiche. Voici les etapes pour publier :</p>
+                <p>Lorsqu'un manuscrit est <strong>accepte</strong>, une section "Publication" apparait sur sa fiche dans l'extranet. Voici les etapes pour finaliser la publication :</p>
 
                 <div class="doc-steps">
                     <div class="step">
                         <div class="step-number">1</div>
                         <div class="step-content">
-                            <strong>Generer le PDF</strong>
-                            <p>Cliquez sur "Generer le PDF" pour creer le document final avec la mise en page de la revue (en-tete, logo, citation, etc.).</p>
+                            <strong>Generer le PDF final</strong>
+                            <p>Cliquez sur "Generer le PDF" pour creer le document avec la mise en page officielle de Chersotis (en-tete, logo, citation formatee).</p>
                         </div>
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
                         <div class="step-content">
                             <strong>Assigner le DOI</strong>
-                            <p>Deux options : "DOI local" (genere un identifiant sans enregistrement) ou "Enregistrer sur Crossref" (enregistrement officiel).</p>
+                            <p>Deux options : "DOI local" (genere un identifiant sans enregistrement externe) ou "Enregistrer sur Crossref" (enregistrement officiel aupres de l'agence internationale).</p>
                         </div>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
                         <div class="step-content">
-                            <strong>Publier</strong>
-                            <p>Selectionnez le numero, indiquez les pages, puis cliquez sur "Publier l'article". L'article devient visible sur le site public.</p>
+                            <strong>Assigner a un numero et publier</strong>
+                            <p>Selectionnez le numero de Chersotis, indiquez les pages, puis cliquez sur "Publier l'article". L'article devient accessible sur le site public a l'adresse <code>/revue/articles/</code>.</p>
                         </div>
                     </div>
                 </div>
@@ -1613,42 +1820,68 @@
                     <strong>Astuce :</strong> Vous pouvez publier en une seule action en utilisant le formulaire "Publication finale" qui combine toutes les etapes (PDF, DOI, publication).
                 </div>
 
-                <h3>Actions rapides par statut</h3>
+                {{-- ========================================== --}}
+                {{-- 8. Recapitulatif des statuts et actions    --}}
+                {{-- ========================================== --}}
+
+                <h3>Recapitulatif des statuts et actions</h3>
                 <div class="doc-table">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Statut</th>
+                                <th>Code</th>
+                                <th>Responsable</th>
                                 <th>Actions disponibles</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><span class="badge badge-secondary">Brouillon</span></td>
-                                <td>Soumettre</td>
+                                <td><code>draft</code></td>
+                                <td>Auteur</td>
+                                <td>Completer le manuscrit, Soumettre</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-info">Soumis</span></td>
-                                <td>Passer en evaluation initiale</td>
+                                <td><code>submitted</code></td>
+                                <td>Editeur</td>
+                                <td>Evaluer (passer en evaluation initiale)</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-warning">Eval. initiale</span></td>
+                                <td><code>desk_review</code></td>
+                                <td>Editeur</td>
                                 <td>Envoyer en review / Rejeter</td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-primary">En review</span></td>
+                                <td><span class="badge badge-primary">En relecture</span></td>
+                                <td><code>in_review</code></td>
+                                <td>Editeur + Reviewers</td>
                                 <td>Assigner reviewers / Accepter / Demander revision / Rejeter</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-warning">Revision</span></td>
-                                <td>Remettre en review</td>
+                                <td><code>revision</code></td>
+                                <td>Auteur</td>
+                                <td>Soumettre version revisee</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-success">Accepte</span></td>
-                                <td>Generer PDF / Assigner DOI / Publier</td>
+                                <td><code>accepted</code></td>
+                                <td>Editeur</td>
+                                <td>Generer PDF / Assigner DOI / Assigner a un numero / Publier</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-danger">Refuse</span></td>
+                                <td><code>rejected</code></td>
+                                <td>--</td>
+                                <td>Fin du processus</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-success">Publie</span></td>
+                                <td><code>published</code></td>
+                                <td>Editeur</td>
                                 <td>Regenerer PDF / Modifier les metadonnees</td>
                             </tr>
                         </tbody>
@@ -1658,35 +1891,38 @@
 
             {{-- Reviews --}}
             <section id="reviews" class="doc-section">
-                <h2>Reviews (Evaluations)</h2>
-                <p>Suivez les evaluations par les pairs des manuscrits soumis.</p>
+                <h2>Reviews (Evaluations par les pairs)</h2>
+                <p>Cette section concerne la gestion des evaluations dans l'extranet. Chaque review correspond a l'evaluation d'un manuscrit par un relecteur expert.</p>
+
+                <h3>Assigner un reviewer</h3>
+                <p>Depuis l'extranet, accedez a <code>/extranet/reviews/create</code> pour creer une nouvelle evaluation. Selectionnez la soumission concernee, le reviewer (depuis le pool de relecteurs) et la date limite. Un email d'invitation est envoye automatiquement au reviewer selectionne.</p>
 
                 <h3>Statuts des reviews</h3>
                 <ul>
-                    <li><span class="badge badge-info">Invite</span> : reviewer invite, en attente de reponse</li>
-                    <li><span class="badge badge-warning">Accepte</span> : invitation acceptee, evaluation en cours</li>
-                    <li><span class="badge badge-danger">Decline</span> : invitation refusee</li>
-                    <li><span class="badge badge-success">Complete</span> : evaluation soumise</li>
-                    <li><span class="badge badge-secondary">Expire</span> : delai depasse sans reponse</li>
+                    <li><span class="badge badge-info">Invite</span> -- Le reviewer a recu l'invitation, en attente de reponse</li>
+                    <li><span class="badge badge-warning">Accepte</span> -- L'invitation a ete acceptee, l'evaluation est en cours</li>
+                    <li><span class="badge badge-danger">Decline</span> -- Le reviewer a refuse l'invitation</li>
+                    <li><span class="badge badge-success">Complete</span> -- L'evaluation a ete soumise avec une recommandation</li>
+                    <li><span class="badge badge-secondary">Expire</span> -- Le delai est depasse sans reponse du reviewer</li>
                 </ul>
 
-                <h3>Recommandations</h3>
+                <h3>Recommandations possibles</h3>
                 <ul>
-                    <li><strong>Accepter</strong> : publication en l'etat</li>
-                    <li><strong>Revisions mineures</strong> : corrections legeres requises</li>
-                    <li><strong>Revisions majeures</strong> : modifications substantielles necessaires</li>
-                    <li><strong>Rejeter</strong> : manuscrit non publiable</li>
+                    <li><strong>Accepter</strong> -- Le manuscrit est publiable en l'etat</li>
+                    <li><strong>Revisions mineures</strong> -- Corrections legeres requises</li>
+                    <li><strong>Revisions majeures</strong> -- Modifications substantielles necessaires</li>
+                    <li><strong>Rejeter</strong> -- Le manuscrit n'est pas publiable</li>
                 </ul>
 
                 <h3>Notifications email</h3>
-                <p>Le systeme envoie automatiquement des emails aux reviewers :</p>
+                <p>Le systeme gere automatiquement les communications avec les reviewers :</p>
                 <ul>
-                    <li><strong>Invitation</strong> : email envoye automatiquement lors de l'assignation d'une review</li>
-                    <li><strong>Rappel</strong> : envoi manuel depuis la liste des reviews (selectionner puis "Envoyer rappel")</li>
+                    <li><strong>Invitation</strong> -- Email envoye automatiquement lors de l'assignation d'une review</li>
+                    <li><strong>Rappel</strong> -- Envoi manuel depuis la liste des reviews (selectionner la review puis cliquer "Envoyer rappel")</li>
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Astuce :</strong> Les reviews en retard sont signalees en rouge dans la liste. Utilisez le filtre "En retard" pour les identifier rapidement.
+                    <strong>Astuce :</strong> Les reviews en retard sont signalees en rouge dans la liste. Utilisez le filtre "En retard" pour les identifier rapidement et envoyer des rappels cibles.
                 </div>
             </section>
 
