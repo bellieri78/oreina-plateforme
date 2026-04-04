@@ -1,7 +1,7 @@
 @extends('layouts.journal')
 
-@section('title', 'Instructions aux auteurs')
-@section('meta_description', 'Guide complet pour la préparation des manuscrits soumis à la revue OREINA.')
+@section('title', 'Instructions aux auteurs — Chersotis')
+@section('meta_description', 'Guide complet pour la préparation des manuscrits soumis à la revue scientifique Chersotis, publication numérique sur les Lépidoptères de France.')
 
 @section('content')
     <div style="padding: 36px 0;">
@@ -14,7 +14,7 @@
                     </div>
                     <div>
                         <h1 class="text-3xl sm:text-4xl font-bold">Instructions aux auteurs</h1>
-                        <p class="text-slate-600 mt-1">Guide pour la préparation des manuscrits</p>
+                        <p class="text-slate-600 mt-1">Guide pour la préparation des manuscrits soumis à Chersotis</p>
                     </div>
                 </div>
             </div>
@@ -38,13 +38,61 @@
                     {{-- Types d'articles --}}
                     <section id="types" class="mb-12">
                         <h2 class="text-xl font-bold mb-4">1. Types d'articles</h2>
-                        <p>La revue OREINA publie différents types de contributions :</p>
+                        <p>
+                            Chersotis est une publication scientifique numérique gratuite, exigeante mais accessible,
+                            valorisant les travaux inédits sur les Lépidoptères de France. La revue publie les types
+                            de contributions suivants :
+                        </p>
                         <ul>
-                            <li><strong>Articles de recherche</strong> : études originales avec méthodologie complète (max. 10 000 mots)</li>
-                            <li><strong>Notes faunistiques</strong> : observations remarquables, nouvelles données de répartition (max. 3 000 mots)</li>
-                            <li><strong>Synthèses taxonomiques</strong> : révisions, descriptions d'espèces nouvelles</li>
-                            <li><strong>Articles de conservation</strong> : études sur la protection des espèces et habitats</li>
+                            <li>
+                                <strong>Taxonomie</strong> — Travaux inédits portant sur la classification,
+                                nomenclature et systématique des Lépidoptères de France : descriptions d'espèces
+                                nouvelles pour la science, révisions de groupes ou complexes d'espèces, analyses
+                                phylogénétiques, synonymies et changements nomenclaturaux, taxonomie intégrative.
+                            </li>
+                            <li>
+                                <strong>Faunistique</strong> — Données sur la présence, répartition et statut
+                                des espèces sur le territoire français : premières mentions nationales, régionales
+                                ou départementales, extensions ou contractions d'aire de répartition documentées,
+                                redécouvertes d'espèces considérées comme éteintes localement, bilans faunistiques
+                                régionaux avec analyse biogéographique, espèces introduites.
+                            </li>
+                            <li>
+                                <strong>Inventaires</strong> — Compilations et analyses de données d'inventaires
+                                avec portée scientifique : inventaires exhaustifs, synthèses pluriannuelles avec
+                                analyse temporelle, comparaisons inter-sites ou inter-régionales, protocoles
+                                d'inventaire.
+                            </li>
+                            <li>
+                                <strong>Travaux de recherche</strong> — Études originales répondant à des
+                                questions scientifiques précises : écologie des populations et communautés,
+                                biologie de la reproduction et développement, interactions plantes-insectes,
+                                réponses au changement climatique, génétique des populations, biologie de la
+                                conservation.
+                            </li>
+                            <li>
+                                <strong>Écologie et biologie des espèces</strong> — Études approfondies du cycle
+                                de vie, comportement et relations écologiques : cycles biologiques détaillés avec
+                                iconographie, études comportementales documentées, relations plantes-hôtes
+                                spécialisées, adaptations à des milieux particuliers, stratégies de survie et
+                                reproduction.
+                            </li>
+                            <li>
+                                <strong>Acquisition de données</strong> — Méthodes et outils pour l'obtention
+                                de données sur les Lépidoptères : techniques d'observation ou de capture innovantes,
+                                protocoles de suivi standardisés, méthodes d'identification (génétique, chimique...),
+                                outils informatiques d'analyse, techniques de conservation des spécimens.
+                            </li>
                         </ul>
+
+                        <div class="mt-6 p-4 rounded-xl border bg-slate-50 border-slate-200 not-prose">
+                            <p class="text-sm text-slate-600">
+                                <i data-lucide="info" style="width:16px;height:16px;display:inline;vertical-align:text-bottom;color:var(--accent)"></i>
+                                <strong>Critères de sélection :</strong> les manuscrits doivent présenter des données inédites
+                                ou des synthèses approfondies, une méthodologie rigoureuse avec références bibliographiques,
+                                une portée dépassant l'anecdotique ou le local, et contribuer à l'avancement des connaissances.
+                            </p>
+                        </div>
                     </section>
 
                     {{-- Structure --}}
@@ -159,7 +207,7 @@
 
                         <div class="mt-6 p-4 rounded-xl border" style="background:var(--accent-surface);border-color:rgba(15,118,110,0.20)">
                             <p class="text-sm" style="color:var(--accent)">
-                                <strong>Licence :</strong> Les articles publiés dans OREINA sont diffusés sous licence
+                                <strong>Licence :</strong> Les articles publiés dans Chersotis sont diffusés sous licence
                                 Creative Commons Attribution (CC BY 4.0), permettant une réutilisation libre avec attribution.
                             </p>
                         </div>

@@ -17,6 +17,11 @@ class PageController extends Controller
         return view('hub.pages.contact');
     }
 
+    public function lepis()
+    {
+        return view('hub.pages.lepis');
+    }
+
     public function membership()
     {
         $membershipTypes = MembershipType::where('is_active', true)

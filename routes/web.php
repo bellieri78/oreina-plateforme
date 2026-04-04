@@ -44,6 +44,7 @@ Route::prefix('evenements')->name('hub.events.')->group(function () {
 Route::get('/adhesion', [PageController::class, 'membership'])->name('hub.membership');
 Route::get('/a-propos', [PageController::class, 'about'])->name('hub.about');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
+Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
 
 // Authentification membre (depuis le hub)
 use App\Http\Controllers\Hub\AuthController as HubAuthController;

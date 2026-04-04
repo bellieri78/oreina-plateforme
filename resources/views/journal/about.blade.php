@@ -1,7 +1,7 @@
 @extends('layouts.journal')
 
-@section('title', 'À propos')
-@section('meta_description', 'À propos de la revue OREINA - Mission, comité éditorial et politique de publication.')
+@section('title', 'À propos de Chersotis')
+@section('meta_description', 'À propos de Chersotis — Revue scientifique numérique en accès libre sur les Lépidoptères de France, publiée par l\'association OREINA.')
 
 @section('content')
     <div style="padding: 36px 0;">
@@ -11,9 +11,10 @@
                 <div class="p-4 rounded-2xl inline-flex mb-6" style="background:var(--accent-surface)">
                     <i data-lucide="info" style="width:40px;height:40px;color:var(--accent)"></i>
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-bold mb-4">À propos de la revue</h1>
+                <h1 class="text-3xl sm:text-4xl font-bold mb-4">À propos de Chersotis</h1>
                 <p class="text-slate-600 max-w-2xl mx-auto">
-                    OREINA est une revue scientifique en accès libre dédiée à l'étude des Lépidoptères de France.
+                    Chersotis est la revue scientifique numérique en accès libre de l'association OREINA,
+                    dédiée à l'étude des Lépidoptères de France.
                 </p>
             </div>
 
@@ -22,20 +23,58 @@
                 <h2 class="text-xl font-bold mb-6">Notre mission</h2>
                 <div class="prose prose-slate max-w-none">
                     <p>
-                        La revue OREINA a pour mission de diffuser les connaissances scientifiques sur les papillons
-                        de France et des régions limitrophes. Elle publie des travaux originaux de haute qualité,
-                        soumis à une évaluation rigoureuse par les pairs.
+                        Publication scientifique numérique gratuite, exigeante mais accessible, Chersotis valorise
+                        les travaux inédits sur les Lépidoptères de France. Sa vocation : faire avancer les
+                        connaissances et servir de référence aux chercheurs, gestionnaires et naturalistes.
                     </p>
-                    <p>
-                        Nos domaines de publication couvrent :
-                    </p>
+
+                    <h3 class="text-lg font-semibold mt-6 mb-3">Domaines de publication</h3>
                     <ul>
-                        <li>La systématique et la taxonomie</li>
-                        <li>La biogéographie et la répartition</li>
-                        <li>L'écologie et la biologie des espèces</li>
-                        <li>La conservation et la protection</li>
-                        <li>Les inventaires faunistiques régionaux</li>
+                        <li><strong>Taxonomie</strong> — Classification, nomenclature et systématique des Lépidoptères de France</li>
+                        <li><strong>Faunistique</strong> — Présence, répartition et statut des espèces sur le territoire français</li>
+                        <li><strong>Inventaires</strong> — Compilations et analyses de données d'inventaires avec portée scientifique</li>
+                        <li><strong>Travaux de recherche</strong> — Études originales répondant à des questions scientifiques précises</li>
+                        <li><strong>Écologie et biologie des espèces</strong> — Cycle de vie, comportement et relations écologiques</li>
+                        <li><strong>Acquisition de données</strong> — Méthodes et outils pour l'obtention de données sur les Lépidoptères</li>
                     </ul>
+
+                    <h3 class="text-lg font-semibold mt-6 mb-3">Public cible</h3>
+                    <p>
+                        Chersotis s'adresse aux chercheurs, gestionnaires et naturalistes travaillant sur
+                        les Lépidoptères de France.
+                    </p>
+                </div>
+            </div>
+
+            {{-- Format & Periodicity --}}
+            <div class="grid sm:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-3xl border border-oreina-beige/50 p-6 sm:p-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:var(--accent-surface)">
+                            <i data-lucide="monitor" style="width:24px;height:24px;color:var(--accent)"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-2">Format</h3>
+                            <p class="text-slate-600 text-sm">
+                                Numérique, avec DOI attribués pour un référencement scientifique pérenne.
+                                Impression annuelle disponible sur appel à souscription.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl border border-oreina-beige/50 p-6 sm:p-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:var(--accent-surface)">
+                            <i data-lucide="calendar" style="width:24px;height:24px;color:var(--accent)"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-2">Périodicité</h3>
+                            <p class="text-slate-600 text-sm">
+                                Publication au fil de l'eau, sans contrainte de pagination.
+                                Les articles sont publiés dès leur acceptation par le comité de lecture.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -48,7 +87,7 @@
                     <div>
                         <h2 class="text-xl font-bold mb-3">Accès libre</h2>
                         <p class="text-white/90">
-                            OREINA est une revue en accès libre (Open Access). Tous les articles sont disponibles
+                            Chersotis est une revue en accès libre (Open Access). Tous les articles sont disponibles
                             gratuitement et immédiatement, sans barrière d'abonnement. Nous croyons que la science
                             doit être accessible à tous.
                         </p>
@@ -64,9 +103,9 @@
                 <h2 class="text-xl font-bold mb-6">Évaluation par les pairs</h2>
                 <div class="prose prose-slate max-w-none">
                     <p>
-                        Tous les manuscrits soumis à OREINA font l'objet d'une évaluation par les pairs
-                        (peer review). Ce processus garantit la qualité et la rigueur scientifique des
-                        publications.
+                        Tous les manuscrits soumis à Chersotis font l'objet d'une évaluation par un comité
+                        de lecture strict avec experts externes. Ce processus garantit la qualité et la rigueur
+                        scientifique des publications.
                     </p>
                     <div class="grid sm:grid-cols-3 gap-6 mt-8 not-prose">
                         <div class="text-center">
@@ -89,6 +128,42 @@
                             </div>
                             <h3 class="font-semibold mb-1">Experts qualifiés</h3>
                             <p class="text-sm text-slate-600">Spécialistes du domaine</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Passerelles Chersotis / Lepis --}}
+            <div class="bg-white rounded-3xl border border-oreina-beige/50 p-6 sm:p-8 lg:p-12 mb-8">
+                <h2 class="text-xl font-bold mb-6">Passerelles avec Lepis</h2>
+                <div class="prose prose-slate max-w-none">
+                    <p>
+                        Chersotis et Lepis, le bulletin trimestriel des adhérents d'OREINA, fonctionnent en
+                        complémentarité. Des passerelles existent entre les deux publications pour enrichir
+                        mutuellement leurs contenus.
+                    </p>
+                    <div class="grid sm:grid-cols-2 gap-6 mt-6 not-prose">
+                        <div class="p-4 rounded-xl border border-oreina-beige/50 bg-slate-50">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i data-lucide="arrow-right" style="width:18px;height:18px;color:var(--accent)"></i>
+                                <h3 class="font-semibold text-sm">De Lepis vers Chersotis</h3>
+                            </div>
+                            <ul class="text-sm text-slate-600 space-y-1">
+                                <li>Observations remarquables approfondies scientifiquement</li>
+                                <li>Notes de terrain développées en études</li>
+                                <li>Appels à contribution débouchant sur des synthèses</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 rounded-xl border border-oreina-beige/50 bg-slate-50">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i data-lucide="arrow-left" style="width:18px;height:18px;color:var(--accent)"></i>
+                                <h3 class="font-semibold text-sm">De Chersotis vers Lepis</h3>
+                            </div>
+                            <ul class="text-sm text-slate-600 space-y-1">
+                                <li>Résumés d'articles scientifiques complexes</li>
+                                <li>« Retour terrain » sur les découvertes publiées</li>
+                                <li>Vulgarisation des avancées taxonomiques</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -118,7 +193,7 @@
                 <h2 class="text-xl font-bold mb-6">Indexation</h2>
                 <div class="prose prose-slate max-w-none">
                     <p>
-                        Les articles publiés dans OREINA reçoivent un identifiant DOI (Digital Object Identifier)
+                        Les articles publiés dans Chersotis reçoivent un identifiant DOI (Digital Object Identifier)
                         via Crossref, assurant leur référencement pérenne et leur citabilité.
                     </p>
                     <div class="flex flex-wrap gap-4 mt-6 not-prose">
