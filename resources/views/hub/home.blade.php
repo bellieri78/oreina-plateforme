@@ -11,14 +11,14 @@
     .hero-card {
         position: relative;
         overflow: hidden;
-        min-height: 92vh;
+        min-height: 80vh;
         border-radius: 0;
         background:
             linear-gradient(rgba(22,48,43,0.60), rgba(22,48,43,0.72)),
             url('/images/hero-bg.jpg') center/cover;
         box-shadow: var(--shadow);
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         width: 100vw;
         margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
@@ -46,7 +46,7 @@
         width: 100%;
         max-width: var(--container);
         margin: 0 auto;
-        padding: 48px 16px 56px;
+        padding: 100px 16px 60px;
         color: white;
     }
 
@@ -734,7 +734,7 @@
         }
 
         .hero-card {
-            min-height: 88vh;
+            min-height: 75vh;
         }
 
         .project-grid,
@@ -753,11 +753,11 @@
         }
 
         .hero-content {
-            padding: 28px 16px 36px;
+            padding: 80px 16px 36px;
         }
 
         .hero-card {
-            min-height: 82vh;
+            min-height: 70vh;
             border-radius: 0 0 28px 28px;
         }
 
