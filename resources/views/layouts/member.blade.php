@@ -1004,6 +1004,15 @@
             {{-- Navigation — Contribuer --}}
             <nav class="nav-group">
                 <div class="nav-title">Contribuer</div>
+                <a href="{{ route('journal.submissions.create') }}" class="nav-item {{ request()->routeIs('journal.submissions.create') ? 'active' : '' }}">
+                    <i data-lucide="file-plus" class="icon"></i>
+                    <span class="nav-label">Soumettre un article</span>
+                </a>
+                <a href="{{ route('journal.submissions.index') }}" class="nav-item {{ request()->routeIs('journal.submissions*') ? 'active' : '' }}">
+                    <i data-lucide="file-check" class="icon"></i>
+                    <span class="nav-label">Mes soumissions</span>
+                </a>
+                @if($authMember)
                 <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') || request()->routeIs('member.work-groups*') ? 'active' : '' }}">
                     <i data-lucide="folder-open" class="icon"></i>
                     <span class="nav-label">Mes contributions</span>
@@ -1016,23 +1025,32 @@
                     <i data-lucide="users" class="icon"></i>
                     <span class="nav-label">Groupes et réseau</span>
                 </a>
+                @endif
             </nav>
 
             {{-- Navigation — Ressources --}}
             <nav class="nav-group">
                 <div class="nav-title">Ressources</div>
-                <a href="{{ route('member.journal') }}" class="nav-item {{ request()->routeIs('member.journal*') ? 'active' : '' }}">
+                <a href="{{ route('journal.articles.index') }}" class="nav-item {{ request()->routeIs('journal.articles*') ? 'active' : '' }}">
                     <i data-lucide="book-open" class="icon"></i>
-                    <span class="nav-label">La revue</span>
+                    <span class="nav-label">Chersotis</span>
                 </a>
+                @if($authMember)
                 <a href="{{ route('member.lepis') }}" class="nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
                     <i data-lucide="newspaper" class="icon"></i>
                     <span class="nav-label">Lepis</span>
                 </a>
+                @endif
             </nav>
 
             {{-- Footer: return + logout --}}
             <div class="sidebar-footer">
+                @if($authUser?->isAdmin() || $authUser?->isEditor())
+                <a href="{{ route('admin.dashboard') }}" class="nav-item">
+                    <i data-lucide="shield" class="icon"></i>
+                    <span class="nav-label">Extranet</span>
+                </a>
+                @endif
                 <a href="{{ route('hub.home') }}" class="nav-item">
                     <i data-lucide="arrow-left" class="icon"></i>
                     <span class="nav-label">Retour au site</span>

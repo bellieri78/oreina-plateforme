@@ -135,7 +135,7 @@
                             <input type="checkbox" id="accept_terms" name="accept_terms" required
                                    class="mt-1 w-5 h-5 text-oreina-turquoise border-2 border-oreina-beige/50 rounded focus:ring-oreina-turquoise">
                             <label for="accept_terms" class="text-sm text-slate-600">
-                                Je certifie que ce manuscrit est un travail original qui n'a pas été publié ailleurs et n'est pas actuellement soumis à une autre revue. J'accepte les <a href="{{ route('journal.authors') }}" class="text-oreina-turquoise font-semibold hover:underline">conditions de publication</a> de la revue OREINA.
+                                Je certifie que ce manuscrit est un travail original qui n'a pas été publié ailleurs et n'est pas actuellement soumis à une autre revue. J'accepte les <a href="{{ route('journal.authors') }}" class="text-oreina-turquoise font-semibold hover:underline">conditions de publication</a> de Chersotis.
                             </label>
                         </div>
                         @error('accept_terms')

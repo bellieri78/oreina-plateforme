@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\JournalIssue;
 use App\Models\Member;
+use App\Models\Submission;
 use App\Models\WorkGroup;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,12 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        // User submissions to Chersotis (available for all users)
+        $mySubmissions = Submission::where('author_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
         // Stats
         $stats = [
             'total_donations' => $member?->donations()->sum('amount') ?? 0,
@@ -62,7 +69,8 @@ class DashboardController extends Controller
             'workGroups',
             'myGroupIds',
             'stats',
-            'upcomingEvents'
+            'upcomingEvents',
+            'mySubmissions'
         ));
     }
 }

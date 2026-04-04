@@ -2,7 +2,7 @@
 
 @section('title', 'Tableau de bord')
 @section('page-title', 'Tableau de bord membre')
-@section('page-subtitle', 'Un cockpit naturaliste simple, lisible et orienté action')
+@section('page-subtitle', 'Votre espace personnel')
 
 @section('topbar-actions')
     <button class="btn btn-secondary"><i data-lucide="database"></i>Explorer Artemisiae</button>
@@ -22,24 +22,36 @@
                 <i data-lucide="leaf"></i>
                 @if($isCurrentMember)
                     Bienvenue sur votre espace OREINA
-                @else
+                @elseif($member)
                     Votre adhésion a expiré
+                @else
+                    Bienvenue sur OREINA
                 @endif
             </div>
 
-            <h1>Bonjour {{ $member?->first_name ?? $user->name }}, prêt à contribuer au réseau aujourd'hui&nbsp;?</h1>
+            <h1>Bonjour {{ $member?->first_name ?? $user->name }}&nbsp;!</h1>
 
-            <p>
-                Cet espace membre est pensé comme un outil d'action&nbsp;: suivre vos contributions,
-                retrouver vos dernières activités, accéder rapidement à Artemisiae
-                et rester connecté à la vie du réseau.
-            </p>
-
-            <div class="quick-actions">
-                <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
-                <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
-                <a href="{{ route('member.lepis') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
-            </div>
+            @if($member)
+                <p>
+                    Cet espace est pensé comme un outil d'action : suivre vos contributions,
+                    retrouver vos dernières activités et rester connecté à la vie du réseau.
+                </p>
+                <div class="quick-actions">
+                    <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
+                    <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
+                    <a href="{{ route('member.lepis') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
+                </div>
+            @else
+                <p>
+                    Vous avez un compte OREINA. Depuis cet espace, vous pouvez soumettre des articles
+                    à Chersotis, notre revue scientifique. Pour accéder à toutes les fonctionnalités
+                    (Lepis, groupes de travail, carte des membres, chat), rejoignez l'association.
+                </p>
+                <div class="quick-actions">
+                    <a href="{{ route('journal.submissions.create') }}" class="btn btn-primary"><i data-lucide="file-plus"></i>Soumettre un article</a>
+                    <a href="{{ route('hub.membership') }}" class="btn btn-secondary"><i data-lucide="heart-plus"></i>Adhérer à OREINA</a>
+                </div>
+            @endif
         </article>
 
         {{-- Right: welcome-side (mini-cards) --}}
@@ -58,6 +70,7 @@
                 <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Consulter Chersotis</a>
             </article>
 
+            @if($member)
             {{-- Lepis (bulletin adhérents) --}}
             <article class="mini-card sage">
                 <div>
@@ -66,23 +79,27 @@
                 </div>
                 <a href="{{ route('member.lepis') }}" class="text-link"><i data-lucide="newspaper"></i>Consulter Lepis</a>
             </article>
+            @endif
 
             {{-- Soumettre --}}
             <article class="mini-card" style="background:var(--blue); color:white;">
                 <div>
-                    <strong style="color:white;">Soumettre</strong>
-                    <p style="color:rgba(255,255,255,0.85);">Proposer un article pour Chersotis ou une contribution pour Lepis.</p>
+                    <strong style="color:white;">Soumettre un article</strong>
+                    <p style="color:rgba(255,255,255,0.85);">Proposer un article pour Chersotis{{ $member ? ' ou une contribution pour Lepis' : '' }}.</p>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <a href="{{ route('journal.submit') }}" class="text-link" style="color:white;"><i data-lucide="file-plus"></i>Chersotis</a>
+                    <a href="{{ route('journal.submissions.create') }}" class="text-link" style="color:white;"><i data-lucide="file-plus"></i>Soumettre à Chersotis</a>
+                    @if($member)
                     <a href="{{ route('member.lepis.suggest') }}" class="text-link" style="color:rgba(255,255,255,0.7);"><i data-lucide="newspaper"></i>Lepis</a>
+                    @endif
                 </div>
             </article>
         </div>
     </section>
 
+    @if($member)
     {{-- ═══════════════════════════════════════════════════
-         MAIN GRID  (1.15fr + 0.95fr)
+         MAIN GRID  (1.15fr + 0.95fr) — Adhérents uniquement
     ═══════════════════════════════════════════════════ --}}
     <section class="grid">
 
@@ -361,6 +378,112 @@
                     </article>
                 </div>
             </article>
+        </div>
+    </section>
+    @else
+    {{-- ═══════════════════════════════════════════════════
+         NON-ADHÉRENT : section simplifiée
+    ═══════════════════════════════════════════════════ --}}
+    <section>
+        <div class="card panel">
+            <div class="panel-head">
+                <div>
+                    <h2>Votre compte OREINA</h2>
+                    <p>Vous n'êtes pas encore adhérent. Voici ce que vous pouvez faire avec votre compte gratuit.</p>
+                </div>
+            </div>
+
+            <div class="todo-list">
+                <article class="todo-item">
+                    <div>
+                        <strong>Soumettre un article à Chersotis</strong>
+                        <p>La revue scientifique d'OREINA est ouverte à tous. Soumettez vos travaux sur les Lépidoptères de France.</p>
+                    </div>
+                    <a href="{{ route('journal.submissions.create') }}" class="btn btn-primary" style="height:auto;padding:8px 14px;font-size:13px;"><i data-lucide="file-plus"></i>Soumettre</a>
+                </article>
+
+                <article class="todo-item">
+                    <div>
+                        <strong>Consulter les articles publiés</strong>
+                        <p>Chersotis est en accès libre. Parcourez les articles scientifiques disponibles.</p>
+                    </div>
+                    <a href="{{ route('journal.articles.index') }}" class="btn btn-secondary" style="height:auto;padding:8px 14px;font-size:13px;"><i data-lucide="book-open"></i>Articles</a>
+                </article>
+
+                <article class="todo-item" style="background:var(--surface-sage);">
+                    <div>
+                        <strong>Rejoindre OREINA</strong>
+                        <p>L'adhésion donne accès au bulletin Lepis, aux groupes de travail, au chat entre adhérents, à la carte des membres et aux documents personnels.</p>
+                    </div>
+                    <a href="{{ route('hub.membership') }}" class="btn btn-primary" style="height:auto;padding:8px 14px;font-size:13px;"><i data-lucide="heart-plus"></i>Adhérer</a>
+                </article>
+            </div>
+        </div>
+    </section>
+    @endif
+
+    {{-- ═══════════════════════════════════════════════════
+         MES SOUMISSIONS (visible pour tous les utilisateurs)
+    ═══════════════════════════════════════════════════ --}}
+    <section>
+        <div class="card panel">
+            <div class="panel-head">
+                <div>
+                    <h2>Mes soumissions à Chersotis</h2>
+                    <p>Vos articles soumis à la revue scientifique et leur statut.</p>
+                </div>
+                <a href="{{ route('journal.submissions.index') }}" class="text-link"><i data-lucide="arrow-right"></i>Toutes mes soumissions</a>
+            </div>
+
+            @if($mySubmissions->count() > 0)
+            <div class="activity-list">
+                @foreach($mySubmissions as $sub)
+                <article class="activity-item">
+                    <div class="bullet {{ $sub->status === 'published' ? '' : ($sub->status === 'accepted' ? 'gold' : 'blue') }}">
+                        @if($sub->status === 'published')
+                            <i data-lucide="check-circle" style="width:18px;height:18px;color:#2f694e;"></i>
+                        @elseif($sub->status === 'accepted')
+                            <i data-lucide="badge-check" style="width:18px;height:18px;color:#8b6c05;"></i>
+                        @elseif($sub->status === 'under_review')
+                            <i data-lucide="clock" style="width:18px;height:18px;color:var(--blue);"></i>
+                        @elseif($sub->status === 'revision_requested')
+                            <i data-lucide="pen-line" style="width:18px;height:18px;color:var(--coral);"></i>
+                        @else
+                            <i data-lucide="file-text" style="width:18px;height:18px;color:var(--blue);"></i>
+                        @endif
+                    </div>
+                    <div>
+                        <strong>{{ $sub->title }}</strong>
+                        <p>
+                            @if($sub->doi)DOI : {{ $sub->doi }} · @endif
+                            Soumis le {{ $sub->created_at->format('d/m/Y') }}
+                        </p>
+                    </div>
+                    <div>
+                        @php
+                            $statusLabels = [
+                                'draft' => ['Brouillon', 'blue'],
+                                'submitted' => ['Soumis', 'blue'],
+                                'under_review' => ['En relecture', 'gold'],
+                                'revision_requested' => ['Révision demandée', 'coral'],
+                                'accepted' => ['Accepté', 'sage'],
+                                'rejected' => ['Refusé', 'coral'],
+                                'published' => ['Publié', 'sage'],
+                            ];
+                            $label = $statusLabels[$sub->status] ?? ['Inconnu', 'blue'];
+                        @endphp
+                        <span class="status {{ $label[1] }}">{{ $label[0] }}</span>
+                    </div>
+                </article>
+                @endforeach
+            </div>
+            @else
+            <div style="text-align:center; padding:24px; color:var(--muted);">
+                <i data-lucide="file-text" style="width:32px;height:32px;margin:0 auto 12px;display:block;opacity:0.4;"></i>
+                <p style="font-size:14px;">Aucune soumission pour le moment.</p>
+                <a href="{{ route('journal.submissions.create') }}" class="btn btn-primary" style="margin-top:12px;"><i data-lucide="file-plus"></i>Soumettre un article</a>
+            </div>
+            @endif
         </div>
     </section>
 
