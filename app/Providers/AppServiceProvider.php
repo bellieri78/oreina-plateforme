@@ -23,5 +23,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('layouts.member', MemberLayoutComposer::class);
+
+        \Illuminate\Support\Facades\Gate::policy(
+            \App\Models\Submission::class,
+            \App\Policies\SubmissionPolicy::class
+        );
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Hub\HomeController;
 use App\Http\Controllers\Hub\PageController;
 use App\Http\Controllers\Journal\JournalController;
 use App\Http\Controllers\Journal\SubmissionController;
+use App\Http\Controllers\Journal\SubmissionFileController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\Member\MembershipController as MemberMembershipController;
@@ -106,6 +107,10 @@ Route::prefix('revue')->name('journal.')->group(function () {
         Route::get('/{submission}', [SubmissionController::class, 'show'])->name('show');
         Route::get('/{submission}/revision', [SubmissionController::class, 'edit'])->name('edit');
         Route::put('/{submission}', [SubmissionController::class, 'update'])->name('update');
+
+        Route::get('/{submission}/fichier/{path}', [SubmissionFileController::class, 'download'])
+            ->where('path', '.*')
+            ->name('file.download');
     });
 });
 
