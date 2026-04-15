@@ -1,8 +1,3 @@
-# Défense : bloquer toute exécution PHP sur les fichiers uploadés
-<FilesMatch "\.(ph[p3-8]?|phtml)$">
-    Require all denied
-</FilesMatch>
-
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

@@ -1,0 +1,8 @@
+# Défense en profondeur : bloquer toute exécution PHP sur fichiers uploadés
+# (normalement, ce répertoire n'est JAMAIS accessible via HTTP — il est hors public/)
+<FilesMatch "\.(ph[p3-8]?|phtml)$">
+    Require all denied
+</FilesMatch>
+
+# Bloquer également l'accès direct à tout fichier, par précaution
+Require all denied
