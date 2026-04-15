@@ -30,7 +30,7 @@ return new class extends Migration
             ['group' => 'general', 'key' => 'maintenance_mode', 'value' => '0', 'type' => 'boolean', 'description' => 'Mode maintenance active'],
 
             // Journal
-            ['group' => 'journal', 'key' => 'journal_name', 'value' => 'Revue OREINA', 'type' => 'string', 'description' => 'Nom de la revue scientifique'],
+            ['group' => 'journal', 'key' => 'journal_name', 'value' => 'Chersotis', 'type' => 'string', 'description' => 'Nom de la revue scientifique'],
             ['group' => 'journal', 'key' => 'journal_issn', 'value' => '', 'type' => 'string', 'description' => 'ISSN de la revue'],
             ['group' => 'journal', 'key' => 'review_deadline_days', 'value' => '30', 'type' => 'integer', 'description' => 'Delai par defaut pour les evaluations (jours)'],
             ['group' => 'journal', 'key' => 'max_reviewers_per_submission', 'value' => '3', 'type' => 'integer', 'description' => 'Nombre max de reviewers par soumission'],

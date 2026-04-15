@@ -98,7 +98,7 @@ return [
     */
     'header' => [
         'left' => 'Chersotis',
-        'right' => config('journal.name'),
+        'right' => config('journal.tagline'),
         'rule_width' => '0.5pt',
     ],
 
