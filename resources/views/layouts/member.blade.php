@@ -933,6 +933,7 @@
         $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
     @endphp
 
+    @include('partials.email-verification-notice')
     <div class="app">
         {{-- LEFT SIDEBAR --}}
         <aside class="sidebar" id="memberSidebar">

@@ -328,6 +328,7 @@
     @stack('styles')
 </head>
 <body>
+    @include('partials.email-verification-notice')
     @include('partials.hub.header')
 
     <main>
