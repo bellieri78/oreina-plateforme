@@ -58,6 +58,9 @@
                 <div class="doc-nav-title">Revue Chersotis</div>
                 <a href="#numeros" class="doc-nav-link">Numeros</a>
                 <a href="#soumissions" class="doc-nav-link">Workflow editorial</a>
+                <a href="#capacites-editoriales" class="doc-nav-link">Capacites editoriales</a>
+                <a href="#file-attente" class="doc-nav-link">File d'attente editoriale</a>
+                <a href="#mes-articles" class="doc-nav-link">Mes articles (editeur)</a>
                 <a href="#reviews" class="doc-nav-link">Reviews</a>
             </div>
 
@@ -205,6 +208,44 @@
                     <strong>Middleware :</strong> Les routes <code>/extranet</code> sont protégées par le middleware <code>admin</code> qui vérifie que l'utilisateur a le rôle <code>editor</code> ou <code>admin</code>. Un adhérent qui tente d'accéder à l'extranet recevra une erreur 403.<br>
                     <strong>Redirection guests :</strong> Un utilisateur non connecté qui tente d'accéder à <code>/espace-membre</code> est redirigé vers <code>/connexion</code>.
                 </div>
+
+                <h3>Capacités éditoriales Chersotis (depuis avril 2026)</h3>
+                <p>En complément du rôle global, un système de <strong>capacités éditoriales</strong> permet à un même utilisateur d'occuper plusieurs rôles dans la revue Chersotis, et à un utilisateur d'avoir un rôle sur un article mais pas sur un autre.</p>
+
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Capacité</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>chief_editor</code> — Rédacteur en chef</td>
+                                <td>Voit toutes les soumissions, assigne les éditeurs aux articles, modifie les capacités des autres utilisateurs</td>
+                            </tr>
+                            <tr>
+                                <td><code>editor</code> — Éditeur</td>
+                                <td>Peut prendre en charge un article (auto-attribution) ou se voir assigner un article par le rédac en chef, désigne les relecteurs, synthétise les retours</td>
+                            </tr>
+                            <tr>
+                                <td><code>reviewer</code> — Relecteur</td>
+                                <td>Accède aux manuscrits pour lesquels il est invité, soumet un rapport de relecture. <strong>Non anonyme</strong> par décision éditoriale.</td>
+                            </tr>
+                            <tr>
+                                <td><code>layout_editor</code> — Maquettiste</td>
+                                <td>Accède aux articles acceptés, crée/édite la maquette, génère le PDF final</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-info">
+                    <strong>Différence capacité vs rôle :</strong> le rôle (colonne <code>users.role</code>) détermine l'accès global à l'extranet. Les capacités (table <code>editorial_capabilities</code>) déterminent ce qu'un utilisateur peut faire <em>dans le workflow éditorial</em>. Un même utilisateur peut cumuler plusieurs capacités (ex. un membre du comité de rédac est à la fois <code>editor</code> et <code>reviewer</code>).<br>
+                    <strong>Séparation des rôles sur un article :</strong> un utilisateur ne peut pas être à la fois éditeur et relecteur du <em>même</em> article. Le système bloque l'assignation avec une exception <code>RoleConflictException</code> ; un override explicite ("forcer") est possible pour les exceptions ponctuelles, et est tracé dans le log des transitions.<br>
+                    <strong>Backfill :</strong> lors de la mise en place (avril 2026), les capacités ont été dérivées du rôle existant : <code>admin</code> → toutes les capacités ; <code>editor</code> → editor + reviewer ; <code>reviewer</code> → reviewer.
+                </div>
             </section>
 
             {{-- Inscription et rattachement --}}
@@ -218,21 +259,28 @@
                         <span class="step-number">1</span>
                         <div class="step-content">
                             <strong>Création du compte</strong>
-                            <p>L'utilisateur renseigne son nom, son email et un mot de passe. Un enregistrement est créé dans la table <code>users</code> avec le rôle <code>user</code>.</p>
+                            <p>L'utilisateur renseigne son nom, son email et un mot de passe. Un captcha Cloudflare Turnstile protège le formulaire contre les bots (activable via <code>TURNSTILE_ENABLED=true</code> en prod). Un enregistrement est créé dans la table <code>users</code> avec le rôle <code>user</code>.</p>
                         </div>
                     </div>
                     <div class="doc-step">
                         <span class="step-number">2</span>
+                        <div class="step-content">
+                            <strong>Email de vérification envoyé</strong>
+                            <p>Un email contenant un lien signé à durée limitée (60 min, route <code>verification.verify</code>) est envoyé à l'adresse fournie. L'utilisateur est connecté immédiatement (soft-gate) mais voit une bannière orange tant qu'il n'a pas cliqué le lien. Les actions sensibles — notamment la soumission d'articles via <code>/revue/mes-soumissions/nouvelle</code> — sont bloquées par le middleware <code>verified</code> tant que l'email n'est pas confirmé.</p>
+                        </div>
+                    </div>
+                    <div class="doc-step">
+                        <span class="step-number">3</span>
                         <div class="step-content">
                             <strong>Rattachement automatique par email</strong>
                             <p>Au moment de la création du compte, le système cherche dans la table <code>members</code> un enregistrement avec le même email et sans <code>user_id</code>. Si un adhérent est trouvé, le compte est automatiquement rattaché à sa fiche membre.</p>
                         </div>
                     </div>
                     <div class="doc-step">
-                        <span class="step-number">3</span>
+                        <span class="step-number">4</span>
                         <div class="step-content">
                             <strong>Redirection vers l'espace membre</strong>
-                            <p>L'utilisateur est connecté automatiquement et redirigé vers <code>/espace-membre</code>. Un message lui indique si son compte a été rattaché à une fiche adhérent existante.</p>
+                            <p>L'utilisateur est connecté automatiquement et redirigé vers <code>/espace-membre</code>. Un message lui indique si son compte a été rattaché à une fiche adhérent existante, et qu'un email de vérification a été envoyé.</p>
                         </div>
                     </div>
                 </div>
@@ -290,6 +338,10 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="doc-info">
+                    <strong>Comptes existants (pré-2026-04) :</strong> Tous les comptes créés avant la mise en place de la vérification email ont été automatiquement marqués comme vérifiés (migration de "grandfather"). Seuls les <em>nouveaux</em> inscrits doivent passer la vérification.
                 </div>
 
                 <div class="doc-info">
@@ -1721,9 +1773,19 @@
                                 <td>Liste des co-auteurs eventuels</td>
                             </tr>
                             <tr>
-                                <td><strong>Fichier PDF</strong></td>
+                                <td><strong>Manuscrit Word</strong></td>
                                 <td>Oui</td>
-                                <td>Manuscrit au format PDF</td>
+                                <td>Format <code>.doc</code> ou <code>.docx</code> uniquement (pas PDF). Images intégrées au bon emplacement dans le document. Max 30 Mo. Validé par MIME <code>finfo</code> + inspection du ZIP OOXML.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fichiers supplémentaires</strong></td>
+                                <td>Non</td>
+                                <td>Jusqu'à 10 fichiers, 50 Mo chacun. Formats : <code>.xls</code>, <code>.xlsx</code>, <code>.pdf</code>, <code>.zip</code>. Pour tableaux complexes, inventaires faunistiques, données brutes, annexes.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Captcha</strong></td>
+                                <td>Oui (en prod)</td>
+                                <td>Cloudflare Turnstile, transparent en mode "Managed"</td>
                             </tr>
                             <tr>
                                 <td><strong>Conditions</strong></td>
@@ -1732,6 +1794,11 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="doc-info">
+                    <strong>Décision de la réunion Chersotis du 7 avril 2026 :</strong> le format de soumission est Word, pas PDF. Cette décision facilite les allers-retours éditoriaux (annotations Word) et la relecture. Les images haute résolution (photos 300 DPI, graphiques 600 DPI PNG) ne sont demandées qu'après acceptation, en phase de maquettage.<br>
+                    <strong>Stockage sécurisé :</strong> les fichiers uploadés sont stockés dans <code>storage/app/submissions/{id}/{type}/</code>, hors du répertoire <code>public/</code> (pas d'exécution PHP possible, pas d'URL directe). Le téléchargement passe par la route authentifiée <code>journal.submissions.file.download</code> avec vérification de la policy <code>SubmissionPolicy::viewFile</code>.
                 </div>
 
                 <div class="doc-info">
@@ -1889,10 +1956,101 @@
                 </div>
             </section>
 
+            {{-- Capacités éditoriales Chersotis --}}
+            <section id="capacites-editoriales" class="doc-section">
+                <h2>Capacités éditoriales Chersotis</h2>
+
+                <p>Le système de <strong>capacités éditoriales</strong> permet d'attribuer à un utilisateur un ou plusieurs rôles dans le workflow de la revue, indépendamment de son rôle global. Introduit en avril 2026 suite à la réunion du comité de rédac du 7 avril.</p>
+
+                <h3>Les 4 capacités</h3>
+                <ul>
+                    <li><code>chief_editor</code> — <strong>Rédacteur en chef</strong> : supervise l'ensemble du comité, assigne les éditeurs aux articles, modifie les capacités des membres.</li>
+                    <li><code>editor</code> — <strong>Éditeur</strong> : prend en charge un article (auto-attribution), désigne les relecteurs, synthétise les retours, valide la version finale, gère les allers-retours auteur.</li>
+                    <li><code>reviewer</code> — <strong>Relecteur</strong> : accède au manuscrit assigné, soumet un rapport de relecture. Non anonyme.</li>
+                    <li><code>layout_editor</code> — <strong>Maquettiste</strong> : accède aux articles acceptés, crée la maquette, génère le PDF final.</li>
+                </ul>
+
+                <h3>Gérer les capacités d'un utilisateur</h3>
+                <p>Sur <code>/extranet/users/{id}/edit</code>, section "Capacités éditoriales Chersotis". Cocher/décocher les capacités voulues, enregistrer. Seuls les administrateurs et rédacteurs en chef peuvent faire cette action (policy <code>SubmissionPolicy::manageCapabilities</code>).</p>
+
+                <h3>Règle de séparation des rôles</h3>
+                <p>Pour éviter les conflits d'intérêt, un utilisateur <strong>ne peut pas être à la fois éditeur et relecteur du même article</strong>. Toute tentative d'assignation en conflit renvoie une exception <code>RoleConflictException</code> et un message d'erreur à l'utilisateur.</p>
+                <p>Un <strong>override explicite</strong> est possible en cochant la case "forcer" lors de l'assignation (pour les exceptions ponctuelles validées par le groupe). L'override est tracé dans <code>submission_transitions.notes</code> avec la valeur "Override: séparation des rôles forcée".</p>
+
+                <h3>Traçabilité</h3>
+                <p>Toutes les assignations (éditeur pris/assigné, maquettiste assigné, relecteur invité) sont loguées dans la table <code>submission_transitions</code> avec l'acteur, la cible, l'horodatage et les notes éventuelles. Cette table sera aussi utilisée pour tracer les transitions de statut (sous-projet C à venir).</p>
+
+                <h3>Distinction capacité globale vs assignation par article</h3>
+                <ul>
+                    <li>La <strong>capacité</strong> (<code>editorial_capabilities</code>) dit "cet utilisateur <em>peut être</em> éditeur" — c'est l'éligibilité globale.</li>
+                    <li>L'<strong>assignation</strong> (<code>submissions.editor_id</code>, <code>submissions.layout_editor_id</code>, <code>reviews.reviewer_id</code>) dit "cet utilisateur <em>est</em> éditeur <em>de cet article précis</em>".</li>
+                </ul>
+                <p>Un même utilisateur peut donc être éditeur de l'article 42 et relecteur de l'article 57, tant que la règle de séparation est respectée sur chaque article.</p>
+            </section>
+
+            {{-- File d'attente éditoriale --}}
+            <section id="file-attente" class="doc-section">
+                <h2>File d'attente éditoriale</h2>
+
+                <p>La page <code>/extranet/revue/file-attente</code> liste toutes les soumissions qui n'ont pas encore d'éditeur assigné (statut <code>submitted</code> ou <code>under_initial_review</code>). Accessible aux utilisateurs ayant la capacité <code>editor</code>, <code>chief_editor</code> ou le rôle <code>admin</code>.</p>
+
+                <h3>Colonnes affichées</h3>
+                <ul>
+                    <li><strong>Titre</strong> (avec résumé au survol)</li>
+                    <li><strong>Auteur</strong> (auteur principal)</li>
+                    <li><strong>Date de soumission</strong></li>
+                    <li><strong>Actions</strong> (selon les droits de l'utilisateur courant)</li>
+                </ul>
+
+                <h3>Actions disponibles</h3>
+
+                <h4>Prendre en charge (auto-attribution)</h4>
+                <p>Un utilisateur avec capacité <code>editor</code> peut cliquer <strong>"Prendre en charge"</strong> sur une soumission sans éditeur. L'article lui est assigné instantanément (<code>submissions.editor_id</code> = son id). Transition loguée : <code>editor_taken</code>.</p>
+
+                <div class="doc-info">
+                    <strong>Race condition :</strong> si deux éditeurs cliquent "Prendre en charge" sur le même article au même moment, un seul réussit (update conditionnel SQL <code>WHERE editor_id IS NULL</code>). Le second reçoit un message "Cet article a déjà un éditeur assigné."
+                </div>
+
+                <h4>Assigner à... (pour rédac en chef)</h4>
+                <p>Un utilisateur avec capacité <code>chief_editor</code> ou rôle <code>admin</code> voit un menu déroulant listant tous les éditeurs éligibles (capacité <code>editor</code>). Sélectionner un éditeur et valider → l'article lui est assigné. Transition loguée : <code>editor_assigned</code>.</p>
+
+                <p>Les éditeurs déjà relecteurs sur l'article en question apparaissent <strong>grisés</strong> avec la mention "(déjà relecteur)" pour signaler le conflit. Une case <strong>"forcer"</strong> à cocher permet d'outrepasser la règle (tracé dans les notes).</p>
+
+                <h3>Où aller ensuite</h3>
+                <p>Une fois un article pris en charge, il apparaît dans le dashboard <a href="#mes-articles" class="doc-nav-link" style="display:inline">Mes articles</a> de l'éditeur concerné. La suite du workflow éditorial (invitation relecteurs, décision, publication) est décrite dans la section <a href="#soumissions" class="doc-nav-link" style="display:inline">Workflow editorial</a>.</p>
+            </section>
+
+            {{-- Mes articles (dashboard éditeur) --}}
+            <section id="mes-articles" class="doc-section">
+                <h2>Mes articles (dashboard éditeur)</h2>
+
+                <p>La page <code>/extranet/revue/mes-articles</code> liste toutes les soumissions dont l'utilisateur courant est l'éditeur assigné (<code>submissions.editor_id = auth()->id()</code>). Accessible aux utilisateurs ayant la capacité <code>editor</code>.</p>
+
+                <h3>Colonnes affichées</h3>
+                <ul>
+                    <li><strong>Titre</strong></li>
+                    <li><strong>Auteur</strong></li>
+                    <li><strong>Statut</strong> (soumis, en évaluation, révision demandée, accepté, etc.)</li>
+                    <li><strong>Relectures</strong> — nombre de relectures complétées / total assignées (ex. <code>2 / 3</code>)</li>
+                </ul>
+
+                <div class="doc-info">
+                    <strong>Sous-projet E à venir :</strong> ce dashboard sera enrichi avec le détail de chaque soumission (timeline, boutons pour inviter des relecteurs, décision éditoriale, synthèse des retours). Pour l'instant, c'est une vue de liste simple.
+                </div>
+
+                <h3>Transitions tracées</h3>
+                <p>Chaque action de l'éditeur (prise en charge, invitation d'un relecteur, changement de statut) est loguée dans <code>submission_transitions</code> avec l'acteur, la cible, la description, et la transition de statut le cas échéant. La timeline complète sera accessible depuis la fiche soumission en sous-projet E.</p>
+            </section>
+
             {{-- Reviews --}}
             <section id="reviews" class="doc-section">
                 <h2>Reviews (Evaluations par les pairs)</h2>
                 <p>Cette section concerne la gestion des evaluations dans l'extranet. Chaque review correspond a l'evaluation d'un manuscrit par un relecteur expert.</p>
+
+                <div class="doc-info">
+                    <strong>Politique de relecture — décision du 7 avril 2026 :</strong> les relecteurs <strong>ne sont pas anonymes</strong>. Leur identité est communiquée à l'auteur avec leur rapport. Il n'y a pas de mécanisme de masquage d'identité.<br>
+                    <strong>Séparation des rôles :</strong> un relecteur ne peut pas être simultanément éditeur du même article (et inversement). Voir la section <a href="#capacites-editoriales" class="doc-nav-link" style="display:inline">Capacités éditoriales</a>.
+                </div>
 
                 <h3>Assigner un reviewer</h3>
                 <p>Depuis l'extranet, accedez a <code>/extranet/reviews/create</code> pour creer une nouvelle evaluation. Selectionnez la soumission concernee, le reviewer (depuis le pool de relecteurs) et la date limite. Un email d'invitation est envoye automatiquement au reviewer selectionne.</p>
@@ -1969,6 +2127,15 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <h3>Capacités éditoriales Chersotis</h3>
+                <p>Sur la page d'édition d'un utilisateur (<code>/extranet/users/{id}/edit</code>), une section <strong>"Capacités éditoriales Chersotis"</strong> affiche 4 cases à cocher : Rédacteur en chef, Éditeur, Relecteur, Maquettiste. Seuls les administrateurs et les rédacteurs en chef peuvent modifier ces capacités ; les autres utilisateurs voient les cases en lecture seule.</p>
+
+                <p>Chaque modification (ajout/retrait d'une capacité) est tracée dans la table <code>audit_logs</code> avec <code>table_name='editorial_capabilities'</code>, <code>action='INSERT'</code> ou <code>'DELETE'</code>, et une description lisible ("Capacité 'editor' accordée à {Nom}"). Les capacités elles-mêmes sont stockées dans <code>editorial_capabilities</code> avec <code>granted_by_user_id</code> et <code>granted_at</code>.</p>
+
+                <div class="doc-info">
+                    <strong>Voir aussi :</strong> la section <a href="#capacites-editoriales" class="doc-nav-link" style="display:inline">Capacités éditoriales</a> pour la description de chaque rôle et les règles de séparation.
                 </div>
 
                 <h3>Actions disponibles</h3>
