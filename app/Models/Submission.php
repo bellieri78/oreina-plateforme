@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SubmissionStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,6 +38,7 @@ class Submission extends Model
         'received_at',
         'accepted_at',
         'published_at',
+        'redirected_to_lepis',
     ];
 
     protected $casts = [
@@ -51,14 +53,18 @@ class Submission extends Model
         'received_at' => 'date',
         'accepted_at' => 'date',
         'published_at' => 'datetime',
+        'status' => SubmissionStatus::class,
+        'redirected_to_lepis' => 'boolean',
     ];
 
     // Statuses
     public const STATUS_DRAFT = 'draft';
     public const STATUS_SUBMITTED = 'submitted';
-    public const STATUS_DESK_REVIEW = 'desk_review';
-    public const STATUS_IN_REVIEW = 'in_review';
-    public const STATUS_REVISION = 'revision';
+    public const STATUS_UNDER_INITIAL_REVIEW  = 'under_initial_review';
+    public const STATUS_REVISION_REQUESTED    = 'revision_requested';
+    public const STATUS_UNDER_PEER_REVIEW     = 'under_peer_review';
+    public const STATUS_REVISION_AFTER_REVIEW = 'revision_after_review';
+    public const STATUS_IN_PRODUCTION         = 'in_production';
     public const STATUS_ACCEPTED = 'accepted';
     public const STATUS_REJECTED = 'rejected';
     public const STATUS_PUBLISHED = 'published';
@@ -71,16 +77,7 @@ class Submission extends Model
 
     public static function getStatuses(): array
     {
-        return [
-            self::STATUS_DRAFT => 'Brouillon',
-            self::STATUS_SUBMITTED => 'Soumis',
-            self::STATUS_DESK_REVIEW => 'Évaluation initiale',
-            self::STATUS_IN_REVIEW => 'En révision',
-            self::STATUS_REVISION => 'Révision demandée',
-            self::STATUS_ACCEPTED => 'Accepté',
-            self::STATUS_REJECTED => 'Rejeté',
-            self::STATUS_PUBLISHED => 'Publié',
-        ];
+        return SubmissionStatus::labels();
     }
 
     public static function getDecisions(): array
@@ -135,33 +132,28 @@ class Submission extends Model
 
     public function isPublished(): bool
     {
-        return $this->status === self::STATUS_PUBLISHED && $this->published_at !== null;
+        return $this->status === SubmissionStatus::Published && $this->published_at !== null;
     }
 
     public function canBeReviewed(): bool
     {
-        return in_array($this->status, [self::STATUS_DESK_REVIEW, self::STATUS_IN_REVIEW]);
+        return in_array($this->status, [
+            SubmissionStatus::UnderInitialReview,
+            SubmissionStatus::UnderPeerReview,
+        ], true);
     }
 
     public function needsDecision(): bool
     {
-        return $this->status === self::STATUS_IN_REVIEW
+        return $this->status === SubmissionStatus::UnderPeerReview
             && $this->completedReviews()->count() >= 2;
     }
 
     public function getStatusColorAttribute(): string
     {
-        return match($this->status) {
-            self::STATUS_DRAFT => 'gray',
-            self::STATUS_SUBMITTED => 'info',
-            self::STATUS_DESK_REVIEW => 'warning',
-            self::STATUS_IN_REVIEW => 'primary',
-            self::STATUS_REVISION => 'warning',
-            self::STATUS_ACCEPTED => 'success',
-            self::STATUS_REJECTED => 'danger',
-            self::STATUS_PUBLISHED => 'success',
-            default => 'gray',
-        };
+        return $this->status instanceof SubmissionStatus
+            ? $this->status->color()
+            : 'gray';
     }
 
     public function scopeStatus($query, string $status)
@@ -171,12 +163,16 @@ class Submission extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('status', self::STATUS_PUBLISHED);
+        return $query->where('status', SubmissionStatus::Published->value);
     }
 
     public function scopePendingReview($query)
     {
-        return $query->whereIn('status', [self::STATUS_SUBMITTED, self::STATUS_DESK_REVIEW, self::STATUS_IN_REVIEW]);
+        return $query->whereIn('status', [
+            SubmissionStatus::Submitted->value,
+            SubmissionStatus::UnderInitialReview->value,
+            SubmissionStatus::UnderPeerReview->value,
+        ]);
     }
 
     public function scopeByAuthor($query, int $authorId)
