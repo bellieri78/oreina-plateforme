@@ -100,7 +100,7 @@ Route::prefix('revue')->name('journal.')->group(function () {
     Route::get('/a-propos', [JournalController::class, 'about'])->name('about');
 
     // Soumissions (routes authentifiées)
-    Route::prefix('mes-soumissions')->name('submissions.')->group(function () {
+    Route::prefix('mes-soumissions')->name('submissions.')->middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [SubmissionController::class, 'index'])->name('index');
         Route::get('/nouvelle', [SubmissionController::class, 'create'])->name('create');
         Route::post('/', [SubmissionController::class, 'store'])->name('store');
