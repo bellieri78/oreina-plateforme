@@ -23,4 +23,6 @@
             </form>
         </div>
     </div>
+
+    @include('admin.users.partials.capabilities', ['user' => $user])
 @endsection

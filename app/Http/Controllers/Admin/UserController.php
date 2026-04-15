@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
+use App\Models\EditorialCapability;
 use App\Models\Permission;
 use App\Models\User;
+use App\Policies\SubmissionPolicy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
@@ -277,5 +280,62 @@ class UserController extends Controller
         return redirect()
             ->route('admin.users.show', $user)
             ->with('success', 'Permissions mises a jour avec succes.');
+    }
+
+    /**
+     * Update editorial capabilities for a user (Chersotis).
+     */
+    public function updateCapabilities(Request $request, User $user)
+    {
+        abort_unless(
+            app(SubmissionPolicy::class)->manageCapabilities($request->user(), $user),
+            403
+        );
+
+        $validated = $request->validate([
+            'capabilities' => 'nullable|array',
+            'capabilities.*' => ['string', 'in:' . implode(',', EditorialCapability::ALL)],
+        ]);
+
+        $current = $user->capabilities()->pluck('capability')->all();
+        $wanted = $validated['capabilities'] ?? [];
+
+        $toGrant  = array_values(array_diff($wanted, $current));
+        $toRevoke = array_values(array_diff($current, $wanted));
+
+        $actor = $request->user();
+
+        foreach ($toGrant as $cap) {
+            $user->grantCapability($cap, $actor);
+            AuditLog::create([
+                'table_name'  => 'editorial_capabilities',
+                'record_id'   => $user->id,
+                'action'      => 'INSERT',
+                'new_values'  => ['capability' => $cap],
+                'user_id'     => $actor->id,
+                'ip_address'  => $request->ip(),
+                'user_agent'  => substr($request->userAgent() ?? '', 0, 1024),
+                'description' => "Capacité '{$cap}' accordée à {$user->name}",
+                'created_at'  => now(),
+            ]);
+        }
+
+        foreach ($toRevoke as $cap) {
+            $user->revokeCapability($cap);
+            AuditLog::create([
+                'table_name'  => 'editorial_capabilities',
+                'record_id'   => $user->id,
+                'action'      => 'DELETE',
+                'old_values'  => ['capability' => $cap],
+                'user_id'     => $actor->id,
+                'ip_address'  => $request->ip(),
+                'user_agent'  => substr($request->userAgent() ?? '', 0, 1024),
+                'description' => "Capacité '{$cap}' retirée à {$user->name}",
+                'created_at'  => now(),
+            ]);
+        }
+
+        return redirect()->route('admin.users.edit', $user)
+            ->with('success', 'Capacités éditoriales mises à jour.');
     }
 }

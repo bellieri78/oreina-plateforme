@@ -151,6 +151,8 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     Route::post('users/bulk-status', [UserController::class, 'bulkStatus'])->name('users.bulk-status');
     Route::get('users/{user}/permissions', [UserController::class, 'permissions'])->name('users.permissions');
     Route::put('users/{user}/permissions', [UserController::class, 'updatePermissions'])->name('users.permissions.update');
+    Route::put('users/{user}/capabilities', [UserController::class, 'updateCapabilities'])
+        ->name('users.capabilities.update');
     Route::resource('users', UserController::class);
 
     // Documentation
