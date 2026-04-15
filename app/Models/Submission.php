@@ -19,6 +19,7 @@ class Submission extends Model
         'acknowledgements',
         'author_affiliations',
         'manuscript_file',
+        'supplementary_files',
         'pdf_file',
         'featured_image',
         'co_authors',
@@ -40,6 +41,7 @@ class Submission extends Model
     protected $casts = [
         'co_authors' => 'array',
         'keywords' => 'array',
+        'supplementary_files' => 'array',
         'content_blocks' => 'array',
         'references' => 'array',
         'author_affiliations' => 'array',

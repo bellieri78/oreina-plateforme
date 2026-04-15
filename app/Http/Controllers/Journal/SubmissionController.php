@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Journal;
 
 use App\Http\Controllers\Controller;
 use App\Models\Submission;
+use App\Rules\SafeUpload;
+use App\Services\SubmissionFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -27,45 +29,63 @@ class SubmissionController extends Controller
     /**
      * Store a new submission
      */
-    public function store(Request $request)
+    public function store(Request $request, SubmissionFileService $files)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'abstract' => 'required|string|min:100|max:3000',
-            'keywords' => 'required|string|max:255',
-            'manuscript_file' => 'required|file|mimes:pdf|max:20480', // 20MB max
+            'keywords' => 'nullable|string|max:500',
+            'manuscript_file' => [
+                'required',
+                'file',
+                new SafeUpload(
+                    config('journal.uploads.manuscript.mimes'),
+                    config('journal.uploads.manuscript.exts'),
+                    config('journal.uploads.manuscript.max_kb'),
+                ),
+            ],
+            'supplementary_files' => 'nullable|array|max:10',
+            'supplementary_files.*' => [
+                'file',
+                new SafeUpload(
+                    config('journal.uploads.supplementary.mimes'),
+                    config('journal.uploads.supplementary.exts'),
+                    config('journal.uploads.supplementary.max_kb'),
+                ),
+            ],
             'co_authors' => 'nullable|array',
-            'co_authors.*.name' => 'required|string|max:255',
+            'co_authors.*.name' => 'required_with:co_authors|string|max:255',
             'co_authors.*.email' => 'nullable|email|max:255',
             'co_authors.*.affiliation' => 'nullable|string|max:255',
             'accept_terms' => 'required|accepted',
         ], [
-            'title.required' => 'Le titre est obligatoire.',
-            'abstract.required' => 'Le résumé est obligatoire.',
-            'abstract.min' => 'Le résumé doit contenir au moins 100 caractères.',
-            'abstract.max' => 'Le résumé ne peut pas dépasser 3000 caractères.',
-            'keywords.required' => 'Les mots-clés sont obligatoires.',
-            'manuscript_file.required' => 'Le manuscrit PDF est obligatoire.',
-            'manuscript_file.mimes' => 'Le manuscrit doit être au format PDF.',
-            'manuscript_file.max' => 'Le manuscrit ne peut pas dépasser 20 Mo.',
+            'manuscript_file.required' => 'Le manuscrit est obligatoire.',
             'accept_terms.accepted' => 'Vous devez accepter les conditions de soumission.',
         ]);
 
-        // Store the manuscript file
-        $manuscriptPath = $request->file('manuscript_file')
-            ->store('submissions', 'public');
-
-        // Create the submission
+        // Création de la soumission d'abord pour avoir un id
         $submission = Submission::create([
             'author_id' => Auth::id(),
             'title' => $validated['title'],
             'abstract' => $validated['abstract'],
-            'keywords' => $validated['keywords'],
-            'manuscript_file' => $manuscriptPath,
+            'keywords' => !empty($validated['keywords']) ? array_values(array_filter(array_map('trim', explode(',', $validated['keywords'])))) : [],
             'co_authors' => $validated['co_authors'] ?? [],
+            'manuscript_file' => 'pending',
             'status' => Submission::STATUS_SUBMITTED,
             'submitted_at' => now(),
         ]);
+
+        // Stockage du manuscrit
+        $stored = $files->store($submission, $request->file('manuscript_file'), SubmissionFileService::TYPE_MANUSCRIPT);
+        $submission->manuscript_file = $stored['path'];
+
+        // Stockage des fichiers supplémentaires
+        $supp = [];
+        foreach ($request->file('supplementary_files', []) as $suppFile) {
+            $supp[] = $files->store($submission, $suppFile, SubmissionFileService::TYPE_SUPPLEMENTARY);
+        }
+        $submission->supplementary_files = $supp;
+        $submission->save();
 
         return redirect()->route('journal.submissions.show', $submission)
             ->with('success', 'Votre manuscrit a été soumis avec succès. Vous recevrez une notification lors de son examen.');
