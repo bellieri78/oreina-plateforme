@@ -155,6 +155,16 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
         ->name('users.capabilities.update');
     Route::resource('users', UserController::class);
 
+    // Chersotis — file d'attente éditoriale
+    Route::get('revue/file-attente', [\App\Http\Controllers\Admin\Journal\EditorialQueueController::class, 'index'])
+        ->name('journal.queue.index');
+    Route::post('revue/file-attente/{submission}/prendre', [\App\Http\Controllers\Admin\Journal\EditorialQueueController::class, 'take'])
+        ->name('journal.queue.take');
+    Route::post('revue/file-attente/{submission}/assigner', [\App\Http\Controllers\Admin\Journal\EditorialQueueController::class, 'assign'])
+        ->name('journal.queue.assign');
+    Route::get('revue/mes-articles', [\App\Http\Controllers\Admin\Journal\EditorialQueueController::class, 'mine'])
+        ->name('journal.mine');
+
     // Documentation
     Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
 
