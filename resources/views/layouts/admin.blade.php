@@ -143,6 +143,25 @@
                         </svg>
                         <span>Reviews</span>
                     </a>
+                    @php $authUser = auth()->user(); @endphp
+                    @if($authUser && ($authUser->hasCapability(\App\Models\EditorialCapability::EDITOR)
+                        || $authUser->hasCapability(\App\Models\EditorialCapability::CHIEF_EDITOR)
+                        || $authUser->isAdmin()))
+                        <a href="{{ route('admin.journal.queue.index') }}" class="nav-link {{ request()->routeIs('admin.journal.queue.*') ? 'active' : '' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                            </svg>
+                            <span>File d'attente Chersotis</span>
+                        </a>
+                        @if($authUser->hasCapability(\App\Models\EditorialCapability::EDITOR))
+                            <a href="{{ route('admin.journal.mine') }}" class="nav-link {{ request()->routeIs('admin.journal.mine') ? 'active' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                </svg>
+                                <span>Mes articles</span>
+                            </a>
+                        @endif
+                    @endif
                 </div>
 
                 <div class="nav-section">
