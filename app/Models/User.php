@@ -218,6 +218,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->getCachedPermissions()->contains('module', $module);
     }
 
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new \App\Notifications\VerifyEmailNotification());
+    }
+
     // Scopes
     public function scopeActive($query)
     {

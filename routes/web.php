@@ -47,12 +47,28 @@ Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
 
 // Authentification membre (depuis le hub)
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Hub\AuthController as HubAuthController;
 Route::get('/connexion', [HubAuthController::class, 'showLogin'])->name('hub.login')->middleware('guest');
 Route::post('/connexion', [HubAuthController::class, 'login'])->name('hub.login.submit')->middleware('guest');
 Route::get('/inscription', [HubAuthController::class, 'showRegister'])->name('hub.register')->middleware('guest');
 Route::post('/inscription', [HubAuthController::class, 'register'])->name('hub.register.submit')->middleware('guest');
 Route::post('/deconnexion', [HubAuthController::class, 'logout'])->name('hub.logout')->middleware('auth');
+
+// Email verification
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+        ->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('/email/resend', [EmailVerificationController::class, 'resend'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+});
 
 /*
 |--------------------------------------------------------------------------

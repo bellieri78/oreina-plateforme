@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Hub;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -71,12 +72,14 @@ class AuthController extends Controller
             $member->update(['user_id' => $user->id]);
         }
 
+        event(new Registered($user));
+
         Auth::login($user);
 
         return redirect()->route('member.dashboard')
             ->with('success', $member
-                ? 'Bienvenue ! Votre compte a été rattaché à votre fiche adhérent.'
-                : 'Bienvenue ! Votre compte a été créé avec succès.'
+                ? 'Bienvenue ! Votre compte a été rattaché à votre fiche adhérent. Un email de vérification vous a été envoyé.'
+                : 'Bienvenue ! Votre compte a été créé. Un email de vérification vous a été envoyé.'
             );
     }
 
