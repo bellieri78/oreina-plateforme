@@ -26,6 +26,7 @@ class Submission extends Model
         'keywords',
         'status',
         'editor_id',
+        'layout_editor_id',
         'editor_notes',
         'decision',
         'decision_at',
@@ -102,6 +103,11 @@ class Submission extends Model
         return $this->belongsTo(User::class, 'editor_id');
     }
 
+    public function layoutEditor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'layout_editor_id');
+    }
+
     public function journalIssue(): BelongsTo
     {
         return $this->belongsTo(JournalIssue::class);
@@ -110,6 +116,11 @@ class Submission extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function transitions(): HasMany
+    {
+        return $this->hasMany(\App\Models\SubmissionTransition::class);
     }
 
     public function completedReviews(): HasMany

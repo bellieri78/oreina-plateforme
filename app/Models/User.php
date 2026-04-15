@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\EditorialCapability;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -57,22 +59,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return $this->role === self::ROLE_ADMIN;
+        return $this->role === self::ROLE_ADMIN || $this->hasCapability(EditorialCapability::CHIEF_EDITOR);
     }
 
     public function isEditor(): bool
     {
-        return in_array($this->role, [self::ROLE_EDITOR, self::ROLE_ADMIN]);
+        return $this->isAdmin() || $this->hasCapability(EditorialCapability::EDITOR);
     }
 
     public function isReviewer(): bool
     {
-        return in_array($this->role, [self::ROLE_REVIEWER, self::ROLE_EDITOR, self::ROLE_ADMIN]);
+        return $this->isEditor() || $this->hasCapability(EditorialCapability::REVIEWER);
     }
 
     public function isAuthor(): bool
     {
-        return in_array($this->role, [self::ROLE_AUTHOR, self::ROLE_REVIEWER, self::ROLE_EDITOR, self::ROLE_ADMIN]);
+        return $this->isReviewer() || $this->role === self::ROLE_AUTHOR;
     }
 
     public function hasRole(string $role): bool
@@ -104,6 +106,37 @@ class User extends Authenticatable implements MustVerifyEmail
     public function assignedReviews(): HasMany
     {
         return $this->hasMany(Review::class, 'reviewer_id');
+    }
+
+    public function capabilities(): HasMany
+    {
+        return $this->hasMany(EditorialCapability::class);
+    }
+
+    public function hasCapability(string $capability): bool
+    {
+        return $this->capabilities()->where('capability', $capability)->exists();
+    }
+
+    public function grantCapability(string $capability, ?User $grantedBy = null): EditorialCapability
+    {
+        return $this->capabilities()->firstOrCreate(
+            ['capability' => $capability],
+            [
+                'granted_by_user_id' => $grantedBy?->id,
+                'granted_at' => now(),
+            ]
+        );
+    }
+
+    public function revokeCapability(string $capability): void
+    {
+        $this->capabilities()->where('capability', $capability)->delete();
+    }
+
+    public function scopeWithCapability(Builder $query, string $capability): Builder
+    {
+        return $query->whereHas('capabilities', fn ($q) => $q->where('capability', $capability));
     }
 
     public function permissions(): BelongsToMany
