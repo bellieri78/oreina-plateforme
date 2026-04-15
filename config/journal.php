@@ -63,4 +63,44 @@ return [
     'license' => env('JOURNAL_LICENSE', 'CC-BY-4.0'),
     'license_url' => env('JOURNAL_LICENSE_URL', 'https://creativecommons.org/licenses/by/4.0/'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Branding
+    |--------------------------------------------------------------------------
+    */
+    'tagline' => env('JOURNAL_TAGLINE', 'Revue scientifique d\'Oreina'),
+    'contact_email' => env('JOURNAL_CONTACT_EMAIL', 'revue@oreina.org'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Upload presets (utilisés par la rule App\Rules\SafeUpload)
+    |--------------------------------------------------------------------------
+    */
+    'uploads' => [
+        'manuscript' => [
+            'exts'   => ['doc', 'docx'],
+            'mimes'  => [
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/zip', // docx = conteneur ZIP, verifier OOXML confirme
+            ],
+            'max_kb' => 30720, // 30 Mo
+        ],
+        'supplementary' => [
+            'exts'   => ['xls', 'xlsx', 'pdf', 'zip'],
+            'mimes'  => [
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/pdf',
+                'application/zip',
+            ],
+            'max_kb' => 51200, // 50 Mo
+        ],
+        'image' => [
+            'exts'   => ['png', 'jpg', 'jpeg', 'tiff'],
+            'mimes'  => ['image/png', 'image/jpeg', 'image/tiff'],
+            'max_kb' => 20480, // 20 Mo (hi-res 300/600 DPI)
+        ],
+    ],
+
 ];

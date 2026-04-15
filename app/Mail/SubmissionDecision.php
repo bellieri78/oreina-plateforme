@@ -28,7 +28,7 @@ class SubmissionDecision extends Mailable
         };
 
         return new Envelope(
-            subject: "{$decision} - Revue OREINA",
+            subject: "{$decision} - " . config('journal.name'),
         );
     }
 

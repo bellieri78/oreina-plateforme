@@ -20,7 +20,7 @@ class SubmissionReceived extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Confirmation de soumission - Revue OREINA',
+            subject: 'Confirmation de soumission - ' . config('journal.name'),
         );
     }
 

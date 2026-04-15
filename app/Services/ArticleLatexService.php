@@ -134,7 +134,7 @@ class ArticleLatexService
 
         $header = $this->getConfig('header', []);
         $headerLeft = $header['left'] ?? 'Chersotis';
-        $headerRight = $header['right'] ?? 'Une revue oreina';
+        $headerRight = $header['right'] ?? config('journal.tagline', config('journal.name'));
 
         $journal = $this->getConfig('journal', []);
         $journalName = $journal['name'] ?? 'Chersotis';
