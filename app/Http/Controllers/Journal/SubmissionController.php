@@ -58,6 +58,7 @@ class SubmissionController extends Controller
             'co_authors.*.email' => 'nullable|email|max:255',
             'co_authors.*.affiliation' => 'nullable|string|max:255',
             'accept_terms' => 'required|accepted',
+            'cf-turnstile-response' => ['nullable', new \App\Rules\TurnstileCaptcha()],
         ], [
             'manuscript_file.required' => 'Le manuscrit est obligatoire.',
             'accept_terms.accepted' => 'Vous devez accepter les conditions de soumission.',

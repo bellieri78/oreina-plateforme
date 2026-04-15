@@ -54,6 +54,7 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::min(8)],
+            'cf-turnstile-response' => ['nullable', new \App\Rules\TurnstileCaptcha()],
         ]);
 
         $user = User::create([

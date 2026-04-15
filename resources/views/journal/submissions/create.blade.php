@@ -170,6 +170,8 @@
                     </div>
                 </div>
 
+                @turnstile
+
                 {{-- Submit Button --}}
                 <div class="flex justify-end gap-4">
                     <a href="{{ route('journal.submissions.index') }}" class="px-6 py-3 text-slate-600 font-semibold hover:bg-slate-100 rounded-xl transition">

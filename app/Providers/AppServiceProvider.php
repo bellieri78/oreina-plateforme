@@ -28,5 +28,12 @@ class AppServiceProvider extends ServiceProvider
             \App\Models\Submission::class,
             \App\Policies\SubmissionPolicy::class
         );
+
+        \Illuminate\Support\Facades\Blade::directive('turnstile', function () {
+            return "<?php if (config('services.turnstile.enabled')): ?>
+                <div class=\"cf-turnstile my-3\" data-sitekey=\"<?= config('services.turnstile.site_key') ?>\"></div>
+                <script src=\"https://challenges.cloudflare.com/turnstile/v0/api.js\" async defer></script>
+            <?php endif; ?>";
+        });
     }
 }

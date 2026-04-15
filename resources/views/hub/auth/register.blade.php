@@ -157,6 +157,8 @@
                 <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="••••••••">
             </div>
 
+            @turnstile
+
             <button type="submit" class="btn btn-primary register-submit">
                 <i data-lucide="user-round-plus"></i>
                 Créer mon compte
