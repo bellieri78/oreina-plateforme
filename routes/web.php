@@ -167,6 +167,18 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
 
 /*
 |--------------------------------------------------------------------------
+| Review Response Routes (signed URLs, public)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('signed')->prefix('revue/relecture')->group(function () {
+    Route::get('{review}/repondre', function () { abort(404, 'Not yet implemented'); })->name('review.respond');
+    Route::post('{review}/accepter', function () { abort(404, 'Not yet implemented'); })->name('review.accept');
+    Route::post('{review}/decliner', function () { abort(404, 'Not yet implemented'); })->name('review.decline');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Admin Routes (Reçus fiscaux)
 |--------------------------------------------------------------------------
 */

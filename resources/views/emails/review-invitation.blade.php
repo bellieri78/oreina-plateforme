@@ -22,8 +22,8 @@ Vous avez ete invite(e) a evaluer un manuscrit soumis a la revue OREINA.
 
 Nous vous invitons a accepter ou decliner cette invitation dans les meilleurs delais.
 
-<x-mail::button :url="config('app.url') . '/extranet/reviews/' . $review->id">
-Voir l'invitation
+<x-mail::button :url="$respondUrl">
+Répondre à l'invitation
 </x-mail::button>
 
 Nous vous remercions pour votre contribution a la qualite scientifique de la revue OREINA.

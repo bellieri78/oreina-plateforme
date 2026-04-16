@@ -6,11 +6,13 @@ use App\Enums\SubmissionStatus;
 use App\Exceptions\Editorial\AlreadyAssignedException;
 use App\Exceptions\Editorial\IneligibleUserException;
 use App\Exceptions\Editorial\RoleConflictException;
+use App\Mail\ReviewInvitation;
 use App\Models\EditorialCapability;
 use App\Models\Review;
 use App\Models\Submission;
 use App\Models\SubmissionTransition;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class EditorialAssignmentService
 {
@@ -129,7 +131,7 @@ class EditorialAssignmentService
             throw new AlreadyAssignedException('Cet utilisateur est déjà relecteur sur cet article.');
         }
 
-        Review::create([
+        $review = Review::create([
             'submission_id' => $submission->id,
             'reviewer_id' => $target->id,
             'assigned_by' => $actor->id,
@@ -144,6 +146,8 @@ class EditorialAssignmentService
             target: $target,
             notes: $override ? self::OVERRIDE_NOTE : null,
         );
+
+        Mail::to($target)->queue(new ReviewInvitation($review));
     }
 
     private function assertCapability(User $user, string $capability): void

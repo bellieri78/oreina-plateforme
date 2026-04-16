@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\URL;
 
 class ReviewInvitation extends Mailable implements ShouldQueue
 {
@@ -37,6 +38,7 @@ class ReviewInvitation extends Mailable implements ShouldQueue
                 'submission' => $this->review->submission,
                 'dueDate' => $this->review->due_date?->format('d/m/Y'),
                 'assignedBy' => $this->review->assignedBy,
+                'respondUrl' => URL::signedRoute('review.respond', ['review' => $this->review->id]),
             ],
         );
     }
