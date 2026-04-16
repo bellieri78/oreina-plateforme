@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\SubmissionStatus;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\SubmissionFileService;
@@ -92,7 +93,7 @@ class SubmissionFileTest extends TestCase
             'title' => 'Test',
             'abstract' => str_repeat('a', 120),
             'manuscript_file' => 'placeholder.pdf',
-            'status' => Submission::STATUS_SUBMITTED,
+            'status' => SubmissionStatus::Submitted,
         ]);
     }
 }

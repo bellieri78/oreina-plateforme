@@ -78,7 +78,7 @@ class SubmissionController extends Controller
             'keywords' => !empty($validated['keywords']) ? array_values(array_filter(array_map('trim', explode(',', $validated['keywords'])))) : [],
             'co_authors' => $validated['co_authors'] ?? [],
             'manuscript_file' => 'pending',
-            'status' => Submission::STATUS_SUBMITTED,
+            'status' => SubmissionStatus::Submitted,
             'submitted_at' => now(),
         ]);
 

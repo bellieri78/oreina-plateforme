@@ -46,7 +46,7 @@ class JournalController extends Controller
         }
 
         $articles = $issue->submissions()
-            ->where('status', Submission::STATUS_PUBLISHED)
+            ->where('status', SubmissionStatus::Published)
             ->with(['author', 'journalIssue'])
             ->orderBy('start_page')
             ->get();
@@ -180,7 +180,7 @@ class JournalController extends Controller
             'keywords' => $validated['keywords'],
             'manuscript_file' => $manuscriptPath,
             'co_authors' => $validated['co_authors'] ?? [],
-            'status' => Submission::STATUS_SUBMITTED,
+            'status' => SubmissionStatus::Submitted,
             'submitted_at' => now(),
         ]);
 

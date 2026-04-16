@@ -73,6 +73,10 @@ class SubmissionPolicy
 
     public function assignReviewer(User $user, Submission $submission): bool
     {
+        if (!$submission->status->isEditorial()) {
+            return false;
+        }
+
         return $user->isAdmin()
             || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
             || $submission->editor_id === $user->id;

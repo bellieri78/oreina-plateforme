@@ -820,8 +820,14 @@
             : [],
         blockIdCounter: Date.now(),
 
+        hasUnsavedChanges: false,
+
         init() {
             console.log('Block editor initialized with', this.blocks.length, 'blocks');
+            this.$watch('blocks', () => {
+                this.hasUnsavedChanges = true;
+                this.$dispatch('blocks-changed', { count: this.blocks.length });
+            });
         },
 
         generateId() {

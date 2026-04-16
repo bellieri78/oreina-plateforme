@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Enums\SubmissionStatus;
 use App\Models\EditorialCapability;
 use App\Models\Submission;
 use App\Models\SubmissionTransition;
@@ -72,7 +73,7 @@ class EditorialCapabilityTest extends TestCase
             'title' => 'Test',
             'abstract' => str_repeat('a', 120),
             'manuscript_file' => 'placeholder.docx',
-            'status' => Submission::STATUS_ACCEPTED,
+            'status' => SubmissionStatus::Accepted,
             'layout_editor_id' => $layoutEditor->id,
         ]);
 
@@ -88,7 +89,7 @@ class EditorialCapabilityTest extends TestCase
             'title' => 'Test',
             'abstract' => str_repeat('a', 120),
             'manuscript_file' => 'placeholder.docx',
-            'status' => Submission::STATUS_SUBMITTED,
+            'status' => SubmissionStatus::Submitted,
         ]);
 
         SubmissionTransition::create([

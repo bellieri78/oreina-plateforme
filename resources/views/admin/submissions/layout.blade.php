@@ -145,9 +145,20 @@
         transition: all 0.2s;
         text-decoration: none;
     }
-    .preview-btn:hover {
+    .preview-btn:hover:not(.preview-btn-disabled) {
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+    }
+    .preview-btn-disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .preview-warning {
+        font-size: 0.7rem;
+        color: #d97706;
+        margin-top: 0.5rem;
+        text-align: center;
     }
     .save-indicator {
         display: none;
@@ -200,7 +211,8 @@
     }
 </style>
 
-<div class="layout-page">
+<div class="layout-page" x-data="{ unsaved: false, blockCount: {{ count($submission->content_blocks ?? []) }} }"
+     @blocks-changed.window="unsaved = true; blockCount = $event.detail.count">
     <form action="{{ route('admin.submissions.layout.update', $submission) }}" method="POST" id="layoutForm">
         @csrf
         @method('PUT')
@@ -225,8 +237,8 @@
                     </div>
                     @endif
                     <div class="layout-meta-item">
-                        <span class="status-badge {{ $submission->status === 'published' ? 'status-published' : 'status-accepted' }}">
-                            {{ $submission->status === 'published' ? 'Publié' : 'Accepté' }}
+                        <span class="status-badge {{ $submission->status === \App\Enums\SubmissionStatus::Published ? 'status-published' : 'status-accepted' }}">
+                            {{ $submission->status->label() }}
                         </span>
                     </div>
                 </div>
@@ -264,21 +276,28 @@
             <div class="layout-sidebar">
                 {{-- Preview --}}
                 <div class="sidebar-card">
-                    <a href="{{ route('admin.submissions.preview-pdf', $submission) }}" target="_blank" class="preview-btn">
+                    <a href="{{ route('admin.submissions.preview-pdf', $submission) }}"
+                       target="_blank"
+                       class="preview-btn"
+                       :class="{ 'preview-btn-disabled': unsaved }"
+                       x-bind:tabindex="unsaved ? -1 : 0">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>
                         Aperçu PDF
                     </a>
+                    <div x-show="unsaved" class="preview-warning">
+                        Sauvegardez d'abord pour prévisualiser le PDF
+                    </div>
                 </div>
 
                 {{-- Stats --}}
                 <div class="sidebar-card">
                     <div class="sidebar-card-title">Contenu</div>
-                    <div class="content-stats" x-data="{ blocks: @js($submission->content_blocks ?? []) }">
+                    <div class="content-stats">
                         <div class="content-stat">
-                            <strong x-text="blocks.length">0</strong> blocs
+                            <strong x-text="blockCount">0</strong> blocs
                         </div>
                         <div class="content-stat">
                             <strong>{{ count($submission->references ?? []) }}</strong> réf.

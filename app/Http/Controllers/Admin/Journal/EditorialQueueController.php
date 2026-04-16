@@ -27,7 +27,7 @@ class EditorialQueueController extends Controller
         abort_unless($this->canAccessQueue($request->user()), 403);
 
         $submissions = Submission::whereNull('editor_id')
-            ->whereIn('status', [Submission::STATUS_SUBMITTED, Submission::STATUS_UNDER_INITIAL_REVIEW])
+            ->whereIn('status', [SubmissionStatus::Submitted, SubmissionStatus::UnderInitialReview])
             ->with(['author', 'reviews.reviewer'])
             ->orderBy('submitted_at', 'desc')
             ->get();

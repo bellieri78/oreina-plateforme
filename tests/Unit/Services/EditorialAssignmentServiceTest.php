@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Enums\SubmissionStatus;
 use App\Exceptions\Editorial\AlreadyAssignedException;
 use App\Exceptions\Editorial\IneligibleUserException;
 use App\Exceptions\Editorial\RoleConflictException;
@@ -34,7 +35,7 @@ class EditorialAssignmentServiceTest extends TestCase
             'title' => 'T',
             'abstract' => str_repeat('a', 120),
             'manuscript_file' => 'placeholder.docx',
-            'status' => Submission::STATUS_SUBMITTED,
+            'status' => SubmissionStatus::Submitted,
         ]);
     }
 
@@ -193,7 +194,7 @@ class EditorialAssignmentServiceTest extends TestCase
     public function test_assign_layout_editor_success(): void
     {
         $submission = $this->makeSubmission();
-        $submission->update(['status' => Submission::STATUS_ACCEPTED]);
+        $submission->update(['status' => SubmissionStatus::Accepted]);
 
         $layout = User::factory()->create(['email_verified_at' => now()]);
         $layout->grantCapability(EditorialCapability::LAYOUT_EDITOR);

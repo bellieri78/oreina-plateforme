@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\JournalIssue;
 use App\Models\Submission;
@@ -11,6 +12,7 @@ use App\Services\ArticlePdfService;
 use App\Services\CrossrefService;
 use App\Services\MarkdownToBlocksService;
 use App\Services\PaginationService;
+use App\Services\SubmissionTransitionLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -472,7 +474,7 @@ class SubmissionController extends Controller
      */
     public function registerDoi(Submission $submission, CrossrefService $crossrefService)
     {
-        if (!in_array($submission->status, [Submission::STATUS_ACCEPTED, Submission::STATUS_PUBLISHED])) {
+        if (!in_array($submission->status, [SubmissionStatus::Accepted, SubmissionStatus::InProduction, SubmissionStatus::Published])) {
             return redirect()
                 ->route('admin.submissions.show', $submission)
                 ->with('error', 'Le DOI ne peut être enregistré que pour les articles acceptés ou publiés.');
@@ -496,7 +498,7 @@ class SubmissionController extends Controller
      */
     public function assignDoi(Submission $submission, CrossrefService $crossrefService)
     {
-        if (!in_array($submission->status, [Submission::STATUS_ACCEPTED, Submission::STATUS_PUBLISHED])) {
+        if (!in_array($submission->status, [SubmissionStatus::Accepted, SubmissionStatus::InProduction, SubmissionStatus::Published])) {
             return redirect()
                 ->route('admin.submissions.show', $submission)
                 ->with('error', 'Le DOI ne peut être assigné que pour les articles acceptés ou publiés.');
@@ -514,7 +516,7 @@ class SubmissionController extends Controller
      */
     public function publish(Request $request, Submission $submission, ArticleLatexService $latexService, CrossrefService $crossrefService)
     {
-        if ($submission->status !== Submission::STATUS_ACCEPTED) {
+        if ($submission->status !== SubmissionStatus::Accepted) {
             return redirect()
                 ->route('admin.submissions.show', $submission)
                 ->with('error', 'Seuls les articles acceptés peuvent être publiés.');
@@ -533,7 +535,7 @@ class SubmissionController extends Controller
             'journal_issue_id' => $validated['journal_issue_id'],
             'start_page' => $validated['start_page'],
             'end_page' => $validated['end_page'],
-            'status' => Submission::STATUS_PUBLISHED,
+            'status' => SubmissionStatus::Published,
             'published_at' => now(),
         ]);
 
@@ -670,10 +672,23 @@ class SubmissionController extends Controller
     public function layout(Submission $submission)
     {
         // Only allow layout for accepted or published articles
-        if (!in_array($submission->status, [Submission::STATUS_ACCEPTED, Submission::STATUS_PUBLISHED])) {
+        if (!in_array($submission->status, [SubmissionStatus::Accepted, SubmissionStatus::InProduction, SubmissionStatus::Published])) {
             return redirect()
                 ->route('admin.submissions.show', $submission)
                 ->with('error', 'La maquette ne peut être éditée que pour les articles acceptés ou publiés.');
+        }
+
+        // Auto-transition accepted → in_production when opening layout editor
+        if ($submission->status === SubmissionStatus::Accepted) {
+            $submission->update(['status' => SubmissionStatus::InProduction]);
+            app(SubmissionTransitionLogger::class)->log(
+                $submission,
+                'status_changed',
+                auth()->user(),
+                fromStatus: SubmissionStatus::Accepted->value,
+                toStatus: SubmissionStatus::InProduction->value,
+                notes: 'Passage automatique en maquettage (ouverture éditeur)',
+            );
         }
 
         $submission->load(['author', 'journalIssue']);
@@ -687,7 +702,7 @@ class SubmissionController extends Controller
     public function updateLayout(Request $request, Submission $submission)
     {
         // Only allow layout for accepted or published articles
-        if (!in_array($submission->status, [Submission::STATUS_ACCEPTED, Submission::STATUS_PUBLISHED])) {
+        if (!in_array($submission->status, [SubmissionStatus::Accepted, SubmissionStatus::InProduction, SubmissionStatus::Published])) {
             return redirect()
                 ->route('admin.submissions.show', $submission)
                 ->with('error', 'La maquette ne peut être éditée que pour les articles acceptés ou publiés.');

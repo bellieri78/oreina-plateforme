@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\SubmissionStatus;
 use App\Models\Submission;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -1060,8 +1061,9 @@ LATEX;
     public function canGeneratePdf(Submission $submission): bool
     {
         return in_array($submission->status, [
-            Submission::STATUS_ACCEPTED,
-            Submission::STATUS_PUBLISHED,
+            SubmissionStatus::Accepted,
+            SubmissionStatus::InProduction,
+            SubmissionStatus::Published,
         ]);
     }
 

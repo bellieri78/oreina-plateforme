@@ -1801,6 +1801,31 @@
                     <strong>Recalcul :</strong> si le nombre de pages change (nouveau PDF maquetté), on peut recalculer. Seul l'article concerné est mis à jour — les articles suivants ne sont pas re-paginés automatiquement (évite les surprises en cascade). Un recalcul global doit être fait manuellement si nécessaire.
                 </div>
 
+                <h3>Maquettage et transition automatique</h3>
+                <p>Lorsqu'un article est au statut <strong>Accepté</strong> (<code>accepted</code>), cliquer sur le bouton <strong>"Maquetter"</strong> ouvre l'éditeur de blocs et fait passer automatiquement le statut à <strong>"En maquettage"</strong> (<code>in_production</code>). Cette transition est loguée dans la timeline éditoriale.</p>
+                <p>Le bouton "Maquetter" et le bloc "Maquette de l'article" sont visibles pour les statuts <code>accepted</code>, <code>in_production</code> et <code>published</code>.</p>
+
+                <h3>Import Markdown</h3>
+                <p>Dans la page de maquettage d'un article (<code>/extranet/submissions/{id}/layout</code>), un bouton <strong>"Importer Markdown"</strong> (violet) permet d'uploader un fichier <code>.md</code> ou <code>.txt</code> qui est automatiquement converti en blocs de maquette.</p>
+
+                <h4>Types de blocs générés</h4>
+                <ul>
+                    <li><code># / ## / ###</code> → bloc Titre (H1 / H2 / H3)</li>
+                    <li>Paragraphe avec <code>**gras**</code> / <code>*italique*</code> → bloc Paragraphe (HTML inline conservé)</li>
+                    <li><code>![alt](url)</code> → bloc Image (URL conservée, upload séparé si nécessaire)</li>
+                    <li><code>&gt; citation</code> → bloc Citation</li>
+                    <li><code>- item</code> / <code>1. item</code> → bloc Liste (ordonnée ou non)</li>
+                    <li>Tableau pipe <code>| col1 | col2 |</code> → bloc Tableau (headers + lignes)</li>
+                </ul>
+
+                <div class="doc-info">
+                    <strong>Attention :</strong> l'import remplace tous les blocs existants (avec confirmation). Les images référencées dans le Markdown doivent être des URLs accessibles — l'upload d'images séparées se fait via l'éditeur de blocs après import.<br>
+                    <strong>Formats acceptés :</strong> <code>.md</code>, <code>.txt</code>, <code>.markdown</code> — max 5 Mo.
+                </div>
+
+                <h4>Sauvegarde et aperçu PDF</h4>
+                <p>L'import Markdown et les modifications de blocs ne sont pas sauvegardés automatiquement en base. Le bouton <strong>"Aperçu PDF"</strong> est désactivé tant que des modifications non sauvegardées existent (le compteur de blocs se met à jour en temps réel). Il faut cliquer <strong>"Sauvegarder"</strong> avant de pouvoir prévisualiser le PDF.</p>
+
                 <h3>Suivi par l'auteur ("suivi de colis")</h3>
                 <p>L'auteur connecté accède à ses soumissions via <code>/revue/mes-soumissions</code>. Chaque soumission affiche :</p>
 
@@ -2009,8 +2034,8 @@
                             </tr>
                             <tr>
                                 <td><code>accepted</code></td>
-                                <td>Article accepté, prêt pour maquettage</td>
-                                <td>→ <code>in_production</code></td>
+                                <td>Article accepté, prêt pour maquettage. Passe automatiquement à <code>in_production</code> à l'ouverture de l'éditeur de maquette.</td>
+                                <td>→ <code>in_production</code> (auto à l'ouverture du maquettage)</td>
                             </tr>
                             <tr>
                                 <td><code>in_production</code></td>

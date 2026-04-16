@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\SubmissionStatus;
 use App\Models\Submission;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -135,8 +136,9 @@ class ArticlePdfService
     public function canGeneratePdf(Submission $submission): bool
     {
         return in_array($submission->status, [
-            Submission::STATUS_ACCEPTED,
-            Submission::STATUS_PUBLISHED,
+            SubmissionStatus::Accepted,
+            SubmissionStatus::InProduction,
+            SubmissionStatus::Published,
         ]);
     }
 

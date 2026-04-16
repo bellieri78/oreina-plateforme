@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Enums\SubmissionStatus;
 use App\Models\EditorialCapability;
 use App\Models\Submission;
 use App\Models\User;
@@ -43,7 +44,7 @@ class EditorialQueueTest extends TestCase
             'title' => $title ?? ('Article Test ' . $counter),
             'abstract' => str_repeat('a', 120),
             'manuscript_file' => 'placeholder.docx',
-            'status' => Submission::STATUS_SUBMITTED,
+            'status' => SubmissionStatus::Submitted,
             'submitted_at' => now(),
         ]);
     }

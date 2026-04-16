@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Policies;
 
+use App\Enums\SubmissionStatus;
 use App\Models\EditorialCapability;
 use App\Models\Review;
 use App\Models\Submission;
@@ -14,7 +15,7 @@ class SubmissionPolicyEditorialTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function makeSubmission(?int $editorId = null, ?int $layoutId = null): Submission
+    private function makeSubmission(?int $editorId = null, ?int $layoutId = null, string $status = 'submitted'): Submission
     {
         $author = User::factory()->create(['email_verified_at' => now()]);
         return Submission::create([
@@ -22,7 +23,7 @@ class SubmissionPolicyEditorialTest extends TestCase
             'title' => 'T',
             'abstract' => str_repeat('a', 120),
             'manuscript_file' => 'placeholder.docx',
-            'status' => Submission::STATUS_SUBMITTED,
+            'status' => $status,
             'editor_id' => $editorId,
             'layout_editor_id' => $layoutId,
         ]);
@@ -96,12 +97,16 @@ class SubmissionPolicyEditorialTest extends TestCase
         $otherEditor = User::factory()->create(['email_verified_at' => now()]);
         $otherEditor->grantCapability(EditorialCapability::EDITOR);
 
-        $submission = $this->makeSubmission(editorId: $articleEditor->id);
+        $submission = $this->makeSubmission(editorId: $articleEditor->id, status: 'under_peer_review');
         $policy = new SubmissionPolicy();
 
         $this->assertTrue($policy->assignReviewer($chief, $submission));
         $this->assertTrue($policy->assignReviewer($articleEditor, $submission));
         $this->assertFalse($policy->assignReviewer($otherEditor, $submission));
+
+        // Cannot assign reviewer on accepted/published submissions
+        $accepted = $this->makeSubmission(editorId: $articleEditor->id, status: 'accepted');
+        $this->assertFalse($policy->assignReviewer($chief, $accepted));
     }
 
     public function test_manage_capabilities_requires_admin_or_chief_editor(): void
