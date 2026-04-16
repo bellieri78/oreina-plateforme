@@ -71,6 +71,7 @@
                 <a href="#rapports" class="doc-nav-link">Rapports PDF</a>
                 <a href="#brevo" class="doc-nav-link">Brevo (Emails)</a>
                 <a href="#import-export" class="doc-nav-link">Import / Export</a>
+                <a href="#emails" class="doc-nav-link">Emails transactionnels</a>
                 <a href="#parametres" class="doc-nav-link">Parametres</a>
                 <a href="#statistiques" class="doc-nav-link">Statistiques</a>
                 <a href="#rgpd" class="doc-nav-link">RGPD</a>
@@ -1815,6 +1816,48 @@
                     <strong>Principe "suivi de colis" :</strong> l'auteur voit OÙ en est son article dans le processus, mais pas les détails internes (qui a évalué, qui a relu, notes confidentielles). La transparence est assurée par les libellés humains chronologiques, pas par l'exposition des acteurs.
                 </div>
 
+                <h3>Circuit de relecture</h3>
+                <p>Le circuit de relecture est entièrement géré par la plateforme, de l'invitation à la soumission de l'évaluation.</p>
+
+                <h4>Invitation d'un relecteur</h4>
+                <p>Depuis la fiche soumission (<code>/extranet/submissions/{id}</code>), l'éditeur sélectionne un relecteur dans le bloc "Inviter un relecteur". Un email d'invitation est envoyé automatiquement au relecteur avec :</p>
+                <ul>
+                    <li>Le titre et le résumé du manuscrit</li>
+                    <li>Le nom de l'éditeur qui invite</li>
+                    <li>Le délai de relecture attendu (3 semaines par défaut)</li>
+                    <li>Un <strong>lien signé</strong> pour accepter ou décliner (pas besoin de se connecter)</li>
+                </ul>
+
+                <h4>Acceptation / Déclin</h4>
+                <p>Le relecteur clique le lien dans son email et arrive sur une page publique (URL signée, pas de login requis) où il voit le résumé et peut :</p>
+                <ul>
+                    <li><strong>Accepter</strong> → la date limite est fixée à J+21, l'éditeur est notifié par email, et le relecteur peut accéder au formulaire d'évaluation (nécessite un login).</li>
+                    <li><strong>Décliner</strong> → l'éditeur est notifié par email et peut inviter un autre relecteur.</li>
+                </ul>
+
+                <h4>Formulaire d'évaluation</h4>
+                <p>Le relecteur connecté accède à <code>/revue/relecture/{review}/evaluer</code> et remplit :</p>
+                <ul>
+                    <li>5 scores (1 à 5) : originalité, méthodologie, clarté, importance, références</li>
+                    <li>Commentaires pour l'auteur (obligatoire, transmis avec la décision)</li>
+                    <li>Commentaires confidentiels pour l'éditeur (optionnel, non transmis à l'auteur)</li>
+                    <li>Recommandation : accepter / révision mineure / révision majeure / rejeter</li>
+                    <li>Fichier PDF d'évaluation (optionnel)</li>
+                </ul>
+                <p>À la soumission, la review passe en statut <code>completed</code> et l'éditeur est notifié par email.</p>
+
+                <h4>Relances automatiques</h4>
+                <p>Une commande artisan <code>reviews:send-reminders</code> est schedulée quotidiennement à 08h00. Elle envoie des relances dans deux cas :</p>
+                <ul>
+                    <li><strong>Invitation sans réponse depuis 7 jours</strong> → email de relance au relecteur</li>
+                    <li><strong>Relecture en retard</strong> (date limite dépassée, statut <code>accepted</code> sans <code>completed_at</code>) → email de relance</li>
+                </ul>
+                <p>Anti-spam : un minimum de 5 jours entre deux relances pour le même relecteur (champ <code>last_reminder_at</code>).</p>
+
+                <div class="doc-info">
+                    <strong>Politique non-anonyme :</strong> conformément à la décision du 7 avril 2026, les relecteurs ne sont pas anonymes. Leur identité est communiquée à l'auteur avec leur rapport.
+                </div>
+
                 {{-- ========================================== --}}
                 {{-- 6. Decisions editoriales                   --}}
                 {{-- ========================================== --}}
@@ -2549,6 +2592,120 @@
 
                 <div class="doc-info">
                     <strong>Conseil :</strong> Creez des modeles d'export pour vos besoins recurrents (rapport mensuel, export comptable, etc.) afin de gagner du temps.
+                </div>
+            </section>
+
+            {{-- Emails transactionnels --}}
+            <section id="emails" class="doc-section">
+                <h2>Emails transactionnels</h2>
+
+                <p>La plateforme envoie des emails automatiques à chaque étape clé du workflow éditorial. Tous les envois sont asynchrones (<code>ShouldQueue</code>) sauf si <code>QUEUE_CONNECTION=sync</code> (envoi immédiat).</p>
+
+                <h3>Liste des emails envoyés</h3>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Événement</th>
+                                <th>Destinataire</th>
+                                <th>Classe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Inscription (vérification email)</td>
+                                <td>Nouvel utilisateur</td>
+                                <td><code>App\Notifications\VerifyEmailNotification</code></td>
+                            </tr>
+                            <tr>
+                                <td>Nouvelle soumission (confirmation)</td>
+                                <td>Auteur</td>
+                                <td><code>App\Mail\SubmissionReceived</code></td>
+                            </tr>
+                            <tr>
+                                <td>Nouvelle soumission (alerte)</td>
+                                <td>Éditeurs + Rédac en chef</td>
+                                <td><code>App\Mail\NewSubmissionAlert</code></td>
+                            </tr>
+                            <tr>
+                                <td>Invitation à relecture</td>
+                                <td>Relecteur invité</td>
+                                <td><code>App\Mail\ReviewInvitation</code></td>
+                            </tr>
+                            <tr>
+                                <td>Relecteur accepte</td>
+                                <td>Éditeur de l'article</td>
+                                <td><code>App\Mail\ReviewerAccepted</code></td>
+                            </tr>
+                            <tr>
+                                <td>Relecteur décline</td>
+                                <td>Éditeur de l'article</td>
+                                <td><code>App\Mail\ReviewerDeclined</code></td>
+                            </tr>
+                            <tr>
+                                <td>Évaluation déposée</td>
+                                <td>Éditeur de l'article</td>
+                                <td><code>App\Mail\ReviewCompleted</code></td>
+                            </tr>
+                            <tr>
+                                <td>Décision (accepté/rejeté)</td>
+                                <td>Auteur</td>
+                                <td><code>App\Mail\SubmissionDecision</code></td>
+                            </tr>
+                            <tr>
+                                <td>Relance invitation / relecture</td>
+                                <td>Relecteur en retard</td>
+                                <td><code>App\Mail\ReviewReminder</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Configuration des envois</h3>
+
+                <h4>En développement local</h4>
+                <p>Le fichier <code>.env</code> doit contenir <code>MAIL_MAILER=log</code>. Les emails ne sont pas envoyés : ils sont écrits dans <code>storage/logs/laravel.log</code>. Utile pour vérifier le contenu et le déclenchement sans serveur SMTP.</p>
+
+                <h4>En production (Brevo)</h4>
+                <p>Configurer le driver SMTP Brevo dans <code>.env</code> :</p>
+                <pre style="background:#f3f4f6;padding:1rem;border-radius:0.5rem;font-size:0.85rem;overflow-x:auto;">
+MAIL_MAILER=smtp
+MAIL_HOST=smtp-relay.brevo.com
+MAIL_PORT=587
+MAIL_USERNAME=votre-login-brevo
+MAIL_PASSWORD=votre-clé-api-smtp
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=revue@oreina.org
+MAIL_FROM_NAME="Chersotis — OREINA"</pre>
+
+                <h4>En tests (PHPUnit)</h4>
+                <p><code>phpunit.xml</code> force <code>MAIL_MAILER=array</code> : les emails sont interceptés en mémoire et vérifiables via <code>Mail::assertQueued()</code>. Aucun email réel n'est envoyé.</p>
+
+                <h3>Queue et envoi asynchrone</h3>
+                <p>Tous les mailables implémentent <code>ShouldQueue</code>. En production avec <code>QUEUE_CONNECTION=redis</code> (ou <code>database</code>), les emails sont mis en file d'attente et envoyés par un worker :</p>
+                <pre style="background:#f3f4f6;padding:1rem;border-radius:0.5rem;font-size:0.85rem;">php artisan queue:work</pre>
+                <p>En développement avec <code>QUEUE_CONNECTION=sync</code>, les emails sont envoyés immédiatement (synchrone) — peut ralentir les requêtes HTTP.</p>
+
+                <h3>Templates</h3>
+                <p>Les templates email sont dans <code>resources/views/emails/</code> au format Markdown Blade (<code>&lt;x-mail::message&gt;</code>). Structure :</p>
+                <ul>
+                    <li><code>emails/verify-email.blade.php</code> — vérification email (HTML inline, pas Markdown)</li>
+                    <li><code>emails/submissions/received.blade.php</code> — confirmation soumission auteur</li>
+                    <li><code>emails/submissions/new-alert.blade.php</code> — alerte éditeurs</li>
+                    <li><code>emails/submissions/decision.blade.php</code> — décision accepté/rejeté</li>
+                    <li><code>emails/review-invitation.blade.php</code> — invitation relecture (avec lien signé)</li>
+                    <li><code>emails/review-reminder.blade.php</code> — relance relecture</li>
+                    <li><code>emails/reviews/accepted.blade.php</code> — relecteur a accepté</li>
+                    <li><code>emails/reviews/declined.blade.php</code> — relecteur a décliné</li>
+                    <li><code>emails/reviews/completed.blade.php</code> — évaluation déposée</li>
+                </ul>
+
+                <h3>Scheduler</h3>
+                <p>La commande <code>reviews:send-reminders</code> est exécutée quotidiennement à 08h00 via le scheduler Laravel. En production, le cron système doit être configuré :</p>
+                <pre style="background:#f3f4f6;padding:1rem;border-radius:0.5rem;font-size:0.85rem;">* * * * * cd /path-to-project && php artisan schedule:run >> /dev/null 2>&1</pre>
+
+                <div class="doc-info">
+                    <strong>SPF/DKIM :</strong> en production, s'assurer que le domaine d'envoi (<code>revue@oreina.org</code>) est bien authentifié auprès de Brevo (SPF + DKIM) pour éviter les problèmes de délivrabilité. Configurer dans le dashboard Brevo → Senders → Domain authentication.
                 </div>
             </section>
 
