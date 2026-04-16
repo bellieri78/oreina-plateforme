@@ -54,7 +54,7 @@
 
                     <div>
                         <label for="manuscript_file" class="block text-sm font-bold text-oreina-dark mb-2">
-                            Fichier PDF révisé <span class="text-red-500">*</span>
+                            Fichier Word révisé <span class="text-red-500">*</span>
                         </label>
                         <p class="text-sm text-slate-500 mb-4">
                             Téléchargez votre manuscrit révisé. Ce fichier remplacera la version précédente.
@@ -68,9 +68,9 @@
                                     <p class="mb-2 text-sm text-slate-500">
                                         <span class="font-semibold">Cliquez pour télécharger</span> ou glissez-déposez
                                     </p>
-                                    <p class="text-xs text-slate-500">PDF uniquement (max. 20 Mo)</p>
+                                    <p class="text-xs text-slate-500">Format Word uniquement — .doc, .docx (max. 30 Mo)</p>
                                 </div>
-                                <input id="manuscript_file" name="manuscript_file" type="file" class="hidden" accept=".pdf" required>
+                                <input id="manuscript_file" name="manuscript_file" type="file" class="hidden" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
                             </label>
                             <p id="file-name" class="mt-2 text-sm text-oreina-turquoise hidden"></p>
                         </div>

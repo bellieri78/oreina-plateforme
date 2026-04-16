@@ -9,7 +9,7 @@ use App\Rules\SafeUpload;
 use App\Services\SubmissionFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+
 
 class SubmissionController extends Controller
 {
@@ -145,40 +145,63 @@ class SubmissionController extends Controller
     /**
      * Submit a revised manuscript
      */
-    public function update(Request $request, Submission $submission)
-    {
-        // Check authorization
+    public function update(
+        Request $request,
+        Submission $submission,
+        SubmissionFileService $files,
+        \App\Services\SubmissionStateMachine $stateMachine,
+    ) {
         if ($submission->author_id !== Auth::id()) {
             abort(403, 'Vous n\'êtes pas autorisé à modifier cette soumission.');
         }
 
-        // Check if revision is requested
-        if (!in_array($submission->status, [SubmissionStatus::RevisionRequested, SubmissionStatus::RevisionAfterReview], true)) {
+        $currentStatus = $submission->status;
+        $allowedSources = [
+            SubmissionStatus::RevisionRequested,
+            SubmissionStatus::RevisionAfterReview,
+        ];
+        if (!in_array($currentStatus, $allowedSources, true)) {
             return redirect()->route('journal.submissions.show', $submission)
                 ->with('error', 'Cette soumission ne peut pas être modifiée actuellement.');
         }
 
         $validated = $request->validate([
-            'manuscript_file' => 'required|file|mimes:pdf|max:20480',
+            'manuscript_file' => [
+                'required',
+                'file',
+                new SafeUpload(
+                    config('journal.uploads.manuscript.mimes'),
+                    config('journal.uploads.manuscript.exts'),
+                    config('journal.uploads.manuscript.max_kb'),
+                ),
+            ],
             'revision_notes' => 'nullable|string|max:5000',
         ]);
 
-        // Delete old manuscript
-        if ($submission->manuscript_file) {
-            Storage::disk('public')->delete($submission->manuscript_file);
+        $stored = $files->store(
+            $submission,
+            $request->file('manuscript_file'),
+            SubmissionFileService::TYPE_REVISIONS,
+        );
+
+        $submission->manuscript_file = $stored['path'];
+        $submission->save();
+
+        $target = $currentStatus === SubmissionStatus::RevisionRequested
+            ? SubmissionStatus::UnderInitialReview
+            : SubmissionStatus::UnderPeerReview;
+
+        try {
+            $stateMachine->transition(
+                $submission,
+                $target,
+                Auth::user(),
+                notes: $validated['revision_notes'] ?? null,
+            );
+        } catch (\App\Exceptions\Editorial\IllegalTransitionException $e) {
+            return redirect()->route('journal.submissions.show', $submission)
+                ->with('error', $e->getMessage());
         }
-
-        // Store new manuscript
-        $manuscriptPath = $request->file('manuscript_file')
-            ->store('submissions', 'public');
-
-        // Update submission
-        $submission->update([
-            'manuscript_file' => $manuscriptPath,
-            'status' => $submission->status === SubmissionStatus::RevisionRequested
-                ? SubmissionStatus::UnderInitialReview->value
-                : SubmissionStatus::UnderPeerReview->value,
-        ]);
 
         return redirect()->route('journal.submissions.show', $submission)
             ->with('success', 'Votre manuscrit révisé a été soumis avec succès.');
