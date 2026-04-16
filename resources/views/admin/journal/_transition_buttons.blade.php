@@ -62,9 +62,10 @@
                          x-cloak
                          x-transition
                          @keydown.escape.window="modal = null"
-                         style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);">
+                         style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,0.5);">
+                        <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
                         <div @click.outside="modal = null"
-                             style="background:#fff;border-radius:8px;box-shadow:0 25px 50px rgba(0,0,0,0.25);max-width:28rem;width:100%;padding:1.5rem;">
+                             style="background:#fff;border-radius:8px;box-shadow:0 25px 50px rgba(0,0,0,0.25);max-width:28rem;width:90%;padding:1.5rem;">
                             <h3 style="font-size:1.1rem;font-weight:700;margin:0 0 12px 0;">{{ $action['label'] }}</h3>
                             <form method="POST" action="{{ route('admin.journal.submissions.transition', $submission) }}">
                                 @csrf
@@ -97,6 +98,7 @@
                                 </div>
                             </form>
                         </div>
+                    </div>
                     </div>
                 </template>
             @endif
