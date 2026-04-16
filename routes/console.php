@@ -50,3 +50,8 @@ Schedule::command('brevo:sync')
     ->onOneServer()
     ->when(fn () => !empty(config('brevo.api_key')))
     ->appendOutputTo(storage_path('logs/scheduler.log'));
+
+// Relances relecteurs en retard (tous les jours a 8h00)
+Schedule::command('reviews:send-reminders')
+    ->dailyAt('08:00')
+    ->appendOutputTo(storage_path('logs/scheduler.log'));
