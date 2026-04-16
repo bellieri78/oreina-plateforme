@@ -1801,8 +1801,39 @@
                     <strong>Stockage sécurisé :</strong> les fichiers uploadés sont stockés dans <code>storage/app/submissions/{id}/{type}/</code>, hors du répertoire <code>public/</code> (pas d'exécution PHP possible, pas d'URL directe). Le téléchargement passe par la route authentifiée <code>journal.submissions.file.download</code> avec vérification de la policy <code>SubmissionPolicy::viewFile</code>.
                 </div>
 
+                <h3>Suivi par l'auteur ("suivi de colis")</h3>
+                <p>L'auteur connecté accède à ses soumissions via <code>/revue/mes-soumissions</code>. Chaque soumission affiche :</p>
+
+                <h4>Timeline 6 étapes</h4>
+                <p>Une barre de progression visuelle simplifiée en 6 étapes (les 10 statuts internes sont regroupés pour l'auteur) :</p>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Étape affichée</th>
+                                <th>Statuts internes correspondants</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Soumis</strong></td><td><code>submitted</code></td></tr>
+                            <tr><td><strong>En évaluation</strong></td><td><code>under_initial_review</code>, <code>revision_requested</code></td></tr>
+                            <tr><td><strong>Relecture</strong></td><td><code>under_peer_review</code>, <code>revision_after_review</code></td></tr>
+                            <tr><td><strong>Décision</strong></td><td><code>accepted</code>, <code>rejected</code></td></tr>
+                            <tr><td><strong>Maquettage</strong></td><td><code>in_production</code></td></tr>
+                            <tr><td><strong>Publié</strong></td><td><code>published</code></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Les étapes passées affichent un check vert, l'étape active est surlignée en turquoise. En cas de rejet, l'étape "Décision" affiche une croix rouge.</p>
+
+                <h4>Journal d'activité</h4>
+                <p>Sous la timeline, un bloc "Historique" affiche la chronologie des changements d'état avec des <strong>libellés humains</strong> (ex. "Votre manuscrit a été envoyé en relecture"). Les informations internes (noms d'éditeurs, de relecteurs, notes de transition) ne sont <strong>pas visibles</strong> par l'auteur — principe du "suivi de colis".</p>
+
+                <h4>Indicateur "Action requise"</h4>
+                <p>Quand le statut est <code>revision_requested</code> ou <code>revision_after_review</code>, un bandeau orange "Action requise" apparaît sur la page détail et un badge pulsant dans la liste. L'auteur est invité à soumettre sa révision via un bouton visible dans les deux cas.</p>
+
                 <div class="doc-info">
-                    <strong>Suivi par l'auteur :</strong> Apres soumission, l'auteur peut suivre en temps reel l'avancement de son manuscrit depuis son espace membre (<code>/espace-membre</code>). Le statut est mis a jour a chaque changement d'etape.
+                    <strong>Principe "suivi de colis" :</strong> l'auteur voit OÙ en est son article dans le processus, mais pas les détails internes (qui a évalué, qui a relu, notes confidentielles). La transparence est assurée par les libellés humains chronologiques, pas par l'exposition des acteurs.
                 </div>
 
                 {{-- ========================================== --}}
