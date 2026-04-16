@@ -49,6 +49,7 @@ return [
         'deposit_url' => env('CROSSREF_DEPOSIT_URL', 'https://doi.crossref.org/servlet/deposit'),
         'doi_prefix' => env('CROSSREF_DOI_PREFIX', '10.24349'),
         'registrant' => env('CROSSREF_REGISTRANT', 'OREINA'),
+        'dry_run' => env('CROSSREF_DRY_RUN', true),
     ],
 
     'latex' => [

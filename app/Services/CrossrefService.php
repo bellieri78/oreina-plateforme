@@ -6,7 +6,6 @@ use App\Models\Submission;
 use App\Models\JournalIssue;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class CrossrefService
 {
@@ -15,14 +14,16 @@ class CrossrefService
     protected string $password;
     protected string $doiPrefix;
     protected string $registrant;
+    protected bool $dryRun;
 
     public function __construct()
     {
-        $this->depositUrl = config('services.crossref.deposit_url', 'https://doi.crossref.org/servlet/deposit');
-        $this->username = config('services.crossref.username', '');
-        $this->password = config('services.crossref.password', '');
-        $this->doiPrefix = config('services.crossref.doi_prefix', '10.24349');
-        $this->registrant = config('services.crossref.registrant', 'OREINA');
+        $this->depositUrl = config('services.crossref.deposit_url', 'https://doi.crossref.org/servlet/deposit') ?? 'https://doi.crossref.org/servlet/deposit';
+        $this->username = config('services.crossref.username', '') ?? '';
+        $this->password = config('services.crossref.password', '') ?? '';
+        $this->doiPrefix = config('services.crossref.doi_prefix', '10.24349') ?? '10.24349';
+        $this->registrant = config('services.crossref.registrant', 'OREINA') ?? 'OREINA';
+        $this->dryRun = (bool) config('services.crossref.dry_run', true);
     }
 
     /**
@@ -38,9 +39,12 @@ class CrossrefService
      */
     public function generateDoiSuffix(Submission $submission): string
     {
-        // Generate a unique suffix based on submission ID and random string
-        $random = strtolower(Str::random(4));
-        return "{$random}-{$submission->id}";
+        $year = $submission->published_at?->format('Y') ?? now()->format('Y');
+        $count = Submission::where('status', 'published')
+            ->whereYear('published_at', $year)
+            ->where('id', '<=', $submission->id)
+            ->count();
+        return "chersotis.{$year}." . str_pad($count, 4, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -60,6 +64,20 @@ class CrossrefService
      */
     public function registerDoi(Submission $submission): array
     {
+        // Generate DOI if not already set
+        $doi = $submission->doi ?: $this->getFullDoi($submission);
+
+        if ($this->dryRun) {
+            $submission->update(['doi' => $doi]);
+            Log::info('Crossref DRY RUN — DOI assigned locally', ['doi' => $doi, 'submission_id' => $submission->id]);
+            return [
+                'success' => true,
+                'doi' => $doi,
+                'dry_run' => true,
+                'message' => 'DOI assigné localement (dry-run, pas de dépôt Crossref)',
+            ];
+        }
+
         if (!$this->isConfigured()) {
             return [
                 'success' => false,
@@ -67,9 +85,6 @@ class CrossrefService
                 'doi' => null,
             ];
         }
-
-        // Generate DOI if not already set
-        $doi = $submission->doi ?: $this->getFullDoi($submission);
 
         // Build XML deposit
         $xml = $this->buildDepositXml($submission, $doi);
