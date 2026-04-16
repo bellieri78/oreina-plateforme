@@ -6,6 +6,7 @@ use App\Http\Controllers\Hub\EventController;
 use App\Http\Controllers\Hub\HomeController;
 use App\Http\Controllers\Hub\PageController;
 use App\Http\Controllers\Journal\JournalController;
+use App\Http\Controllers\Journal\ReviewFormController;
 use App\Http\Controllers\Journal\SubmissionController;
 use App\Http\Controllers\Journal\SubmissionFileController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
@@ -177,10 +178,10 @@ Route::middleware('signed')->prefix('revue/relecture')->group(function () {
     Route::post('{review}/decliner', [\App\Http\Controllers\Journal\ReviewResponseController::class, 'decline'])->name('review.decline');
 });
 
-// Review form (authenticated) — placeholder, real controller in T5
+// Review form (authenticated)
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('revue/relecture/{review}/evaluer', function () { abort(404); })->name('review.form');
-    Route::post('revue/relecture/{review}/evaluer', function () { abort(404); })->name('review.form.store');
+    Route::get('revue/relecture/{review}/evaluer', [ReviewFormController::class, 'show'])->name('review.form');
+    Route::post('revue/relecture/{review}/evaluer', [ReviewFormController::class, 'store'])->name('review.form.store');
 });
 
 /*
