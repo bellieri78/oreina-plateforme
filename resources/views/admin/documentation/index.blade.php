@@ -1801,6 +1801,20 @@
                     <strong>Stockage sécurisé :</strong> les fichiers uploadés sont stockés dans <code>storage/app/submissions/{id}/{type}/</code>, hors du répertoire <code>public/</code> (pas d'exécution PHP possible, pas d'URL directe). Le téléchargement passe par la route authentifiée <code>journal.submissions.file.download</code> avec vérification de la policy <code>SubmissionPolicy::viewFile</code>.
                 </div>
 
+                <h3>Fiche soumission enrichie (backoffice)</h3>
+                <p>La page de détail d'une soumission dans l'extranet (<code>/extranet/submissions/{id}</code>) a été enrichie avec 4 blocs éditoriaux :</p>
+
+                <ul>
+                    <li><strong>Boutons de transition</strong> — remplacent l'ancien formulaire de changement de statut. Les boutons affichés sont calculés dynamiquement par la policy <code>SubmissionPolicy::transitionTo</code> et passent par la machine à états (pas de changement de statut direct).</li>
+                    <li><strong>Équipe éditoriale</strong> — affiche l'éditeur et le maquettiste assignés. Le rédacteur en chef peut changer l'éditeur ou assigner un maquettiste depuis des formulaires inline.</li>
+                    <li><strong>Invitation de relecteurs</strong> — formulaire inline pour inviter un relecteur parmi les utilisateurs avec la capacité <code>reviewer</code>. La séparation des rôles est vérifiée (un relecteur ne peut pas être l'éditeur du même article sauf override). La liste des relecteurs actuels avec leur statut (invité, accepté, terminé, décliné) est affichée en dessous.</li>
+                    <li><strong>Journal des actions</strong> — chronologie complète et non-anonymisée de toutes les transitions : changements de statut, assignations éditeur, invitations relecteurs, avec noms des acteurs/cibles et notes. Visible par les éditeurs et administrateurs uniquement.</li>
+                </ul>
+
+                <div class="doc-info">
+                    <strong>Différence avec le suivi auteur :</strong> le journal des actions admin montre <em>tout</em> (acteurs, assignations internes, notes). Le journal côté auteur (<code>/revue/mes-soumissions/{id}</code>) est anonymisé et ne montre que les changements de statut avec des libellés humains — voir la section "Suivi par l'auteur" ci-dessous.
+                </div>
+
                 <h3>Suivi par l'auteur ("suivi de colis")</h3>
                 <p>L'auteur connecté accède à ses soumissions via <code>/revue/mes-soumissions</code>. Chaque soumission affiche :</p>
 
