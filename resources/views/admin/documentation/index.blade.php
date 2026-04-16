@@ -1569,7 +1569,7 @@
                     <div class="workflow-detail-card">
                         <div class="detail-header desk-review">
                             <span class="detail-number">3</span>
-                            <span class="detail-title">Evaluation initiale (desk_review)</span>
+                            <span class="detail-title">Evaluation initiale (under_initial_review)</span>
                         </div>
                         <div class="detail-content">
                             <p><strong>Qui agit :</strong> Editeur</p>
@@ -1587,7 +1587,7 @@
                     <div class="workflow-detail-card">
                         <div class="detail-header in-review">
                             <span class="detail-number">4</span>
-                            <span class="detail-title">En relecture (in_review)</span>
+                            <span class="detail-title">En relecture (under_peer_review)</span>
                         </div>
                         <div class="detail-content">
                             <p><strong>Qui agit :</strong> Editeur (assignation) + Reviewers (evaluation)</p>
@@ -1613,7 +1613,7 @@
                     <div class="workflow-detail-card">
                         <div class="detail-header revision">
                             <span class="detail-number">4b</span>
-                            <span class="detail-title">Revision demandee (revision)</span>
+                            <span class="detail-title">Revision demandee (revision_requested / revision_after_review)</span>
                         </div>
                         <div class="detail-content">
                             <p><strong>Qui agit :</strong> Auteur</p>
@@ -1892,67 +1892,77 @@
                 {{-- ========================================== --}}
 
                 <h3>Recapitulatif des statuts et actions</h3>
+                <p>Depuis avril 2026, le workflow est géré par une machine à états stricte côté serveur. Les boutons de décision affichés dans l'interface sont dérivés des transitions autorisées pour le statut courant et pour le rôle de l'utilisateur.</p>
+
                 <div class="doc-table">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Statut</th>
-                                <th>Code</th>
-                                <th>Responsable</th>
-                                <th>Actions disponibles</th>
+                                <th>Signification</th>
+                                <th>Transitions possibles</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><span class="badge badge-secondary">Brouillon</span></td>
                                 <td><code>draft</code></td>
-                                <td>Auteur</td>
-                                <td>Completer le manuscrit, Soumettre</td>
+                                <td>Brouillon, pas encore soumis</td>
+                                <td>→ <code>submitted</code> (auteur)</td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-info">Soumis</span></td>
                                 <td><code>submitted</code></td>
-                                <td>Editeur</td>
-                                <td>Evaluer (passer en evaluation initiale)</td>
+                                <td>Soumis, en attente de prise en charge</td>
+                                <td>→ <code>under_initial_review</code> (auto à la prise en charge) · → <code>rejected</code></td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-warning">Eval. initiale</span></td>
-                                <td><code>desk_review</code></td>
-                                <td>Editeur</td>
-                                <td>Envoyer en review / Rejeter</td>
+                                <td><code>under_initial_review</code></td>
+                                <td>Évaluation de recevabilité par l'éditeur</td>
+                                <td>→ <code>revision_requested</code> · → <code>under_peer_review</code> · → <code>rejected</code></td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-primary">En relecture</span></td>
-                                <td><code>in_review</code></td>
-                                <td>Editeur + Reviewers</td>
-                                <td>Assigner reviewers / Accepter / Demander revision / Rejeter</td>
+                                <td><code>revision_requested</code></td>
+                                <td>Retour auteur avant relecture</td>
+                                <td>→ <code>under_initial_review</code> (auteur resoumet)</td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-warning">Revision</span></td>
-                                <td><code>revision</code></td>
-                                <td>Auteur</td>
-                                <td>Soumettre version revisee</td>
+                                <td><code>under_peer_review</code></td>
+                                <td>Envoyé aux relecteurs</td>
+                                <td>→ <code>revision_after_review</code> · → <code>accepted</code> · → <code>rejected</code></td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-success">Accepte</span></td>
+                                <td><code>revision_after_review</code></td>
+                                <td>Retours relecteurs transmis, auteur doit réviser</td>
+                                <td>→ <code>under_peer_review</code> (nouvelle relecture) · → <code>accepted</code> · → <code>rejected</code></td>
+                            </tr>
+                            <tr>
                                 <td><code>accepted</code></td>
-                                <td>Editeur</td>
-                                <td>Generer PDF / Assigner DOI / Assigner a un numero / Publier</td>
+                                <td>Article accepté, prêt pour maquettage</td>
+                                <td>→ <code>in_production</code></td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-danger">Refuse</span></td>
-                                <td><code>rejected</code></td>
-                                <td>--</td>
-                                <td>Fin du processus</td>
+                                <td><code>in_production</code></td>
+                                <td>En cours de maquettage</td>
+                                <td>→ <code>published</code></td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-success">Publie</span></td>
                                 <td><code>published</code></td>
-                                <td>Editeur</td>
-                                <td>Regenerer PDF / Modifier les metadonnees</td>
+                                <td>Publié, visible publiquement (terminal)</td>
+                                <td>Aucune</td>
+                            </tr>
+                            <tr>
+                                <td><code>rejected</code></td>
+                                <td>Rejeté (terminal). Peut être redirigé vers Lepis.</td>
+                                <td>Aucune</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="doc-info">
+                    <strong>Machine à états stricte :</strong> toute transition hors des flèches listées ci-dessus est refusée par le service <code>SubmissionStateMachine</code> avec une exception <code>IllegalTransitionException</code>. Chaque transition est loguée dans <code>submission_transitions</code> avec l'acteur, le statut source, le statut cible, la date et les notes.<br>
+                    <strong>Transitions automatiques :</strong> la transition <code>submitted → under_initial_review</code> est déclenchée automatiquement quand un éditeur prend en charge un article. Aucun humain ne la déclenche manuellement.<br>
+                    <strong>Race condition :</strong> le service utilise un UPDATE conditionnel (<code>WHERE status = current_status</code>) pour empêcher deux actions simultanées de produire un état incohérent.<br>
+                    <strong>Redirection Lepis :</strong> lors d'un rejet, une case "Recommander pour Lepis" peut être cochée (<code>redirected_to_lepis = true</code>).
                 </div>
             </section>
 
