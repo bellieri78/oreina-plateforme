@@ -37,7 +37,7 @@ class JournalController extends Controller
 
     public function showArticle(Submission $submission)
     {
-        if ($submission->status !== 'published') {
+        if (!$submission->isPublished()) {
             abort(404);
         }
 
