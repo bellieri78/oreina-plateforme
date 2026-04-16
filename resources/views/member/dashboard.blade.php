@@ -464,13 +464,16 @@
                             $statusLabels = [
                                 'draft' => ['Brouillon', 'blue'],
                                 'submitted' => ['Soumis', 'blue'],
-                                'under_review' => ['En relecture', 'gold'],
+                                'under_initial_review' => ['Évaluation initiale', 'gold'],
                                 'revision_requested' => ['Révision demandée', 'coral'],
+                                'under_peer_review' => ['En relecture', 'gold'],
+                                'revision_after_review' => ['Révision demandée', 'coral'],
                                 'accepted' => ['Accepté', 'sage'],
+                                'in_production' => ['En maquettage', 'blue'],
                                 'rejected' => ['Refusé', 'coral'],
                                 'published' => ['Publié', 'sage'],
                             ];
-                            $label = $statusLabels[$sub->status] ?? ['Inconnu', 'blue'];
+                            $label = $statusLabels[$sub->status?->value ?? $sub->status] ?? ['Inconnu', 'blue'];
                         @endphp
                         <span class="status {{ $label[1] }}">{{ $label[0] }}</span>
                     </div>
