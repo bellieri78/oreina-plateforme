@@ -2037,6 +2037,26 @@
                     <strong>Race condition :</strong> le service utilise un UPDATE conditionnel (<code>WHERE status = current_status</code>) pour empêcher deux actions simultanées de produire un état incohérent.<br>
                     <strong>Redirection Lepis :</strong> lors d'un rejet, une case "Recommander pour Lepis" peut être cochée (<code>redirected_to_lepis = true</code>).
                 </div>
+
+                <h3>DOI et exports de citations</h3>
+                <p>Chaque article publié peut recevoir un DOI au format <code>10.XXXXX/chersotis.YYYY.NNNN</code> (numérotation séquentielle par année).</p>
+
+                <h4>Attribution du DOI</h4>
+                <p>Le bouton "Obtenir le DOI" dans la fiche admin de la soumission (<code>/extranet/submissions/{id}</code>) attribue un DOI via le service <code>CrossrefService</code>. Deux modes :</p>
+                <ul>
+                    <li><strong>Dry-run</strong> (<code>CROSSREF_DRY_RUN=true</code>, défaut) — le DOI est généré et stocké en base mais aucun dépôt n'est fait auprès de Crossref. Utile tant que l'ISSN n'est pas obtenu.</li>
+                    <li><strong>Production</strong> (<code>CROSSREF_DRY_RUN=false</code>) — le DOI est déposé auprès de Crossref via leur API. Nécessite : ISSN obtenu + identifiants Crossref configurés dans <code>.env</code> (<code>CROSSREF_USERNAME</code>, <code>CROSSREF_PASSWORD</code>).</li>
+                </ul>
+                <p>Le DOI doit être attribué <strong>avant</strong> la génération du PDF final (pour qu'il figure dans le document).</p>
+
+                <h4>Exports de citations</h4>
+                <p>Sur la page publique d'un article publié (<code>/articles/{id}</code>), 3 formats sont disponibles :</p>
+                <ul>
+                    <li><strong>BibTeX</strong> — téléchargement <code>.bib</code> via <code>/articles/{id}/cite/bibtex</code></li>
+                    <li><strong>RIS</strong> — téléchargement <code>.ris</code> via <code>/articles/{id}/cite/ris</code> (compatible Zotero, Mendeley, EndNote)</li>
+                    <li><strong>Harvard</strong> — copie dans le presse-papier (format auteur-date, bouton "Copier Harvard")</li>
+                </ul>
+                <p>Les citations incluent automatiquement : auteurs, co-auteurs, titre, journal (Chersotis), tome, pages et DOI.</p>
             </section>
 
             {{-- Capacités éditoriales Chersotis --}}
