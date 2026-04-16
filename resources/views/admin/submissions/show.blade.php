@@ -61,14 +61,6 @@
                 <div class="card-header">
                     <h3 class="card-title">{{ $submission->title }}</h3>
                     <div style="display: flex; gap: 0.5rem;">
-                        @if($submission->canBeReviewed())
-                            <a href="{{ route('admin.reviews.create', ['submission_id' => $submission->id]) }}" class="btn btn-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-                                </svg>
-                                Assigner reviewer
-                            </a>
-                        @endif
                         @if(in_array($submissionStatusValue, ['accepted', 'published']))
                             <a href="{{ route('admin.submissions.layout', $submission) }}" class="btn btn-turquoise">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
@@ -145,35 +137,38 @@
                     </table>
                 </div>
             </div>
+
+            @include('admin.submissions.partials._admin_timeline', ['submission' => $submission])
         </div>
 
         <div>
+            {{-- Statut + Transition buttons --}}
             <div class="card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">
                     <h3 class="card-title">Statut</h3>
                 </div>
                 <div class="card-body">
-                    @php
-                        $statusColors = [
+                    <div style="margin-bottom: 1rem;">
+                        <span class="badge badge-{{ match($submissionStatusValue) {
                             'draft' => 'secondary',
                             'submitted' => 'info',
                             'under_initial_review' => 'warning',
+                            'revision_requested' => 'warning',
                             'under_peer_review' => 'primary',
                             'revision_after_review' => 'warning',
                             'accepted' => 'success',
+                            'in_production' => 'info',
                             'rejected' => 'danger',
                             'published' => 'success',
-                        ];
-                    @endphp
-                    <div style="margin-bottom: 1rem;">
-                        <span class="badge badge-{{ $statusColors[$submissionStatusValue] ?? 'secondary' }}" style="font-size: 1rem; padding: 0.5rem 1rem;">
-                            {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : (\App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status) }}
+                            default => 'secondary',
+                        } }}" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                            {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : $submissionStatusValue }}
                         </span>
                     </div>
 
                     @if($submission->decision)
                         <div style="margin-bottom: 0.75rem;">
-                            <span style="color: #6b7280;">Decision :</span>
+                            <span style="color: #6b7280;">Décision :</span>
                             <span style="font-weight: 500;">{{ \App\Models\Submission::getDecisions()[$submission->decision] ?? $submission->decision }}</span>
                         </div>
                     @endif
@@ -185,94 +180,21 @@
                         </div>
                     @endif
 
-                    {{-- Quick Actions --}}
-                    @if(!in_array($submissionStatusValue, ['published', 'rejected']))
+                    @if(!($submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->isTerminal() : false))
                         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-                            <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.5rem;">Actions rapides :</div>
-                            <div class="quick-actions">
-                                @switch($submissionStatusValue)
-                                    @case('draft')
-                                        <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                            @csrf @method('PUT')
-                                            <input type="hidden" name="title" value="{{ $submission->title }}">
-                                            <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="submitted">
-                                            <button type="submit" class="btn btn-primary" onclick="return confirm('Marquer comme soumis ?')">Soumettre</button>
-                                        </form>
-                                        @break
-                                    @case('submitted')
-                                        <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                            @csrf @method('PUT')
-                                            <input type="hidden" name="title" value="{{ $submission->title }}">
-                                            <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="under_initial_review">
-                                            <button type="submit" class="btn btn-primary">Evaluer</button>
-                                        </form>
-                                        @break
-                                    @case('under_initial_review')
-                                        <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                            @csrf @method('PUT')
-                                            <input type="hidden" name="title" value="{{ $submission->title }}">
-                                            <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="under_peer_review">
-                                            <button type="submit" class="btn btn-primary">Envoyer en review</button>
-                                        </form>
-                                        <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                            @csrf @method('PUT')
-                                            <input type="hidden" name="title" value="{{ $submission->title }}">
-                                            <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="rejected">
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Rejeter cette soumission ?')">Rejeter</button>
-                                        </form>
-                                        @break
-                                    @case('under_peer_review')
-                                        @if($submission->completedReviews()->count() >= 1)
-                                            <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                                @csrf @method('PUT')
-                                                <input type="hidden" name="title" value="{{ $submission->title }}">
-                                                <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                                <input type="hidden" name="status" value="accepted">
-                                                <input type="hidden" name="decision" value="accept">
-                                                <button type="submit" class="btn btn-success" onclick="return confirm('Accepter cette soumission ?')">Accepter</button>
-                                            </form>
-                                            <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                                @csrf @method('PUT')
-                                                <input type="hidden" name="title" value="{{ $submission->title }}">
-                                                <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                                <input type="hidden" name="status" value="revision_after_review">
-                                                <input type="hidden" name="decision" value="minor_revision">
-                                                <button type="submit" class="btn btn-warning">Demander revision</button>
-                                            </form>
-                                            <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                                @csrf @method('PUT')
-                                                <input type="hidden" name="title" value="{{ $submission->title }}">
-                                                <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                                <input type="hidden" name="status" value="rejected">
-                                                <input type="hidden" name="decision" value="reject">
-                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Rejeter cette soumission ?')">Rejeter</button>
-                                            </form>
-                                        @else
-                                            <span style="font-size: 0.75rem; color: #9ca3af;">En attente des reviews...</span>
-                                        @endif
-                                        @break
-                                    @case('revision_after_review')
-                                        <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
-                                            @csrf @method('PUT')
-                                            <input type="hidden" name="title" value="{{ $submission->title }}">
-                                            <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="under_peer_review">
-                                            <button type="submit" class="btn btn-primary">Remettre en review</button>
-                                        </form>
-                                        @break
-                                    @case('accepted')
-                                        <span style="font-size: 0.75rem; color: #9ca3af;">Voir la section "Publication" ci-dessous</span>
-                                        @break
-                                @endswitch
-                            </div>
+                            <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.5rem;">Actions :</div>
+                            @include('admin.journal._transition_buttons', ['submission' => $submission])
                         </div>
                     @endif
                 </div>
             </div>
+
+            @include('admin.submissions.partials._editorial_sidebar', [
+                'submission' => $submission,
+                'eligibleReviewers' => $eligibleReviewers ?? collect(),
+                'eligibleEditors' => $eligibleEditors ?? collect(),
+                'eligibleLayoutEditors' => $eligibleLayoutEditors ?? collect(),
+            ])
 
             <div class="card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">

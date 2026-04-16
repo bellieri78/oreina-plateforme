@@ -131,9 +131,33 @@ class SubmissionController extends Controller
 
     public function show(Submission $submission)
     {
-        $submission->load(['author', 'editor', 'journalIssue', 'reviews.reviewer']);
+        $submission->load([
+            'author',
+            'editor',
+            'layoutEditor',
+            'journalIssue',
+            'reviews.reviewer',
+            'transitions' => fn($q) => $q->with(['actor', 'target'])->orderBy('created_at', 'desc'),
+        ]);
 
-        return view('admin.submissions.show', compact('submission'));
+        $eligibleReviewers = User::withCapability(\App\Models\EditorialCapability::REVIEWER)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
+        $eligibleEditors = User::withCapability(\App\Models\EditorialCapability::EDITOR)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
+        $eligibleLayoutEditors = User::withCapability(\App\Models\EditorialCapability::LAYOUT_EDITOR)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
+        return view('admin.submissions.show', compact(
+            'submission',
+            'eligibleReviewers',
+            'eligibleEditors',
+            'eligibleLayoutEditors',
+        ));
     }
 
     public function edit(Submission $submission)
