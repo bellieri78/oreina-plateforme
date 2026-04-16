@@ -131,6 +131,88 @@ class EditorialQueueController extends Controller
         return back()->with('success', "Article passé en « {$target->label()} ».");
     }
 
+    public function inviteReviewer(Request $request, Submission $submission, EditorialAssignmentService $service)
+    {
+        abort_unless(
+            app(SubmissionPolicy::class)->assignReviewer($request->user(), $submission),
+            403
+        );
+
+        $validated = $request->validate([
+            'reviewer_id' => 'required|exists:users,id',
+            'override' => 'sometimes|boolean',
+        ]);
+
+        $target = User::findOrFail($validated['reviewer_id']);
+
+        try {
+            $service->assignReviewer(
+                $submission,
+                $target,
+                $request->user(),
+                override: (bool) ($validated['override'] ?? false),
+            );
+        } catch (RoleConflictException $e) {
+            return back()->with('error', $e->getMessage());
+        } catch (IneligibleUserException $e) {
+            return back()->with('error', $e->getMessage());
+        } catch (AlreadyAssignedException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return back()->with('success', "{$target->name} invité comme relecteur.");
+    }
+
+    public function reassignEditor(Request $request, Submission $submission, EditorialAssignmentService $service)
+    {
+        abort_unless(
+            app(SubmissionPolicy::class)->assignEditor($request->user(), $submission),
+            403
+        );
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'override' => 'sometimes|boolean',
+        ]);
+
+        $target = User::findOrFail($validated['user_id']);
+
+        try {
+            $service->assignEditor(
+                $submission,
+                $target,
+                $request->user(),
+                override: (bool) ($validated['override'] ?? false),
+            );
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return back()->with('success', "Éditeur changé : {$target->name}.");
+    }
+
+    public function assignLayoutEditor(Request $request, Submission $submission, EditorialAssignmentService $service)
+    {
+        abort_unless(
+            app(SubmissionPolicy::class)->assignLayoutEditor($request->user(), $submission),
+            403
+        );
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $target = User::findOrFail($validated['user_id']);
+
+        try {
+            $service->assignLayoutEditor($submission, $target, $request->user());
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return back()->with('success', "Maquettiste assigné : {$target->name}.");
+    }
+
     private function canAccessQueue(User $user): bool
     {
         return $user->isAdmin()
