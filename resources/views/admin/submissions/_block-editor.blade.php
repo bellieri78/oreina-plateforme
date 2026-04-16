@@ -269,6 +269,15 @@
             </svg>
             Citation
         </button>
+        <span style="border-left: 1px solid #d1d5db; height: 24px; margin: 0 8px;"></span>
+        <button type="button" @click="$refs.mdFileInput.click()" class="add-block-btn" style="background:#6366f1;color:white;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+            </svg>
+            Importer Markdown
+        </button>
+        <input type="file" x-ref="mdFileInput" accept=".md,.txt,.markdown" style="display:none"
+               @change="importMarkdown($event)">
     </div>
 </div>
 
@@ -890,6 +899,51 @@
             const newBlocks = [...this.blocks];
             newBlocks.splice(index + 1, 0, block);
             this.blocks = newBlocks;
+        },
+
+        async importMarkdown(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (this.blocks.length > 0) {
+                if (!confirm('Cela va remplacer les ' + this.blocks.length + ' blocs existants. Continuer ?')) {
+                    event.target.value = '';
+                    return;
+                }
+            }
+
+            const formData = new FormData();
+            formData.append('markdown_file', file);
+
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+                    || document.querySelector('input[name="_token"]')?.value
+                    || '{{ csrf_token() }}';
+
+                const response = await fetch('{{ route("admin.submissions.import-markdown", $submission->id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.error || 'Erreur lors de l\'import.');
+                    return;
+                }
+
+                this.blocks = data.blocks;
+                this.blockIdCounter = data.blocks.length + 1;
+                alert('Import réussi : ' + data.count + ' blocs créés.');
+            } catch (error) {
+                alert('Erreur réseau : ' + error.message);
+            }
+
+            event.target.value = '';
         },
 
         formatText(index, format) {

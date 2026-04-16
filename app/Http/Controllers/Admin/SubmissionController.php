@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\ArticleLatexService;
 use App\Services\ArticlePdfService;
 use App\Services\CrossrefService;
+use App\Services\MarkdownToBlocksService;
 use App\Services\PaginationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -730,5 +731,30 @@ class SubmissionController extends Controller
         return redirect()
             ->route('admin.submissions.layout', $submission)
             ->with('success', 'Maquette mise à jour avec succès.');
+    }
+
+    /**
+     * Import a Markdown file and convert it to content blocks
+     */
+    public function importMarkdown(Request $request, Submission $submission, MarkdownToBlocksService $service)
+    {
+        $request->validate([
+            'markdown_file' => 'required|file|max:5120',
+        ]);
+
+        $file = $request->file('markdown_file');
+        $ext = strtolower($file->getClientOriginalExtension());
+
+        if (!in_array($ext, ['md', 'txt', 'markdown'], true)) {
+            return response()->json(['error' => 'Format non supporté. Utilisez un fichier .md ou .txt.'], 422);
+        }
+
+        $content = file_get_contents($file->getRealPath());
+        $blocks = $service->parse($content);
+
+        return response()->json([
+            'blocks' => $blocks,
+            'count' => count($blocks),
+        ]);
     }
 }
