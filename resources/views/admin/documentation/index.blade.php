@@ -209,43 +209,8 @@
                     <strong>Redirection guests :</strong> Un utilisateur non connecté qui tente d'accéder à <code>/espace-membre</code> est redirigé vers <code>/connexion</code>.
                 </div>
 
-                <h3>Capacités éditoriales Chersotis (depuis avril 2026)</h3>
-                <p>En complément du rôle global, un système de <strong>capacités éditoriales</strong> permet à un même utilisateur d'occuper plusieurs rôles dans la revue Chersotis, et à un utilisateur d'avoir un rôle sur un article mais pas sur un autre.</p>
-
-                <div class="doc-table">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Capacité</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>chief_editor</code> — Rédacteur en chef</td>
-                                <td>Voit toutes les soumissions, assigne les éditeurs aux articles, modifie les capacités des autres utilisateurs</td>
-                            </tr>
-                            <tr>
-                                <td><code>editor</code> — Éditeur</td>
-                                <td>Peut prendre en charge un article (auto-attribution) ou se voir assigner un article par le rédac en chef, désigne les relecteurs, synthétise les retours</td>
-                            </tr>
-                            <tr>
-                                <td><code>reviewer</code> — Relecteur</td>
-                                <td>Accède aux manuscrits pour lesquels il est invité, soumet un rapport de relecture. <strong>Non anonyme</strong> par décision éditoriale.</td>
-                            </tr>
-                            <tr>
-                                <td><code>layout_editor</code> — Maquettiste</td>
-                                <td>Accède aux articles acceptés, crée/édite la maquette, génère le PDF final</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="doc-info">
-                    <strong>Différence capacité vs rôle :</strong> le rôle (colonne <code>users.role</code>) détermine l'accès global à l'extranet. Les capacités (table <code>editorial_capabilities</code>) déterminent ce qu'un utilisateur peut faire <em>dans le workflow éditorial</em>. Un même utilisateur peut cumuler plusieurs capacités (ex. un membre du comité de rédac est à la fois <code>editor</code> et <code>reviewer</code>).<br>
-                    <strong>Séparation des rôles sur un article :</strong> un utilisateur ne peut pas être à la fois éditeur et relecteur du <em>même</em> article. Le système bloque l'assignation avec une exception <code>RoleConflictException</code> ; un override explicite ("forcer") est possible pour les exceptions ponctuelles, et est tracé dans le log des transitions.<br>
-                    <strong>Backfill :</strong> lors de la mise en place (avril 2026), les capacités ont été dérivées du rôle existant : <code>admin</code> → toutes les capacités ; <code>editor</code> → editor + reviewer ; <code>reviewer</code> → reviewer.
-                </div>
+                <h3>Capacités éditoriales Chersotis</h3>
+                <p>En complément du rôle global, un système de <strong>capacités éditoriales</strong> (chief_editor, editor, reviewer, layout_editor) permet à un même utilisateur d'occuper plusieurs rôles dans la revue Chersotis. Voir la section dédiée <a href="#capacites-editoriales" style="color:#356B8A;">Capacités éditoriales</a> pour le détail des 4 rôles, la règle de séparation, et la gestion.</p>
             </section>
 
             {{-- Inscription et rattachement --}}
@@ -2184,14 +2149,8 @@
                     </table>
                 </div>
 
-                <h3>Capacités éditoriales Chersotis</h3>
-                <p>Sur la page d'édition d'un utilisateur (<code>/extranet/users/{id}/edit</code>), une section <strong>"Capacités éditoriales Chersotis"</strong> affiche 4 cases à cocher : Rédacteur en chef, Éditeur, Relecteur, Maquettiste. Seuls les administrateurs et les rédacteurs en chef peuvent modifier ces capacités ; les autres utilisateurs voient les cases en lecture seule.</p>
-
-                <p>Chaque modification (ajout/retrait d'une capacité) est tracée dans la table <code>audit_logs</code> avec <code>table_name='editorial_capabilities'</code>, <code>action='INSERT'</code> ou <code>'DELETE'</code>, et une description lisible ("Capacité 'editor' accordée à {Nom}"). Les capacités elles-mêmes sont stockées dans <code>editorial_capabilities</code> avec <code>granted_by_user_id</code> et <code>granted_at</code>.</p>
-
-                <div class="doc-info">
-                    <strong>Voir aussi :</strong> la section <a href="#capacites-editoriales" class="doc-nav-link" style="display:inline">Capacités éditoriales</a> pour la description de chaque rôle et les règles de séparation.
-                </div>
+                <h3>Capacités éditoriales</h3>
+                <p>La page d'édition d'un utilisateur inclut une section pour gérer ses capacités éditoriales Chersotis (4 cases à cocher). Chaque modification est tracée dans <code>audit_logs</code>. Voir la section <a href="#capacites-editoriales" style="color:#356B8A;">Capacités éditoriales</a> pour le détail.</p>
 
                 <h3>Actions disponibles</h3>
                 <ul>
