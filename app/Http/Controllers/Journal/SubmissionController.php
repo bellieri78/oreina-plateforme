@@ -98,10 +98,14 @@ class SubmissionController extends Controller
      */
     public function show(Submission $submission)
     {
-        // Check authorization
         if ($submission->author_id !== Auth::id()) {
             abort(403, 'Vous n\'êtes pas autorisé à voir cette soumission.');
         }
+
+        $submission->load(['transitions' => function ($q) {
+            $q->where('action', \App\Models\SubmissionTransition::ACTION_STATUS_CHANGED)
+              ->orderBy('created_at', 'desc');
+        }]);
 
         return view('journal.submissions.show', compact('submission'));
     }
