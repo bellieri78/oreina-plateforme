@@ -100,16 +100,18 @@ class SubmissionPolicyTransitionTest extends TestCase
         $this->assertFalse($this->policy->transitionTo($editor, $submission, SubmissionStatus::UnderInitialReview));
     }
 
-    public function test_submitted_to_under_initial_review_is_not_manually_callable(): void
+    public function test_submitted_to_under_initial_review_callable_by_assigned_editor_or_chief(): void
     {
         $editor = User::factory()->create(['email_verified_at' => now()]);
         $editor->grantCapability(EditorialCapability::EDITOR);
         $chief = User::factory()->create(['email_verified_at' => now()]);
         $chief->grantCapability(EditorialCapability::CHIEF_EDITOR);
+        $stranger = User::factory()->create(['email_verified_at' => now()]);
         $submission = $this->makeSubmission(SubmissionStatus::Submitted, editorId: $editor->id);
 
-        $this->assertFalse($this->policy->transitionTo($editor, $submission, SubmissionStatus::UnderInitialReview));
-        $this->assertFalse($this->policy->transitionTo($chief, $submission, SubmissionStatus::UnderInitialReview));
+        $this->assertTrue($this->policy->transitionTo($editor, $submission, SubmissionStatus::UnderInitialReview));
+        $this->assertTrue($this->policy->transitionTo($chief, $submission, SubmissionStatus::UnderInitialReview));
+        $this->assertFalse($this->policy->transitionTo($stranger, $submission, SubmissionStatus::UnderInitialReview));
     }
 
     public function test_layout_editor_can_publish(): void

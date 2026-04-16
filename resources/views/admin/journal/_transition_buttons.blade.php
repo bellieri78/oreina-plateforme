@@ -16,6 +16,7 @@
     ];
 
     $candidates = [
+        ['target' => SubmissionStatus::UnderInitialReview,   'label' => 'Commencer l\'évaluation',        'color' => 'indigo', 'needsNotes' => false, 'notesRequired' => false],
         ['target' => SubmissionStatus::RevisionRequested,    'label' => 'Demander révision',              'color' => 'amber',  'needsNotes' => true,  'notesRequired' => false],
         ['target' => SubmissionStatus::UnderPeerReview,      'label' => 'Envoyer en relecture',           'color' => 'indigo', 'needsNotes' => false, 'notesRequired' => false],
         ['target' => SubmissionStatus::RevisionAfterReview,  'label' => 'Demander révision (relecture)',  'color' => 'orange', 'needsNotes' => true,  'notesRequired' => false],

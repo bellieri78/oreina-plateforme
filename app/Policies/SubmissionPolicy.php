@@ -101,7 +101,11 @@ class SubmissionPolicy
             SubmissionStatus::UnderInitialReview =>
                 $current === SubmissionStatus::RevisionRequested
                     ? $user->id === $submission->author_id
-                    : false,
+                    : ($current === SubmissionStatus::Submitted
+                        ? ($user->isAdmin()
+                            || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                            || $submission->editor_id === $user->id)
+                        : false),
 
             SubmissionStatus::UnderPeerReview =>
                 $current === SubmissionStatus::RevisionAfterReview
