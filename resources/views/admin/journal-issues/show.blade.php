@@ -83,18 +83,18 @@
                                     </td>
                                     <td>{{ $sub->author?->name ?? '-' }}</td>
                                     <td>
-                                        @switch($sub->status)
+                                        @switch($sub->status instanceof \App\Enums\SubmissionStatus ? $sub->status->value : $sub->status)
                                             @case('published')
                                                 <span class="badge badge-success">Publie</span>
                                                 @break
                                             @case('accepted')
                                                 <span class="badge badge-info">Accepte</span>
                                                 @break
-                                            @case('in_review')
+                                            @case('under_peer_review')
                                                 <span class="badge badge-warning">En review</span>
                                                 @break
                                             @default
-                                                <span class="badge badge-secondary">{{ $sub->status }}</span>
+                                                <span class="badge badge-secondary">{{ $sub->status instanceof \App\Enums\SubmissionStatus ? $sub->status->label() : $sub->status }}</span>
                                         @endswitch
                                     </td>
                                     <td>

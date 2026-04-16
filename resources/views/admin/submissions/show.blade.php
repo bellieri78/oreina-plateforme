@@ -15,25 +15,26 @@
                     $stages = [
                         'draft' => ['label' => 'Brouillon', 'icon' => 'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z'],
                         'submitted' => ['label' => 'Soumis', 'icon' => 'M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5'],
-                        'desk_review' => ['label' => 'Eval. initiale', 'icon' => 'M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z'],
-                        'in_review' => ['label' => 'En review', 'icon' => 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'],
-                        'revision' => ['label' => 'Revision', 'icon' => 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'],
+                        'under_initial_review' => ['label' => 'Eval. initiale', 'icon' => 'M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z'],
+                        'under_peer_review' => ['label' => 'En review', 'icon' => 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'],
+                        'revision_after_review' => ['label' => 'Revision', 'icon' => 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'],
                         'accepted' => ['label' => 'Accepte', 'icon' => 'M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'],
                         'published' => ['label' => 'Publie', 'icon' => 'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25'],
                     ];
                     $statusOrder = array_keys($stages);
-                    $currentIndex = array_search($submission->status, $statusOrder);
-                    if ($submission->status === 'rejected') {
-                        $currentIndex = array_search('in_review', $statusOrder);
+                    $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
+                    $currentIndex = array_search($submissionStatusValue, $statusOrder);
+                    if ($submissionStatusValue === 'rejected') {
+                        $currentIndex = array_search('under_peer_review', $statusOrder);
                     }
                 @endphp
 
                 @foreach($stages as $key => $stage)
                     @php
                         $index = array_search($key, $statusOrder);
-                        $isActive = $submission->status === $key;
+                        $isActive = $submissionStatusValue === $key;
                         $isPast = $index < $currentIndex;
-                        $isRejected = $submission->status === 'rejected' && $key === 'in_review';
+                        $isRejected = $submissionStatusValue === 'rejected' && $key === 'under_peer_review';
                     @endphp
                     <div class="workflow-step {{ $isActive ? 'active' : '' }} {{ $isPast ? 'completed' : '' }} {{ $isRejected ? 'rejected' : '' }}">
                         <div class="step-icon">
@@ -68,7 +69,7 @@
                                 Assigner reviewer
                             </a>
                         @endif
-                        @if(in_array($submission->status, ['accepted', 'published']))
+                        @if(in_array($submissionStatusValue, ['accepted', 'published']))
                             <a href="{{ route('admin.submissions.layout', $submission) }}" class="btn btn-turquoise">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
@@ -156,17 +157,17 @@
                         $statusColors = [
                             'draft' => 'secondary',
                             'submitted' => 'info',
-                            'desk_review' => 'warning',
-                            'in_review' => 'primary',
-                            'revision' => 'warning',
+                            'under_initial_review' => 'warning',
+                            'under_peer_review' => 'primary',
+                            'revision_after_review' => 'warning',
                             'accepted' => 'success',
                             'rejected' => 'danger',
                             'published' => 'success',
                         ];
                     @endphp
                     <div style="margin-bottom: 1rem;">
-                        <span class="badge badge-{{ $statusColors[$submission->status] ?? 'secondary' }}" style="font-size: 1rem; padding: 0.5rem 1rem;">
-                            {{ \App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status }}
+                        <span class="badge badge-{{ $statusColors[$submissionStatusValue] ?? 'secondary' }}" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                            {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : (\App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status) }}
                         </span>
                     </div>
 
@@ -185,11 +186,11 @@
                     @endif
 
                     {{-- Quick Actions --}}
-                    @if(!in_array($submission->status, ['published', 'rejected']))
+                    @if(!in_array($submissionStatusValue, ['published', 'rejected']))
                         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
                             <div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.5rem;">Actions rapides :</div>
                             <div class="quick-actions">
-                                @switch($submission->status)
+                                @switch($submissionStatusValue)
                                     @case('draft')
                                         <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
                                             @csrf @method('PUT')
@@ -204,16 +205,16 @@
                                             @csrf @method('PUT')
                                             <input type="hidden" name="title" value="{{ $submission->title }}">
                                             <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="desk_review">
+                                            <input type="hidden" name="status" value="under_initial_review">
                                             <button type="submit" class="btn btn-primary">Evaluer</button>
                                         </form>
                                         @break
-                                    @case('desk_review')
+                                    @case('under_initial_review')
                                         <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
                                             @csrf @method('PUT')
                                             <input type="hidden" name="title" value="{{ $submission->title }}">
                                             <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="in_review">
+                                            <input type="hidden" name="status" value="under_peer_review">
                                             <button type="submit" class="btn btn-primary">Envoyer en review</button>
                                         </form>
                                         <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
@@ -224,7 +225,7 @@
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('Rejeter cette soumission ?')">Rejeter</button>
                                         </form>
                                         @break
-                                    @case('in_review')
+                                    @case('under_peer_review')
                                         @if($submission->completedReviews()->count() >= 1)
                                             <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
                                                 @csrf @method('PUT')
@@ -238,7 +239,7 @@
                                                 @csrf @method('PUT')
                                                 <input type="hidden" name="title" value="{{ $submission->title }}">
                                                 <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                                <input type="hidden" name="status" value="revision">
+                                                <input type="hidden" name="status" value="revision_after_review">
                                                 <input type="hidden" name="decision" value="minor_revision">
                                                 <button type="submit" class="btn btn-warning">Demander revision</button>
                                             </form>
@@ -254,12 +255,12 @@
                                             <span style="font-size: 0.75rem; color: #9ca3af;">En attente des reviews...</span>
                                         @endif
                                         @break
-                                    @case('revision')
+                                    @case('revision_after_review')
                                         <form action="{{ route('admin.submissions.update', $submission) }}" method="POST" style="display: inline;">
                                             @csrf @method('PUT')
                                             <input type="hidden" name="title" value="{{ $submission->title }}">
                                             <input type="hidden" name="author_id" value="{{ $submission->author_id }}">
-                                            <input type="hidden" name="status" value="in_review">
+                                            <input type="hidden" name="status" value="under_peer_review">
                                             <button type="submit" class="btn btn-primary">Remettre en review</button>
                                         </form>
                                         @break
@@ -383,7 +384,7 @@
             @endif
 
             {{-- Publication & PDF (only for accepted or published) --}}
-            @if(in_array($submission->status, ['accepted', 'published']))
+            @if(in_array($submissionStatusValue, ['accepted', 'published']))
                 {{-- Layout Status Card --}}
                 <div class="card" style="margin-top: 1.5rem;">
                     <div class="card-header">
@@ -529,7 +530,7 @@
                         </div>
 
                         {{-- Publish Action (only for accepted) --}}
-                        @if($submission->status === 'accepted')
+                        @if($submissionStatusValue === 'accepted')
                             <div class="publication-section" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
                                 <h4>Publication finale</h4>
                                 <form action="{{ route('admin.submissions.publish', $submission) }}" method="POST">

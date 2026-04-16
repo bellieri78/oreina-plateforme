@@ -201,16 +201,17 @@
                                     $statusColors = [
                                         'draft' => 'default',
                                         'submitted' => 'info',
-                                        'desk_review' => 'warning',
-                                        'in_review' => 'primary',
-                                        'revision' => 'warning',
+                                        'under_initial_review' => 'warning',
+                                        'under_peer_review' => 'primary',
+                                        'revision_after_review' => 'warning',
                                         'accepted' => 'success',
                                         'rejected' => 'danger',
                                         'published' => 'success',
                                     ];
+                                    $sStatusValue = $s->status instanceof \App\Enums\SubmissionStatus ? $s->status->value : $s->status;
                                 @endphp
-                                <span class="badge badge-{{ $statusColors[$s->status] ?? 'default' }}">
-                                    {{ \App\Models\Submission::getStatuses()[$s->status] ?? $s->status }}
+                                <span class="badge badge-{{ $statusColors[$sStatusValue] ?? 'default' }}">
+                                    {{ $s->status instanceof \App\Enums\SubmissionStatus ? $s->status->label() : (\App\Models\Submission::getStatuses()[$s->status] ?? $s->status) }}
                                 </span>
                                 @if($s->decision)
                                     <div class="text-muted" style="font-size: 0.7rem; margin-top: 0.25rem;">

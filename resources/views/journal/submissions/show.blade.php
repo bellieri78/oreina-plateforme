@@ -21,22 +21,22 @@
                             $statusColors = [
                                 'draft' => 'bg-slate-100 text-slate-700',
                                 'submitted' => 'bg-blue-100 text-blue-700',
-                                'desk_review' => 'bg-yellow-100 text-yellow-700',
-                                'in_review' => 'bg-purple-100 text-purple-700',
-                                'revision' => 'bg-orange-100 text-orange-700',
+                                'under_initial_review' => 'bg-yellow-100 text-yellow-700',
+                                'under_peer_review' => 'bg-purple-100 text-purple-700',
+                                'revision_after_review' => 'bg-orange-100 text-orange-700',
                                 'accepted' => 'bg-green-100 text-green-700',
                                 'rejected' => 'bg-red-100 text-red-700',
                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                             ];
-                            $statusLabels = \App\Models\Submission::getStatuses();
+                            $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
                         @endphp
-                        <span class="inline-flex px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submission->status] ?? 'bg-slate-100 text-slate-700' }}">
-                            {{ $statusLabels[$submission->status] ?? $submission->status }}
+                        <span class="inline-flex px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submissionStatusValue] ?? 'bg-slate-100 text-slate-700' }}">
+                            {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : (\App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status) }}
                         </span>
                         <h1 class="text-2xl sm:text-3xl font-bold text-oreina-dark mt-3">{{ $submission->title }}</h1>
                     </div>
 
-                    @if($submission->status === 'revision')
+                    @if($submission->status?->value === 'revision_after_review')
                         <a href="{{ route('journal.submissions.edit', $submission) }}" class="btn-turquoise">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1M12 12V4m0 0L8 8m4-4 4 4"/>
@@ -78,16 +78,16 @@
                         @php
                             $steps = [
                                 ['key' => 'submitted', 'label' => 'Soumis', 'date' => $submission->submitted_at],
-                                ['key' => 'in_review', 'label' => 'En évaluation', 'date' => null],
+                                ['key' => 'under_peer_review', 'label' => 'En évaluation', 'date' => null],
                                 ['key' => 'decision', 'label' => 'Décision', 'date' => $submission->decision_at],
                                 ['key' => 'published', 'label' => 'Publié', 'date' => $submission->published_at],
                             ];
 
-                            $currentStepIndex = match($submission->status) {
+                            $currentStepIndex = match($submissionStatusValue) {
                                 'draft' => -1,
-                                'submitted', 'desk_review' => 0,
-                                'in_review' => 1,
-                                'revision', 'accepted', 'rejected' => 2,
+                                'submitted', 'under_initial_review' => 0,
+                                'under_peer_review' => 1,
+                                'revision_after_review', 'accepted', 'rejected' => 2,
                                 'published' => 3,
                                 default => 0,
                             };
@@ -168,7 +168,7 @@
                             </div>
                         @endif
 
-                        @if(in_array($submission->decision, ['minor_revision', 'major_revision']) && $submission->status === 'revision')
+                        @if(in_array($submission->decision, ['minor_revision', 'major_revision']) && $submissionStatusValue === 'revision_after_review')
                             <div class="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-xl">
                                 <p class="text-orange-800 font-medium mb-2">Une révision est demandée</p>
                                 <p class="text-sm text-orange-700">Veuillez prendre en compte les commentaires ci-dessus et soumettre une version révisée de votre manuscrit.</p>
@@ -244,7 +244,7 @@
                 </div>
 
                 {{-- Publication info (if published) --}}
-                @if($submission->status === 'published' && $submission->journalIssue)
+                @if($submissionStatusValue === 'published' && $submission->journalIssue)
                     <div class="bg-gradient-to-br from-oreina-turquoise/10 to-oreina-green/10 rounded-2xl border border-oreina-turquoise/30 p-6">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="w-10 h-10 bg-oreina-turquoise rounded-lg flex items-center justify-center">

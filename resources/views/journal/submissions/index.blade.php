@@ -42,17 +42,17 @@
                                             $statusColors = [
                                                 'draft' => 'bg-slate-100 text-slate-700',
                                                 'submitted' => 'bg-blue-100 text-blue-700',
-                                                'desk_review' => 'bg-yellow-100 text-yellow-700',
-                                                'in_review' => 'bg-purple-100 text-purple-700',
-                                                'revision' => 'bg-orange-100 text-orange-700',
+                                                'under_initial_review' => 'bg-yellow-100 text-yellow-700',
+                                                'under_peer_review' => 'bg-purple-100 text-purple-700',
+                                                'revision_after_review' => 'bg-orange-100 text-orange-700',
                                                 'accepted' => 'bg-green-100 text-green-700',
                                                 'rejected' => 'bg-red-100 text-red-700',
                                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                                             ];
-                                            $statusLabels = \App\Models\Submission::getStatuses();
+                                            $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
                                         @endphp
-                                        <span class="px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submission->status] ?? 'bg-slate-100 text-slate-700' }}">
-                                            {{ $statusLabels[$submission->status] ?? $submission->status }}
+                                        <span class="px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submissionStatusValue] ?? 'bg-slate-100 text-slate-700' }}">
+                                            {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : (\App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status) }}
                                         </span>
                                         <span class="text-sm text-slate-500">
                                             Soumis le {{ $submission->submitted_at?->format('d/m/Y') ?? $submission->created_at->format('d/m/Y') }}
@@ -90,7 +90,7 @@
                                     <a href="{{ route('journal.submissions.show', $submission) }}" class="px-4 py-2 text-sm font-semibold text-oreina-turquoise hover:bg-oreina-turquoise/10 rounded-lg transition">
                                         Voir détails
                                     </a>
-                                    @if($submission->status === 'revision')
+                                    @if($submission->status?->value === 'revision_after_review')
                                         <a href="{{ route('journal.submissions.edit', $submission) }}" class="px-4 py-2 text-sm font-semibold bg-orange-100 text-orange-700 hover:bg-orange-200 rounded-lg transition">
                                             Soumettre révision
                                         </a>

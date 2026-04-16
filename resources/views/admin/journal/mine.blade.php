@@ -26,7 +26,7 @@
                     <tr>
                         <td class="px-4 py-3"><strong>{{ $s->title }}</strong></td>
                         <td class="px-4 py-3">{{ $s->author?->name }}</td>
-                        <td class="px-4 py-3">{{ \App\Models\Submission::getStatuses()[$s->status] ?? $s->status }}</td>
+                        <td class="px-4 py-3">{{ $s->status instanceof \App\Enums\SubmissionStatus ? $s->status->label() : ($s->status ?? '') }}</td>
                         <td class="px-4 py-3">
                             {{ $s->reviews->where('status', \App\Models\Review::STATUS_COMPLETED)->count() }}
                             / {{ $s->reviews->count() }}
