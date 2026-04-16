@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Journal;
 use App\Enums\SubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Submission;
+use App\Mail\NewSubmissionAlert;
+use App\Mail\SubmissionReceived;
+use App\Models\EditorialCapability;
+use App\Models\User;
 use App\Rules\SafeUpload;
 use App\Services\SubmissionFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class SubmissionController extends Controller
@@ -88,6 +93,19 @@ class SubmissionController extends Controller
         }
         $submission->supplementary_files = $supp;
         $submission->save();
+
+        // Confirmation email to author
+        Mail::to(Auth::user())->queue(new SubmissionReceived($submission));
+
+        // Alert to all editors and chief editors
+        $editors = User::where(function ($q) {
+            $q->whereHas('capabilities', fn($c) => $c->where('capability', EditorialCapability::EDITOR))
+              ->orWhereHas('capabilities', fn($c) => $c->where('capability', EditorialCapability::CHIEF_EDITOR));
+        })->get();
+
+        foreach ($editors as $editor) {
+            Mail::to($editor)->queue(new NewSubmissionAlert($submission));
+        }
 
         return redirect()->route('journal.submissions.show', $submission)
             ->with('success', 'Votre manuscrit a été soumis avec succès. Vous recevrez une notification lors de son examen.');

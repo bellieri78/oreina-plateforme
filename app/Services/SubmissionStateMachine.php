@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\Enums\SubmissionStatus;
 use App\Exceptions\Editorial\IllegalTransitionException;
+use App\Mail\SubmissionDecision;
 use App\Models\Submission;
 use App\Models\SubmissionTransition;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class SubmissionStateMachine
 {
@@ -65,6 +67,13 @@ class SubmissionStateMachine
             toStatus: $target->value,
             notes: $notes,
         );
+
+        if (in_array($target, [SubmissionStatus::Accepted, SubmissionStatus::Rejected], true)) {
+            $submission->load('author');
+            if ($submission->author) {
+                Mail::to($submission->author)->queue(new SubmissionDecision($submission));
+            }
+        }
     }
 
     public function canTransition(SubmissionStatus $from, SubmissionStatus $to): bool
