@@ -44,9 +44,11 @@
                                                 'submitted' => 'bg-blue-100 text-blue-700',
                                                 'under_initial_review' => 'bg-yellow-100 text-yellow-700',
                                                 'under_peer_review' => 'bg-purple-100 text-purple-700',
+                                                'revision_requested' => 'bg-orange-100 text-orange-700',
                                                 'revision_after_review' => 'bg-orange-100 text-orange-700',
                                                 'accepted' => 'bg-green-100 text-green-700',
                                                 'rejected' => 'bg-red-100 text-red-700',
+                                                'in_production' => 'bg-teal-100 text-teal-700',
                                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                                             ];
                                             $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
@@ -54,6 +56,11 @@
                                         <span class="px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submissionStatusValue] ?? 'bg-slate-100 text-slate-700' }}">
                                             {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : (\App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status) }}
                                         </span>
+                                        @if(in_array($submissionStatusValue, ['revision_requested', 'revision_after_review']))
+                                            <span class="px-2 py-0.5 text-xs font-bold rounded-lg bg-orange-100 text-orange-700 animate-pulse">
+                                                Action requise
+                                            </span>
+                                        @endif
                                         <span class="text-sm text-slate-500">
                                             Soumis le {{ $submission->submitted_at?->format('d/m/Y') ?? $submission->created_at->format('d/m/Y') }}
                                         </span>
