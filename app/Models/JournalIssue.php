@@ -10,6 +10,7 @@ class JournalIssue extends Model
     protected $fillable = [
         'volume_number',
         'issue_number',
+        'year',
         'title',
         'slug',
         'description',
@@ -23,6 +24,7 @@ class JournalIssue extends Model
 
     protected $casts = [
         'publication_date' => 'date',
+        'year' => 'integer',
     ];
 
     public function submissions(): HasMany
