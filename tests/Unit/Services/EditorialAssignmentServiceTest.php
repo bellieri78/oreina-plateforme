@@ -203,4 +203,47 @@ class EditorialAssignmentServiceTest extends TestCase
 
         $this->assertSame($layout->id, $submission->fresh()->layout_editor_id);
     }
+
+    public function test_take_editor_auto_transitions_submitted_to_under_initial_review(): void
+    {
+        $submission = $this->makeSubmission();
+        $editor = $this->makeEditor();
+
+        $this->service->takeEditor($submission, $editor);
+
+        $this->assertSame('under_initial_review', $submission->fresh()->status->value);
+        $this->assertDatabaseHas('submission_transitions', [
+            'submission_id' => $submission->id,
+            'action' => \App\Models\SubmissionTransition::ACTION_STATUS_CHANGED,
+            'from_status' => 'submitted',
+            'to_status' => 'under_initial_review',
+        ]);
+    }
+
+    public function test_take_editor_does_not_transition_if_not_submitted(): void
+    {
+        $submission = $this->makeSubmission();
+        \App\Models\Submission::where('id', $submission->id)->update(['status' => 'under_initial_review']);
+        $submission->refresh();
+        $editor = $this->makeEditor();
+
+        $this->service->takeEditor($submission, $editor);
+
+        $this->assertSame('under_initial_review', $submission->fresh()->status->value);
+        $this->assertDatabaseMissing('submission_transitions', [
+            'submission_id' => $submission->id,
+            'action' => \App\Models\SubmissionTransition::ACTION_STATUS_CHANGED,
+        ]);
+    }
+
+    public function test_assign_editor_auto_transitions_submitted(): void
+    {
+        $submission = $this->makeSubmission();
+        $editor = $this->makeEditor();
+        $chief = $this->makeChief();
+
+        $this->service->assignEditor($submission, $editor, $chief);
+
+        $this->assertSame('under_initial_review', $submission->fresh()->status->value);
+    }
 }

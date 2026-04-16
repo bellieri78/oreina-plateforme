@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\SubmissionStatus;
 use App\Exceptions\Editorial\AlreadyAssignedException;
 use App\Exceptions\Editorial\IneligibleUserException;
 use App\Exceptions\Editorial\RoleConflictException;
@@ -15,7 +16,10 @@ class EditorialAssignmentService
 {
     public const OVERRIDE_NOTE = 'Override: séparation des rôles forcée';
 
-    public function __construct(private SubmissionTransitionLogger $logger) {}
+    public function __construct(
+        private SubmissionTransitionLogger $logger,
+        private SubmissionStateMachine $stateMachine,
+    ) {}
 
     public function assignEditor(Submission $submission, User $target, User $actor, bool $override = false): void
     {
@@ -34,6 +38,17 @@ class EditorialAssignmentService
             target: $target,
             notes: $override ? self::OVERRIDE_NOTE : null,
         );
+
+        $submission->refresh();
+
+        if ($submission->status === SubmissionStatus::Submitted) {
+            $this->stateMachine->transition(
+                $submission,
+                SubmissionStatus::UnderInitialReview,
+                $actor,
+                notes: 'Transition automatique suite à prise en charge éditeur'
+            );
+        }
     }
 
     public function takeEditor(Submission $submission, User $actor): void
@@ -61,6 +76,15 @@ class EditorialAssignmentService
             actor: $actor,
             target: $actor,
         );
+
+        if ($submission->status === SubmissionStatus::Submitted) {
+            $this->stateMachine->transition(
+                $submission,
+                SubmissionStatus::UnderInitialReview,
+                $actor,
+                notes: 'Transition automatique suite à prise en charge éditeur'
+            );
+        }
     }
 
     public function revokeEditor(Submission $submission, User $actor): void
