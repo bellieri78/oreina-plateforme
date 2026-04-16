@@ -172,9 +172,15 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
 */
 
 Route::middleware('signed')->prefix('revue/relecture')->group(function () {
-    Route::get('{review}/repondre', function () { abort(404, 'Not yet implemented'); })->name('review.respond');
-    Route::post('{review}/accepter', function () { abort(404, 'Not yet implemented'); })->name('review.accept');
-    Route::post('{review}/decliner', function () { abort(404, 'Not yet implemented'); })->name('review.decline');
+    Route::get('{review}/repondre', [\App\Http\Controllers\Journal\ReviewResponseController::class, 'show'])->name('review.respond');
+    Route::post('{review}/accepter', [\App\Http\Controllers\Journal\ReviewResponseController::class, 'accept'])->name('review.accept');
+    Route::post('{review}/decliner', [\App\Http\Controllers\Journal\ReviewResponseController::class, 'decline'])->name('review.decline');
+});
+
+// Review form (authenticated) — placeholder, real controller in T5
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('revue/relecture/{review}/evaluer', function () { abort(404); })->name('review.form');
+    Route::post('revue/relecture/{review}/evaluer', function () { abort(404); })->name('review.form.store');
 });
 
 /*
