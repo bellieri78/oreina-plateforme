@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('review.form.store', $review) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('journal.review.form.store', $review) }}" enctype="multipart/form-data">
             @csrf
 
             <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6 mb-6">

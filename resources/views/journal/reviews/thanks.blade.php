@@ -33,8 +33,8 @@
                     Vous avez jusqu'au <strong>{{ $review->due_date?->format('d/m/Y') }}</strong> pour soumettre votre évaluation.
                     Connectez-vous à votre compte pour accéder au formulaire de relecture.
                 </p>
-                @if(Route::has('review.form'))
-                    <a href="{{ route('review.form', $review) }}" class="inline-flex items-center gap-2 px-6 py-3 bg-oreina-turquoise text-white font-semibold rounded-lg hover:bg-oreina-dark transition">
+                @if(Route::has('journal.review.form'))
+                    <a href="{{ route('journal.review.form', $review) }}" class="inline-flex items-center gap-2 px-6 py-3 bg-oreina-turquoise text-white font-semibold rounded-lg hover:bg-oreina-dark transition">
                         Accéder au formulaire de relecture
                     </a>
                 @endif

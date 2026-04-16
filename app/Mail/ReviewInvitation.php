@@ -38,7 +38,7 @@ class ReviewInvitation extends Mailable implements ShouldQueue
                 'submission' => $this->review->submission,
                 'dueDate' => $this->review->due_date?->format('d/m/Y'),
                 'assignedBy' => $this->review->assignedBy,
-                'respondUrl' => URL::signedRoute('review.respond', ['review' => $this->review->id]),
+                'respondUrl' => URL::signedRoute('journal.review.respond', ['review' => $this->review->id]),
             ],
         );
     }

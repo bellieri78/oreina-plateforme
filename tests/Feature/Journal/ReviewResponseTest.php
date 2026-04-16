@@ -42,7 +42,7 @@ class ReviewResponseTest extends TestCase
     {
         Mail::fake();
         $review = $this->makeReviewInvitation();
-        $url = URL::signedRoute('review.accept', ['review' => $review->id]);
+        $url = URL::signedRoute('journal.review.accept', ['review' => $review->id]);
 
         $this->post($url)->assertOk();
 
@@ -56,7 +56,7 @@ class ReviewResponseTest extends TestCase
     {
         Mail::fake();
         $review = $this->makeReviewInvitation();
-        $url = URL::signedRoute('review.decline', ['review' => $review->id]);
+        $url = URL::signedRoute('journal.review.decline', ['review' => $review->id]);
 
         $this->post($url)->assertOk();
 
@@ -69,7 +69,7 @@ class ReviewResponseTest extends TestCase
         $review = $this->makeReviewInvitation();
         $review->update(['status' => Review::STATUS_ACCEPTED, 'responded_at' => now()]);
 
-        $url = URL::signedRoute('review.respond', ['review' => $review->id]);
+        $url = URL::signedRoute('journal.review.respond', ['review' => $review->id]);
         $this->get($url)->assertOk()->assertSee('déjà été traitée', false);
     }
 

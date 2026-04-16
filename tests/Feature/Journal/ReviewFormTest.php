@@ -45,7 +45,7 @@ class ReviewFormTest extends TestCase
         [$reviewer, $review] = $this->makeAcceptedReview();
 
         $this->actingAs($reviewer)
-            ->post(route('review.form.store', $review), [
+            ->post(route('journal.review.form.store', $review), [
                 'score_originality' => 4,
                 'score_methodology' => 3,
                 'score_clarity' => 5,
@@ -71,7 +71,7 @@ class ReviewFormTest extends TestCase
         $stranger = User::factory()->create(['email_verified_at' => now()]);
 
         $this->actingAs($stranger)
-            ->get(route('review.form', $review))
+            ->get(route('journal.review.form', $review))
             ->assertForbidden();
     }
 
@@ -81,7 +81,7 @@ class ReviewFormTest extends TestCase
         $review->update(['status' => Review::STATUS_INVITED]);
 
         $this->actingAs($reviewer)
-            ->get(route('review.form', $review))
+            ->get(route('journal.review.form', $review))
             ->assertForbidden();
     }
 }

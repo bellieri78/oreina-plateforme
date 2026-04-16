@@ -33,14 +33,14 @@
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3">
-                <form method="POST" action="{{ URL::signedRoute('review.accept', ['review' => $review->id]) }}" class="flex-1">
+                <form method="POST" action="{{ URL::signedRoute('journal.review.accept', ['review' => $review->id]) }}" class="flex-1">
                     @csrf
                     <button type="submit" class="w-full px-6 py-3 bg-oreina-green text-white font-semibold rounded-lg hover:bg-oreina-dark transition">
                         Accepter l'invitation
                     </button>
                 </form>
 
-                <form method="POST" action="{{ URL::signedRoute('review.decline', ['review' => $review->id]) }}" class="flex-1">
+                <form method="POST" action="{{ URL::signedRoute('journal.review.decline', ['review' => $review->id]) }}" class="flex-1">
                     @csrf
                     <button type="submit" class="w-full px-6 py-3 bg-white border-2 border-red-300 text-red-700 font-semibold rounded-lg hover:bg-red-50 transition"
                             onclick="return confirm('Êtes-vous sûr(e) de vouloir décliner ?')">

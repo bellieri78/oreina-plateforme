@@ -74,46 +74,29 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Journal Routes (Revue scientifique)
+| Journal Routes (Revue Chersotis)
 |--------------------------------------------------------------------------
+| En prod : sous-domaine chersotis.oreina.org (routes à la racine /)
+| En dev  : préfixe /revue sur localhost (JOURNAL_DOMAIN=localhost)
+| Les routes sont définies dans routes/journal.php (fichier dédié).
 */
 
-Route::prefix('revue')->name('journal.')->group(function () {
-    // Page d'accueil revue
-    Route::get('/', [JournalController::class, 'home'])->name('home');
+$journalDomain = config('journal.domain');
+$useSubdomain = $journalDomain && $journalDomain !== 'localhost';
 
-    // Recherche
-    Route::get('/recherche', [JournalController::class, 'search'])->name('search');
+if ($useSubdomain) {
+    // Production : chersotis.oreina.org/ = racine de la revue
+    Route::domain($journalDomain)->name('journal.')->group(base_path('routes/journal.php'));
 
-    // Articles scientifiques
-    Route::get('/articles', [JournalController::class, 'articles'])->name('articles.index');
-    Route::get('/articles/{submission}', [JournalController::class, 'showArticle'])->name('articles.show');
-
-    // Numéros / Archives
-    Route::get('/numeros', [JournalController::class, 'issues'])->name('issues.index');
-    Route::get('/numeros/{issue:slug}', [JournalController::class, 'showIssue'])->name('issues.show');
-
-    // Soumission
-    Route::get('/soumettre', [JournalController::class, 'submit'])->name('submit');
-
-    // Pages statiques
-    Route::get('/instructions-auteurs', [JournalController::class, 'authors'])->name('authors');
-    Route::get('/a-propos', [JournalController::class, 'about'])->name('about');
-
-    // Soumissions (routes authentifiées)
-    Route::prefix('mes-soumissions')->name('submissions.')->middleware(['auth', 'verified'])->group(function () {
-        Route::get('/', [SubmissionController::class, 'index'])->name('index');
-        Route::get('/nouvelle', [SubmissionController::class, 'create'])->name('create');
-        Route::post('/', [SubmissionController::class, 'store'])->name('store');
-        Route::get('/{submission}', [SubmissionController::class, 'show'])->name('show');
-        Route::get('/{submission}/revision', [SubmissionController::class, 'edit'])->name('edit');
-        Route::put('/{submission}', [SubmissionController::class, 'update'])->name('update');
-
-        Route::get('/{submission}/fichier/{path}', [SubmissionFileController::class, 'download'])
-            ->where('path', '.*')
-            ->name('file.download');
+    // Redirect /revue/* vers le sous-domaine (backward compat)
+    Route::prefix('revue')->group(function () use ($journalDomain) {
+        Route::get('{any?}', fn(string $any = '') => redirect()->away("https://{$journalDomain}/{$any}", 301))
+            ->where('any', '.*');
     });
-});
+} else {
+    // Dev local : /revue/* comme avant
+    Route::prefix('revue')->name('journal.')->group(base_path('routes/journal.php'));
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -168,21 +151,12 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
 
 /*
 |--------------------------------------------------------------------------
-| Review Response Routes (signed URLs, public)
+| Review Response + Form Routes
 |--------------------------------------------------------------------------
+| Incluses dans routes/journal.php (chargé ci-dessus via le bloc Journal).
+| Les routes review.respond/accept/decline/form sont préfixées par /relecture
+| (relatif au domaine journal ou au préfixe /revue selon l'environnement).
 */
-
-Route::middleware('signed')->prefix('revue/relecture')->group(function () {
-    Route::get('{review}/repondre', [\App\Http\Controllers\Journal\ReviewResponseController::class, 'show'])->name('review.respond');
-    Route::post('{review}/accepter', [\App\Http\Controllers\Journal\ReviewResponseController::class, 'accept'])->name('review.accept');
-    Route::post('{review}/decliner', [\App\Http\Controllers\Journal\ReviewResponseController::class, 'decline'])->name('review.decline');
-});
-
-// Review form (authenticated)
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('revue/relecture/{review}/evaluer', [ReviewFormController::class, 'show'])->name('review.form');
-    Route::post('revue/relecture/{review}/evaluer', [ReviewFormController::class, 'store'])->name('review.form.store');
-});
 
 /*
 |--------------------------------------------------------------------------
