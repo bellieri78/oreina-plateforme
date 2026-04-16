@@ -19,6 +19,7 @@
                         <th class="px-4 py-2 text-left font-semibold">Auteur</th>
                         <th class="px-4 py-2 text-left font-semibold">Statut</th>
                         <th class="px-4 py-2 text-left font-semibold">Relectures</th>
+                        <th class="px-4 py-2 text-left font-semibold">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -30,6 +31,9 @@
                         <td class="px-4 py-3">
                             {{ $s->reviews->where('status', \App\Models\Review::STATUS_COMPLETED)->count() }}
                             / {{ $s->reviews->count() }}
+                        </td>
+                        <td class="px-4 py-3">
+                            @include('admin.journal._transition_buttons', ['submission' => $s])
                         </td>
                     </tr>
                 @endforeach
