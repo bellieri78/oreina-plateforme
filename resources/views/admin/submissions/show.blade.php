@@ -238,7 +238,6 @@
                 </div>
             </div>
 
-            @if($submission->doi || $submission->page_range)
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Publication</h3>
@@ -257,9 +256,48 @@
                                 <span>{{ $submission->page_range }}</span>
                             </div>
                         @endif
+
+                        {{-- Pagination continue --}}
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                            <h4 style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem;">Pagination continue</h4>
+
+                            @if($submission->start_page && $submission->end_page)
+                                <div style="margin-bottom: 0.75rem;">
+                                    <span class="badge badge-success" style="font-size: 0.9rem;">
+                                        pp. {{ $submission->start_page }}–{{ $submission->end_page }}
+                                    </span>
+                                    <span style="color: #6b7280; font-size: 0.8rem; margin-left: 0.5rem;">
+                                        ({{ $submission->end_page - $submission->start_page + 1 }} pages)
+                                    </span>
+                                </div>
+                            @else
+                                <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">Pages non assignées.</p>
+                            @endif
+
+                            @if($submission->journal_issue_id)
+                                <form method="POST" action="{{ route('admin.submissions.assign-pages', $submission) }}"
+                                      style="display: flex; gap: 0.5rem; align-items: center;">
+                                    @csrf
+                                    <input type="number" name="page_count" min="1" max="500" required
+                                           placeholder="Nb pages"
+                                           value="{{ $submission->start_page && $submission->end_page ? $submission->end_page - $submission->start_page + 1 : '' }}"
+                                           class="form-input" style="width: 100px; font-size: 0.85rem; padding: 4px 8px;">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        {{ $submission->start_page ? 'Recalculer' : 'Calculer' }}
+                                    </button>
+                                </form>
+                                @if($submission->journalIssue)
+                                    <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">
+                                        Prochaine page dans {{ $submission->journalIssue->title }} :
+                                        p. {{ app(\App\Services\PaginationService::class)->getNextStartPage($submission->journalIssue) }}
+                                    </p>
+                                @endif
+                            @else
+                                <p style="color: #dc2626; font-size: 0.8rem;">Rattacher d'abord à un numéro.</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            @endif
 
             @if($submission->editor_notes)
                 <div class="card" style="margin-top: 1.5rem;">

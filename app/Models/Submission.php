@@ -200,6 +200,7 @@ class Submission extends Model
         $pages = $this->page_range ?? '';
         $year = $this->published_at?->format('Y') ?? '';
 
-        return "{$authors} ({$year}). {$this->title}. Oreina, {$issue?->volume_number}({$issue?->issue_number}), {$pages}.";
+        $volume = $issue ? "Chersotis, Tome {$issue->volume_number}" : config('journal.name');
+        return "{$authors} ({$year}). {$this->title}. {$volume}, {$pages}.";
     }
 }

@@ -252,9 +252,9 @@ PREAMBLE;
         // Volume info
         $volumeInfo = '';
         if ($issue) {
-            $volumeInfo = $issue->volume_number . '(' . $issue->issue_number . ')';
+            $volumeInfo = 'Tome ' . $issue->volume_number;
             if ($submission->start_page && $submission->end_page) {
-                $volumeInfo .= ' : ' . $submission->start_page . '-' . $submission->end_page;
+                $volumeInfo .= ', pp. ' . $submission->start_page . "\u{2013}" . $submission->end_page;
             }
         }
 

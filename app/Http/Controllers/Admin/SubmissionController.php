@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\ArticleLatexService;
 use App\Services\ArticlePdfService;
 use App\Services\CrossrefService;
+use App\Services\PaginationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -643,6 +644,23 @@ class SubmissionController extends Controller
         }
 
         return $html;
+    }
+
+    public function assignPages(Request $request, Submission $submission, PaginationService $pagination)
+    {
+        $validated = $request->validate([
+            'page_count' => 'required|integer|min:1|max:500',
+        ]);
+
+        if (!$submission->journal_issue_id) {
+            return back()->with('error', 'La soumission doit être rattachée à un numéro avant d\'assigner la pagination.');
+        }
+
+        $pagination->assignPages($submission, (int) $validated['page_count']);
+
+        $submission->refresh();
+
+        return back()->with('success', "Pagination assignée : pp. {$submission->start_page}–{$submission->end_page}.");
     }
 
     /**

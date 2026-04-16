@@ -131,6 +131,9 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     // Publication
     Route::post('submissions/{submission}/publish', [SubmissionController::class, 'publish'])->name('submissions.publish');
 
+    // Pagination continue
+    Route::post('submissions/{submission}/assign-pages', [SubmissionController::class, 'assignPages'])->name('submissions.assign-pages');
+
     // Layout / Maquettage
     Route::get('submissions/{submission}/layout', [SubmissionController::class, 'layout'])->name('submissions.layout');
     Route::put('submissions/{submission}/layout', [SubmissionController::class, 'updateLayout'])->name('submissions.layout.update');
