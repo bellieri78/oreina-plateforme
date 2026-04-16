@@ -25,6 +25,7 @@ class Review extends Model
         'score_significance',
         'score_references',
         'review_file',
+        'last_reminder_at',
     ];
 
     protected $casts = [
@@ -32,6 +33,7 @@ class Review extends Model
         'responded_at' => 'datetime',
         'due_date' => 'datetime',
         'completed_at' => 'datetime',
+        'last_reminder_at' => 'datetime',
         'score_originality' => 'integer',
         'score_methodology' => 'integer',
         'score_clarity' => 'integer',
