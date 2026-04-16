@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Journal;
 use App\Http\Controllers\Controller;
 use App\Models\JournalIssue;
 use App\Models\Submission;
+use App\Services\CitationExportService;
+use Illuminate\Support\Str;
 
 class JournalController extends Controller
 {
@@ -89,6 +91,28 @@ class JournalController extends Controller
     public function about()
     {
         return view('journal.about');
+    }
+
+    public function cite(Submission $submission, string $format, CitationExportService $citations)
+    {
+        abort_unless($submission->isPublished(), 404);
+
+        $content = match ($format) {
+            'bibtex' => $citations->toBibtex($submission),
+            'ris'    => $citations->toRis($submission),
+            default  => abort(404),
+        };
+
+        $contentType = match ($format) {
+            'bibtex' => 'application/x-bibtex',
+            'ris'    => 'application/x-research-info-systems',
+        };
+
+        $filename = Str::slug($submission->title) . '.' . ($format === 'bibtex' ? 'bib' : 'ris');
+
+        return response($content)
+            ->header('Content-Type', $contentType . '; charset=utf-8')
+            ->header('Content-Disposition', "attachment; filename=\"{$filename}\"");
     }
 
     public function search()

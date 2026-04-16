@@ -974,11 +974,16 @@
                         </div>
                     </div>
                     <div class="citation-text">
-                        {{ $submission->author?->name ?? 'Auteur' }}@if($submission->co_authors && is_array($submission->co_authors) && count($submission->co_authors) > 0)@foreach($submission->co_authors as $index => $coAuthor)@if(!empty($coAuthor['name'])), {{ $coAuthor['name'] }}@endif @endforeach @endif ({{ $submission->published_at?->year ?? date('Y') }}). {{ $submission->title }}. <em>Chersotis</em>@if($submission->journalIssue), <strong>{{ $submission->journalIssue->volume_number }}</strong>({{ $submission->journalIssue->issue_number }})@endif @if($submission->start_page && $submission->end_page), {{ $submission->start_page }}-{{ $submission->end_page }}@endif. @if($submission->doi)https://doi.org/{{ $submission->doi }}@endif
+                        {{ $submission->author?->name ?? 'Auteur' }}@if($submission->co_authors && is_array($submission->co_authors) && count($submission->co_authors) > 0)@foreach($submission->co_authors as $index => $coAuthor)@if(!empty($coAuthor['name'])), {{ $coAuthor['name'] }}@endif @endforeach @endif ({{ $submission->published_at?->year ?? date('Y') }}). {{ $submission->title }}. <em>Chersotis</em>@if($submission->journalIssue), Tome {{ $submission->journalIssue->volume_number }}@endif @if($submission->start_page && $submission->end_page), {{ $submission->start_page }}-{{ $submission->end_page }}@endif. @if($submission->doi)https://doi.org/{{ $submission->doi }}@endif
                     </div>
                     <div class="citation-actions">
-                        <button onclick="copyBibtex()" class="btn-action primary" style="height:38px;font-size:13px">Format BibTeX</button>
-                        <button onclick="copyCitation()" class="btn-action" style="height:38px;font-size:13px;color:var(--accent)">Copier la citation</button>
+                        <a href="{{ route('journal.articles.cite', [$submission, 'bibtex']) }}" class="btn-action primary" style="height:38px;font-size:13px" download>
+                            BibTeX
+                        </a>
+                        <a href="{{ route('journal.articles.cite', [$submission, 'ris']) }}" class="btn-action" style="height:38px;font-size:13px" download>
+                            RIS
+                        </a>
+                        <button onclick="copyCitation()" class="btn-action" style="height:38px;font-size:13px;color:var(--accent)">Copier Harvard</button>
                     </div>
                 </div>
 

@@ -23,6 +23,9 @@ Route::get('/recherche', [JournalController::class, 'search'])->name('search');
 // Articles scientifiques
 Route::get('/articles', [JournalController::class, 'articles'])->name('articles.index');
 Route::get('/articles/{submission}', [JournalController::class, 'showArticle'])->name('articles.show');
+Route::get('/articles/{submission}/cite/{format}', [JournalController::class, 'cite'])
+    ->where('format', 'bibtex|ris')
+    ->name('articles.cite');
 
 // Numéros / Archives
 Route::get('/numeros', [JournalController::class, 'issues'])->name('issues.index');
