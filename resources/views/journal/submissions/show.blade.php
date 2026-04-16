@@ -223,8 +223,8 @@
                     </div>
                 @endif
 
-                {{-- Decision (if any) --}}
-                @if($submission->decision)
+                {{-- Decision (if any) — only shown when status is at decision stage or later --}}
+                @if($submission->decision && in_array($submissionStatusValue, ['accepted', 'rejected', 'revision_after_review', 'in_production', 'published']))
                     <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6">
                         <h2 class="text-lg font-bold text-oreina-dark mb-4">Décision éditoriale</h2>
 
