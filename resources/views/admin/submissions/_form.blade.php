@@ -50,7 +50,7 @@
         @endif
 
         {{-- Link to Layout Page (for accepted/published articles) --}}
-        @if(isset($submission) && in_array($submission->status, ['accepted', 'published']))
+        @if(isset($submission) && in_array($submission->status?->value, ['accepted', 'published']))
             <div style="margin-top: 1.5rem; padding: 1.25rem; background: linear-gradient(135deg, #f0fdfa 0%, #f0f9ff 100%); border-radius: 0.75rem; border: 1px solid #99f6e4;">
                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
@@ -155,7 +155,7 @@
             <label class="form-label" for="status">Statut *</label>
             <select name="status" id="status" class="form-input" required>
                 @foreach(\App\Models\Submission::getStatuses() as $key => $label)
-                    <option value="{{ $key }}" {{ old('status', $submission->status ?? 'draft') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                    <option value="{{ $key }}" {{ old('status', $submission->status?->value ?? 'draft') === $key ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
             </select>
         </div>

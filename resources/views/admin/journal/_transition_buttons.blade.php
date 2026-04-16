@@ -4,84 +4,101 @@
 
     $policy = app(SubmissionPolicy::class);
     $user = auth()->user();
-    $current = $submission->status;
+
+    $btnStyles = [
+        'amber'   => 'background:#d97706;color:#fff;',
+        'indigo'  => 'background:#4f46e5;color:#fff;',
+        'orange'  => 'background:#ea580c;color:#fff;',
+        'green'   => 'background:#16a34a;color:#fff;',
+        'red'     => 'background:#dc2626;color:#fff;',
+        'teal'    => 'background:#0d9488;color:#fff;',
+        'emerald' => 'background:#059669;color:#fff;',
+    ];
 
     $candidates = [
-        ['target' => SubmissionStatus::RevisionRequested,    'label' => 'Demander révision',          'color' => 'amber',  'needsNotes' => true,  'notesRequired' => false],
-        ['target' => SubmissionStatus::UnderPeerReview,      'label' => 'Envoyer en relecture',       'color' => 'indigo', 'needsNotes' => false, 'notesRequired' => false],
-        ['target' => SubmissionStatus::RevisionAfterReview,  'label' => 'Demander révision (relecture)', 'color' => 'orange', 'needsNotes' => true,  'notesRequired' => false],
-        ['target' => SubmissionStatus::Accepted,             'label' => 'Accepter',                   'color' => 'green',  'needsNotes' => false, 'notesRequired' => false],
-        ['target' => SubmissionStatus::Rejected,             'label' => 'Rejeter',                    'color' => 'red',    'needsNotes' => true,  'notesRequired' => true, 'showLepis' => true],
-        ['target' => SubmissionStatus::InProduction,         'label' => 'Passer en maquettage',       'color' => 'teal',   'needsNotes' => false, 'notesRequired' => false],
-        ['target' => SubmissionStatus::Published,            'label' => 'Publier',                    'color' => 'emerald','needsNotes' => false, 'notesRequired' => false],
+        ['target' => SubmissionStatus::RevisionRequested,    'label' => 'Demander révision',              'color' => 'amber',  'needsNotes' => true,  'notesRequired' => false],
+        ['target' => SubmissionStatus::UnderPeerReview,      'label' => 'Envoyer en relecture',           'color' => 'indigo', 'needsNotes' => false, 'notesRequired' => false],
+        ['target' => SubmissionStatus::RevisionAfterReview,  'label' => 'Demander révision (relecture)',  'color' => 'orange', 'needsNotes' => true,  'notesRequired' => false],
+        ['target' => SubmissionStatus::Accepted,             'label' => 'Accepter',                       'color' => 'green',  'needsNotes' => false, 'notesRequired' => false],
+        ['target' => SubmissionStatus::Rejected,             'label' => 'Rejeter',                        'color' => 'red',    'needsNotes' => true,  'notesRequired' => true, 'showLepis' => true],
+        ['target' => SubmissionStatus::InProduction,         'label' => 'Passer en maquettage',           'color' => 'teal',   'needsNotes' => false, 'notesRequired' => false],
+        ['target' => SubmissionStatus::Published,            'label' => 'Publier',                        'color' => 'emerald','needsNotes' => false, 'notesRequired' => false],
     ];
 
     $actions = array_values(array_filter($candidates, fn($c) => $policy->transitionTo($user, $submission, $c['target'])));
+    $modalId = 'transition_modal_' . $submission->id;
 @endphp
 
 @if(count($actions) === 0)
-    <span class="text-xs text-gray-400">—</span>
+    <span style="font-size:0.75rem;color:#9ca3af;">—</span>
 @else
-    <div class="flex flex-wrap gap-1" x-data="{ modal: null }">
+    <div x-data="{ modal: null }" style="display:flex;flex-wrap:wrap;gap:4px;">
         @foreach($actions as $action)
             @if($action['needsNotes'] ?? false)
                 <button type="button"
                         @click="modal = '{{ $action['target']->value }}'"
-                        class="bg-{{ $action['color'] }}-600 hover:bg-{{ $action['color'] }}-700 text-white text-xs px-2 py-1 rounded">
+                        style="{{ $btnStyles[$action['color']] }}font-size:0.75rem;padding:2px 8px;border-radius:4px;border:none;cursor:pointer;">
                     {{ $action['label'] }}
                 </button>
             @else
                 <form method="POST" action="{{ route('admin.journal.submissions.transition', $submission) }}"
-                      onsubmit="return confirm('Confirmer : {{ $action['label'] }} ?');">
+                      onsubmit="return confirm('Confirmer : {{ $action['label'] }} ?');"
+                      style="margin:0;">
                     @csrf
                     <input type="hidden" name="target_status" value="{{ $action['target']->value }}">
                     <button type="submit"
-                            class="bg-{{ $action['color'] }}-600 hover:bg-{{ $action['color'] }}-700 text-white text-xs px-2 py-1 rounded">
+                            style="{{ $btnStyles[$action['color']] }}font-size:0.75rem;padding:2px 8px;border-radius:4px;border:none;cursor:pointer;">
                         {{ $action['label'] }}
                     </button>
                 </form>
             @endif
         @endforeach
 
+        {{-- Modales rendues en position fixe, hors du flux du tableau --}}
         @foreach($actions as $action)
             @if($action['needsNotes'] ?? false)
-                <div x-show="modal === '{{ $action['target']->value }}'"
-                     x-cloak
-                     x-transition
-                     @keydown.escape.window="modal = null"
-                     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6" @click.outside="modal = null">
-                        <h3 class="text-lg font-bold mb-3">{{ $action['label'] }}</h3>
-                        <form method="POST" action="{{ route('admin.journal.submissions.transition', $submission) }}">
-                            @csrf
-                            <input type="hidden" name="target_status" value="{{ $action['target']->value }}">
+                <template x-teleport="body">
+                    <div x-show="modal === '{{ $action['target']->value }}'"
+                         x-cloak
+                         x-transition
+                         @keydown.escape.window="modal = null"
+                         style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);">
+                        <div @click.outside="modal = null"
+                             style="background:#fff;border-radius:8px;box-shadow:0 25px 50px rgba(0,0,0,0.25);max-width:28rem;width:100%;padding:1.5rem;">
+                            <h3 style="font-size:1.1rem;font-weight:700;margin:0 0 12px 0;">{{ $action['label'] }}</h3>
+                            <form method="POST" action="{{ route('admin.journal.submissions.transition', $submission) }}">
+                                @csrf
+                                <input type="hidden" name="target_status" value="{{ $action['target']->value }}">
 
-                            <label class="block text-sm font-medium mb-1">
-                                Notes @if($action['notesRequired'] ?? false)<span class="text-red-600">*</span>@endif
-                            </label>
-                            <textarea name="notes" rows="4"
-                                      class="w-full border-gray-300 rounded mb-3"
-                                      @if($action['notesRequired'] ?? false) required @endif
-                                      placeholder="Motif, retours, instructions..."></textarea>
-
-                            @if($action['showLepis'] ?? false)
-                                <label class="flex items-center gap-2 text-sm mb-3">
-                                    <input type="checkbox" name="redirect_to_lepis" value="1">
-                                    Recommander pour le bulletin <strong>Lepis</strong>
+                                <label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:4px;">
+                                    Notes @if($action['notesRequired'] ?? false)<span style="color:#dc2626;">*</span>@endif
                                 </label>
-                            @endif
+                                <textarea name="notes" rows="4"
+                                          style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px;margin-bottom:12px;font-size:0.875rem;"
+                                          @if($action['notesRequired'] ?? false) required @endif
+                                          placeholder="Motif, retours, instructions..."></textarea>
 
-                            <div class="flex justify-end gap-2">
-                                <button type="button" @click="modal = null"
-                                        class="px-4 py-2 border border-gray-300 rounded text-sm">Annuler</button>
-                                <button type="submit"
-                                        class="bg-{{ $action['color'] }}-600 hover:bg-{{ $action['color'] }}-700 text-white px-4 py-2 rounded text-sm">
-                                    Confirmer
-                                </button>
-                            </div>
-                        </form>
+                                @if($action['showLepis'] ?? false)
+                                    <label style="display:flex;align-items:center;gap:8px;font-size:0.875rem;margin-bottom:12px;">
+                                        <input type="checkbox" name="redirect_to_lepis" value="1">
+                                        Recommander pour le bulletin <strong>Lepis</strong>
+                                    </label>
+                                @endif
+
+                                <div style="display:flex;justify-content:flex-end;gap:8px;">
+                                    <button type="button" @click="modal = null"
+                                            style="padding:6px 16px;border:1px solid #d1d5db;border-radius:6px;font-size:0.875rem;background:#fff;cursor:pointer;">
+                                        Annuler
+                                    </button>
+                                    <button type="submit"
+                                            style="{{ $btnStyles[$action['color']] }}padding:6px 16px;border-radius:6px;font-size:0.875rem;border:none;cursor:pointer;">
+                                        Confirmer
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                </template>
             @endif
         @endforeach
     </div>
