@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Enums\SubmissionStatus;
 use App\Models\EditorialCapability;
 use App\Models\Submission;
 use App\Models\User;
+use App\Services\SubmissionStateMachine;
 
 class SubmissionPolicy
 {
@@ -79,5 +81,50 @@ class SubmissionPolicy
     public function manageCapabilities(User $user, User $target): bool
     {
         return $user->isAdmin() || $user->hasCapability(EditorialCapability::CHIEF_EDITOR);
+    }
+
+    public function transitionTo(User $user, Submission $submission, SubmissionStatus $target): bool
+    {
+        $current = $submission->status;
+
+        if (!$current instanceof SubmissionStatus) {
+            return false;
+        }
+
+        if (!app(SubmissionStateMachine::class)->canTransition($current, $target)) {
+            return false;
+        }
+
+        return match ($target) {
+            SubmissionStatus::Submitted => $user->id === $submission->author_id,
+
+            SubmissionStatus::UnderInitialReview =>
+                $current === SubmissionStatus::RevisionRequested
+                    ? $user->id === $submission->author_id
+                    : false,
+
+            SubmissionStatus::UnderPeerReview =>
+                $current === SubmissionStatus::RevisionAfterReview
+                    ? $user->id === $submission->author_id
+                    : ($user->isAdmin()
+                        || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                        || $submission->editor_id === $user->id),
+
+            SubmissionStatus::RevisionRequested,
+            SubmissionStatus::RevisionAfterReview,
+            SubmissionStatus::Accepted,
+            SubmissionStatus::Rejected =>
+                $user->isAdmin()
+                || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                || $submission->editor_id === $user->id,
+
+            SubmissionStatus::InProduction,
+            SubmissionStatus::Published =>
+                $user->isAdmin()
+                || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                || $submission->layout_editor_id === $user->id,
+
+            default => false,
+        };
     }
 }
