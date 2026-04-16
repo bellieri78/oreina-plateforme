@@ -9,9 +9,14 @@ use App\Http\Controllers\Controller;
 use App\Models\EditorialCapability;
 use App\Models\Submission;
 use App\Models\User;
+use App\Enums\SubmissionStatus;
+use App\Exceptions\Editorial\IllegalTransitionException;
+use App\Policies\SubmissionPolicy;
 use App\Services\EditorialAssignmentService;
+use App\Services\SubmissionStateMachine;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EditorialQueueController extends Controller
 {
@@ -87,6 +92,43 @@ class EditorialQueueController extends Controller
             ->get();
 
         return view('admin.journal.mine', ['submissions' => $submissions]);
+    }
+
+    public function transition(
+        Request $request,
+        Submission $submission,
+        SubmissionStateMachine $stateMachine,
+    ) {
+        $validated = $request->validate([
+            'target_status' => ['required', Rule::enum(SubmissionStatus::class)],
+            'notes' => 'nullable|string|max:2000',
+            'redirect_to_lepis' => 'sometimes|boolean',
+        ]);
+
+        $target = SubmissionStatus::from($validated['target_status']);
+
+        abort_unless(
+            app(SubmissionPolicy::class)->transitionTo($request->user(), $submission, $target),
+            403,
+            'Transition non autorisée.'
+        );
+
+        try {
+            $stateMachine->transition(
+                $submission,
+                $target,
+                $request->user(),
+                $validated['notes'] ?? null,
+            );
+
+            if ($target === SubmissionStatus::Rejected && ($validated['redirect_to_lepis'] ?? false)) {
+                $submission->update(['redirected_to_lepis' => true]);
+            }
+        } catch (IllegalTransitionException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return back()->with('success', "Article passé en « {$target->label()} ».");
     }
 
     private function canAccessQueue(User $user): bool

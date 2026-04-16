@@ -164,6 +164,8 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
         ->name('journal.queue.assign');
     Route::get('revue/mes-articles', [\App\Http\Controllers\Admin\Journal\EditorialQueueController::class, 'mine'])
         ->name('journal.mine');
+    Route::post('revue/soumissions/{submission}/transition', [\App\Http\Controllers\Admin\Journal\EditorialQueueController::class, 'transition'])
+        ->name('journal.submissions.transition');
 
     // Documentation
     Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
