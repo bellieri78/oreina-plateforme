@@ -1781,6 +1781,26 @@
                     <strong>Différence avec le suivi auteur :</strong> le journal des actions admin montre <em>tout</em> (acteurs, assignations internes, notes). Le journal côté auteur (<code>/revue/mes-soumissions/{id}</code>) est anonymisé et ne montre que les changements de statut avec des libellés humains — voir la section "Suivi par l'auteur" ci-dessous.
                 </div>
 
+                <h3>Pagination continue (Tomes annuels)</h3>
+                <p>Chersotis utilise une pagination continue par tome annuel : le premier article du tome commence à la page 1, le suivant commence à la page suivant la dernière page du précédent.</p>
+
+                <h4>Assigner la pagination</h4>
+                <p>Sur la fiche soumission admin (<code>/extranet/submissions/{id}</code>), dans le bloc "Publication", saisir le nombre de pages du PDF et cliquer "Calculer". Le système calcule automatiquement <code>start_page</code> et <code>end_page</code> en fonction des articles déjà paginés dans le même numéro (tome).</p>
+
+                <h4>Prérequis</h4>
+                <ul>
+                    <li>La soumission doit être rattachée à un numéro (<code>journal_issue_id</code>)</li>
+                    <li>Le numéro doit avoir une année (<code>year</code>, remplie automatiquement depuis <code>publication_date</code>)</li>
+                    <li>Le nombre de pages du PDF final doit être connu (après maquettage)</li>
+                </ul>
+
+                <h4>Format d'affichage</h4>
+                <p>Le pied de page du PDF généré affiche : <code>Chersotis, Tome X, pp. Y–Z (année)</code>. La citation bibliographique est au format : <code>Auteur (année). Titre. Chersotis, Tome X, Y–Z.</code></p>
+
+                <div class="doc-info">
+                    <strong>Recalcul :</strong> si le nombre de pages change (nouveau PDF maquetté), on peut recalculer. Seul l'article concerné est mis à jour — les articles suivants ne sont pas re-paginés automatiquement (évite les surprises en cascade). Un recalcul global doit être fait manuellement si nécessaire.
+                </div>
+
                 <h3>Suivi par l'auteur ("suivi de colis")</h3>
                 <p>L'auteur connecté accède à ses soumissions via <code>/revue/mes-soumissions</code>. Chaque soumission affiche :</p>
 
