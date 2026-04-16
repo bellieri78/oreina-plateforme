@@ -54,8 +54,8 @@ class SubmissionController extends Controller
 
         $stats = [
             'total' => Submission::count(),
-            'pending' => Submission::whereIn('status', ['submitted', 'desk_review', 'in_review'])->count(),
-            'revision' => Submission::where('status', 'revision')->count(),
+            'pending' => Submission::whereIn('status', ['submitted', 'under_initial_review', 'under_peer_review'])->count(),
+            'revision' => Submission::whereIn('status', ['revision_requested', 'revision_after_review'])->count(),
             'accepted' => Submission::where('status', 'accepted')->count(),
             'published' => Submission::where('status', 'published')->count(),
         ];
@@ -87,7 +87,7 @@ class SubmissionController extends Controller
             'keywords' => 'nullable|string|max:500',
             'author_id' => 'required|exists:users,id',
             'journal_issue_id' => 'nullable|exists:journal_issues,id',
-            'status' => 'required|in:draft,submitted,desk_review,in_review,revision,accepted,rejected,published',
+            'status' => 'required|in:draft,submitted,under_initial_review,revision_requested,under_peer_review,revision_after_review,in_production,accepted,rejected,published',
             'editor_id' => 'nullable|exists:users,id',
             'editor_notes' => 'nullable|string',
             'doi' => 'nullable|string|max:255',
@@ -155,7 +155,7 @@ class SubmissionController extends Controller
             'keywords' => 'nullable|string|max:500',
             'author_id' => 'required|exists:users,id',
             'journal_issue_id' => 'nullable|exists:journal_issues,id',
-            'status' => 'required|in:draft,submitted,desk_review,in_review,revision,accepted,rejected,published',
+            'status' => 'required|in:draft,submitted,under_initial_review,revision_requested,under_peer_review,revision_after_review,in_production,accepted,rejected,published',
             'editor_id' => 'nullable|exists:users,id',
             'editor_notes' => 'nullable|string',
             'decision' => 'nullable|in:accept,minor_revision,major_revision,reject',
@@ -340,7 +340,7 @@ class SubmissionController extends Controller
     {
         $request->validate([
             'ids' => 'required|string',
-            'status' => 'required|in:draft,submitted,desk_review,in_review,revision,accepted,rejected,published',
+            'status' => 'required|in:draft,submitted,under_initial_review,revision_requested,under_peer_review,revision_after_review,in_production,accepted,rejected,published',
         ]);
 
         $ids = explode(',', $request->get('ids'));

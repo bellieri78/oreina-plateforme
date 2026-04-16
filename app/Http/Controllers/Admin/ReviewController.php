@@ -55,7 +55,7 @@ class ReviewController extends Controller
 
     public function create(Request $request)
     {
-        $submissions = Submission::whereIn('status', ['desk_review', 'in_review'])
+        $submissions = Submission::whereIn('status', ['under_initial_review', 'under_peer_review'])
             ->orderBy('created_at', 'desc')
             ->get();
         $reviewers = User::orderBy('name')->get();

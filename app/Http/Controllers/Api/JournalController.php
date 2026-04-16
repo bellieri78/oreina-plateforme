@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\SubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\JournalIssue;
 use App\Models\Submission;
@@ -212,7 +213,7 @@ class JournalController extends Controller
             abort(403);
         }
 
-        if ($submission->status !== Submission::STATUS_REVISION) {
+        if (!in_array($submission->status, [SubmissionStatus::RevisionRequested, SubmissionStatus::RevisionAfterReview], true)) {
             return response()->json([
                 'message' => 'Cette soumission ne peut pas être modifiée actuellement.',
             ], 422);
@@ -234,7 +235,9 @@ class JournalController extends Controller
 
         $submission->update([
             'manuscript_file' => $manuscriptPath,
-            'status' => Submission::STATUS_IN_REVIEW,
+            'status' => $submission->status === SubmissionStatus::RevisionRequested
+                ? SubmissionStatus::UnderInitialReview->value
+                : SubmissionStatus::UnderPeerReview->value,
         ]);
 
         return response()->json([

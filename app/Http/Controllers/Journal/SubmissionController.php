@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Journal;
 
+use App\Enums\SubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Submission;
 use App\Rules\SafeUpload;
@@ -133,7 +134,7 @@ class SubmissionController extends Controller
         }
 
         // Check if revision is requested
-        if ($submission->status !== Submission::STATUS_REVISION) {
+        if (!in_array($submission->status, [SubmissionStatus::RevisionRequested, SubmissionStatus::RevisionAfterReview], true)) {
             return redirect()->route('journal.submissions.show', $submission)
                 ->with('error', 'Cette soumission ne peut pas être modifiée actuellement.');
         }
@@ -152,7 +153,7 @@ class SubmissionController extends Controller
         }
 
         // Check if revision is requested
-        if ($submission->status !== Submission::STATUS_REVISION) {
+        if (!in_array($submission->status, [SubmissionStatus::RevisionRequested, SubmissionStatus::RevisionAfterReview], true)) {
             return redirect()->route('journal.submissions.show', $submission)
                 ->with('error', 'Cette soumission ne peut pas être modifiée actuellement.');
         }
@@ -174,7 +175,9 @@ class SubmissionController extends Controller
         // Update submission
         $submission->update([
             'manuscript_file' => $manuscriptPath,
-            'status' => Submission::STATUS_IN_REVIEW, // Back to review
+            'status' => $submission->status === SubmissionStatus::RevisionRequested
+                ? SubmissionStatus::UnderInitialReview->value
+                : SubmissionStatus::UnderPeerReview->value,
         ]);
 
         return redirect()->route('journal.submissions.show', $submission)
