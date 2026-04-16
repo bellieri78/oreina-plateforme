@@ -973,8 +973,11 @@
                             <h3>Comment citer cet article</h3>
                         </div>
                     </div>
+                    @php
+                        $harvardCitation = app(\App\Services\CitationExportService::class)->toHarvard($submission);
+                    @endphp
                     <div class="citation-text">
-                        {{ $submission->author?->name ?? 'Auteur' }}@if($submission->co_authors && is_array($submission->co_authors) && count($submission->co_authors) > 0)@foreach($submission->co_authors as $index => $coAuthor)@if(!empty($coAuthor['name'])), {{ $coAuthor['name'] }}@endif @endforeach @endif ({{ $submission->published_at?->year ?? date('Y') }}). {{ $submission->title }}. <em>Chersotis</em>@if($submission->journalIssue), Tome {{ $submission->journalIssue->volume_number }}@endif @if($submission->start_page && $submission->end_page), {{ $submission->start_page }}-{{ $submission->end_page }}@endif. @if($submission->doi)https://doi.org/{{ $submission->doi }}@endif
+                        {!! str_replace('Chersotis', '<em>Chersotis</em>', e($harvardCitation)) !!}
                     </div>
                     <div class="citation-actions">
                         <a href="{{ route('journal.articles.cite', [$submission, 'bibtex']) }}" class="btn-action primary" style="height:38px;font-size:13px" download>
@@ -983,7 +986,7 @@
                         <a href="{{ route('journal.articles.cite', [$submission, 'ris']) }}" class="btn-action" style="height:38px;font-size:13px" download>
                             RIS
                         </a>
-                        <button onclick="copyCitation()" class="btn-action" style="height:38px;font-size:13px;color:var(--accent)">Copier Harvard</button>
+                        <button onclick="copyCitation()" class="btn-action" style="height:38px;font-size:13px;color:var(--accent)">Exporter la citation</button>
                     </div>
                 </div>
 
