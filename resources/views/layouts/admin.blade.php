@@ -11,12 +11,6 @@
     @stack('styles')
     <style>
         [x-cloak] { display: none !important; }
-        .nav-link i[data-lucide], .sidebar-toggle i[data-lucide], .btn i[data-lucide], .breadcrumb i[data-lucide] {
-            width: 20px; height: 20px; stroke-width: 2;
-            display: inline-flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .btn i[data-lucide] { width: 18px; height: 18px; }
         .breadcrumb i[data-lucide] { width: 14px; height: 14px; }
     </style>
 </head>
