@@ -820,6 +820,7 @@ class SubmissionController extends Controller
                 'display_summary' => (string) ($structured['summary'] ?? ''),
                 'acknowledgements' => (string) ($structured['acknowledgements'] ?? ''),
                 'detected_title' => (string) ($structured['title'] ?? ''),
+                'title_en' => (string) ($structured['title_en'] ?? ''),
             ]);
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()], 422);

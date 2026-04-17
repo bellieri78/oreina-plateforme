@@ -984,6 +984,9 @@
                     const displayAuthorsEl = document.getElementById('sidebar-display-authors');
                     if (displayAuthorsEl && data.display_authors) displayAuthorsEl.value = data.display_authors;
 
+                    const titleEnEl = document.getElementById('sidebar-title-en');
+                    if (titleEnEl && data.title_en) titleEnEl.value = data.title_en;
+
                     const abstractEl = document.getElementById('sidebar-display-abstract');
                     if (abstractEl && data.display_abstract) {
                         abstractEl.innerHTML = data.display_abstract;
