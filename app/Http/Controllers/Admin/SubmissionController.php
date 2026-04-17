@@ -905,7 +905,7 @@ class SubmissionController extends Controller
 
                     if ($fullRef) {
                         $escaped = htmlspecialchars($fullRef, ENT_QUOTES, 'UTF-8');
-                        return '<span class="cite" title="' . $escaped . '">(' . $citation . ')</span>';
+                        return '<span class="cite" data-ref="' . $escaped . '">(' . $citation . ')</span>';
                     }
 
                     return $match[0]; // No match found, return unchanged
