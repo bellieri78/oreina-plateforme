@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Services\ArticleLatexService;
 use App\Services\ArticlePdfService;
 use App\Services\CrossrefService;
-use App\Services\DocumentToBlocksService;
+use App\Services\DocumentConversionService;
 use App\Services\MarkdownToBlocksService;
 use App\Services\PaginationService;
 use App\Services\SubmissionTransitionLogger;
@@ -453,7 +453,13 @@ class SubmissionController extends Controller
                 ->with('error', 'Le PDF ne peut être prévisualisé que pour les articles acceptés ou publiés.');
         }
 
-        return $latexService->stream($submission);
+        try {
+            return $latexService->stream($submission);
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('admin.submissions.layout', $submission)
+                ->with('error', 'Erreur lors de la génération du PDF : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -770,11 +776,16 @@ class SubmissionController extends Controller
             ], 422);
         }
 
-        if (in_array($ext, $markdownExts, true)) {
-            $content = file_get_contents($file->getRealPath());
-            $blocks = app(MarkdownToBlocksService::class)->parse($content);
-        } else {
-            $blocks = app(DocumentToBlocksService::class)->parseFile($file->getRealPath());
+        try {
+            if (in_array($ext, $markdownExts, true)) {
+                $markdown = file_get_contents($file->getRealPath());
+            } else {
+                $markdown = app(DocumentConversionService::class)->toMarkdown($file->getRealPath());
+            }
+
+            $blocks = app(MarkdownToBlocksService::class)->parse($markdown);
+        } catch (\RuntimeException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
         }
 
         return response()->json([
