@@ -583,7 +583,7 @@ PREAMBLE;
     {\\footnotesize\\textcolor{chersotisGray}{
 {$affiliationsLatex}    }}
 
-    \\vspace{10pt}
+    \\vspace{22pt}
 
     % Abstract (French)
     \\colorbox{chersotisLightGray}{%
