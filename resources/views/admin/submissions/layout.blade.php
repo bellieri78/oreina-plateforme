@@ -269,6 +269,13 @@
         <div class="layout-grid">
             {{-- Editor --}}
             <div class="layout-main">
+                <div id="detected-title-banner" style="display:none; background:#eff6ff; border:1px solid #93c5fd; border-radius:0.5rem; padding:0.75rem 1rem; margin-bottom:1rem; font-size:0.85rem; color:#1e40af; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                    <strong>Titre détecté :</strong> <span id="detected-title-text" style="font-style:italic; flex:1;"></span>
+                    <button type="button" id="update-title-btn" style="margin-left:0.75rem; background:#3b82f6; color:white; border:none; padding:0.25rem 0.75rem; border-radius:0.25rem; cursor:pointer; font-size:0.8rem;">
+                        Mettre à jour le titre
+                    </button>
+                    <button type="button" onclick="document.getElementById('detected-title-banner').style.display='none'" style="margin-left:0.25rem; background:none; border:none; cursor:pointer; color:#6b7280; font-size:1rem;">&times;</button>
+                </div>
                 @include('admin.submissions._block-editor')
             </div>
 
@@ -309,7 +316,7 @@
                 <div class="sidebar-card">
                     <div class="sidebar-card-title">Affiliations auteurs</div>
                     <div class="sidebar-field">
-                        <textarea name="author_affiliations" class="sidebar-textarea" rows="4" placeholder="1. Université de Paris, France&#10;2. CNRS, Paris">{{ old('author_affiliations', is_array($submission->author_affiliations) ? implode("\n", $submission->author_affiliations) : $submission->author_affiliations) }}</textarea>
+                        <textarea name="author_affiliations" id="sidebar-affiliations" class="sidebar-textarea" rows="4" placeholder="1. Université de Paris, France&#10;2. CNRS, Paris">{{ old('author_affiliations', is_array($submission->author_affiliations) ? implode("\n", $submission->author_affiliations) : $submission->author_affiliations) }}</textarea>
                         <div class="sidebar-hint">Une affiliation par ligne (1., 2., etc.)</div>
                     </div>
                 </div>
@@ -318,7 +325,7 @@
                 <div class="sidebar-card">
                     <div class="sidebar-card-title">Références bibliographiques</div>
                     <div class="sidebar-field">
-                        <textarea name="references" class="sidebar-textarea" rows="8" placeholder="Dupont J. & Martin P., 2023. Titre...&#10;Smith A., 2022. Autre référence...">{{ old('references', is_array($submission->references) ? implode("\n", $submission->references) : $submission->references) }}</textarea>
+                        <textarea name="references" id="sidebar-references" class="sidebar-textarea" rows="8" placeholder="Dupont J. & Martin P., 2023. Titre...&#10;Smith A., 2022. Autre référence...">{{ old('references', is_array($submission->references) ? implode("\n", $submission->references) : $submission->references) }}</textarea>
                         <div class="sidebar-hint">Une référence par ligne</div>
                     </div>
                 </div>
@@ -327,7 +334,7 @@
                 <div class="sidebar-card">
                     <div class="sidebar-card-title">Remerciements</div>
                     <div class="sidebar-field">
-                        <textarea name="acknowledgements" class="sidebar-textarea" rows="3" placeholder="Les auteurs remercient...">{{ old('acknowledgements', $submission->acknowledgements ?? '') }}</textarea>
+                        <textarea name="acknowledgements" id="sidebar-acknowledgements" class="sidebar-textarea" rows="3" placeholder="Les auteurs remercient...">{{ old('acknowledgements', $submission->acknowledgements ?? '') }}</textarea>
                     </div>
                 </div>
 
