@@ -756,41 +756,42 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Import a document file and convert it to content blocks
+     * Import a document and convert it to enriched content blocks.
+     *
+     * Accepts either:
+     * - A JSON body with 'markdown_content' (sent by JS after client-side docx→md conversion)
+     * - A file upload (.md, .txt, .markdown)
      */
     public function importMarkdown(Request $request, Submission $submission)
     {
         set_time_limit(300);
 
-        $request->validate([
-            'markdown_file' => 'required|file|max:5120',
-        ]);
+        // Accept either markdown content from client-side conversion or file upload
+        if ($request->has('markdown_content')) {
+            $markdown = $request->input('markdown_content');
+        } else {
+            $request->validate([
+                'markdown_file' => 'required|file|max:5120',
+            ]);
 
-        $file = $request->file('markdown_file');
-        $ext = strtolower($file->getClientOriginalExtension());
+            $file = $request->file('markdown_file');
+            $ext = strtolower($file->getClientOriginalExtension());
 
-        $markdownExts = ['md', 'txt', 'markdown'];
-        $documentExts = ['docx', 'odt'];
+            if (!in_array($ext, ['md', 'txt', 'markdown'], true)) {
+                return response()->json([
+                    'error' => 'Format non supporté. Utilisez un fichier .md, .txt, .docx ou .odt.',
+                ], 422);
+            }
 
-        if (!in_array($ext, [...$markdownExts, ...$documentExts], true)) {
-            return response()->json([
-                'error' => 'Format non supporté. Utilisez un fichier .md, .txt, .docx ou .odt.',
-            ], 422);
+            $markdown = file_get_contents($file->getRealPath());
+        }
+
+        if (empty(trim($markdown))) {
+            return response()->json(['error' => 'Le document est vide.'], 422);
         }
 
         try {
-            if (in_array($ext, $markdownExts, true)) {
-                $markdown = file_get_contents($file->getRealPath());
-                $blocks = app(MarkdownToBlocksService::class)->parse($markdown);
-
-                return response()->json([
-                    'blocks' => $blocks,
-                    'count' => count($blocks),
-                ]);
-            }
-
-            // Word/ODT: structured conversion via Claude API
-            $structured = app(DocumentConversionService::class)->toStructured($file->getRealPath());
+            $structured = app(DocumentConversionService::class)->enrichMarkdown($markdown);
             $blocks = app(MarkdownToBlocksService::class)->parse($structured['markdown']);
             $blocks = $this->enrichBlocksWithTaxonLinks($blocks, $structured['taxons']);
 
