@@ -194,7 +194,7 @@ img {
     top: 0;
     bottom: 0;
     width: var(--sidebar-width);
-    background: linear-gradient(180deg, var(--oreina-dark) 0%, var(--oreina-dark-darker) 100%);
+    background: var(--forest);
     color: white;
     transition: width var(--transition-normal);
     z-index: 1000;
@@ -292,14 +292,14 @@ img {
 }
 
 .nav-link:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(133, 183, 157, 0.14);
     color: white;
 }
 
 .nav-link.active {
-    background: var(--oreina-gold);
-    color: var(--oreina-dark);
-    font-weight: 600;
+    background: var(--gold);
+    color: var(--forest);
+    font-weight: 800;
     box-shadow: var(--shadow-gold);
 }
 
@@ -356,13 +356,13 @@ img {
 .user-avatar {
     width: 40px;
     height: 40px;
-    background: var(--oreina-gold);
+    background: var(--gold);
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--oreina-dark);
-    font-weight: 700;
+    color: var(--forest);
+    font-weight: 800;
     font-size: 14px;
     flex-shrink: 0;
 }
