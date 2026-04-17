@@ -42,8 +42,8 @@ Analyse le texte suivant et retourne un JSON structuré avec ces champs :
 
 - "title" : le titre principal de l'article (sans les auteurs)
 - "markdown" : le corps de l'article converti en Markdown structuré (## pour les sous-titres, **gras**, *italique*, tableaux pipe, listes). NE PAS inclure : le titre principal, les affiliations des auteurs, les références bibliographiques, les remerciements.
-- "references" : tableau JSON des références bibliographiques, une par entrée, dans l'ordre d'apparition
-- "authors_affiliations" : tableau JSON des auteurs avec leurs affiliations (un auteur par entrée)
+- "references" : tableau JSON de strings, une référence par entrée, dans l'ordre d'apparition. Chaque référence doit être formatée en style Harvard : Auteur(s) (année). Titre. *Revue*, volume(numéro), pages. Si la référence est un livre : Auteur(s) (année). *Titre*. Éditeur, Lieu, pages. Reformater si nécessaire.
+- "authors_affiliations" : tableau JSON de strings, un auteur par entrée, au format "Prénom NOM : affiliation complète, email"
 - "acknowledgements" : texte des remerciements (chaîne vide si absent)
 - "taxons" : tableau JSON des noms d'espèces (noms latins binomiaux) trouvés dans le texte, sans doublons
 
