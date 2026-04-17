@@ -239,6 +239,25 @@ PREAMBLE;
         $authorEmail = $author?->email ?? '';
         $editorName = $editor ? $this->escapeLatex($editor->name) : '';
 
+        // Correspondance auteur: prefer first entry from author_affiliations (reflects actual first author of the article)
+        // Expected format: "Prénom NOM : affiliation, email@example.org"
+        $correspondenceName = $authorName;  // escaped fallback
+        $correspondenceEmail = $authorEmail;
+        if (is_array($submission->author_affiliations) && count($submission->author_affiliations) > 0) {
+            $firstAffil = (string) $submission->author_affiliations[0];
+            if (preg_match('/^(.+?)\s*:\s*(.*)$/', $firstAffil, $parts)) {
+                $parsedName = trim($parts[1]);
+                $parsedRest = $parts[2];
+                if ($parsedName !== '') {
+                    $correspondenceName = $this->escapeLatex($parsedName);
+                }
+                // Email — first @-containing token
+                if (preg_match('/([^\s,;]+@[^\s,;]+\.[^\s,;]+)/', $parsedRest, $emailMatch)) {
+                    $correspondenceEmail = trim($emailMatch[1]);
+                }
+            }
+        }
+
         // Affiliations
         $affiliations = $submission->author_affiliations ?? [];
         if (empty($affiliations) && $author?->affiliation) {
@@ -534,8 +553,8 @@ PREAMBLE;
 
     % Correspondance
     \\textbf{\\textcolor{chersotisTeal}{Correspondance auteur}}\\\\
-    {\\small {$authorName}\\\\
-    \\href{mailto:{$authorEmail}}{\\textcolor{chersotisTeal}{{$authorEmail}}}}
+    {\\small {$correspondenceName}\\\\
+    \\href{mailto:{$correspondenceEmail}}{\\textcolor{chersotisTeal}{{$correspondenceEmail}}}}
 
     \\vfill
 

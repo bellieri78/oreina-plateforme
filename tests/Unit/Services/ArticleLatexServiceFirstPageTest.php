@@ -216,6 +216,39 @@ class ArticleLatexServiceFirstPageTest extends TestCase
         $this->assertStringContainsString('Résumé soumission', $latex);
     }
 
+    public function test_correspondence_uses_first_author_affiliation_when_available(): void
+    {
+        $author = User::factory()->create([
+            'name' => 'Sophie Leclerc',
+            'email' => 'submitter@ignored.example',
+        ]);
+
+        $submission = Submission::create([
+            'author_id' => $author->id,
+            'title' => 'Test correspondance',
+            'abstract' => 'Un résumé court.',
+            'manuscript_file' => 'placeholder.pdf',
+            'keywords' => ['test'],
+            'status' => SubmissionStatus::Published,
+            'published_at' => now(),
+            'author_affiliations' => [
+                'Jérome ROBIN : CEN Occitanie, 75, voie du TOEC 31076 Toulouse, jerome.robin@cen-occitanie.org',
+                'Alexis SANTALUCIA : CEN, alexis@example.org',
+            ],
+        ]);
+
+        $service = app(ArticleLatexService::class);
+        $reflection = new \ReflectionMethod($service, 'generateLatexContent');
+        $reflection->setAccessible(true);
+        $latex = $reflection->invoke($service, $submission->fresh());
+
+        // Should use first affiliation name and email
+        $this->assertStringContainsString('ROBIN', $latex);
+        $this->assertStringContainsString('jerome.robin@cen-occitanie.org', $latex);
+        // Should NOT use the submitter's account email
+        $this->assertStringNotContainsString('submitter@ignored.example', $latex);
+    }
+
     public function test_copy_logo_assets_copies_four_files(): void
     {
         $service = app(ArticleLatexService::class);

@@ -73,4 +73,57 @@ class CitationExportServiceTest extends TestCase
         $this->assertStringContainsString('Tome 1', $harvard);
         $this->assertStringContainsString('doi:', $harvard);
     }
+
+    public function test_uses_display_authors_when_set(): void
+    {
+        $s = $this->makePublishedSubmission();
+        $s->display_authors = 'Jérome ROBIN, Alexis SANTALUCIA, Jérémy BUSCAIL, Baptiste CHARLOT';
+        $s->save();
+
+        $harvard = (new CitationExportService())->toHarvard($s->fresh());
+
+        $this->assertStringContainsString('ROBIN, J.', $harvard);
+        $this->assertStringContainsString('SANTALUCIA, A.', $harvard);
+        $this->assertStringContainsString('BUSCAIL, J.', $harvard);
+        $this->assertStringContainsString('CHARLOT, B.', $harvard);
+        // Should NOT use the User account name (Jean Dupont)
+        $this->assertStringNotContainsString('Dupont', $harvard);
+    }
+
+    public function test_falls_back_to_author_when_display_authors_empty(): void
+    {
+        $s = $this->makePublishedSubmission();
+        $s->display_authors = null;
+        $s->save();
+
+        $harvard = (new CitationExportService())->toHarvard($s->fresh());
+
+        $this->assertStringContainsString('Dupont, J.', $harvard);
+    }
+
+    public function test_includes_pagination_when_start_and_end_pages_set(): void
+    {
+        $s = $this->makePublishedSubmission();
+        $s->start_page = 45;
+        $s->end_page = 67;
+        $s->save();
+
+        $harvard = (new CitationExportService())->toHarvard($s->fresh());
+
+        $this->assertStringContainsString('pp. 45', $harvard);
+        $this->assertStringContainsString('67', $harvard);
+    }
+
+    public function test_includes_single_page_when_end_page_equals_start_page_or_null(): void
+    {
+        $s = $this->makePublishedSubmission();
+        $s->start_page = 50;
+        $s->end_page = null;
+        $s->save();
+
+        $harvard = (new CitationExportService())->toHarvard($s->fresh());
+
+        $this->assertStringContainsString(', p. 50', $harvard);
+        $this->assertStringNotContainsString('pp.', $harvard);
+    }
 }
