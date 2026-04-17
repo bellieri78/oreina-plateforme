@@ -145,7 +145,7 @@ class ArticleLatexService
         $fontPackageLatex = match ($fontPackage) {
             'times' => "\\usepackage{mathptmx}",
             'palatino' => "\\usepackage{palatino}",
-            'helvetica' => "\\usepackage[scaled=0.95]{helvet}\n\\renewcommand{\\familydefault}{\\sfdefault}",
+            'helvetica' => "\\usepackage{helvet}\n\\renewcommand{\\familydefault}{\\sfdefault}",
             default => "\\usepackage{lmodern}",
         };
 
