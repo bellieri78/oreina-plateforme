@@ -131,9 +131,11 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     // Publication
     Route::post('submissions/{submission}/publish', [SubmissionController::class, 'publish'])->name('submissions.publish');
 
-    // Markdown import
+    // Document import + title update
     Route::post('submissions/{submission}/import-markdown', [SubmissionController::class, 'importMarkdown'])
         ->name('submissions.import-markdown');
+    Route::patch('submissions/{submission}/update-title', [SubmissionController::class, 'updateTitle'])
+        ->name('submissions.update-title');
 
     // Pagination continue
     Route::post('submissions/{submission}/assign-pages', [SubmissionController::class, 'assignPages'])->name('submissions.assign-pages');

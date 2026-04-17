@@ -781,18 +781,72 @@ class SubmissionController extends Controller
         try {
             if (in_array($ext, $markdownExts, true)) {
                 $markdown = file_get_contents($file->getRealPath());
-            } else {
-                $markdown = app(DocumentConversionService::class)->toMarkdown($file->getRealPath());
+                $blocks = app(MarkdownToBlocksService::class)->parse($markdown);
+
+                return response()->json([
+                    'blocks' => $blocks,
+                    'count' => count($blocks),
+                ]);
             }
 
-            $blocks = app(MarkdownToBlocksService::class)->parse($markdown);
+            // Word/ODT: structured conversion via Claude API
+            $structured = app(DocumentConversionService::class)->toStructured($file->getRealPath());
+            $blocks = app(MarkdownToBlocksService::class)->parse($structured['markdown']);
+            $blocks = $this->enrichBlocksWithTaxonLinks($blocks, $structured['taxons']);
+
+            return response()->json([
+                'blocks' => $blocks,
+                'count' => count($blocks),
+                'references' => implode("\n", $structured['references']),
+                'authors_affiliations' => implode("\n", $structured['authors_affiliations']),
+                'acknowledgements' => $structured['acknowledgements'],
+                'detected_title' => $structured['title'],
+            ]);
         } catch (\RuntimeException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
+    }
 
-        return response()->json([
-            'blocks' => $blocks,
-            'count' => count($blocks),
+    /**
+     * Update the submission title (PATCH from layout editor)
+     */
+    public function updateTitle(Request $request, Submission $submission)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:500',
         ]);
+
+        $submission->update(['title' => $validated['title']]);
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * Enrich paragraph blocks by wrapping taxon names with Artemisiae links.
+     */
+    private function enrichBlocksWithTaxonLinks(array $blocks, array $taxons): array
+    {
+        if (empty($taxons)) {
+            return $blocks;
+        }
+
+        foreach ($blocks as &$block) {
+            if ($block['type'] !== 'paragraph' || empty($block['content'])) {
+                continue;
+            }
+
+            foreach ($taxons as $taxon) {
+                $escaped = preg_quote($taxon, '/');
+                $url = 'https://oreina.org/artemisiae/index.php?module=recherche&action=recherche&recherche=' . urlencode($taxon);
+
+                $block['content'] = preg_replace(
+                    '/<em>' . $escaped . '<\/em>(?![^<]*<\/a>)/u',
+                    '<a href="' . $url . '" target="_blank" title="Voir sur Artemisiae"><em>' . htmlspecialchars($taxon, ENT_QUOTES) . '</em></a>',
+                    $block['content']
+                );
+            }
+        }
+
+        return $blocks;
     }
 }
