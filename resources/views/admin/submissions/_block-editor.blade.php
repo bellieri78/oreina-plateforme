@@ -939,7 +939,7 @@
                         return;
                     }
                     const arrayBuffer = await file.arrayBuffer();
-                    const result = await mammoth.convertToMarkdown(arrayBuffer);
+                    const result = await mammoth.convertToMarkdown({arrayBuffer: arrayBuffer});
                     markdown = result.value;
                 } else {
                     // .md/.txt: read file content directly
