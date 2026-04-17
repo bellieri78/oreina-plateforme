@@ -1,0 +1,7 @@
+# Ignore everything by default (inherited from parent)
+*
+
+# But track LaTeX static assets (logos, badges) used for PDF generation
+!.gitignore
+!assets/
+!assets/*.png

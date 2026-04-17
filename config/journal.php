@@ -71,6 +71,8 @@ return [
     'tagline' => env('JOURNAL_TAGLINE', 'Revue scientifique d\'Oreina'),
     'contact_email' => env('JOURNAL_CONTACT_EMAIL', 'revue@oreina.org'),
 
+    'show_orcid' => env('JOURNAL_SHOW_ORCID', false),
+
     /*
     |--------------------------------------------------------------------------
     | Upload presets (utilisés par la rule App\Rules\SafeUpload)

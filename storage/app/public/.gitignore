@@ -1,2 +1,6 @@
 *
 !.gitignore
+!latex/
+!latex/.gitignore
+!latex/assets/
+!latex/assets/*.png

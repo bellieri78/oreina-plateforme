@@ -142,4 +142,25 @@ return [
         'license' => 'Creative Commons CC-BY 4.0',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Assets (logos, badges) — chemins absolus pour \includegraphics
+    |--------------------------------------------------------------------------
+    */
+    'assets' => [
+        'papillon_logo' => storage_path('app/public/latex/assets/oreina-papillon.png'),
+        'oreina_logo' => storage_path('app/public/latex/assets/oreina-noir-ligne.png'),
+        'open_access' => storage_path('app/public/latex/assets/open-access.png'),
+        'cc_by' => storage_path('app/public/latex/assets/cc-by-4.0.png'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Couleurs additionnelles (ajoutées pour refonte Biology Letters)
+    |--------------------------------------------------------------------------
+    */
+    'colors_extra' => [
+        'dark_teal' => env('LATEX_COLOR_DARK_TEAL', '0F766E'),  // Titre article, sections
+    ],
+
 ];
