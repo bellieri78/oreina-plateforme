@@ -1805,22 +1805,30 @@
                 <p>Lorsqu'un article est au statut <strong>Accepté</strong> (<code>accepted</code>), cliquer sur le bouton <strong>"Maquetter"</strong> ouvre l'éditeur de blocs et fait passer automatiquement le statut à <strong>"En maquettage"</strong> (<code>in_production</code>). Cette transition est loguée dans la timeline éditoriale.</p>
                 <p>Le bouton "Maquetter" et le bloc "Maquette de l'article" sont visibles pour les statuts <code>accepted</code>, <code>in_production</code> et <code>published</code>.</p>
 
-                <h3>Import Markdown</h3>
-                <p>Dans la page de maquettage d'un article (<code>/extranet/submissions/{id}/layout</code>), un bouton <strong>"Importer Markdown"</strong> (violet) permet d'uploader un fichier <code>.md</code> ou <code>.txt</code> qui est automatiquement converti en blocs de maquette.</p>
+                <h3>Import de documents</h3>
+                <p>Dans la page de maquettage d'un article (<code>/extranet/submissions/{id}/layout</code>), un bouton <strong>"Importer un document"</strong> (violet) permet d'uploader un fichier qui est automatiquement converti en blocs de maquette.</p>
+
+                <h4>Formats acceptés</h4>
+                <ul>
+                    <li><strong>Markdown</strong> (<code>.md</code>, <code>.txt</code>, <code>.markdown</code>) — conversion directe via CommonMark</li>
+                    <li><strong>Word</strong> (<code>.docx</code>) — parsing natif via PhpWord, pas de dépendance externe</li>
+                    <li><strong>OpenDocument</strong> (<code>.odt</code>) — même moteur que Word</li>
+                </ul>
+                <p>Taille maximale : 5 Mo.</p>
 
                 <h4>Types de blocs générés</h4>
                 <ul>
-                    <li><code># / ## / ###</code> → bloc Titre (H1 / H2 / H3)</li>
-                    <li>Paragraphe avec <code>**gras**</code> / <code>*italique*</code> → bloc Paragraphe (HTML inline conservé)</li>
-                    <li><code>![alt](url)</code> → bloc Image (URL conservée, upload séparé si nécessaire)</li>
-                    <li><code>&gt; citation</code> → bloc Citation</li>
-                    <li><code>- item</code> / <code>1. item</code> → bloc Liste (ordonnée ou non)</li>
-                    <li>Tableau pipe <code>| col1 | col2 |</code> → bloc Tableau (headers + lignes)</li>
+                    <li>Titres → bloc Titre (H1 / H2 / H3). Pour les fichiers Word/ODT : détection par style Word (<code>Heading1</code>, etc.) ou par heuristique (texte court + gras + grande police).</li>
+                    <li>Paragraphes → bloc Paragraphe (gras, italique, exposant, indice conservés en HTML inline)</li>
+                    <li>Tableaux → bloc Tableau (1re ligne = en-têtes)</li>
+                    <li>Listes à puces / numérotées → bloc Liste</li>
+                    <li>Images Markdown <code>![alt](url)</code> → bloc Image (Word/ODT : images ignorées, envoyées séparément)</li>
+                    <li>Citations Markdown <code>&gt; texte</code> → bloc Citation (pas d'équivalent en Word)</li>
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Attention :</strong> l'import remplace tous les blocs existants (avec confirmation). Les images référencées dans le Markdown doivent être des URLs accessibles — l'upload d'images séparées se fait via l'éditeur de blocs après import.<br>
-                    <strong>Formats acceptés :</strong> <code>.md</code>, <code>.txt</code>, <code>.markdown</code> — max 5 Mo.
+                    <strong>Attention :</strong> l'import remplace tous les blocs existants (avec confirmation). Les images sont envoyées séparément en haute résolution après acceptation — elles ne sont pas extraites des fichiers Word.<br>
+                    <strong>Limites Word/ODT :</strong> les titres formatés sans gras ni changement de taille sont traités comme des paragraphes. Les listes imbriquées sont aplaties. Les fichiers <code>.doc</code> (ancien format) ne sont pas supportés.
                 </div>
 
                 <h4>Sauvegarde et aperçu PDF</h4>
