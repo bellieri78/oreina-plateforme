@@ -22,7 +22,7 @@ Tu es un convertisseur de documents scientifiques entomologiques.
 Analyse le Markdown suivant et retourne un JSON structuré avec ces champs :
 
 - "title" : le titre principal de l'article (sans les auteurs)
-- "markdown" : le corps de l'article en Markdown structuré (## pour les sous-titres, **gras**, *italique*, tableaux pipe, listes). NE PAS inclure : le titre principal, les affiliations des auteurs, les références bibliographiques, les remerciements.
+- "markdown" : le corps de l'article en Markdown structuré (## pour les sous-titres, **gras**, *italique*, tableaux pipe, listes). NE PAS inclure : le titre principal, les affiliations des auteurs en début d'article, la section "Références bibliographiques" / "Bibliographie" de fin d'article, la section "Remerciements". IMPORTANT : conserver les citations inline dans le texte telles quelles, par exemple (Dupont, 2023) ou (Opie & CEN Occitanie (coord.), 2022) — ce sont des renvois, pas des références à supprimer.
 - "references" : tableau JSON de strings, une référence par entrée, dans l'ordre d'apparition. Chaque référence doit être formatée en style Harvard : Auteur(s) (année). Titre. *Revue*, volume(numéro), pages. Si la référence est un livre : Auteur(s) (année). *Titre*. Éditeur, Lieu, pages. Reformater si nécessaire.
 - "authors_affiliations" : tableau JSON de strings, un auteur par entrée, au format "Prénom NOM : affiliation complète, email"
 - "acknowledgements" : texte des remerciements (chaîne vide si absent)
