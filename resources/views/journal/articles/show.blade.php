@@ -148,62 +148,41 @@
         word-break: break-all;
     }
 
-    /* License block */
-    .license-block {
-        background: var(--accent-surface);
-        border: 1px solid rgba(15,118,110,0.18);
-        border-left: 4px solid var(--accent);
-        border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-        padding: 24px 28px;
-        margin-bottom: 40px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-    .license-badges {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-    .license-badge {
+    /* Meta logos (Open Access + CC) */
+    .meta-logos {
         display: flex;
         align-items: center;
-        gap: 12px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-md);
-        padding: 12px 18px;
-        flex: 0 1 auto;
+        gap: 10px;
+        margin-top: 2px;
     }
-    .license-badge .badge-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        display: flex;
+    .meta-logo {
+        height: 24px;
+        width: auto;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+    .meta-logo:hover {
+        opacity: 1;
+    }
+    .cc-logo {
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    .license-badge.oa .badge-icon {
-        background: #f59e0b;
-    }
-    .license-badge.cc .badge-icon {
-        background: var(--accent);
-    }
-    .license-badge strong {
-        display: block;
-        font-size: 14px;
-        color: var(--text);
-    }
-    .license-badge span {
+        gap: 4px;
         font-size: 12px;
-        color: var(--muted);
+        font-weight: 600;
+        color: var(--accent);
+        padding: 3px 8px;
+        border: 1px solid var(--accent);
+        border-radius: 4px;
+        transition: all 0.2s;
+        text-decoration: none;
     }
-    .license-text {
-        font-size: 13px;
-        line-height: 1.6;
-        color: var(--muted);
-        margin: 0;
+    .cc-logo:hover {
+        background: var(--accent);
+        color: white;
+    }
+    .cc-logo svg {
+        flex-shrink: 0;
     }
     .license-text a {
         color: var(--accent);
@@ -851,41 +830,22 @@
                         </div>
                         <div>
                             <p class="meta-label">Licence</p>
-                            <p class="meta-value">CC BY 4.0</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Open Access + CC BY 4.0 License Block --}}
-                <div class="license-block">
-                    <div class="license-badges">
-                        <div class="license-badge oa">
-                            <img src="/images/open-access.png" alt="Open Access" style="height:36px;width:auto;">
-                            <div>
-                                <strong>Open Access</strong>
-                                <span>Cet article est en accès libre</span>
-                            </div>
-                        </div>
-                        <div class="license-badge cc">
-                            <div class="badge-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M15 9.354a4 4 0 1 0 0 5.292"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <strong>CC BY 4.0</strong>
-                                <span>Creative Commons Attribution License</span>
+                            <div class="meta-logos">
+                                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" title="Creative Commons Attribution 4.0 International">
+                                    <img src="/images/open-access.png" alt="Open Access" class="meta-logo">
+                                </a>
+                                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" title="CC BY 4.0 — Utilisation libre avec attribution">
+                                    <span class="cc-logo">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <path d="M15 9.354a4 4 0 1 0 0 5.292"/>
+                                        </svg>
+                                        CC BY 4.0
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <p class="license-text">
-                        Cet article est distribué sous les termes de la licence
-                        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">
-                            Creative Commons Attribution 4.0 International (CC BY 4.0)</a>,
-                        qui autorise l'utilisation, la distribution et la reproduction sur tout support,
-                        à condition que l'œuvre originale soit correctement citée.
-                    </p>
                 </div>
 
                 {{-- Content --}}
