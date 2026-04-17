@@ -720,6 +720,7 @@ class SubmissionController extends Controller
             'references' => 'nullable|string',
             'acknowledgements' => 'nullable|string',
             'author_affiliations' => 'nullable|string',
+            'display_authors' => 'nullable|string|max:1000',
             'received_at' => 'nullable|date',
             'accepted_at' => 'nullable|date',
         ]);
@@ -799,11 +800,19 @@ class SubmissionController extends Controller
             $blocks = $this->enrichBlocksWithCitationTooltips($blocks, $refs);
             $affils = is_array($structured['authors_affiliations']) ? $structured['authors_affiliations'] : [];
 
+            // Build display authors from affiliations: "Prénom NOM : affiliation" → "Prénom NOM"
+            $authorNames = array_map(function ($a) {
+                $parts = explode(':', $a, 2);
+                return trim($parts[0]);
+            }, $affils);
+            $displayAuthors = implode(', ', array_filter($authorNames));
+
             return response()->json([
                 'blocks' => $blocks,
                 'count' => count($blocks),
                 'references' => implode("\n", array_map('strval', $refs)),
                 'authors_affiliations' => implode("\n", array_map('strval', $affils)),
+                'display_authors' => $displayAuthors,
                 'acknowledgements' => (string) ($structured['acknowledgements'] ?? ''),
                 'detected_title' => (string) ($structured['title'] ?? ''),
             ]);

@@ -19,6 +19,7 @@ class Submission extends Model
         'references',
         'acknowledgements',
         'author_affiliations',
+        'display_authors',
         'manuscript_file',
         'supplementary_files',
         'pdf_file',

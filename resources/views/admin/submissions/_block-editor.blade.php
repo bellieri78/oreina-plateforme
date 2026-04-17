@@ -980,6 +980,9 @@
 
                     const ackEl = document.getElementById('sidebar-acknowledgements');
                     if (ackEl) ackEl.value = data.acknowledgements;
+
+                    const displayAuthorsEl = document.getElementById('sidebar-display-authors');
+                    if (displayAuthorsEl && data.display_authors) displayAuthorsEl.value = data.display_authors;
                 }
 
                 // Show detected title banner if different from current title

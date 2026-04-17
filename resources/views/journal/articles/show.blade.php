@@ -798,7 +798,11 @@
                     {{-- Authors & Affiliations --}}
                     <div style="margin-bottom:28px">
                         <p class="authors">
-                            {{ $submission->author?->name ?? 'Auteur inconnu' }}@if($submission->co_authors && is_array($submission->co_authors))@foreach($submission->co_authors as $coAuthor)@if(!empty($coAuthor['name'])), {{ $coAuthor['name'] }}@endif @endforeach @endif
+                            @if($submission->display_authors)
+                                {{ $submission->display_authors }}
+                            @else
+                                {{ $submission->author?->name ?? 'Auteur inconnu' }}@if($submission->co_authors && is_array($submission->co_authors))@foreach($submission->co_authors as $coAuthor)@if(!empty($coAuthor['name'])), {{ $coAuthor['name'] }}@endif @endforeach @endif
+                            @endif
                         </p>
                         @if($submission->author_affiliations && is_array($submission->author_affiliations) && count($submission->author_affiliations) > 0)
                         <div class="affiliations">

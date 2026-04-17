@@ -312,6 +312,17 @@
                     </div>
                 </div>
 
+                {{-- Display Authors --}}
+                <div class="sidebar-card">
+                    <div class="sidebar-card-title">Auteurs (affichage)</div>
+                    <div class="sidebar-field">
+                        <input type="text" name="display_authors" id="sidebar-display-authors" class="sidebar-input"
+                               value="{{ old('display_authors', $submission->display_authors ?? '') }}"
+                               placeholder="Prénom NOM, Prénom NOM & Prénom NOM">
+                        <div class="sidebar-hint">Noms tels qu'affichés sur la page publique</div>
+                    </div>
+                </div>
+
                 {{-- Affiliations --}}
                 <div class="sidebar-card">
                     <div class="sidebar-card-title">Affiliations auteurs</div>
