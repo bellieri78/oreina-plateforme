@@ -126,6 +126,7 @@ class ArticleLatexService
         $colorText = $colors['text'] ?? '333333';
         $colorGray = $colors['gray'] ?? '555555';
         $colorLight = $colors['light_gray'] ?? 'F7F7F7';
+        $colorDarkTeal = $this->getConfig('colors_extra.dark_teal', '0F766E');
 
         $spacing = $this->getConfig('spacing', []);
         $sectionBefore = $spacing['section_before'] ?? 18;
@@ -182,6 +183,7 @@ class ArticleLatexService
 % COLORS
 \\definecolor{chersotisOrange}{HTML}{{$colorPrimary}}
 \\definecolor{chersotisTeal}{HTML}{{$colorSecondary}}
+\\definecolor{chersotisDarkTeal}{HTML}{{$colorDarkTeal}}
 \\definecolor{chersotisGray}{HTML}{{$colorGray}}
 \\definecolor{chersotisText}{HTML}{{$colorText}}
 \\definecolor{chersotisLightGray}{HTML}{{$colorLight}}
@@ -197,7 +199,7 @@ class ArticleLatexService
 
 % SECTION STYLING
 \\titleformat{\\section}
-    {\\normalfont\\large\\bfseries\\color{chersotisTeal}}
+    {\\normalfont\\large\\bfseries\\color{chersotisDarkTeal}}
     {\\thesection.}{0.5em}{}
 
 \\titleformat{\\subsection}
@@ -212,7 +214,7 @@ class ArticleLatexService
 \\fancyhf{}
 
 % Header for pages 2+
-\\fancyhead[L]{\\small\\textbf{\\textcolor{chersotisTeal}{{$headerLeft}}}}
+\\fancyhead[L]{\\small\\textbf{\\textcolor{chersotisOrange}{{$headerLeft}}}}
 \\fancyhead[R]{\\small\\textcolor{chersotisGray}{{$headerRight}}}
 \\renewcommand{\\headrulewidth}{0.5pt}
 \\renewcommand{\\headrule}{\\hbox to\\headwidth{\\color{chersotisTeal}\\leaders\\hrule height \\headrulewidth\\hfill}}
