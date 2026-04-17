@@ -392,6 +392,19 @@ PREAMBLE;
 ";
         }
 
+        // Supplementary material section in body (before References)
+        $supplementaryBodyLatex = '';
+        if (!empty($supplementaryFiles)) {
+            $supplementaryBodyLatex = "\n\\vspace{12pt}\\hrule\\vspace{8pt}\n" .
+                "{\\normalsize\\textbf{\\textcolor{chersotisDarkTeal}{Matériel supplémentaire}}}\n\n" .
+                "\\vspace{4pt}\n\n{\\small\n" .
+                "\\begin{description}[style=unboxed,leftmargin=1.5em,labelsep=0pt,font=\\normalfont]\n";
+            foreach ($supplementaryFiles as $sf) {
+                $supplementaryBodyLatex .= "\\item \\href{{$sf['url']}}{\\textcolor{chersotisTeal}{{$sf['name']}}}\n";
+            }
+            $supplementaryBodyLatex .= "\\end{description}\n}\n";
+        }
+
         // Build references
         $referencesLatex = '';
         if (!empty($submission->references)) {
@@ -441,13 +454,21 @@ PREAMBLE;
 \\fancyfoot[R]{\\footnotesize\\textcolor{chersotisGray}{\\thepage}}
 \\renewcommand{\\footrulewidth}{0.3pt}
 
-% First page style
+% First page style — license footer
 \\fancypagestyle{firstpage}{
     \\fancyhf{}
     \\renewcommand{\\headrulewidth}{0pt}
-    \\fancyfoot[L]{\\footnotesize\\textcolor{chersotisOrange}{\\textbf{Citation}} \\textcolor{chersotisGray}{{$authorName} ({$year}), {$shortTitle}. \\textbf{\\textcolor{chersotisTeal}{Chersotis}} {$volumeInfo}. \\url{{$doiUrl}}}}
-    \\fancyfoot[R]{\\footnotesize\\textcolor{chersotisGray}{\\thepage}}
-    \\renewcommand{\\footrulewidth}{0.3pt}
+    \\fancyfoot[C]{%
+        \\parbox{0.95\\textwidth}{%
+            \\color{gray!40}\\hrule\\vspace{4pt}\\color{chersotisGray}
+            \\centering\\footnotesize
+            \\textcopyright\\ {$copyrightYear} OREINA. Publié par l'association OREINA sous licence
+            Creative Commons Attribution CC BY 4.0, qui autorise toute utilisation,
+            distribution et reproduction, à condition que l'auteur et la source originale soient cités.\\\\
+            \\url{https://creativecommons.org/licenses/by/4.0/}
+        }%
+    }
+    \\renewcommand{\\footrulewidth}{0pt}
 }
 
 \\begin{document}
@@ -555,6 +576,8 @@ PREAMBLE;
 {$contentLatex}
 
 {$acknowledgementsLatex}
+
+{$supplementaryBodyLatex}
 
 {$referencesLatex}
 

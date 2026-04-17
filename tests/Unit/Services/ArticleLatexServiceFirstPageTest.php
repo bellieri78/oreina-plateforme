@@ -161,4 +161,39 @@ class ArticleLatexServiceFirstPageTest extends TestCase
         $this->assertStringContainsString('{Summary}', $latex);
         $this->assertStringContainsString('Summary only.', $latex);
     }
+
+    public function test_first_page_footer_contains_license_text(): void
+    {
+        $latex = $this->buildLatex();
+        $this->assertStringContainsString('Creative Commons Attribution CC BY 4.0', $latex);
+        $this->assertStringContainsString('creativecommons.org/licenses/by/4.0/', $latex);
+    }
+
+    public function test_first_page_footer_uses_current_copyright_year(): void
+    {
+        $latex = $this->buildLatex(['published_at' => '2024-06-15']);
+        $this->assertStringContainsString('\\textcopyright\\ 2024 OREINA', $latex);
+    }
+
+    public function test_supplementary_section_hidden_when_no_files(): void
+    {
+        $latex = $this->buildLatex();
+        // When no supplementary files, the text must not appear at all
+        $this->assertStringNotContainsString('Matériel supplémentaire', $latex);
+    }
+
+    public function test_supplementary_section_appears_in_body_when_files_present(): void
+    {
+        $latex = $this->buildLatex([
+            'supplementary_files' => [
+                ['name' => 'DataS1', 'url' => 'https://example.com/d.csv'],
+            ],
+        ]);
+        // Should appear twice: once in sidebar (Task 7), once in body (Task 9)
+        $this->assertEquals(
+            2,
+            substr_count($latex, 'Matériel supplémentaire'),
+            'Matériel supplémentaire should appear in both sidebar and body'
+        );
+    }
 }
