@@ -343,11 +343,34 @@ PREAMBLE;
             }
         }
 
-        // Build affiliations LaTeX
+        // Build affiliations LaTeX — numeric superscripts (1, 2, 3)
         $affiliationsLatex = '';
-        $letters = range('a', 'z');
         foreach ($affiliations as $index => $aff) {
-            $affiliationsLatex .= "\\textsuperscript{" . $letters[$index] . "}" . $this->escapeLatex($aff) . "\\\\\n";
+            $affiliationsLatex .= "\\textsuperscript{" . ($index + 1) . "}" . $this->escapeLatex($aff) . "\\\\\n";
+        }
+
+        // Build authors line for right column display
+        $authorsDisplay = $submission->display_authors ?? $authorName;
+        $authorsDisplayEscaped = $this->escapeLatex($authorsDisplay);
+
+        // Build Summary box LaTeX (conditional)
+        $summaryBoxLatex = '';
+        if (!empty($displaySummary)) {
+            $titleEnLine = '';
+            if (!empty($titleEn)) {
+                $titleEnLine = "{\\normalsize\\textbf{{$titleEn}}}\\\\[4pt]\n";
+            }
+
+            $summaryBoxLatex = "\n    \\vspace{8pt}\n" .
+                "    \\colorbox{chersotisLightGray}{%\n" .
+                "        \\parbox{0.95\\linewidth}{%\n" .
+                "            \\vspace{6pt}\n" .
+                "            {\\small\\textbf{\\textcolor{chersotisTeal}{Summary}}}\\\\[4pt]\n" .
+                "            {$titleEnLine}" .
+                "            {\\small\\justifying\\textcolor{gray!80}{\\textit{{$displaySummary}}}}\n" .
+                "            \\vspace{6pt}\n" .
+                "        }%\n" .
+                "    }\n";
         }
 
         // Build content blocks
@@ -492,23 +515,29 @@ PREAMBLE;
 \\vrule width 0.5pt
 \\hfill
 \\begin{minipage}[t]{{$rightColWidth}\\textwidth}
-    {\\fontsize{{$articleTitleSize}}{18}\\selectfont\\textbf{\\textcolor{chersotisOrange}{\\textit{{$title}}}}}
+
+    % Title — teal dark, not italic
+    {\\fontsize{18}{22}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}}
 
     \\vspace{10pt}
 
-    {\\normalsize {$authorName}\\textsuperscript{a}}
+    % Authors with numeric superscripts
+    {\\normalsize {$authorsDisplayEscaped}}
 
     \\vspace{6pt}
 
+    % Affiliations
     {\\small\\textcolor{chersotisGray}{
 {$affiliationsLatex}    }}
 
     \\vspace{10pt}
 
-    {\\normalsize\\textbf{\\textcolor{chersotisTeal}{Original research}}}
+    % Article type label
+    {\\normalsize\\textbf{\\textcolor{chersotisTeal}{Article de recherche}}}
 
     \\vspace{8pt}
 
+    % Abstract (French)
     \\colorbox{chersotisLightGray}{%
         \\parbox{0.95\\linewidth}{%
             \\vspace{6pt}
@@ -517,10 +546,7 @@ PREAMBLE;
             \\vspace{6pt}
         }%
     }
-
-    \\vspace{8pt}
-
-    {\\small\\textbf{\\textcolor{chersotisTeal}{Mots-clés}} {$keywords}}
+{$summaryBoxLatex}
 \\end{minipage}
 
 \\vspace{16pt}

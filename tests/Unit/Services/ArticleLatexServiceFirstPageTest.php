@@ -109,4 +109,56 @@ class ArticleLatexServiceFirstPageTest extends TestCase
             $latex
         );
     }
+
+    public function test_title_is_not_italic_and_uses_dark_teal(): void
+    {
+        $latex = $this->buildLatex(['title' => 'Ma recherche']);
+        $this->assertMatchesRegularExpression(
+            '/\\\\textbf\{\\\\textcolor\{chersotisDarkTeal\}\{Ma recherche\}\}/',
+            $latex
+        );
+        // Ensure title is NOT wrapped in \textit{...}
+        $this->assertStringNotContainsString('\\textit{Ma recherche}', $latex);
+    }
+
+    public function test_article_type_label_is_french(): void
+    {
+        $latex = $this->buildLatex();
+        $this->assertStringContainsString('Article de recherche', $latex);
+        $this->assertStringNotContainsString('Original research', $latex);
+    }
+
+    public function test_abstract_box_has_resume_header(): void
+    {
+        $latex = $this->buildLatex(['abstract' => 'Mon résumé.']);
+        $this->assertStringContainsString('\\textcolor{chersotisTeal}{Résumé}', $latex);
+        $this->assertStringContainsString('Mon résumé.', $latex);
+    }
+
+    public function test_summary_box_hidden_when_display_summary_empty(): void
+    {
+        $latex = $this->buildLatex(['display_summary' => null]);
+        $this->assertStringNotContainsString('{Summary}', $latex);
+    }
+
+    public function test_summary_box_shown_with_title_en_bold(): void
+    {
+        $latex = $this->buildLatex([
+            'display_summary' => 'English abstract content.',
+            'title_en' => 'My English Title',
+        ]);
+        $this->assertStringContainsString('{Summary}', $latex);
+        $this->assertStringContainsString('\\textbf{My English Title}', $latex);
+        $this->assertStringContainsString('English abstract content.', $latex);
+    }
+
+    public function test_summary_box_without_title_en_omits_bold_line(): void
+    {
+        $latex = $this->buildLatex([
+            'display_summary' => 'Summary only.',
+            'title_en' => null,
+        ]);
+        $this->assertStringContainsString('{Summary}', $latex);
+        $this->assertStringContainsString('Summary only.', $latex);
+    }
 }
