@@ -585,7 +585,7 @@
                             <h3><a href="{{ route('journal.articles.show', $featuredArticle) }}">{{ $featuredArticle->title }}</a></h3>
                             <div class="article-card-author">
                                 <i class="icon" data-lucide="user" style="width:14px;height:14px;flex:0 0 14px;"></i>
-                                {{ $featuredArticle->author?->name ?? 'Auteur inconnu' }}
+                                {{ $featuredArticle->display_authors ?? $featuredArticle->author?->name ?? 'Auteur inconnu' }}
                             </div>
                             <p class="article-card-abstract">{{ $featuredArticle->abstract }}</p>
                             @if($featuredArticle->keywords && is_array($featuredArticle->keywords) && count($featuredArticle->keywords) > 0)
@@ -617,7 +617,7 @@
                             <h3><a href="{{ route('journal.articles.show', $article) }}">{{ $article->title }}</a></h3>
                             <div class="article-card-author">
                                 <i class="icon" data-lucide="user" style="width:14px;height:14px;flex:0 0 14px;"></i>
-                                {{ $article->author?->name ?? 'Auteur inconnu' }}
+                                {{ $article->display_authors ?? $article->author?->name ?? 'Auteur inconnu' }}
                             </div>
                             <p class="article-card-abstract">{{ $article->abstract }}</p>
                             @if($article->keywords && is_array($article->keywords) && count($article->keywords) > 0)

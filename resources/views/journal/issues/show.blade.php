@@ -72,7 +72,7 @@
                                         {{ $article->title }}
                                     </a>
                                 </h3>
-                                <p class="text-sm text-slate-500 mb-2">{{ $article->author?->name }}</p>
+                                <p class="text-sm text-slate-500 mb-2">{{ $article->display_authors ?? $article->author?->name }}</p>
                                 @if($article->start_page && $article->end_page)
                                 <p class="text-xs text-slate-400">pp. {{ $article->start_page }}-{{ $article->end_page }}</p>
                                 @endif

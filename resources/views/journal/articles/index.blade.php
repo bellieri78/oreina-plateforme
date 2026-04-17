@@ -58,7 +58,7 @@
 
                                 <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                                     <i data-lucide="user" style="width:14px;height:14px;color:#94a3b8"></i>
-                                    <span class="text-xs sm:text-sm font-medium text-slate-700">{{ $article->author?->name ?? 'Auteur inconnu' }}</span>
+                                    <span class="text-xs sm:text-sm font-medium text-slate-700">{{ $article->display_authors ?? $article->author?->name ?? 'Auteur inconnu' }}</span>
                                 </div>
 
                                 @if($article->keywords && is_array($article->keywords) && count($article->keywords) > 0)

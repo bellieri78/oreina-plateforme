@@ -1080,7 +1080,7 @@
                                     {{ $related->title }}
                                 </a>
                             </h3>
-                            <p class="related-author">{{ $related->author?->name }}</p>
+                            <p class="related-author">{{ $related->display_authors ?? $related->author?->name }}</p>
                             @if($related->start_page && $related->end_page)
                             <p class="related-pages">pp. {{ $related->start_page }}-{{ $related->end_page }}</p>
                             @endif
@@ -1119,7 +1119,7 @@
 
     @php
         $bibtexYear = $submission->published_at?->year ?? date('Y');
-        $bibtexAuthor = $submission->author?->name ?? 'Auteur';
+        $bibtexAuthor = $submission->display_authors ?? $submission->author?->name ?? 'Auteur';
         $bibtexTitle = str_replace(['"', '\\'], ['\"', '\\\\'], $submission->title);
         $lb = '{'; $rb = '}';
         $bibtexLines = [
