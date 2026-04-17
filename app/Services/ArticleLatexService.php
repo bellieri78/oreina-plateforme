@@ -539,7 +539,7 @@ PREAMBLE;
 
     \\vfill
 
-    % Logo Oreina en bas (aligned left, sidebar already uses \raggedright)
+    % Logo Oreina en bas (aligned left, sidebar already uses \\raggedright)
     \\includegraphics[width=0.6\\linewidth]{{$oreinaLogoPath}}
 
 \\end{minipage}%
