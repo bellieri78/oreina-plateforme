@@ -1818,12 +1818,26 @@
                 <h4>Enrichissement intelligent (Claude Haiku)</h4>
                 <p>L'IA analyse le contenu du document et extrait automatiquement :</p>
                 <ul>
-                    <li><strong>Corps de l'article</strong> — titres hiérarchisés, formatage, tableaux, listes. Le titre, les affiliations, les références et les remerciements sont <strong>retirés du corps</strong> et placés dans les champs dédiés.</li>
-                    <li><strong>Références bibliographiques</strong> — extraites, reformatées en style Harvard, et pré-remplies dans le champ sidebar</li>
+                    <li><strong>Corps de l'article</strong> — titres hiérarchisés, formatage, tableaux, listes. Le titre, les affiliations, le résumé, les références et les remerciements sont <strong>retirés du corps</strong> et placés dans les champs dédiés.</li>
+                    <li><strong>Résumé (français)</strong> — extrait et pré-rempli dans le champ dédié au-dessus de l'éditeur</li>
+                    <li><strong>Summary (anglais)</strong> — extrait si présent, sinon <strong>traduit automatiquement</strong> depuis le résumé français</li>
+                    <li><strong>Auteurs (affichage)</strong> — noms extraits des affiliations, pré-remplis dans le champ sidebar. Ce champ est utilisé pour l'affichage sur toutes les pages publiques (listing, article, recherche, numéro), indépendamment du compte utilisateur lié à la soumission.</li>
+                    <li><strong>Références bibliographiques</strong> — extraites et reformatées en <strong>style Harvard</strong> (noms de revues en italique). Pré-remplies dans le champ sidebar.</li>
                     <li><strong>Affiliations auteurs</strong> — extraites et pré-remplies dans le champ sidebar</li>
                     <li><strong>Remerciements</strong> — extraits et pré-remplis dans le champ sidebar</li>
-                    <li><strong>Noms de taxons</strong> — détectés et enrichis avec un lien vers <a href="https://oreina.org/artemisiae/" target="_blank">Artemisiae</a></li>
+                    <li><strong>Noms de taxons</strong> — détectés et enrichis avec un <strong>lien vers Artemisiae</strong> (soulignement vert, cliquable vers la fiche espèce)</li>
+                    <li><strong>Citations inline</strong> — les renvois bibliographiques dans le texte comme <code>(Dupont, 2023)</code> sont enrichis avec un <strong>tooltip</strong> affichant la référence complète au survol</li>
                     <li><strong>Titre détecté</strong> — si différent du titre de la soumission, un bandeau propose de le mettre à jour</li>
+                </ul>
+
+                <h4>Page publique de l'article</h4>
+                <p>Sur la page publique, les enrichissements suivants sont visibles :</p>
+                <ul>
+                    <li><strong>Résumé + Summary</strong> — affichés dans l'encadré dédié (le summary en italique). Remplacent le résumé initial de soumission.</li>
+                    <li><strong>Taxons</strong> — les noms d'espèces en italique sont cliquables (lien vert vers Artemisiae)</li>
+                    <li><strong>Citations</strong> — au survol d'un renvoi comme (Dupont, 2023), un tooltip dark affiche la référence complète</li>
+                    <li><strong>Références</strong> — les noms de revues en italique sont correctement rendus (Markdown <code>*revue*</code> → <em>revue</em>)</li>
+                    <li><strong>Métadonnées</strong> — DOI, date, type, logo Open Access et badge CC BY 4.0 dans une grille compacte</li>
                 </ul>
 
                 <div class="doc-info">
