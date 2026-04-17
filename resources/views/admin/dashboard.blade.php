@@ -7,18 +7,14 @@
     <div class="page-header">
         <div class="page-header-content">
             <h1 class="page-title">
-                <svg class="page-title-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="28" height="28">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                </svg>
+                <i data-lucide="home" class="page-title-icon"></i>
                 Tableau de bord
             </h1>
             <p class="page-subtitle">Bienvenue, {{ auth()->user()->name }}</p>
         </div>
         <div class="page-header-actions">
             <a href="{{ route('admin.settings.statistics') }}" class="btn btn-outline">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
+                <i data-lucide="bar-chart-3"></i>
                 Statistiques
             </a>
         </div>
@@ -28,9 +24,7 @@
     <div class="dashboard-stats">
         <div class="dashboard-stat-card dashboard-stat-blue">
             <div class="dashboard-stat-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="28" height="28">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
+                <i data-lucide="users" style="width:28px;height:28px;"></i>
             </div>
             <div class="dashboard-stat-content">
                 <span class="dashboard-stat-value">{{ $stats['members_active'] }}</span>
@@ -41,9 +35,7 @@
 
         <div class="dashboard-stat-card dashboard-stat-green">
             <div class="dashboard-stat-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="28" height="28">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
+                <i data-lucide="circle-dollar-sign" style="width:28px;height:28px;"></i>
             </div>
             <div class="dashboard-stat-content">
                 <span class="dashboard-stat-value">{{ number_format($stats['donations_year'], 0, ',', ' ') }} EUR</span>
@@ -54,9 +46,7 @@
 
         <div class="dashboard-stat-card dashboard-stat-purple">
             <div class="dashboard-stat-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="28" height="28">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"/>
-                </svg>
+                <i data-lucide="id-card" style="width:28px;height:28px;"></i>
             </div>
             <div class="dashboard-stat-content">
                 <span class="dashboard-stat-value">{{ $stats['memberships_active'] }}</span>
@@ -67,9 +57,7 @@
 
         <div class="dashboard-stat-card dashboard-stat-orange">
             <div class="dashboard-stat-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="28" height="28">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
+                <i data-lucide="book-open" style="width:28px;height:28px;"></i>
             </div>
             <div class="dashboard-stat-content">
                 <span class="dashboard-stat-value">{{ $stats['submissions_pending'] }}</span>
@@ -83,9 +71,7 @@
     <div class="card mb-4">
         <div class="card-header-simple">
             <h3 class="card-title-simple">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20" style="margin-right: 0.5rem; vertical-align: middle;">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
-                </svg>
+                <i data-lucide="trending-up" style="width:20px;height:20px;margin-right:0.5rem;vertical-align:middle;"></i>
                 Evolution sur 12 mois
             </h3>
         </div>
@@ -174,9 +160,7 @@
         <div class="card">
             <div class="card-header-simple" style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="card-title-simple">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" style="margin-right: 0.5rem; vertical-align: middle;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
+                    <i data-lucide="calendar-days" style="width:18px;height:18px;margin-right:0.5rem;vertical-align:middle;"></i>
                     Prochains evenements
                 </h3>
                 <a href="{{ route('admin.events.index') }}" class="btn btn-ghost btn-sm">Voir tout</a>
@@ -203,9 +187,7 @@
         <div class="card">
             <div class="card-header-simple">
                 <h3 class="card-title-simple">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18" style="margin-right: 0.5rem; vertical-align: middle;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
+                    <i data-lucide="zap" style="width:18px;height:18px;margin-right:0.5rem;vertical-align:middle;"></i>
                     Actions rapides
                 </h3>
             </div>
@@ -213,49 +195,37 @@
                 <div class="quick-actions-grid">
                     <a href="{{ route('admin.members.create') }}" class="quick-action">
                         <div class="quick-action-icon quick-action-icon-blue">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-                            </svg>
+                            <i data-lucide="user-plus" style="width:24px;height:24px;"></i>
                         </div>
                         <span>Nouveau contact</span>
                     </a>
                     <a href="{{ route('admin.memberships.create') }}" class="quick-action">
                         <div class="quick-action-icon quick-action-icon-purple">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"/>
-                            </svg>
+                            <i data-lucide="credit-card" style="width:24px;height:24px;"></i>
                         </div>
                         <span>Nouvelle adhesion</span>
                     </a>
                     <a href="{{ route('admin.donations.create') }}" class="quick-action">
                         <div class="quick-action-icon quick-action-icon-green">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
+                            <i data-lucide="heart-handshake" style="width:24px;height:24px;"></i>
                         </div>
                         <span>Nouveau don</span>
                     </a>
                     <a href="{{ route('admin.articles.create') }}" class="quick-action">
                         <div class="quick-action-icon quick-action-icon-orange">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                            </svg>
+                            <i data-lucide="pencil" style="width:24px;height:24px;"></i>
                         </div>
                         <span>Nouvel article</span>
                     </a>
                     <a href="{{ route('admin.events.create') }}" class="quick-action">
                         <div class="quick-action-icon quick-action-icon-yellow">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
+                            <i data-lucide="calendar-plus" style="width:24px;height:24px;"></i>
                         </div>
                         <span>Nouvel evenement</span>
                     </a>
                     <a href="{{ route('admin.members.import') }}" class="quick-action">
                         <div class="quick-action-icon quick-action-icon-indigo">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                            </svg>
+                            <i data-lucide="upload" style="width:24px;height:24px;"></i>
                         </div>
                         <span>Importer CSV</span>
                     </a>

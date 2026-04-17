@@ -23,13 +23,13 @@
             --coral: #EF7A5C;
             --beige: #DBCBC7;
 
-            --bg: #F4F1ED;
+            --bg: #F5F2EE;
             --surface: #FFFFFF;
             --surface-soft: #FAF8F5;
             --surface-sage: #EEF6F1;
             --surface-blue: #EEF4F8;
             --text: #1C2B27;
-            --muted: #68756F;
+            --muted: #67746F;
             --border: rgba(22,48,43,0.10);
             --shadow: 0 14px 32px rgba(22,48,43,0.08);
             --radius-xl: 24px;
@@ -280,7 +280,7 @@
             top: 0;
             z-index: 10;
             min-height: var(--topbar-height);
-            background: rgba(244,241,237,0.84);
+            background: rgba(245,242,238,0.84);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(22,48,43,0.06);
         }
@@ -861,7 +861,7 @@
                 align-items: center;
                 gap: 12px;
                 padding: 12px 16px;
-                background: rgba(244,241,237,0.84);
+                background: rgba(245,242,238,0.84);
                 backdrop-filter: blur(12px);
                 border-bottom: 1px solid rgba(22,48,43,0.06);
             }
