@@ -567,11 +567,12 @@ PREAMBLE;
 \\hfill
 \\begin{minipage}[t]{{$rightColWidth}\\textwidth}
     \\vspace*{-20pt}
+    \\raggedright
 
     % Title — teal dark, not italic
-    {\\fontsize{18}{22}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}}
+    {\\fontsize{18}{24}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}\\par}
 
-    \\vspace{10pt}
+    \\vspace{18pt}
 
     % Authors with numeric superscripts
     {\\normalsize {$authorsDisplayEscaped}}
@@ -579,7 +580,7 @@ PREAMBLE;
     \\vspace{6pt}
 
     % Affiliations
-    {\\small\\textcolor{chersotisGray}{
+    {\\footnotesize\\textcolor{chersotisGray}{
 {$affiliationsLatex}    }}
 
     \\vspace{10pt}
