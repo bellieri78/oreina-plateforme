@@ -59,7 +59,60 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => alert.remove(), 300);
         }, 5000);
     });
+
+    // Auto-resize textareas to fit content
+    initAutoResizeTextareas();
 });
+
+/**
+ * Auto-resize textareas to fit content.
+ * Sets height to scrollHeight on input and initial load.
+ * Skips textareas that opt out via data-no-autoresize.
+ */
+function initAutoResizeTextareas() {
+    const selector = 'textarea:not([data-no-autoresize])';
+
+    const resize = (el) => {
+        // Reset height to recompute scrollHeight correctly (shrinks when text removed)
+        el.style.height = 'auto';
+        const padding = 2; // small buffer to avoid scrollbar flicker on borders
+        el.style.height = (el.scrollHeight + padding) + 'px';
+    };
+
+    const attach = (el) => {
+        if (el.dataset.autoresizeBound === '1') return;
+        el.dataset.autoresizeBound = '1';
+        el.style.overflowY = 'hidden';
+        resize(el);
+        el.addEventListener('input', () => resize(el));
+    };
+
+    document.querySelectorAll(selector).forEach(attach);
+
+    // Also observe dynamically-added textareas (Livewire, Alpine, modals)
+    const observer = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+            m.addedNodes.forEach(node => {
+                if (node.nodeType !== 1) return;
+                if (node.matches && node.matches(selector)) attach(node);
+                node.querySelectorAll && node.querySelectorAll(selector).forEach(attach);
+            });
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Resize again when Livewire updates
+    if (window.Livewire) {
+        document.addEventListener('livewire:updated', () => {
+            document.querySelectorAll(selector).forEach(resize);
+        });
+    }
+
+    // Resize on window resize (line wrapping can change)
+    window.addEventListener('resize', () => {
+        document.querySelectorAll(selector).forEach(resize);
+    });
+}
 
 // Close mobile sidebar on resize
 window.addEventListener('resize', function() {
