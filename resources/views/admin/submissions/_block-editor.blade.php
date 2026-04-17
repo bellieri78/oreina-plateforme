@@ -278,7 +278,7 @@
             </template>
             <span x-text="importing ? 'Conversion en cours...' : 'Importer un document'"></span>
         </button>
-        <input type="file" x-ref="mdFileInput" accept=".md,.txt,.markdown,.docx,.odt" style="display:none"
+        <input type="file" x-ref="mdFileInput" accept=".md,.txt,.markdown,.docx" style="display:none"
                @change="importMarkdown($event)">
     </div>
 </div>
@@ -916,26 +916,36 @@
             if (!file) return;
 
             if (this.blocks.length > 0) {
-                if (!confirm('Cela va remplacer les ' + this.blocks.length + ' blocs existants. Continuer ?')) {
+                if (!confirm('Cela va remplacer les ' + this.blocks.length + ' blocs existants et les champs sidebar. Continuer ?')) {
                     event.target.value = '';
                     return;
                 }
             }
 
             const ext = file.name.split('.').pop().toLowerCase();
-            const isWord = ['docx', 'odt'].includes(ext);
-
-            if (isWord && !confirm('La conversion Word/ODT via IA peut prendre 30 à 60 secondes. Continuer ?')) {
-                event.target.value = '';
-                return;
-            }
+            const isWord = ['docx'].includes(ext);
 
             this.importing = true;
 
-            const formData = new FormData();
-            formData.append('markdown_file', file);
-
             try {
+                let markdown;
+
+                if (isWord) {
+                    // Client-side conversion via mammoth.js
+                    if (typeof mammoth === 'undefined') {
+                        alert('La bibliothèque de conversion Word n\'est pas chargée. Réessayez.');
+                        this.importing = false;
+                        event.target.value = '';
+                        return;
+                    }
+                    const arrayBuffer = await file.arrayBuffer();
+                    const result = await mammoth.convertToMarkdown(arrayBuffer);
+                    markdown = result.value;
+                } else {
+                    // .md/.txt: read file content directly
+                    markdown = await file.text();
+                }
+
                 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
                     || document.querySelector('input[name="_token"]')?.value
                     || '{{ csrf_token() }}';
@@ -945,8 +955,9 @@
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
                         'Accept': 'application/json',
+                        'Content-Type': 'application/json',
                     },
-                    body: formData,
+                    body: JSON.stringify({ markdown_content: markdown }),
                 });
 
                 const data = await response.json();
@@ -959,7 +970,7 @@
                 this.blocks = data.blocks;
                 this.blockIdCounter = data.blocks.length + 1;
 
-                // Pre-fill sidebar fields if enriched response (Word/ODT)
+                // Pre-fill sidebar fields
                 if (data.references !== undefined) {
                     const refsEl = document.getElementById('sidebar-references');
                     if (refsEl) refsEl.value = data.references;
@@ -985,9 +996,6 @@
 
                             if (updateBtn) {
                                 updateBtn.onclick = async () => {
-                                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
-                                        || document.querySelector('input[name="_token"]')?.value
-                                        || '{{ csrf_token() }}';
                                     const resp = await fetch('{{ route("admin.submissions.update-title", $submission->id) }}', {
                                         method: 'PATCH',
                                         headers: {
@@ -1012,7 +1020,7 @@
                     : '';
                 alert('Import réussi : ' + data.count + ' blocs créés' + extra + '.');
             } catch (error) {
-                alert('Erreur réseau : ' + error.message);
+                alert('Erreur : ' + error.message);
             }
 
             this.importing = false;
@@ -1177,3 +1185,4 @@
     }
 })();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
