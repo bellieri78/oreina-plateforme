@@ -13,6 +13,7 @@ class Submission extends Model
         'author_id',
         'journal_issue_id',
         'title',
+        'title_en',
         'abstract',
         'content_html',
         'content_blocks',
