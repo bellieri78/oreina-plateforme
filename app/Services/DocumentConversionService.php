@@ -21,7 +21,7 @@ class DocumentConversionService
     private const API_URL = 'https://api.anthropic.com/v1/messages';
     private const MODEL = 'claude-haiku-4-5-20251001';
     private const MAX_TOKENS = 16384;
-    private const TIMEOUT = 120;
+    private const TIMEOUT = 180;
 
     private const SYSTEM_PROMPT = <<<'PROMPT'
 Tu es un convertisseur de documents scientifiques. Convertis le texte suivant en Markdown structuré.
@@ -131,6 +131,12 @@ PROMPT;
                 'Le document ne contient pas de texte exploitable.'
             );
         }
+
+        \Log::info('DocumentConversion: sending to Claude API', [
+            'file' => basename($filePath),
+            'chars' => strlen($text),
+            'words' => str_word_count($text),
+        ]);
 
         $apiKey = config('services.anthropic.api_key');
 
