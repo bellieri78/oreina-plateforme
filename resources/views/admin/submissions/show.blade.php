@@ -7,48 +7,58 @@
 @endsection
 
 @section('content')
-    {{-- Workflow Timeline --}}
-    <div class="card" style="margin-bottom: 1.5rem;">
-        <div class="card-body" style="padding: 1rem 1.5rem;">
-            <div class="workflow-timeline">
-                @php
-                    $stages = [
-                        'draft' => ['label' => 'Brouillon', 'icon' => 'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z'],
-                        'submitted' => ['label' => 'Soumis', 'icon' => 'M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5'],
-                        'under_initial_review' => ['label' => 'Eval. initiale', 'icon' => 'M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z'],
-                        'under_peer_review' => ['label' => 'En review', 'icon' => 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'],
-                        'revision_after_review' => ['label' => 'Revision', 'icon' => 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'],
-                        'accepted' => ['label' => 'Accepte', 'icon' => 'M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'],
-                        'published' => ['label' => 'Publie', 'icon' => 'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25'],
-                    ];
-                    $statusOrder = array_keys($stages);
-                    $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
-                    $currentIndex = array_search($submissionStatusValue, $statusOrder);
-                    if ($submissionStatusValue === 'rejected') {
-                        $currentIndex = array_search('under_peer_review', $statusOrder);
-                    }
-                @endphp
+    {{-- Workflow Timeline (style journal) --}}
+    @php
+        $stages = [
+            'draft' => ['label' => 'Brouillon', 'icon' => 'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z'],
+            'submitted' => ['label' => 'Soumis', 'icon' => 'M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5'],
+            'under_initial_review' => ['label' => 'Éval. initiale', 'icon' => 'M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z'],
+            'under_peer_review' => ['label' => 'Relecture', 'icon' => 'M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'],
+            'revision_after_review' => ['label' => 'Révision', 'icon' => 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'],
+            'accepted' => ['label' => 'Accepté', 'icon' => 'M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'],
+            'published' => ['label' => 'Publié', 'icon' => 'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25'],
+        ];
+        $statusOrder = array_keys($stages);
+        $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
+        $currentIndex = array_search($submissionStatusValue, $statusOrder);
+        if ($submissionStatusValue === 'rejected') {
+            $currentIndex = array_search('under_peer_review', $statusOrder);
+        }
+        $needsAction = in_array($submissionStatusValue, ['revision_requested', 'revision_after_review']);
+        $isRejected = $submissionStatusValue === 'rejected';
+    @endphp
 
+    <div class="card workflow-card" style="margin-bottom: 1.5rem;">
+        <div class="workflow-body">
+            <h2 class="workflow-title">Suivi de la soumission</h2>
+            <div class="workflow-timeline">
                 @foreach($stages as $key => $stage)
                     @php
                         $index = array_search($key, $statusOrder);
                         $isActive = $submissionStatusValue === $key;
                         $isPast = $index < $currentIndex;
-                        $isRejected = $submissionStatusValue === 'rejected' && $key === 'under_peer_review';
+                        $isRejectedStep = $isRejected && $key === 'under_peer_review';
                     @endphp
-                    <div class="workflow-step {{ $isActive ? 'active' : '' }} {{ $isPast ? 'completed' : '' }} {{ $isRejected ? 'rejected' : '' }}">
+                    <div class="workflow-step {{ $isActive ? 'active' : '' }} {{ $isPast ? 'completed' : '' }} {{ $isRejectedStep ? 'rejected' : '' }} {{ $isActive && $needsAction ? 'needs-action' : '' }}">
                         <div class="step-icon">
                             @if($isPast)
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="20" height="20">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            @elseif($isRejectedStep)
+                                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="20" height="20">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
+                                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="20" height="20">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="{{ $stage['icon'] }}" />
                                 </svg>
                             @endif
                         </div>
-                        <div class="step-label">{{ $stage['label'] }}</div>
+                        <span class="step-label">{{ $stage['label'] }}</span>
+                        @if(!$loop->last)
+                            <div class="step-connector {{ $isPast ? 'connector-past' : '' }}"></div>
+                        @endif
                     </div>
                 @endforeach
             </div>
@@ -554,71 +564,110 @@
     </div>
 
     <style>
+    /* Workflow Timeline — style aligné sur /revue/mes-soumissions */
+    .workflow-card {
+        background: var(--surface);
+        border: 1px solid var(--border-soft);
+        border-radius: 20px;
+    }
+    .workflow-body {
+        padding: 24px;
+    }
+    .workflow-title {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--forest);
+        margin: 0 0 24px;
+    }
     .workflow-timeline {
         display: flex;
+        align-items: flex-start;
         justify-content: space-between;
-        position: relative;
-    }
-    .workflow-timeline::before {
-        content: '';
-        position: absolute;
-        top: 18px;
-        left: 30px;
-        right: 30px;
-        height: 2px;
-        background: #e5e7eb;
-        z-index: 0;
+        gap: 0;
     }
     .workflow-step {
         display: flex;
         flex-direction: column;
         align-items: center;
+        flex: 1 1 0;
+        min-width: 0;
         position: relative;
-        z-index: 1;
-        flex: 1;
     }
     .step-icon {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        background: #f3f4f6;
-        border: 2px solid #e5e7eb;
+        background: white;
+        border: 2px solid #CBD5E1; /* slate-300 */
+        color: #94A3B8; /* slate-400 */
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #9ca3af;
-        margin-bottom: 0.5rem;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+    @media (min-width: 640px) {
+        .step-icon { width: 48px; height: 48px; }
     }
     .step-label {
-        font-size: 0.75rem;
-        color: #9ca3af;
-        text-align: center;
-    }
-    .workflow-step.completed .step-icon {
-        background: #2dce89;
-        border-color: #2dce89;
-        color: white;
-    }
-    .workflow-step.completed .step-label {
-        color: #2dce89;
-    }
-    .workflow-step.active .step-icon {
-        background: #5e72e4;
-        border-color: #5e72e4;
-        color: white;
-        box-shadow: 0 0 0 4px rgba(94, 114, 228, 0.2);
-    }
-    .workflow-step.active .step-label {
-        color: #5e72e4;
+        margin-top: 8px;
+        font-size: 12px;
         font-weight: 600;
+        line-height: 1.2;
+        text-align: center;
+        color: #94A3B8;
+    }
+    .step-connector {
+        position: absolute;
+        top: 19px;
+        left: 50%;
+        right: -50%;
+        height: 2px;
+        background: #E2E8F0; /* slate-200 */
+        z-index: 0;
+    }
+    @media (min-width: 640px) {
+        .step-connector { top: 23px; }
+    }
+    .step-connector.connector-past {
+        background: #14B8A6; /* oreina-turquoise */
+    }
+    .step-icon,
+    .step-label {
+        position: relative;
+        z-index: 1;
+    }
+
+    .workflow-step.completed .step-icon,
+    .workflow-step.active .step-icon {
+        background: #14B8A6;
+        border-color: #14B8A6;
+        color: white;
+    }
+    .workflow-step.completed .step-label,
+    .workflow-step.active .step-label {
+        color: var(--forest);
+    }
+    .workflow-step.active.needs-action .step-icon {
+        background: #F97316; /* orange-500 */
+        border-color: #F97316;
+        animation: workflow-pulse 2s ease-in-out infinite;
+    }
+    .workflow-step.active.needs-action .step-label {
+        color: #C2410C; /* orange-700 */
     }
     .workflow-step.rejected .step-icon {
-        background: #dc2626;
-        border-color: #dc2626;
+        background: #EF4444; /* red-500 */
+        border-color: #EF4444;
         color: white;
     }
     .workflow-step.rejected .step-label {
-        color: #dc2626;
+        color: #DC2626;
+    }
+    @keyframes workflow-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
     }
     .quick-actions {
         display: flex;
