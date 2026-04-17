@@ -796,6 +796,7 @@ class SubmissionController extends Controller
             $blocks = $this->enrichBlocksWithTaxonLinks($blocks, $structured['taxons']);
 
             $refs = is_array($structured['references']) ? $structured['references'] : [];
+            $blocks = $this->enrichBlocksWithCitationTooltips($blocks, $refs);
             $affils = is_array($structured['authors_affiliations']) ? $structured['authors_affiliations'] : [];
 
             return response()->json([
@@ -849,6 +850,68 @@ class SubmissionController extends Controller
                     $block['content']
                 );
             }
+        }
+
+        return $blocks;
+    }
+
+    /**
+     * Enrich inline citations with tooltip showing the full reference.
+     * Matches patterns like (Author, 2023) or (Author & Author, 2023) or (Author et al., 2023)
+     * and looks up the full reference from the references list.
+     */
+    private function enrichBlocksWithCitationTooltips(array $blocks, array $references): array
+    {
+        if (empty($references)) {
+            return $blocks;
+        }
+
+        // Build a lookup: extract "Author(s), Year" patterns from full references
+        $refLookup = [];
+        foreach ($references as $ref) {
+            // Match "Author(s) (year)" at the start of Harvard-style references
+            if (preg_match('/^(.+?)\s*\((\d{4})\)/', $ref, $m)) {
+                $key = mb_strtolower(trim($m[1]) . ', ' . $m[2]);
+                $refLookup[$key] = $ref;
+            }
+        }
+
+        foreach ($blocks as &$block) {
+            if ($block['type'] !== 'paragraph' || empty($block['content'])) {
+                continue;
+            }
+
+            // Match inline citations: (Something, 2023) or (Something & Something, 2023) etc.
+            $block['content'] = preg_replace_callback(
+                '/\(([^()]+?,\s*\d{4}[a-z]?)\)/',
+                function ($match) use ($refLookup) {
+                    $citation = $match[1]; // e.g. "Dupont & Martin, 2023"
+                    $lookupKey = mb_strtolower(trim($citation));
+
+                    // Try exact match first
+                    $fullRef = $refLookup[$lookupKey] ?? null;
+
+                    // Try fuzzy: match by year + first author surname
+                    if (!$fullRef && preg_match('/(\w+).*,\s*(\d{4})/', $citation, $parts)) {
+                        $surname = mb_strtolower($parts[1]);
+                        $year = $parts[2];
+                        foreach ($refLookup as $key => $ref) {
+                            if (str_contains($key, $year) && str_contains(mb_strtolower($key), $surname)) {
+                                $fullRef = $ref;
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($fullRef) {
+                        $escaped = htmlspecialchars($fullRef, ENT_QUOTES, 'UTF-8');
+                        return '<span class="cite" title="' . $escaped . '">(' . $citation . ')</span>';
+                    }
+
+                    return $match[0]; // No match found, return unchanged
+                },
+                $block['content']
+            );
         }
 
         return $blocks;

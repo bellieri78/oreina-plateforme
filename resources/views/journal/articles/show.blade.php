@@ -709,6 +709,16 @@
         color: #0d9488;
         text-decoration-style: solid;
     }
+
+    /* Inline citation tooltips */
+    .cite {
+        cursor: help;
+        border-bottom: 1px dotted #9ca3af;
+    }
+    .cite:hover {
+        border-bottom-color: #0d9488;
+        color: #0d9488;
+    }
 </style>
 @endpush
 
