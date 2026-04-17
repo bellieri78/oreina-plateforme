@@ -74,7 +74,7 @@
                                 </h3>
 
                                 <p class="text-slate-600 text-sm sm:text-base mb-3 sm:mb-4 leading-relaxed line-clamp-2">
-                                    {{ $article->abstract }}
+                                    {{ strip_tags($article->display_abstract ?? $article->abstract) }}
                                 </p>
 
                                 <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">

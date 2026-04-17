@@ -1,7 +1,7 @@
 @extends('layouts.journal')
 
 @section('title', $submission->title)
-@section('meta_description', Str::limit($submission->abstract, 160))
+@section('meta_description', Str::limit(strip_tags($submission->display_abstract ?? $submission->abstract), 160))
 
 @push('styles')
 <style>

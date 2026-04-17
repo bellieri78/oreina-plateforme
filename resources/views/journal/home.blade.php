@@ -587,7 +587,7 @@
                                 <i class="icon" data-lucide="user" style="width:14px;height:14px;flex:0 0 14px;"></i>
                                 {{ $featuredArticle->display_authors ?? $featuredArticle->author?->name ?? 'Auteur inconnu' }}
                             </div>
-                            <p class="article-card-abstract">{{ $featuredArticle->abstract }}</p>
+                            <p class="article-card-abstract">{{ strip_tags($featuredArticle->display_abstract ?? $featuredArticle->abstract) }}</p>
                             @if($featuredArticle->keywords && is_array($featuredArticle->keywords) && count($featuredArticle->keywords) > 0)
                                 <div class="article-keywords">
                                     @foreach(array_slice($featuredArticle->keywords, 0, 4) as $keyword)
@@ -619,7 +619,7 @@
                                 <i class="icon" data-lucide="user" style="width:14px;height:14px;flex:0 0 14px;"></i>
                                 {{ $article->display_authors ?? $article->author?->name ?? 'Auteur inconnu' }}
                             </div>
-                            <p class="article-card-abstract">{{ $article->abstract }}</p>
+                            <p class="article-card-abstract">{{ strip_tags($article->display_abstract ?? $article->abstract) }}</p>
                             @if($article->keywords && is_array($article->keywords) && count($article->keywords) > 0)
                                 <div class="article-keywords">
                                     @foreach(array_slice($article->keywords, 0, 3) as $keyword)
