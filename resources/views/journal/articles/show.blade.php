@@ -980,7 +980,7 @@
                         <h2>Références bibliographiques</h2>
                         <div class="ref-list">
                             @foreach($submission->references as $reference)
-                            <p>{{ $reference }}</p>
+                            <p>{!! preg_replace('/\*(.+?)\*/', '<em>$1</em>', e($reference)) !!}</p>
                             @endforeach
                         </div>
                     </div>
