@@ -105,7 +105,17 @@ PROMPT;
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
         $readerName = $extension === 'odt' ? 'ODText' : 'Word2007';
 
-        $phpWord = IOFactory::load($filePath, $readerName);
+        try {
+            $reader = IOFactory::createReader($readerName);
+            if (method_exists($reader, 'setImageLoading')) {
+                $reader->setImageLoading(false);
+            }
+            $phpWord = $reader->load($filePath);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException(
+                'Impossible de lire le document : ' . $e->getMessage()
+            );
+        }
 
         $parts = [];
 
