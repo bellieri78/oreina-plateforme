@@ -346,6 +346,17 @@ PREAMBLE;
             }
         }
 
+        // Wrap ESM + ORCID in a single conditional outer separator block.
+        // When both are empty the outer \vspace+\hrule+\vspace block must NOT be emitted,
+        // otherwise it produces ~57 pt of blank space that pushes the sidebar past \textheight.
+        $esmOrcidBlock = '';
+        if (!empty($esmLatex) || !empty($orcidLatex)) {
+            $esmOrcidBlock = "\n    \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}\n" .
+                             $esmLatex .
+                             $orcidLatex .
+                             "\n";
+        }
+
         // Build affiliations LaTeX — numeric superscripts (1, 2, 3)
         $affiliationsLatex = '';
         foreach ($affiliations as $index => $aff) {
@@ -518,11 +529,7 @@ PREAMBLE;
     \\textbf{\\textcolor{chersotisTeal}{Mots-clés}}\\\\[2pt]
     {\\footnotesize {$keywords}}
 
-    \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
-
-{$esmLatex}
-{$orcidLatex}
-
+{$esmOrcidBlock}
     \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
 
     % Correspondance
@@ -540,7 +547,6 @@ PREAMBLE;
 \\vrule width 0.5pt
 \\hfill
 \\begin{minipage}[t]{{$rightColWidth}\\textwidth}
-    \\vspace*{-\\parskip}\\vspace*{-2pt}
 
     % Title — teal dark, not italic
     {\\fontsize{18}{22}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}}
