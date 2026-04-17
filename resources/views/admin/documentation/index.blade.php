@@ -1810,25 +1810,25 @@
 
                 <h4>Formats acceptés</h4>
                 <ul>
-                    <li><strong>Markdown</strong> (<code>.md</code>, <code>.txt</code>, <code>.markdown</code>) — conversion directe via CommonMark</li>
-                    <li><strong>Word</strong> (<code>.docx</code>) — parsing natif via PhpWord, pas de dépendance externe</li>
-                    <li><strong>OpenDocument</strong> (<code>.odt</code>) — même moteur que Word</li>
+                    <li><strong>Markdown</strong> (<code>.md</code>, <code>.txt</code>, <code>.markdown</code>) — conversion directe via CommonMark. Idéal si le maquettiste est à l'aise avec le format Markdown.</li>
+                    <li><strong>Word</strong> (<code>.docx</code>) — le texte est extrait puis converti en Markdown structuré via l'API Claude (IA). Les titres, listes, tableaux, noms d'espèces en italique sont automatiquement reconnus.</li>
+                    <li><strong>OpenDocument</strong> (<code>.odt</code>) — même processus que Word.</li>
                 </ul>
                 <p>Taille maximale : 5 Mo.</p>
 
-                <h4>Types de blocs générés</h4>
+                <h4>Conversion intelligente (Word/ODT)</h4>
+                <p>Les fichiers Word et ODT sont convertis via l'API Claude (modèle Haiku). L'IA analyse la structure du document et produit un Markdown propre avec :</p>
                 <ul>
-                    <li>Titres → bloc Titre (H1 / H2 / H3). Pour les fichiers Word/ODT : détection par style Word (<code>Heading1</code>, etc.) ou par heuristique (texte court + gras + grande police).</li>
-                    <li>Paragraphes → bloc Paragraphe (gras, italique, exposant, indice conservés en HTML inline)</li>
-                    <li>Tableaux → bloc Tableau (1re ligne = en-têtes)</li>
-                    <li>Listes à puces / numérotées → bloc Liste</li>
-                    <li>Images Markdown <code>![alt](url)</code> → bloc Image (Word/ODT : images ignorées, envoyées séparément)</li>
-                    <li>Citations Markdown <code>&gt; texte</code> → bloc Citation (pas d'équivalent en Word)</li>
+                    <li>Titres correctement hiérarchisés (H1 / H2 / H3)</li>
+                    <li>Formatage inline conservé (gras, italique, exposant, indice)</li>
+                    <li>Noms d'espèces automatiquement mis en italique</li>
+                    <li>Tableaux convertis en format Markdown</li>
+                    <li>Listes à puces et numérotées</li>
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Attention :</strong> l'import remplace tous les blocs existants (avec confirmation). Les images sont envoyées séparément en haute résolution après acceptation — elles ne sont pas extraites des fichiers Word.<br>
-                    <strong>Limites Word/ODT :</strong> les titres formatés sans gras ni changement de taille sont traités comme des paragraphes. Les listes imbriquées sont aplaties. Les fichiers <code>.doc</code> (ancien format) ne sont pas supportés.
+                    <strong>Attention :</strong> l'import remplace tous les blocs existants (avec confirmation). Les images ne sont pas extraites des fichiers Word — elles sont envoyées séparément en haute résolution après acceptation.<br>
+                    <strong>Prérequis Word/ODT :</strong> la conversion nécessite que la clé API Anthropic soit configurée (<code>ANTHROPIC_API_KEY</code> dans <code>.env</code>). Si elle n'est pas configurée, un message invite à importer un fichier <code>.md</code> à la place.
                 </div>
 
                 <h4>Sauvegarde et aperçu PDF</h4>
