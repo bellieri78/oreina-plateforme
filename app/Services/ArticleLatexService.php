@@ -490,7 +490,7 @@ PREAMBLE;
 
 % HEADER - TWO COLUMNS
 \\noindent
-\\begin{minipage}[t]{{$leftColWidth}\\textwidth}
+\\begin{minipage}[t][\\textheight][t]{{$leftColWidth}\\textwidth}
     \\raggedright
 
     % Papillon logo
@@ -547,6 +547,7 @@ PREAMBLE;
 \\vrule width 0.5pt
 \\hfill
 \\begin{minipage}[t]{{$rightColWidth}\\textwidth}
+    \\vspace*{-12pt}
 
     % Title — teal dark, not italic
     {\\fontsize{18}{22}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}}
