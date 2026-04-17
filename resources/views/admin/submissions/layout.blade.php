@@ -276,6 +276,22 @@
                     </button>
                     <button type="button" onclick="document.getElementById('detected-title-banner').style.display='none'" style="margin-left:0.25rem; background:none; border:none; cursor:pointer; color:#6b7280; font-size:1rem;">&times;</button>
                 </div>
+                {{-- Résumé / Summary --}}
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                    <div class="sidebar-card" style="margin:0;">
+                        <div class="sidebar-card-title">Résumé (français)</div>
+                        <div class="sidebar-field">
+                            <textarea name="display_abstract" id="sidebar-display-abstract" class="sidebar-textarea" rows="5" placeholder="Résumé de l'article en français...">{{ old('display_abstract', $submission->display_abstract ?? '') }}</textarea>
+                        </div>
+                    </div>
+                    <div class="sidebar-card" style="margin:0;">
+                        <div class="sidebar-card-title">Summary (anglais)</div>
+                        <div class="sidebar-field">
+                            <textarea name="display_summary" id="sidebar-display-summary" class="sidebar-textarea" rows="5" placeholder="English summary of the article...">{{ old('display_summary', $submission->display_summary ?? '') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
                 @include('admin.submissions._block-editor')
             </div>
 

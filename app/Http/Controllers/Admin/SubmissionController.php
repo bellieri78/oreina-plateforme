@@ -721,6 +721,8 @@ class SubmissionController extends Controller
             'acknowledgements' => 'nullable|string',
             'author_affiliations' => 'nullable|string',
             'display_authors' => 'nullable|string|max:1000',
+            'display_abstract' => 'nullable|string',
+            'display_summary' => 'nullable|string',
             'received_at' => 'nullable|date',
             'accepted_at' => 'nullable|date',
         ]);
@@ -813,6 +815,8 @@ class SubmissionController extends Controller
                 'references' => implode("\n", array_map('strval', $refs)),
                 'authors_affiliations' => implode("\n", array_map('strval', $affils)),
                 'display_authors' => $displayAuthors,
+                'display_abstract' => (string) ($structured['abstract'] ?? ''),
+                'display_summary' => (string) ($structured['summary'] ?? ''),
                 'acknowledgements' => (string) ($structured['acknowledgements'] ?? ''),
                 'detected_title' => (string) ($structured['title'] ?? ''),
             ]);

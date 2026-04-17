@@ -983,6 +983,12 @@
 
                     const displayAuthorsEl = document.getElementById('sidebar-display-authors');
                     if (displayAuthorsEl && data.display_authors) displayAuthorsEl.value = data.display_authors;
+
+                    const abstractEl = document.getElementById('sidebar-display-abstract');
+                    if (abstractEl && data.display_abstract) abstractEl.value = data.display_abstract;
+
+                    const summaryEl = document.getElementById('sidebar-display-summary');
+                    if (summaryEl && data.display_summary) summaryEl.value = data.display_summary;
                 }
 
                 // Show detected title banner if different from current title

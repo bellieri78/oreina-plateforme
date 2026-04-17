@@ -890,12 +890,24 @@
 
                 {{-- Content --}}
                 <div class="article-content">
-                    {{-- Abstract --}}
-                    @if($submission->abstract)
+                    {{-- Abstract / Summary --}}
+                    @php
+                        $displayAbstract = $submission->display_abstract ?? $submission->abstract;
+                        $displaySummary = $submission->display_summary ?? null;
+                    @endphp
+                    @if($displayAbstract || $displaySummary)
                     <section>
                         <div class="article-abstract">
+                            @if($displayAbstract)
                             <h2>Résumé</h2>
-                            <p>{{ $submission->abstract }}</p>
+                            <p>{{ $displayAbstract }}</p>
+                            @endif
+
+                            @if($displaySummary)
+                            <h2 style="margin-top:20px;">Summary</h2>
+                            <p style="font-style:italic;">{{ $displaySummary }}</p>
+                            @endif
+
                             @if($submission->keywords && is_array($submission->keywords) && count($submission->keywords) > 0)
                             <div>
                                 <p class="kw-label">Mots-clés :</p>
