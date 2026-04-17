@@ -985,10 +985,16 @@
                     if (displayAuthorsEl && data.display_authors) displayAuthorsEl.value = data.display_authors;
 
                     const abstractEl = document.getElementById('sidebar-display-abstract');
-                    if (abstractEl && data.display_abstract) abstractEl.value = data.display_abstract;
+                    if (abstractEl && data.display_abstract) {
+                        abstractEl.innerHTML = data.display_abstract;
+                        document.getElementById('input-display-abstract').value = data.display_abstract;
+                    }
 
                     const summaryEl = document.getElementById('sidebar-display-summary');
-                    if (summaryEl && data.display_summary) summaryEl.value = data.display_summary;
+                    if (summaryEl && data.display_summary) {
+                        summaryEl.innerHTML = data.display_summary;
+                        document.getElementById('input-display-summary').value = data.display_summary;
+                    }
                 }
 
                 // Show detected title banner if different from current title

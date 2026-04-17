@@ -209,6 +209,49 @@
     .content-stat strong {
         color: #374151;
     }
+    .mini-toolbar {
+        display: flex;
+        gap: 2px;
+        padding: 4px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-bottom: none;
+        border-radius: 0.375rem 0.375rem 0 0;
+    }
+    .mini-tb-btn {
+        padding: 2px 8px;
+        background: none;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.75rem;
+        color: #374151;
+        line-height: 1.4;
+    }
+    .mini-tb-btn:hover {
+        background: #e5e7eb;
+        border-color: #d1d5db;
+    }
+    .rich-textarea {
+        min-height: 100px;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 0.5rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0 0 0.375rem 0.375rem;
+        font-size: 0.8rem;
+        line-height: 1.6;
+        color: #374151;
+        outline: none;
+    }
+    .rich-textarea:focus {
+        border-color: #0d9488;
+        box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.1);
+    }
+    .rich-textarea:empty::before {
+        content: attr(data-placeholder);
+        color: #9ca3af;
+    }
 </style>
 
 <div class="layout-page" x-data="{ unsaved: false, blockCount: {{ count($submission->content_blocks ?? []) }} }"
@@ -281,13 +324,31 @@
                     <div class="sidebar-card" style="margin:0;">
                         <div class="sidebar-card-title">Résumé (français)</div>
                         <div class="sidebar-field">
-                            <textarea name="display_abstract" id="sidebar-display-abstract" class="sidebar-textarea" rows="5" placeholder="Résumé de l'article en français...">{{ old('display_abstract', $submission->display_abstract ?? '') }}</textarea>
+                            <div class="mini-toolbar">
+                                <button type="button" onclick="document.execCommand('bold')" class="mini-tb-btn" title="Gras"><strong>B</strong></button>
+                                <button type="button" onclick="document.execCommand('italic')" class="mini-tb-btn" title="Italique"><em>I</em></button>
+                                <button type="button" onclick="document.execCommand('subscript')" class="mini-tb-btn" title="Indice">X<sub>2</sub></button>
+                                <button type="button" onclick="document.execCommand('superscript')" class="mini-tb-btn" title="Exposant">X<sup>2</sup></button>
+                            </div>
+                            <div contenteditable="true" class="rich-textarea" id="sidebar-display-abstract" data-placeholder="Résumé de l'article en français..."
+                                 oninput="document.getElementById('input-display-abstract').value=this.innerHTML">{!! old('display_abstract', $submission->display_abstract ?? '') !!}</div>
+                            <input type="hidden" name="display_abstract" id="input-display-abstract"
+                                   value="{{ old('display_abstract', $submission->display_abstract ?? '') }}">
                         </div>
                     </div>
                     <div class="sidebar-card" style="margin:0;">
                         <div class="sidebar-card-title">Summary (anglais)</div>
                         <div class="sidebar-field">
-                            <textarea name="display_summary" id="sidebar-display-summary" class="sidebar-textarea" rows="5" placeholder="English summary of the article...">{{ old('display_summary', $submission->display_summary ?? '') }}</textarea>
+                            <div class="mini-toolbar">
+                                <button type="button" onclick="document.execCommand('bold')" class="mini-tb-btn" title="Gras"><strong>B</strong></button>
+                                <button type="button" onclick="document.execCommand('italic')" class="mini-tb-btn" title="Italique"><em>I</em></button>
+                                <button type="button" onclick="document.execCommand('subscript')" class="mini-tb-btn" title="Indice">X<sub>2</sub></button>
+                                <button type="button" onclick="document.execCommand('superscript')" class="mini-tb-btn" title="Exposant">X<sup>2</sup></button>
+                            </div>
+                            <div contenteditable="true" class="rich-textarea" id="sidebar-display-summary" data-placeholder="English summary of the article..."
+                                 oninput="document.getElementById('input-display-summary').value=this.innerHTML">{!! old('display_summary', $submission->display_summary ?? '') !!}</div>
+                            <input type="hidden" name="display_summary" id="input-display-summary"
+                                   value="{{ old('display_summary', $submission->display_summary ?? '') }}">
                         </div>
                     </div>
                 </div>

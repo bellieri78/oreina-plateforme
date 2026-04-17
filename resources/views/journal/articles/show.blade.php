@@ -861,12 +861,12 @@
                         <div class="article-abstract">
                             @if($displayAbstract)
                             <h2>Résumé</h2>
-                            <p>{{ $displayAbstract }}</p>
+                            <p>{!! strip_tags($displayAbstract, '<strong><em><sub><sup>') !!}</p>
                             @endif
 
                             @if($displaySummary)
                             <h2 style="margin-top:20px;">Summary</h2>
-                            <p style="font-style:italic;">{{ $displaySummary }}</p>
+                            <p style="font-style:italic;">{!! strip_tags($displaySummary, '<strong><em><sub><sup>') !!}</p>
                             @endif
 
                             @if($submission->keywords && is_array($submission->keywords) && count($submission->keywords) > 0)
