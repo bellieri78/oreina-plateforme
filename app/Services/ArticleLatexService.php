@@ -635,6 +635,15 @@ LATEX;
      */
     protected function convertHtmlToLatex(string $text): string
     {
+        // Pre-process: convert <a> links to just their inner content (LaTeX doesn't render HTML links)
+        $text = preg_replace('/<a\s[^>]*>(.*?)<\/a>/is', '$1', $text);
+
+        // Pre-process: convert <span class="cite" ...> to just their inner content
+        $text = preg_replace('/<span\s[^>]*>(.*?)<\/span>/is', '$1', $text);
+
+        // Decode HTML entities before LaTeX processing
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
         // Split text by HTML tags, process each part separately
         // This regex captures both the tags and the text between them
         $pattern = '/(<\/?(?:strong|em|b|i|u|sub|sup)>)/i';
