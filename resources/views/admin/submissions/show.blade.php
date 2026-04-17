@@ -71,6 +71,14 @@
                 <div class="card-header">
                     <h3 class="card-title">{{ $submission->title }}</h3>
                     <div style="display: flex; gap: 0.5rem;">
+                        @if($submissionStatusValue === 'published')
+                            <a href="{{ route('journal.articles.show', $submission) }}" target="_blank" rel="noopener" class="btn btn-primary" title="Ouvrir la page publique de l'article dans un nouvel onglet">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                </svg>
+                                Voir en ligne
+                            </a>
+                        @endif
                         @if(in_array($submissionStatusValue, ['accepted', 'in_production', 'published']))
                             <a href="{{ route('admin.submissions.layout', $submission) }}" class="btn btn-turquoise">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">

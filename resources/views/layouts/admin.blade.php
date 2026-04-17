@@ -207,6 +207,10 @@
                     @endif
                 </div>
                 <div class="navbar-right">
+                    <a href="{{ url('/') }}" target="_blank" rel="noopener" class="btn btn-ghost" title="Ouvrir le site vitrine (hub)">
+                        <i data-lucide="external-link"></i>
+                        Site vitrine
+                    </a>
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn btn-ghost">
