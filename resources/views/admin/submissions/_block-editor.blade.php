@@ -270,11 +270,13 @@
             Citation
         </button>
         <span style="border-left: 1px solid #d1d5db; height: 24px; margin: 0 8px;"></span>
-        <button type="button" @click="$refs.mdFileInput.click()" class="add-block-btn" style="background:#6366f1;color:white;">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-            </svg>
-            Importer un document
+        <button type="button" @click="$refs.mdFileInput.click()" class="add-block-btn" style="background:#6366f1;color:white;" :disabled="importing" :style="importing && 'opacity:0.6;cursor:wait'">
+            <template x-if="!importing">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                </svg>
+            </template>
+            <span x-text="importing ? 'Conversion en cours...' : 'Importer un document'"></span>
         </button>
         <input type="file" x-ref="mdFileInput" accept=".md,.txt,.markdown,.docx,.odt" style="display:none"
                @change="importMarkdown($event)">
@@ -907,6 +909,8 @@
             this.blocks = newBlocks;
         },
 
+        importing: false,
+
         async importMarkdown(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -917,6 +921,16 @@
                     return;
                 }
             }
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            const isWord = ['docx', 'odt'].includes(ext);
+
+            if (isWord && !confirm('La conversion Word/ODT via IA peut prendre 30 à 60 secondes. Continuer ?')) {
+                event.target.value = '';
+                return;
+            }
+
+            this.importing = true;
 
             const formData = new FormData();
             formData.append('markdown_file', file);
@@ -949,6 +963,7 @@
                 alert('Erreur réseau : ' + error.message);
             }
 
+            this.importing = false;
             event.target.value = '';
         },
 
