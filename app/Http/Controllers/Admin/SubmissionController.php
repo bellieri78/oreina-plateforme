@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\ArticleLatexService;
 use App\Services\ArticlePdfService;
 use App\Services\CrossrefService;
+use App\Services\DocumentToBlocksService;
 use App\Services\MarkdownToBlocksService;
 use App\Services\PaginationService;
 use App\Services\SubmissionTransitionLogger;
@@ -749,9 +750,9 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Import a Markdown file and convert it to content blocks
+     * Import a document file and convert it to content blocks
      */
-    public function importMarkdown(Request $request, Submission $submission, MarkdownToBlocksService $service)
+    public function importMarkdown(Request $request, Submission $submission)
     {
         $request->validate([
             'markdown_file' => 'required|file|max:5120',
@@ -760,12 +761,21 @@ class SubmissionController extends Controller
         $file = $request->file('markdown_file');
         $ext = strtolower($file->getClientOriginalExtension());
 
-        if (!in_array($ext, ['md', 'txt', 'markdown'], true)) {
-            return response()->json(['error' => 'Format non supporté. Utilisez un fichier .md ou .txt.'], 422);
+        $markdownExts = ['md', 'txt', 'markdown'];
+        $documentExts = ['docx', 'odt'];
+
+        if (!in_array($ext, [...$markdownExts, ...$documentExts], true)) {
+            return response()->json([
+                'error' => 'Format non supporté. Utilisez un fichier .md, .txt, .docx ou .odt.',
+            ], 422);
         }
 
-        $content = file_get_contents($file->getRealPath());
-        $blocks = $service->parse($content);
+        if (in_array($ext, $markdownExts, true)) {
+            $content = file_get_contents($file->getRealPath());
+            $blocks = app(MarkdownToBlocksService::class)->parse($content);
+        } else {
+            $blocks = app(DocumentToBlocksService::class)->parseFile($file->getRealPath());
+        }
 
         return response()->json([
             'blocks' => $blocks,
