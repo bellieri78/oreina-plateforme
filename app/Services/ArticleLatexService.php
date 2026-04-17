@@ -566,7 +566,7 @@ PREAMBLE;
 \\vrule width 0.5pt
 \\hfill
 \\begin{minipage}[t]{{$rightColWidth}\\textwidth}
-    \\vspace*{-28pt}
+    \\vspace*{-40pt}
     \\raggedright
 
     % Title — teal dark, not italic
