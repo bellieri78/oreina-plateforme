@@ -16,7 +16,7 @@ return [
     'fonts' => [
         // Police principale (lmodern = Latin Modern, similaire à Computer Modern)
         // Autres options: 'times' (Times New Roman), 'palatino', 'helvetica'
-        'main' => env('LATEX_FONT_MAIN', 'lmodern'),
+        'main' => env('LATEX_FONT_MAIN', 'helvetica'),
 
         // Taille de base du document (10pt, 11pt, 12pt)
         'base_size' => env('LATEX_FONT_SIZE', '11pt'),

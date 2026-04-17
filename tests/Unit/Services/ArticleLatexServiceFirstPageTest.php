@@ -121,11 +121,30 @@ class ArticleLatexServiceFirstPageTest extends TestCase
         $this->assertStringNotContainsString('\\textit{Ma recherche}', $latex);
     }
 
-    public function test_article_type_label_is_french(): void
+    public function test_article_type_label_is_hidden_on_first_page(): void
     {
         $latex = $this->buildLatex();
-        $this->assertStringContainsString('Article de recherche', $latex);
+        $this->assertStringNotContainsString('Article de recherche', $latex);
         $this->assertStringNotContainsString('Original research', $latex);
+    }
+
+    public function test_summary_body_is_not_italic(): void
+    {
+        $latex = $this->buildLatex([
+            'display_summary' => 'Plain English text.',
+            'title_en' => null,
+        ]);
+        // Summary body should not be wrapped in \textit{...}
+        $this->assertStringNotContainsString('\\textit{Plain English text.}', $latex);
+        $this->assertStringContainsString('Plain English text.', $latex);
+    }
+
+    public function test_newgeometry_applied_after_first_page_cover(): void
+    {
+        $latex = $this->buildLatex();
+        // After the cover page ends, \newpage + \newgeometry must be present
+        $this->assertStringContainsString('\\newpage', $latex);
+        $this->assertMatchesRegularExpression('/\\\\newgeometry\{[^}]*left=28mm[^}]*\}/', $latex);
     }
 
     public function test_abstract_box_has_resume_header(): void

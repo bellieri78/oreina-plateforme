@@ -145,7 +145,7 @@ class ArticleLatexService
         $fontPackageLatex = match ($fontPackage) {
             'times' => "\\usepackage{mathptmx}",
             'palatino' => "\\usepackage{palatino}",
-            'helvetica' => "\\usepackage{helvet}\n\\renewcommand{\\familydefault}{\\sfdefault}",
+            'helvetica' => "\\usepackage[scaled=0.95]{helvet}\n\\renewcommand{\\familydefault}{\\sfdefault}",
             default => "\\usepackage{lmodern}",
         };
 
@@ -400,7 +400,7 @@ PREAMBLE;
                 "            \\vspace{6pt}\n" .
                 "            {\\small\\textbf{\\textcolor{chersotisTeal}{Summary}}}\\\\[4pt]\n" .
                 "            {$titleEnLine}" .
-                "            {\\small\\justifying\\textcolor{gray!80}{\\textit{{$displaySummary}}}}\n" .
+                "            {\\small\\justifying {$displaySummary}}\n" .
                 "            \\vspace{6pt}\n" .
                 "        }%\n" .
                 "    }\n";
@@ -584,11 +584,6 @@ PREAMBLE;
 
     \\vspace{10pt}
 
-    % Article type label
-    {\\normalsize\\textbf{\\textcolor{chersotisTeal}{Article de recherche}}}
-
-    \\vspace{8pt}
-
     % Abstract (French)
     \\colorbox{chersotisLightGray}{%
         \\parbox{0.95\\linewidth}{%
@@ -601,7 +596,8 @@ PREAMBLE;
 {$summaryBoxLatex}
 \\end{minipage}
 
-\\vspace{16pt}
+\\newpage
+\\newgeometry{top=22mm,bottom=28mm,left=28mm,right=22mm,headheight=15pt,footskip=18mm}
 
 % MAIN CONTENT
 {$contentLatex}
