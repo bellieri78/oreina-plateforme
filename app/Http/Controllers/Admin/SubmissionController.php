@@ -760,6 +760,8 @@ class SubmissionController extends Controller
      */
     public function importMarkdown(Request $request, Submission $submission)
     {
+        set_time_limit(180);
+
         $request->validate([
             'markdown_file' => 'required|file|max:5120',
         ]);
