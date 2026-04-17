@@ -794,15 +794,18 @@ class SubmissionController extends Controller
             $blocks = app(MarkdownToBlocksService::class)->parse($structured['markdown']);
             $blocks = $this->enrichBlocksWithTaxonLinks($blocks, $structured['taxons']);
 
+            $refs = is_array($structured['references']) ? $structured['references'] : [];
+            $affils = is_array($structured['authors_affiliations']) ? $structured['authors_affiliations'] : [];
+
             return response()->json([
                 'blocks' => $blocks,
                 'count' => count($blocks),
-                'references' => implode("\n", $structured['references']),
-                'authors_affiliations' => implode("\n", $structured['authors_affiliations']),
-                'acknowledgements' => $structured['acknowledgements'],
-                'detected_title' => $structured['title'],
+                'references' => implode("\n", array_map('strval', $refs)),
+                'authors_affiliations' => implode("\n", array_map('strval', $affils)),
+                'acknowledgements' => (string) ($structured['acknowledgements'] ?? ''),
+                'detected_title' => (string) ($structured['title'] ?? ''),
             ]);
-        } catch (\RuntimeException $e) {
+        } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
     }
