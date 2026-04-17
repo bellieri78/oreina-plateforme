@@ -695,6 +695,20 @@
             flex-direction: column;
         }
     }
+
+    /* Taxon links (Artemisiae) */
+    a[href*="artemisiae"] {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-decoration-color: #0d9488;
+        text-underline-offset: 2px;
+        transition: color 0.15s, text-decoration-color 0.15s;
+    }
+    a[href*="artemisiae"]:hover {
+        color: #0d9488;
+        text-decoration-style: solid;
+    }
 </style>
 @endpush
 
