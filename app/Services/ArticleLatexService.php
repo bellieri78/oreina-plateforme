@@ -232,7 +232,9 @@ PREAMBLE;
 
         // Prepare data
         $title = $this->escapeLatex($submission->title);
-        $abstract = $this->escapeLatex($submission->abstract ?? '');
+        // Prefer edited/final version (display_abstract) over original submission (abstract); convert HTML tags to LaTeX
+        $abstractSource = $submission->display_abstract ?? $submission->abstract ?? '';
+        $abstract = $this->convertHtmlToLatex($abstractSource);
         $authorName = $this->escapeLatex($author?->name ?? 'Auteur');
         $authorEmail = $author?->email ?? '';
         $editorName = $editor ? $this->escapeLatex($editor->name) : '';
@@ -276,7 +278,8 @@ PREAMBLE;
         $titleEn = $this->escapeLatex($submission->title_en ?? '');
 
         // Summary (optional)
-        $displaySummary = $this->escapeLatex($submission->display_summary ?? '');
+        $displaySummarySource = $submission->display_summary ?? '';
+        $displaySummary = $this->convertHtmlToLatex($displaySummarySource);
 
         // Supplementary files
         $supplementaryFiles = [];
@@ -488,19 +491,19 @@ PREAMBLE;
     % Revue URL
     {\\footnotesize\\textcolor{chersotisGray}{chersotis.oreina.org}}
 
-    \\vspace{8pt}
+    \\vspace{12pt}
 
     % Badges Open Access + CC BY
     \\includegraphics[height=24pt]{{$openAccessLogoPath}}\\hspace{4pt}%
     \\includegraphics[height=24pt]{{$ccbyLogoPath}}
 
-    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+    \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
 
     % Citation
     \\textbf{\\textcolor{chersotisTeal}{Citer cet article :}}\\\\[3pt]
     {\\footnotesize\\justifying {$harvardCitationLatex}}
 
-    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+    \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
 
     % Dates
     {\\small
@@ -509,33 +512,35 @@ PREAMBLE;
     \\textbf{Publié :} {$publishedDate}
     }
 
-    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+    \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
 
     % Keywords
     \\textbf{\\textcolor{chersotisTeal}{Mots-clés}}\\\\[2pt]
     {\\footnotesize {$keywords}}
 
-    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+    \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
+
+{$esmLatex}
+{$orcidLatex}
+
+    \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
 
     % Correspondance
     \\textbf{\\textcolor{chersotisTeal}{Correspondance auteur}}\\\\
     {\\small {$authorName}\\\\
     \\href{mailto:{$authorEmail}}{\\textcolor{chersotisTeal}{{$authorEmail}}}}
-{$esmLatex}
-{$orcidLatex}
 
     \\vfill
 
-    % Logo Oreina en bas
-    \\begin{center}
+    % Logo Oreina en bas (aligned left, sidebar already uses \raggedright)
     \\includegraphics[width=0.6\\linewidth]{{$oreinaLogoPath}}
-    \\end{center}
 
 \\end{minipage}%
 \\hfill
 \\vrule width 0.5pt
 \\hfill
 \\begin{minipage}[t]{{$rightColWidth}\\textwidth}
+    \\vspace*{-\\parskip}\\vspace*{-2pt}
 
     % Title — teal dark, not italic
     {\\fontsize{18}{22}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}}

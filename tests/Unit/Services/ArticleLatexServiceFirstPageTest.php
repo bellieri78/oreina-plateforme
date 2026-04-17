@@ -197,6 +197,25 @@ class ArticleLatexServiceFirstPageTest extends TestCase
         );
     }
 
+    public function test_abstract_uses_display_abstract_when_set(): void
+    {
+        $latex = $this->buildLatex([
+            'abstract' => 'Ancien résumé soumission',
+            'display_abstract' => 'Résumé final édité',
+        ]);
+        $this->assertStringContainsString('Résumé final édité', $latex);
+        $this->assertStringNotContainsString('Ancien résumé soumission', $latex);
+    }
+
+    public function test_abstract_falls_back_to_abstract_when_display_abstract_empty(): void
+    {
+        $latex = $this->buildLatex([
+            'abstract' => 'Résumé soumission',
+            'display_abstract' => null,
+        ]);
+        $this->assertStringContainsString('Résumé soumission', $latex);
+    }
+
     public function test_copy_logo_assets_copies_four_files(): void
     {
         $service = app(ArticleLatexService::class);
