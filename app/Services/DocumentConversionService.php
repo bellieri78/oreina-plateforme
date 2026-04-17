@@ -319,11 +319,40 @@ PROMPT;
         return [
             'title'               => $decoded['title'] ?? '',
             'markdown'            => $decoded['markdown'] ?? '',
-            'references'          => $decoded['references'] ?? [],
-            'authors_affiliations' => $decoded['authors_affiliations'] ?? [],
+            'references'          => $this->flattenToStrings($decoded['references'] ?? []),
+            'authors_affiliations' => $this->flattenToStrings($decoded['authors_affiliations'] ?? []),
             'acknowledgements'    => $decoded['acknowledgements'] ?? '',
-            'taxons'              => $decoded['taxons'] ?? [],
+            'taxons'              => $this->flattenToStrings($decoded['taxons'] ?? []),
         ];
+    }
+
+    /**
+     * Flatten an array of mixed items (strings or nested arrays) into an array of strings.
+     */
+    private function flattenToStrings(array $items): array
+    {
+        return array_map(function ($item) {
+            if (is_string($item)) {
+                return $item;
+            }
+            if (is_array($item)) {
+                return $this->flattenValue($item);
+            }
+            return (string) $item;
+        }, $items);
+    }
+
+    private function flattenValue(array $item): string
+    {
+        $parts = [];
+        foreach ($item as $value) {
+            if (is_array($value)) {
+                $parts[] = $this->flattenValue($value);
+            } elseif (is_string($value) || is_numeric($value)) {
+                $parts[] = (string) $value;
+            }
+        }
+        return implode(', ', array_filter($parts));
     }
 
     /**
