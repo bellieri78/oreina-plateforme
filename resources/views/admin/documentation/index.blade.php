@@ -1806,30 +1806,29 @@
                 <p>Le bouton "Maquetter" et le bloc "Maquette de l'article" sont visibles pour les statuts <code>accepted</code>, <code>in_production</code> et <code>published</code>.</p>
 
                 <h3>Import de documents</h3>
-                <p>Dans la page de maquettage d'un article (<code>/extranet/submissions/{id}/layout</code>), un bouton <strong>"Importer un document"</strong> (violet) permet d'uploader un fichier qui est automatiquement converti en blocs de maquette.</p>
+                <p>Dans la page de maquettage d'un article (<code>/extranet/submissions/{id}/layout</code>), un bouton <strong>"Importer un document"</strong> (violet) permet d'uploader un fichier qui est automatiquement converti en blocs de maquette enrichis.</p>
 
                 <h4>Formats acceptés</h4>
                 <ul>
-                    <li><strong>Markdown</strong> (<code>.md</code>, <code>.txt</code>, <code>.markdown</code>) — conversion directe via CommonMark. Idéal si le maquettiste est à l'aise avec le format Markdown.</li>
-                    <li><strong>Word</strong> (<code>.docx</code>) — le texte est extrait puis converti en Markdown structuré via l'API Claude (IA). Les titres, listes, tableaux, noms d'espèces en italique sont automatiquement reconnus.</li>
-                    <li><strong>OpenDocument</strong> (<code>.odt</code>) — même processus que Word.</li>
+                    <li><strong>Word</strong> (<code>.docx</code>) — converti en Markdown côté navigateur (instantané via mammoth.js), puis enrichi par l'IA</li>
+                    <li><strong>Markdown</strong> (<code>.md</code>, <code>.txt</code>, <code>.markdown</code>) — enrichi directement par l'IA</li>
                 </ul>
-                <p>Taille maximale : 5 Mo.</p>
+                <p>Taille maximale : 5 Mo. Tous les formats passent par le même enrichissement IA.</p>
 
-                <h4>Conversion intelligente (Word/ODT)</h4>
-                <p>Les fichiers Word et ODT sont convertis via l'API Claude (modèle Haiku). L'IA analyse la structure du document et extrait automatiquement :</p>
+                <h4>Enrichissement intelligent (Claude Haiku)</h4>
+                <p>L'IA analyse le contenu du document et extrait automatiquement :</p>
                 <ul>
-                    <li><strong>Corps de l'article</strong> — titres hiérarchisés, formatage, tableaux, listes. Le titre principal, les affiliations, les références et les remerciements sont <strong>retirés du corps</strong> et placés dans les champs dédiés.</li>
-                    <li><strong>Références bibliographiques</strong> — extraites et pré-remplies dans le champ sidebar "Références bibliographiques"</li>
-                    <li><strong>Affiliations auteurs</strong> — extraites et pré-remplies dans le champ sidebar "Affiliations auteurs"</li>
-                    <li><strong>Remerciements</strong> — extraits et pré-remplis dans le champ sidebar "Remerciements"</li>
-                    <li><strong>Noms de taxons</strong> — détectés automatiquement et enrichis avec un lien vers <a href="https://oreina.org/artemisiae/" target="_blank">Artemisiae</a> (au clic sur le nom en italique dans les blocs)</li>
-                    <li><strong>Titre détecté</strong> — si le titre extrait diffère du titre de la soumission, un bandeau propose de le mettre à jour</li>
+                    <li><strong>Corps de l'article</strong> — titres hiérarchisés, formatage, tableaux, listes. Le titre, les affiliations, les références et les remerciements sont <strong>retirés du corps</strong> et placés dans les champs dédiés.</li>
+                    <li><strong>Références bibliographiques</strong> — extraites, reformatées en style Harvard, et pré-remplies dans le champ sidebar</li>
+                    <li><strong>Affiliations auteurs</strong> — extraites et pré-remplies dans le champ sidebar</li>
+                    <li><strong>Remerciements</strong> — extraits et pré-remplis dans le champ sidebar</li>
+                    <li><strong>Noms de taxons</strong> — détectés et enrichis avec un lien vers <a href="https://oreina.org/artemisiae/" target="_blank">Artemisiae</a></li>
+                    <li><strong>Titre détecté</strong> — si différent du titre de la soumission, un bandeau propose de le mettre à jour</li>
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Attention :</strong> l'import remplace tous les blocs existants et les champs sidebar (avec confirmation). Les images ne sont pas extraites des fichiers Word — elles sont envoyées séparément en haute résolution après acceptation.<br>
-                    <strong>Prérequis Word/ODT :</strong> la conversion nécessite que la clé API Anthropic soit configurée (<code>ANTHROPIC_PLATFORM_KEY</code> dans <code>.env</code>). Si elle n'est pas configurée, un message invite à importer un fichier <code>.md</code> à la place.
+                    <strong>Attention :</strong> l'import remplace tous les blocs existants et les champs sidebar (avec confirmation).<br>
+                    <strong>Prérequis :</strong> la clé API Anthropic doit être configurée (<code>ANTHROPIC_PLATFORM_KEY</code> dans <code>.env</code>). L'enrichissement prend 30 à 120 secondes selon la taille du document.
                 </div>
 
                 <h4>Sauvegarde et aperçu PDF</h4>
