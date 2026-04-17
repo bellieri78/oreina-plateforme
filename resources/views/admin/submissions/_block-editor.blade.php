@@ -958,7 +958,59 @@
 
                 this.blocks = data.blocks;
                 this.blockIdCounter = data.blocks.length + 1;
-                alert('Import réussi : ' + data.count + ' blocs créés.');
+
+                // Pre-fill sidebar fields if enriched response (Word/ODT)
+                if (data.references !== undefined) {
+                    const refsEl = document.getElementById('sidebar-references');
+                    if (refsEl) refsEl.value = data.references;
+
+                    const affilEl = document.getElementById('sidebar-affiliations');
+                    if (affilEl) affilEl.value = data.authors_affiliations;
+
+                    const ackEl = document.getElementById('sidebar-acknowledgements');
+                    if (ackEl) ackEl.value = data.acknowledgements;
+                }
+
+                // Show detected title banner if different from current title
+                if (data.detected_title) {
+                    const currentTitle = @js($submission->title);
+                    const detected = data.detected_title.trim();
+                    if (detected && detected !== currentTitle) {
+                        const banner = document.getElementById('detected-title-banner');
+                        const titleText = document.getElementById('detected-title-text');
+                        const updateBtn = document.getElementById('update-title-btn');
+                        if (banner && titleText) {
+                            titleText.textContent = detected;
+                            banner.style.display = 'flex';
+
+                            if (updateBtn) {
+                                updateBtn.onclick = async () => {
+                                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+                                        || document.querySelector('input[name="_token"]')?.value
+                                        || '{{ csrf_token() }}';
+                                    const resp = await fetch('{{ route("admin.submissions.update-title", $submission->id) }}', {
+                                        method: 'PATCH',
+                                        headers: {
+                                            'X-CSRF-TOKEN': csrfToken,
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ title: detected }),
+                                    });
+                                    if (resp.ok) {
+                                        banner.style.display = 'none';
+                                        document.querySelector('.layout-title').textContent = detected;
+                                    }
+                                };
+                            }
+                        }
+                    }
+                }
+
+                const extra = data.references !== undefined
+                    ? ' + références, affiliations et remerciements pré-remplis'
+                    : '';
+                alert('Import réussi : ' + data.count + ' blocs créés' + extra + '.');
             } catch (error) {
                 alert('Erreur réseau : ' + error.message);
             }
