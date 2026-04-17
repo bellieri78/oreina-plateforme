@@ -95,7 +95,21 @@ PROMPT;
             );
         }
 
-        return $this->parseStructuredResponse($content);
+        $structured = $this->parseStructuredResponse($content);
+
+        // Extract optional English title from manuscript.
+        // Matches: "**English title:** ...", "**Title (English):** ...", "**Title (EN):** ..."
+        $titleEn = '';
+        if (preg_match(
+            '/\*\*\s*(?:english\s+title|title\s*\(\s*english\s*\)|title\s*\(\s*en\s*\))\s*:?\s*\*\*\s*(.+?)\s*$/im',
+            $markdown,
+            $matches
+        )) {
+            $titleEn = trim($matches[1]);
+        }
+        $structured['title_en'] = $titleEn;
+
+        return $structured;
     }
 
     private function parseStructuredResponse(string $content): array
