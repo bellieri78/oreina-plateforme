@@ -66,4 +66,8 @@ return [
         'enabled'    => env('TURNSTILE_ENABLED', true),
     ],
 
+    'anthropic' => [
+        'api_key' => env('ANTHROPIC_API_KEY'),
+    ],
+
 ];
