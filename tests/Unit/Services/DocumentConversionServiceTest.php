@@ -223,4 +223,72 @@ class DocumentConversionServiceTest extends TestCase
             unlink($path);
         }
     }
+
+    public function test_to_structured_returns_array_with_all_keys(): void
+    {
+        $jsonResponse = json_encode([
+            'title' => 'Mon article scientifique',
+            'markdown' => "## Résumé\n\nContenu de l'article.",
+            'references' => ['Dupont J., 2023. Titre...', 'Smith A., 2022. Autre...'],
+            'authors_affiliations' => ['Jean Dupont : Université Paris'],
+            'acknowledgements' => 'Merci au CNRS.',
+            'taxons' => ['Chazara briseis', 'Melanargia galathea'],
+        ]);
+
+        Http::fake([
+            'https://api.anthropic.com/v1/messages' => Http::response([
+                'content' => [['type' => 'text', 'text' => $jsonResponse]],
+            ], 200),
+        ]);
+
+        $phpWord = new PhpWord();
+        $phpWord->addSection()->addText('Contenu test');
+        $path = $this->createDocx($phpWord);
+
+        try {
+            config(['services.anthropic.api_key' => 'test-key']);
+            $result = $this->service->toStructured($path);
+
+            $this->assertIsArray($result);
+            $this->assertArrayHasKey('title', $result);
+            $this->assertArrayHasKey('markdown', $result);
+            $this->assertArrayHasKey('references', $result);
+            $this->assertArrayHasKey('authors_affiliations', $result);
+            $this->assertArrayHasKey('acknowledgements', $result);
+            $this->assertArrayHasKey('taxons', $result);
+            $this->assertSame('Mon article scientifique', $result['title']);
+            $this->assertCount(2, $result['references']);
+            $this->assertCount(2, $result['taxons']);
+        } finally {
+            unlink($path);
+        }
+    }
+
+    public function test_to_structured_fallback_on_non_json_response(): void
+    {
+        Http::fake([
+            'https://api.anthropic.com/v1/messages' => Http::response([
+                'content' => [['type' => 'text', 'text' => "# Titre\n\nJuste du markdown brut."]],
+            ], 200),
+        ]);
+
+        $phpWord = new PhpWord();
+        $phpWord->addSection()->addText('Contenu test');
+        $path = $this->createDocx($phpWord);
+
+        try {
+            config(['services.anthropic.api_key' => 'test-key']);
+            $result = $this->service->toStructured($path);
+
+            $this->assertArrayHasKey('markdown', $result);
+            $this->assertStringContainsString('Titre', $result['markdown']);
+            $this->assertSame([], $result['references']);
+            $this->assertSame([], $result['authors_affiliations']);
+            $this->assertSame('', $result['acknowledgements']);
+            $this->assertSame('', $result['title']);
+            $this->assertSame([], $result['taxons']);
+        } finally {
+            unlink($path);
+        }
+    }
 }
