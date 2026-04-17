@@ -1817,18 +1817,19 @@
                 <p>Taille maximale : 5 Mo.</p>
 
                 <h4>Conversion intelligente (Word/ODT)</h4>
-                <p>Les fichiers Word et ODT sont convertis via l'API Claude (modèle Haiku). L'IA analyse la structure du document et produit un Markdown propre avec :</p>
+                <p>Les fichiers Word et ODT sont convertis via l'API Claude (modèle Haiku). L'IA analyse la structure du document et extrait automatiquement :</p>
                 <ul>
-                    <li>Titres correctement hiérarchisés (H1 / H2 / H3)</li>
-                    <li>Formatage inline conservé (gras, italique, exposant, indice)</li>
-                    <li>Noms d'espèces automatiquement mis en italique</li>
-                    <li>Tableaux convertis en format Markdown</li>
-                    <li>Listes à puces et numérotées</li>
+                    <li><strong>Corps de l'article</strong> — titres hiérarchisés, formatage, tableaux, listes. Le titre principal, les affiliations, les références et les remerciements sont <strong>retirés du corps</strong> et placés dans les champs dédiés.</li>
+                    <li><strong>Références bibliographiques</strong> — extraites et pré-remplies dans le champ sidebar "Références bibliographiques"</li>
+                    <li><strong>Affiliations auteurs</strong> — extraites et pré-remplies dans le champ sidebar "Affiliations auteurs"</li>
+                    <li><strong>Remerciements</strong> — extraits et pré-remplis dans le champ sidebar "Remerciements"</li>
+                    <li><strong>Noms de taxons</strong> — détectés automatiquement et enrichis avec un lien vers <a href="https://oreina.org/artemisiae/" target="_blank">Artemisiae</a> (au clic sur le nom en italique dans les blocs)</li>
+                    <li><strong>Titre détecté</strong> — si le titre extrait diffère du titre de la soumission, un bandeau propose de le mettre à jour</li>
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Attention :</strong> l'import remplace tous les blocs existants (avec confirmation). Les images ne sont pas extraites des fichiers Word — elles sont envoyées séparément en haute résolution après acceptation.<br>
-                    <strong>Prérequis Word/ODT :</strong> la conversion nécessite que la clé API Anthropic soit configurée (<code>ANTHROPIC_API_KEY</code> dans <code>.env</code>). Si elle n'est pas configurée, un message invite à importer un fichier <code>.md</code> à la place.
+                    <strong>Attention :</strong> l'import remplace tous les blocs existants et les champs sidebar (avec confirmation). Les images ne sont pas extraites des fichiers Word — elles sont envoyées séparément en haute résolution après acceptation.<br>
+                    <strong>Prérequis Word/ODT :</strong> la conversion nécessite que la clé API Anthropic soit configurée (<code>ANTHROPIC_PLATFORM_KEY</code> dans <code>.env</code>). Si elle n'est pas configurée, un message invite à importer un fichier <code>.md</code> à la place.
                 </div>
 
                 <h4>Sauvegarde et aperçu PDF</h4>
