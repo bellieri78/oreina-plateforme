@@ -21,7 +21,7 @@ class DocumentConversionService
     private const API_URL = 'https://api.anthropic.com/v1/messages';
     private const MODEL = 'claude-haiku-4-5-20251001';
     private const MAX_TOKENS = 8192;
-    private const TIMEOUT = 60;
+    private const TIMEOUT = 120;
 
     private const SYSTEM_PROMPT = <<<'PROMPT'
 Tu es un convertisseur de documents scientifiques. Convertis le texte suivant en Markdown structuré.

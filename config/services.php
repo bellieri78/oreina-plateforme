@@ -67,7 +67,7 @@ return [
     ],
 
     'anthropic' => [
-        'api_key' => env('ANTHROPIC_API_KEY'),
+        'api_key' => env('ANTHROPIC_PLATFORM_KEY'),
     ],
 
 ];
