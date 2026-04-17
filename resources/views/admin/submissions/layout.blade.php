@@ -400,6 +400,20 @@
                     </div>
                 </div>
 
+                {{-- Title (English) --}}
+                <div class="sidebar-card">
+                    <div class="sidebar-card-title">
+                        Titre (anglais)
+                        <span style="font-weight:400;font-size:11px;color:#888;">— optionnel, pour le Summary du PDF</span>
+                    </div>
+                    <div class="sidebar-field">
+                        <input type="text" name="title_en" id="sidebar-title-en" class="sidebar-input"
+                               value="{{ old('title_en', $submission->title_en ?? '') }}"
+                               placeholder="English translation of the article title">
+                        @error('title_en')<p style="color:#dc2626;font-size:.8rem;margin-top:.25rem;">{{ $message }}</p>@enderror
+                    </div>
+                </div>
+
                 {{-- Affiliations --}}
                 <div class="sidebar-card">
                     <div class="sidebar-card-title">Affiliations auteurs</div>

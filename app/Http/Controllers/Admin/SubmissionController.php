@@ -721,6 +721,7 @@ class SubmissionController extends Controller
             'acknowledgements' => 'nullable|string',
             'author_affiliations' => 'nullable|string',
             'display_authors' => 'nullable|string|max:1000',
+            'title_en' => 'nullable|string|max:500',
             'display_abstract' => 'nullable|string',
             'display_summary' => 'nullable|string',
             'received_at' => 'nullable|date',
