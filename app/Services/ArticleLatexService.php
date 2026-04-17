@@ -268,6 +268,81 @@ PREAMBLE;
         // Short title
         $shortTitle = $this->escapeLatex(Str::limit($submission->title, 50));
 
+        // Harvard citation for sidebar
+        $harvardCitation = app(\App\Services\CitationExportService::class)->toHarvard($submission);
+        $harvardCitationLatex = $this->escapeLatex($harvardCitation);
+
+        // title_en (optional)
+        $titleEn = $this->escapeLatex($submission->title_en ?? '');
+
+        // Summary (optional)
+        $displaySummary = $this->escapeLatex($submission->display_summary ?? '');
+
+        // Supplementary files
+        $supplementaryFiles = [];
+        if (is_array($submission->supplementary_files)) {
+            foreach ($submission->supplementary_files as $suppFile) {
+                $name = $suppFile['name'] ?? ($suppFile['filename'] ?? basename($suppFile['path'] ?? 'fichier'));
+                $url = $suppFile['url'] ?? (isset($suppFile['path']) ? \Illuminate\Support\Facades\Storage::disk('public')->url($suppFile['path']) : '');
+                if ($url) {
+                    $supplementaryFiles[] = [
+                        'name' => $this->escapeLatex($name),
+                        'url' => $url,
+                    ];
+                }
+            }
+        }
+
+        // ORCID list
+        $showOrcid = config('journal.show_orcid', false);
+        $authorOrcids = [];
+        if ($showOrcid) {
+            if ($author && !empty($author->orcid)) {
+                $authorOrcids[] = ['name' => $this->escapeLatex($author->name), 'orcid' => $author->orcid];
+            }
+            if (is_array($submission->co_authors)) {
+                foreach ($submission->co_authors as $co) {
+                    if (!empty($co['orcid']) && !empty($co['name'])) {
+                        $authorOrcids[] = [
+                            'name' => $this->escapeLatex($co['name']),
+                            'orcid' => $co['orcid'],
+                        ];
+                    }
+                }
+            }
+        }
+
+        // Asset filenames — these files are copied to the temp compilation dir
+        // by copyImages() (local) or collectImagesForApi() (remote) — see Task 10
+        $papillonLogoPath = 'oreina-papillon.png';
+        $oreinaLogoPath = 'oreina-noir-ligne.png';
+        $openAccessLogoPath = 'open-access.png';
+        $ccbyLogoPath = 'cc-by-4.0.png';
+
+        $copyrightYear = $submission->published_at?->format('Y') ?? now()->format('Y');
+
+        // Build ESM LaTeX (conditional)
+        $esmLatex = '';
+        if (!empty($supplementaryFiles)) {
+            $esmLatex = "\n    \\vspace{6pt}\\color{gray!30}\\hrule\\vspace{6pt}\\color{black}\n" .
+                        "    \\textbf{\\textcolor{chersotisTeal}{Matériel supplémentaire}}\\\\\n" .
+                        "    Disponible en ligne :\\\\\n";
+            foreach ($supplementaryFiles as $sf) {
+                $esmLatex .= "    \\href{{$sf['url']}}{\\textcolor{chersotisTeal}{{$sf['name']}}}\\\\\n";
+            }
+        }
+
+        // Build ORCID LaTeX (conditional)
+        $orcidLatex = '';
+        if (!empty($authorOrcids)) {
+            $orcidLatex = "\n    \\vspace{6pt}\\color{gray!30}\\hrule\\vspace{6pt}\\color{black}\n" .
+                          "    \\textbf{\\textcolor{chersotisTeal}{ORCID}}\\\\\n";
+            foreach ($authorOrcids as $ao) {
+                $orcidUrl = 'https://orcid.org/' . $ao['orcid'];
+                $orcidLatex .= "    {$ao['name']} : \\href{{$orcidUrl}}{\\textcolor{chersotisTeal}{\\small {$ao['orcid']}}}\\\\\n";
+            }
+        }
+
         // Build affiliations LaTeX
         $affiliationsLatex = '';
         $letters = range('a', 'z');
@@ -359,39 +434,59 @@ PREAMBLE;
 \\noindent
 \\begin{minipage}[t]{{$leftColWidth}\\textwidth}
     \\raggedright
-    {\\fontsize{{$journalTitleSize}}{26}\\selectfont\\textbf{\\textcolor{chersotisOrange}{{$journalName}}}}\\\\[2pt]
-    {\\small\\textcolor{chersotisGray}{{$journalSubtitle}}}
 
-    \\vspace{12pt}
+    % Papillon logo
+    \\includegraphics[width=0.7\\linewidth]{{$papillonLogoPath}}\\\\[6pt]
 
+    % Chersotis wordmark
+    {\\fontsize{{$journalTitleSize}}{32}\\selectfont\\textbf{\\textcolor{chersotisOrange}{Chersotis}}}\\\\[2pt]
+
+    % Revue URL
+    {\\footnotesize\\textcolor{chersotisGray}{chersotis.oreina.org}}
+
+    \\vspace{8pt}
+
+    % Badges Open Access + CC BY
+    \\includegraphics[height=24pt]{{$openAccessLogoPath}}\\hspace{4pt}%
+    \\includegraphics[height=24pt]{{$ccbyLogoPath}}
+
+    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+
+    % Citation
+    \\textbf{\\textcolor{chersotisTeal}{Citer cet article :}}\\\\[3pt]
+    {\\footnotesize\\justifying {$harvardCitationLatex}}
+
+    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+
+    % Dates
     {\\small
-    \\textbf{Reçu :} {$receivedDate}\\\\[3pt]
-    \\textbf{Accepté :} {$acceptedDate}\\\\[3pt]
+    \\textbf{Reçu :} {$receivedDate}\\\\[2pt]
+    \\textbf{Accepté :} {$acceptedDate}\\\\[2pt]
     \\textbf{Publié :} {$publishedDate}
-
-    \\vspace{8pt}
-    \\hrule
-    \\vspace{8pt}
-
-    \\textbf{Correspondance}\\\\
-    {$authorName}\\\\
-    \\textcolor{chersotisTeal}{\\small {$authorEmail}}
-
-    \\vspace{8pt}
-    \\hrule
-    \\vspace{8pt}
-
-    \\textcolor{chersotisTeal}{\\small\\url{{$doiUrl}}}
-
-    \\vspace{8pt}
-
-    ISSN {$issnPrint} (print)\\\\
-    ISSN {$issnElectronic} (electronic)
-
-    \\vspace{10pt}
-
-    \\fcolorbox{blue!30}{blue!5}{\\parbox{0.85\\linewidth}{\\footnotesize\\textcolor{blue!70}{Licensed under\\\\{$license}}}}
     }
+
+    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+
+    % Keywords
+    \\textbf{\\textcolor{chersotisTeal}{Mots-clés}}\\\\[2pt]
+    {\\footnotesize {$keywords}}
+
+    \\vspace{8pt}\\color{gray!30}\\hrule\\vspace{8pt}\\color{black}
+
+    % Correspondance
+    \\textbf{\\textcolor{chersotisTeal}{Correspondance auteur}}\\\\
+    {\\small {$authorName}\\\\
+    \\href{mailto:{$authorEmail}}{\\textcolor{chersotisTeal}{{$authorEmail}}}}
+{$esmLatex}
+{$orcidLatex}
+
+    \\vfill
+
+    % Logo Oreina en bas
+    \\begin{center}
+    \\includegraphics[width=0.6\\linewidth]{{$oreinaLogoPath}}
+    \\end{center}
+
 \\end{minipage}%
 \\hfill
 \\vrule width 0.5pt
