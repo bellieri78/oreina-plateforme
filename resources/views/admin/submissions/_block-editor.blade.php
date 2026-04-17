@@ -997,13 +997,13 @@
                             if (updateBtn) {
                                 updateBtn.onclick = async () => {
                                     const resp = await fetch('{{ route("admin.submissions.update-title", $submission->id) }}', {
-                                        method: 'PATCH',
+                                        method: 'POST',
                                         headers: {
                                             'X-CSRF-TOKEN': csrfToken,
                                             'Accept': 'application/json',
                                             'Content-Type': 'application/json',
                                         },
-                                        body: JSON.stringify({ title: detected }),
+                                        body: JSON.stringify({ _method: 'PATCH', title: detected }),
                                     });
                                     if (resp.ok) {
                                         banner.style.display = 'none';
