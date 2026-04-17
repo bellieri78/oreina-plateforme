@@ -41,7 +41,7 @@ PROMPT;
     /**
      * Enrich Markdown content via Claude API.
      *
-     * @return array{title: string, markdown: string, references: string[], authors_affiliations: string[], acknowledgements: string, taxons: string[]}
+     * @return array{title: string, title_en: string, markdown: string, references: string[], authors_affiliations: string[], acknowledgements: string, taxons: string[]}
      * @throws \RuntimeException
      */
     public function enrichMarkdown(string $markdown): array
