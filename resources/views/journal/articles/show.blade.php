@@ -698,39 +698,26 @@
 
     /* Taxon links (Artemisiae) */
     a[href*="artemisiae"] {
-        color: inherit;
+        color: #0d9488;
         text-decoration: none;
         border-bottom: 1.5px dotted #0d9488;
         padding-bottom: 1px;
         transition: all 0.2s ease;
-        position: relative;
     }
     a[href*="artemisiae"]:hover {
-        color: #0d9488;
+        color: #0f766e;
         border-bottom-style: solid;
-        background: rgba(13, 148, 136, 0.06);
+        background: rgba(13, 148, 136, 0.08);
         border-radius: 2px;
         padding: 0 2px;
         margin: 0 -2px;
-    }
-    a[href*="artemisiae"]::after {
-        content: '↗';
-        font-style: normal;
-        font-size: 0.65em;
-        vertical-align: super;
-        margin-left: 1px;
-        opacity: 0;
-        transition: opacity 0.2s;
-        color: #0d9488;
-    }
-    a[href*="artemisiae"]:hover::after {
-        opacity: 1;
     }
 
     /* Inline citation tooltips */
     .cite {
         cursor: help;
         position: relative;
+        display: inline;
         border-bottom: 1px dashed #9ca3af;
         padding-bottom: 1px;
         transition: all 0.2s ease;
@@ -739,7 +726,7 @@
         border-bottom-color: #0d9488;
         color: #0d9488;
     }
-    .cite::after {
+    .cite[data-ref]:hover::after {
         content: attr(data-ref);
         position: absolute;
         bottom: calc(100% + 8px);
@@ -747,22 +734,20 @@
         transform: translateX(-50%);
         background: #1e293b;
         color: #f1f5f9;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 0.75rem;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 0.78rem;
         font-style: normal;
-        line-height: 1.5;
+        font-weight: 400;
+        line-height: 1.6;
         white-space: normal;
         width: max-content;
-        max-width: 400px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.2s, visibility 0.2s;
+        max-width: 420px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         pointer-events: none;
         z-index: 100;
     }
-    .cite::before {
+    .cite[data-ref]:hover::before {
         content: '';
         position: absolute;
         bottom: calc(100% + 2px);
@@ -770,24 +755,16 @@
         transform: translateX(-50%);
         border: 6px solid transparent;
         border-top-color: #1e293b;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.2s, visibility 0.2s;
         pointer-events: none;
         z-index: 100;
     }
-    .cite:hover::after,
-    .cite:hover::before {
-        opacity: 1;
-        visibility: visible;
-    }
     @media (max-width: 640px) {
-        .cite::after {
+        .cite[data-ref]:hover::after {
             left: 0;
             transform: none;
             max-width: 280px;
         }
-        .cite::before {
+        .cite[data-ref]:hover::before {
             left: 20px;
             transform: none;
         }

@@ -846,7 +846,7 @@ class SubmissionController extends Controller
 
                 $block['content'] = preg_replace(
                     '/<em>' . $escaped . '<\/em>(?![^<]*<\/a>)/u',
-                    '<a href="' . $url . '" target="_blank" title="Voir sur Artemisiae"><em>' . htmlspecialchars($taxon, ENT_QUOTES) . '</em></a>',
+                    '<a href="' . $url . '" target="_blank"><em>' . htmlspecialchars($taxon, ENT_QUOTES) . '</em></a>',
                     $block['content']
                 );
             }
