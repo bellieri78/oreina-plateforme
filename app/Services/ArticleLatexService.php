@@ -872,10 +872,35 @@ LATEX;
     }
 
     /**
+     * Copy LaTeX logo assets (papillon, oreina, open-access, cc-by) to temp dir
+     * for local compilation.
+     */
+    protected function copyLogoAssets(): void
+    {
+        $assets = [
+            'oreina-papillon.png' => $this->getConfig('assets.papillon_logo'),
+            'oreina-noir-ligne.png' => $this->getConfig('assets.oreina_logo'),
+            'open-access.png' => $this->getConfig('assets.open_access'),
+            'cc-by-4.0.png' => $this->getConfig('assets.cc_by'),
+        ];
+
+        foreach ($assets as $targetName => $sourcePath) {
+            if ($sourcePath && file_exists($sourcePath)) {
+                copy($sourcePath, $this->tempDir . '/' . $targetName);
+            } else {
+                Log::warning('LaTeX asset missing', ['target' => $targetName, 'path' => $sourcePath]);
+            }
+        }
+    }
+
+    /**
      * Copy images to temp directory (for local compilation)
      */
     protected function copyImages(Submission $submission): void
     {
+        // Copy logo assets first
+        $this->copyLogoAssets();
+
         $blocks = $submission->content_blocks ?? [];
         $imageIndex = 0;
 
@@ -921,6 +946,23 @@ LATEX;
     protected function collectImagesForApi(Submission $submission): array
     {
         $images = [];
+
+        // Include logo assets
+        $assets = [
+            'oreina-papillon.png' => $this->getConfig('assets.papillon_logo'),
+            'oreina-noir-ligne.png' => $this->getConfig('assets.oreina_logo'),
+            'open-access.png' => $this->getConfig('assets.open_access'),
+            'cc-by-4.0.png' => $this->getConfig('assets.cc_by'),
+        ];
+        foreach ($assets as $targetName => $sourcePath) {
+            if ($sourcePath && file_exists($sourcePath)) {
+                $images[] = [
+                    'path' => $targetName,
+                    'file' => base64_encode(file_get_contents($sourcePath)),
+                ];
+            }
+        }
+
         $blocks = $submission->content_blocks ?? [];
         $imageIndex = 0;
 

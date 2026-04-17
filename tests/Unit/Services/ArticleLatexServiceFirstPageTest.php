@@ -196,4 +196,31 @@ class ArticleLatexServiceFirstPageTest extends TestCase
             'Matériel supplémentaire should appear in both sidebar and body'
         );
     }
+
+    public function test_copy_logo_assets_copies_four_files(): void
+    {
+        $service = app(ArticleLatexService::class);
+
+        $tempDir = sys_get_temp_dir() . '/latex_test_' . uniqid();
+        mkdir($tempDir, 0755, true);
+
+        $tempDirProperty = (new \ReflectionClass($service))->getProperty('tempDir');
+        $tempDirProperty->setAccessible(true);
+        $tempDirProperty->setValue($service, $tempDir);
+
+        $method = (new \ReflectionClass($service))->getMethod('copyLogoAssets');
+        $method->setAccessible(true);
+        $method->invoke($service);
+
+        $this->assertFileExists($tempDir . '/oreina-papillon.png');
+        $this->assertFileExists($tempDir . '/oreina-noir-ligne.png');
+        $this->assertFileExists($tempDir . '/open-access.png');
+        $this->assertFileExists($tempDir . '/cc-by-4.0.png');
+
+        // Cleanup
+        foreach (glob($tempDir . '/*') as $f) {
+            unlink($f);
+        }
+        rmdir($tempDir);
+    }
 }
