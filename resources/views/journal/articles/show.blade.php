@@ -829,21 +829,22 @@
                             <p class="meta-value">Article de recherche</p>
                         </div>
                         <div>
+                            <p class="meta-label">Accès</p>
+                            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" title="Cet article est en accès libre">
+                                <img src="/images/open-access.png" alt="Open Access" class="meta-logo">
+                            </a>
+                        </div>
+                        <div>
                             <p class="meta-label">Licence</p>
-                            <div class="meta-logos">
-                                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" title="Creative Commons Attribution 4.0 International">
-                                    <img src="/images/open-access.png" alt="Open Access" class="meta-logo">
-                                </a>
-                                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" title="CC BY 4.0 — Utilisation libre avec attribution">
-                                    <span class="cc-logo">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"/>
-                                            <path d="M15 9.354a4 4 0 1 0 0 5.292"/>
-                                        </svg>
-                                        CC BY 4.0
-                                    </span>
-                                </a>
-                            </div>
+                            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" title="CC BY 4.0 — Utilisation libre avec attribution">
+                                <span class="cc-logo">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M15 9.354a4 4 0 1 0 0 5.292"/>
+                                    </svg>
+                                    CC BY 4.0
+                                </span>
+                            </a>
                         </div>
                     </div>
                 </div>
