@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SubmissionStatus;
+use App\Models\SubmissionTransition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -119,6 +120,26 @@ class Submission extends Model
     public function lepisDecidedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'lepis_decided_by_user_id');
+    }
+
+    public function publicStatus(): SubmissionStatus
+    {
+        if ($this->status !== SubmissionStatus::RejectedPendingLepis) {
+            return $this->status instanceof SubmissionStatus
+                ? $this->status
+                : SubmissionStatus::from($this->status);
+        }
+
+        $lastPublic = $this->transitions()
+            ->where('action', SubmissionTransition::ACTION_STATUS_CHANGED)
+            ->where('to_status', '!=', SubmissionStatus::RejectedPendingLepis->value)
+            ->whereNotNull('to_status')
+            ->orderByDesc('created_at')
+            ->first();
+
+        return $lastPublic?->to_status
+            ? SubmissionStatus::from($lastPublic->to_status)
+            : SubmissionStatus::UnderInitialReview;
     }
 
     public function submittedBy(): BelongsTo
