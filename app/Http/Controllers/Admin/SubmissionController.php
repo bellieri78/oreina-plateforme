@@ -74,6 +74,8 @@ class SubmissionController extends Controller
 
     public function create(Request $request)
     {
+        $this->authorize('create-submission-for-author');
+
         $authors = User::orderBy('name')->get();
         $issues = JournalIssue::orderBy('volume_number', 'desc')
             ->orderBy('issue_number', 'desc')
@@ -84,50 +86,69 @@ class SubmissionController extends Controller
         return view('admin.submissions.create', compact('authors', 'issues', 'selectedIssue'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, \App\Services\SubmissionCreationService $creation)
     {
+        $this->authorize('create-submission-for-author');
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'abstract' => 'nullable|string',
             'keywords' => 'nullable|string|max:500',
-            'author_id' => 'required|exists:users,id',
+            'author_mode' => 'required|in:existing,new',
+            'author_id' => 'required_if:author_mode,existing|nullable|exists:users,id',
+            'author_name' => 'required_if:author_mode,new|nullable|string|max:255',
+            'author_email' => [
+                'required_if:author_mode,new',
+                'nullable',
+                'email',
+                \Illuminate\Validation\Rule::unique('users', 'email'),
+            ],
             'journal_issue_id' => 'nullable|exists:journal_issues,id',
-            'status' => 'required|in:submitted,under_initial_review,revision_requested,under_peer_review,revision_after_review,in_production,awaiting_author_approval,accepted,rejected,published',
             'editor_id' => 'nullable|exists:users,id',
             'editor_notes' => 'nullable|string',
             'doi' => 'nullable|string|max:255',
             'start_page' => 'nullable|integer|min:1',
             'end_page' => 'nullable|integer|min:1',
-            'manuscript_file' => 'nullable|file|mimes:doc,docx,pdf,odt|max:20480',
+            'manuscript_file' => 'required|file|mimes:doc,docx,pdf,odt|max:30720',
             'pdf_file' => 'nullable|file|mimes:pdf|max:20480',
             'featured_image' => 'nullable|image|max:5120',
+        ], [
+            'author_email.unique' => 'Un compte existe déjà pour cet email. Sélectionnez « Auteur existant » dans la liste déroulante.',
         ]);
 
-        if ($validated['status'] === 'submitted' && empty($validated['submitted_at'])) {
-            $validated['submitted_at'] = now();
-        }
-
-        if ($validated['status'] === 'published') {
-            $validated['published_at'] = now();
-        }
+        // Extract non-file fields we want to pass to the service
+        $data = collect($validated)->only([
+            'title', 'abstract', 'keywords', 'journal_issue_id',
+            'editor_id', 'editor_notes', 'doi', 'start_page', 'end_page',
+        ])->toArray();
 
         // Handle file uploads
-        if ($request->hasFile('manuscript_file')) {
-            $validated['manuscript_file'] = $request->file('manuscript_file')
-                ->store('submissions/manuscripts', 'public');
-        }
+        $data['manuscript_file'] = $request->file('manuscript_file')
+            ->store('submissions/manuscripts', 'public');
 
         if ($request->hasFile('pdf_file')) {
-            $validated['pdf_file'] = $request->file('pdf_file')
+            $data['pdf_file'] = $request->file('pdf_file')
                 ->store('submissions/pdfs', 'public');
         }
 
         if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')
+            $data['featured_image'] = $request->file('featured_image')
                 ->store('submissions/images', 'public');
         }
 
-        $submission = Submission::create($validated);
+        $submittedBy = $request->user();
+
+        if ($validated['author_mode'] === 'existing') {
+            $author = User::findOrFail($validated['author_id']);
+            $submission = $creation->createForExistingAuthor($author, $data, $submittedBy);
+        } else {
+            $submission = $creation->createForNewAuthor(
+                $validated['author_name'],
+                $validated['author_email'],
+                $data,
+                $submittedBy,
+            );
+        }
 
         return redirect()
             ->route('admin.submissions.show', $submission)
