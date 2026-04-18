@@ -9,11 +9,13 @@ enum SubmissionStatus: string
     case RevisionRequested   = 'revision_requested';
     case UnderPeerReview     = 'under_peer_review';
     case RevisionAfterReview = 'revision_after_review';
-    case Accepted                = 'accepted';
-    case InProduction            = 'in_production';
-    case AwaitingAuthorApproval  = 'awaiting_author_approval';
-    case Published               = 'published';
-    case Rejected                = 'rejected';
+    case Accepted                 = 'accepted';
+    case InProduction             = 'in_production';
+    case AwaitingAuthorApproval   = 'awaiting_author_approval';
+    case Published                = 'published';
+    case Rejected                 = 'rejected';
+    case RejectedPendingLepis     = 'rejected_pending_lepis';
+    case RedirectedToLepis        = 'redirected_to_lepis';
 
     public function label(): string
     {
@@ -28,6 +30,8 @@ enum SubmissionStatus: string
             self::AwaitingAuthorApproval  => 'En attente d\'approbation auteur',
             self::Published               => 'Publié',
             self::Rejected                => 'Rejeté',
+            self::RejectedPendingLepis    => 'Rejet en attente Lepis',
+            self::RedirectedToLepis       => 'Transmis au bulletin Lepis',
         };
     }
 
@@ -44,12 +48,14 @@ enum SubmissionStatus: string
             self::AwaitingAuthorApproval  => 'purple',
             self::Published               => 'emerald',
             self::Rejected                => 'red',
+            self::RejectedPendingLepis    => 'amber',
+            self::RedirectedToLepis       => 'teal',
         };
     }
 
     public function isTerminal(): bool
     {
-        return in_array($this, [self::Published, self::Rejected], true);
+        return in_array($this, [self::Published, self::Rejected, self::RedirectedToLepis], true);
     }
 
     public function isEditorial(): bool

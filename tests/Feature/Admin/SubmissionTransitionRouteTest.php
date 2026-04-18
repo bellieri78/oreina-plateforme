@@ -54,8 +54,12 @@ class SubmissionTransitionRouteTest extends TestCase
         ]);
     }
 
-    public function test_reject_with_redirect_to_lepis_sets_flag(): void
+    public function test_reject_with_redirect_to_lepis_routes_to_pending_lepis_status(): void
     {
+        // Depuis P1 #B : cocher "Recommander pour Lepis" envoie vers le
+        // statut intermédiaire rejected_pending_lepis (invisible à l'auteur),
+        // pas directement rejected. La décision finale (transmis à Lepis vs
+        // rejeté définitivement) est prise par l'admin depuis /file-lepis.
         $editor = $this->makeEditor();
         $sub = $this->makeSubmission(SubmissionStatus::UnderInitialReview, editorId: $editor->id);
 
@@ -68,7 +72,7 @@ class SubmissionTransitionRouteTest extends TestCase
             ->assertRedirect();
 
         $fresh = $sub->fresh();
-        $this->assertSame('rejected', $fresh->status->value);
+        $this->assertSame('rejected_pending_lepis', $fresh->status->value);
         $this->assertTrue($fresh->redirected_to_lepis);
     }
 

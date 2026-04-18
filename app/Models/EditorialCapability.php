@@ -11,12 +11,14 @@ class EditorialCapability extends Model
     public const EDITOR        = 'editor';
     public const REVIEWER      = 'reviewer';
     public const LAYOUT_EDITOR = 'layout_editor';
+    public const LEPIS_EDITOR  = 'lepis_editor';
 
     public const ALL = [
         self::CHIEF_EDITOR,
         self::EDITOR,
         self::REVIEWER,
         self::LAYOUT_EDITOR,
+        self::LEPIS_EDITOR,
     ];
 
     protected $fillable = [
@@ -37,6 +39,7 @@ class EditorialCapability extends Model
             self::EDITOR        => 'Éditeur',
             self::REVIEWER      => 'Relecteur',
             self::LAYOUT_EDITOR => 'Maquettiste',
+            self::LEPIS_EDITOR  => 'Rédacteur en chef Lepis',
         ];
     }
 

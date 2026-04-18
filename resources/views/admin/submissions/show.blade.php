@@ -159,6 +159,24 @@
         </div>
 
         <div>
+            {{-- Bandeau info : statut caché à l'auteur (file Lepis) --}}
+            @if($submissionStatusValue === 'rejected_pending_lepis')
+                <div style="margin-bottom: 1rem; padding: 1rem; background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%); border: 1px solid #fde68a; border-left: 4px solid #d97706; border-radius: 0.5rem;">
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="20" height="20" style="color: #d97706; flex-shrink: 0; margin-top: 2px;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+                        <div>
+                            <div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">Statut invisible pour l'auteur</div>
+                            <div style="font-size: 0.875rem; color: #78350f;">
+                                Cette soumission est en file Lepis. L'auteur voit toujours le statut « <strong>{{ $submission->publicStatus()->label() }}</strong> » sur son espace.
+                                <a href="{{ route('admin.journal.lepis-queue') }}" style="color: #92400e; text-decoration: underline; font-weight: 500;">→ Aller à la file Lepis</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             {{-- Statut + Transition buttons --}}
             <div class="card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">

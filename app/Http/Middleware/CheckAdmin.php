@@ -14,7 +14,10 @@ class CheckAdmin
             return redirect()->route('admin.login');
         }
 
-        if (!$request->user()->isAdmin() && !$request->user()->isEditor()) {
+        $user = $request->user();
+        $hasLepisAccess = $user->hasCapability(\App\Models\EditorialCapability::LEPIS_EDITOR);
+
+        if (!$user->isAdmin() && !$user->isEditor() && !$hasLepisAccess) {
             abort(403, 'Accès réservé aux administrateurs.');
         }
 

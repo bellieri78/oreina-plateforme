@@ -51,10 +51,11 @@
                                                 'awaiting_author_approval' => 'bg-violet-100 text-violet-700',
                                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                                             ];
-                                            $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
+                                            $publicStatus = $submission->publicStatus();
+                                            $submissionStatusValue = $publicStatus->value;
                                         @endphp
                                         <span class="px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submissionStatusValue] ?? 'bg-slate-100 text-slate-700' }}">
-                                            {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : (\App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status) }}
+                                            {{ $publicStatus->label() }}
                                         </span>
                                         @if(in_array($submissionStatusValue, ['revision_requested', 'revision_after_review']))
                                             <span class="px-2 py-0.5 text-xs font-bold rounded-lg bg-orange-100 text-orange-700 animate-pulse">
@@ -97,7 +98,7 @@
                                     <a href="{{ route('journal.submissions.show', $submission) }}" class="px-4 py-2 text-sm font-semibold text-oreina-turquoise hover:bg-oreina-turquoise/10 rounded-lg transition">
                                         Voir détails
                                     </a>
-                                    @if($submission->status?->value === 'revision_after_review')
+                                    @if($publicStatus->value === 'revision_after_review')
                                         <a href="{{ route('journal.submissions.edit', $submission) }}" class="px-4 py-2 text-sm font-semibold bg-orange-100 text-orange-700 hover:bg-orange-200 rounded-lg transition">
                                             Soumettre révision
                                         </a>

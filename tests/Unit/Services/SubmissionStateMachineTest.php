@@ -43,17 +43,22 @@ class SubmissionStateMachineTest extends TestCase
             ['under_initial_review', 'revision_requested'],
             ['under_initial_review', 'under_peer_review'],
             ['under_initial_review', 'rejected'],
+            ['under_initial_review', 'rejected_pending_lepis'],
             ['revision_requested', 'under_initial_review'],
             ['under_peer_review', 'revision_after_review'],
             ['under_peer_review', 'accepted'],
             ['under_peer_review', 'rejected'],
+            ['under_peer_review', 'rejected_pending_lepis'],
             ['revision_after_review', 'under_peer_review'],
             ['revision_after_review', 'accepted'],
             ['revision_after_review', 'rejected'],
+            ['revision_after_review', 'rejected_pending_lepis'],
             ['accepted', 'in_production'],
             ['in_production', 'awaiting_author_approval'],
             ['awaiting_author_approval', 'published'],
             ['awaiting_author_approval', 'in_production'],
+            ['rejected_pending_lepis', 'redirected_to_lepis'],
+            ['rejected_pending_lepis', 'rejected'],
         ];
     }
 
@@ -117,7 +122,7 @@ class SubmissionStateMachineTest extends TestCase
         $values = array_map(fn($s) => $s->value, $next);
 
         $this->assertEqualsCanonicalizing(
-            ['revision_requested', 'under_peer_review', 'rejected'],
+            ['revision_requested', 'under_peer_review', 'rejected', 'rejected_pending_lepis'],
             $values
         );
     }

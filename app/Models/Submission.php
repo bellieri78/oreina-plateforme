@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SubmissionStatus;
+use App\Models\SubmissionTransition;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,6 +45,8 @@ class Submission extends Model
         'accepted_at',
         'published_at',
         'redirected_to_lepis',
+        'lepis_decision_at',
+        'lepis_decided_by_user_id',
         'author_approved_at',
         'author_approval_requested_at',
     ];
@@ -62,6 +65,7 @@ class Submission extends Model
         'published_at' => 'datetime',
         'author_approved_at' => 'datetime',
         'author_approval_requested_at' => 'datetime',
+        'lepis_decision_at' => 'datetime',
         'status' => SubmissionStatus::class,
         'redirected_to_lepis' => 'boolean',
     ];
@@ -111,6 +115,31 @@ class Submission extends Model
     public function layoutEditor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'layout_editor_id');
+    }
+
+    public function lepisDecidedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'lepis_decided_by_user_id');
+    }
+
+    public function publicStatus(): SubmissionStatus
+    {
+        if ($this->status !== SubmissionStatus::RejectedPendingLepis) {
+            return $this->status instanceof SubmissionStatus
+                ? $this->status
+                : SubmissionStatus::from($this->status);
+        }
+
+        $lastPublic = $this->transitions()
+            ->where('action', SubmissionTransition::ACTION_STATUS_CHANGED)
+            ->where('to_status', '!=', SubmissionStatus::RejectedPendingLepis->value)
+            ->whereNotNull('to_status')
+            ->orderByDesc('created_at')
+            ->first();
+
+        return $lastPublic?->to_status
+            ? SubmissionStatus::from($lastPublic->to_status)
+            : SubmissionStatus::UnderInitialReview;
     }
 
     public function submittedBy(): BelongsTo

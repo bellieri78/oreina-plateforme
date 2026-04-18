@@ -133,6 +133,20 @@
                                 <span>Mes articles</span>
                             </a>
                         @endif
+                        @can('access-lepis-queue')
+                            @php
+                                $lepisQueueCount = \App\Models\Submission::where('status', 'rejected_pending_lepis')->count();
+                            @endphp
+                            <a href="{{ route('admin.journal.lepis-queue') }}" class="nav-link {{ request()->routeIs('admin.journal.lepis-queue') ? 'active' : '' }}" style="display:flex;align-items:center;justify-content:space-between;">
+                                <span style="display:flex;align-items:center;gap:0.75rem;">
+                                    <i data-lucide="file-warning"></i>
+                                    <span>File Lepis</span>
+                                </span>
+                                @if($lepisQueueCount > 0)
+                                    <span style="background:#d97706;color:white;font-size:0.7rem;font-weight:600;padding:2px 8px;border-radius:10px;">{{ $lepisQueueCount }}</span>
+                                @endif
+                            </a>
+                        @endcan
                     @endif
                 </div>
 

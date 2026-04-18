@@ -438,15 +438,19 @@
             @if($mySubmissions->count() > 0)
             <div class="activity-list">
                 @foreach($mySubmissions as $sub)
+                @php
+                    // publicStatus() cache les statuts invisibles pour l'auteur (ex: rejected_pending_lepis)
+                    $displayStatus = $sub->publicStatus()->value;
+                @endphp
                 <article class="activity-item">
-                    <div class="bullet {{ $sub->status === 'published' ? '' : ($sub->status === 'accepted' ? 'gold' : 'blue') }}">
-                        @if($sub->status === 'published')
+                    <div class="bullet {{ $displayStatus === 'published' ? '' : ($displayStatus === 'accepted' ? 'gold' : 'blue') }}">
+                        @if($displayStatus === 'published')
                             <i data-lucide="check-circle" style="width:18px;height:18px;color:#2f694e;"></i>
-                        @elseif($sub->status === 'accepted')
+                        @elseif($displayStatus === 'accepted')
                             <i data-lucide="badge-check" style="width:18px;height:18px;color:#8b6c05;"></i>
-                        @elseif($sub->status === 'under_review')
+                        @elseif($displayStatus === 'under_peer_review' || $displayStatus === 'under_initial_review')
                             <i data-lucide="clock" style="width:18px;height:18px;color:var(--blue);"></i>
-                        @elseif($sub->status === 'revision_requested')
+                        @elseif($displayStatus === 'revision_requested' || $displayStatus === 'revision_after_review')
                             <i data-lucide="pen-line" style="width:18px;height:18px;color:var(--coral);"></i>
                         @else
                             <i data-lucide="file-text" style="width:18px;height:18px;color:var(--blue);"></i>
@@ -474,8 +478,9 @@
                                 'awaiting_author_approval' => ['Approbation demandée', 'approval'],
                                 'rejected' => ['Refusé', 'coral'],
                                 'published' => ['Publié', 'sage'],
+                                'redirected_to_lepis' => ['Transmis au bulletin Lepis', 'sage'],
                             ];
-                            $label = $statusLabels[$sub->status?->value ?? $sub->status] ?? ['Inconnu', 'blue'];
+                            $label = $statusLabels[$displayStatus] ?? ['Inconnu', 'blue'];
                         @endphp
                         <span class="status {{ $label[1] }}">{{ $label[0] }}</span>
                     </div>

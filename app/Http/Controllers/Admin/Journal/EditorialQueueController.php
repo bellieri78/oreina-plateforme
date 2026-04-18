@@ -107,6 +107,12 @@ class EditorialQueueController extends Controller
 
         $target = SubmissionStatus::from($validated['target_status']);
 
+        // Case « Recommander pour Lepis » cochée : redirige la transition vers le
+        // statut intermédiaire RejectedPendingLepis (invisible à l'auteur).
+        if ($target === SubmissionStatus::Rejected && ($validated['redirect_to_lepis'] ?? false)) {
+            $target = SubmissionStatus::RejectedPendingLepis;
+        }
+
         abort_unless(
             app(SubmissionPolicy::class)->transitionTo($request->user(), $submission, $target),
             403,
@@ -120,10 +126,6 @@ class EditorialQueueController extends Controller
                 $request->user(),
                 $validated['notes'] ?? null,
             );
-
-            if ($target === SubmissionStatus::Rejected && ($validated['redirect_to_lepis'] ?? false)) {
-                $submission->update(['redirected_to_lepis' => true]);
-            }
         } catch (IllegalTransitionException $e) {
             return back()->with('error', $e->getMessage());
         }

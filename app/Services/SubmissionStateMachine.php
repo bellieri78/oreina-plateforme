@@ -4,8 +4,11 @@ namespace App\Services;
 
 use App\Enums\SubmissionStatus;
 use App\Exceptions\Editorial\IllegalTransitionException;
+use App\Mail\ArticleRedirectedToLepis;
 use App\Mail\AuthorApprovalRequested;
 use App\Mail\AuthorApproved;
+use App\Mail\LepisArticleReceived;
+use App\Mail\LepisQueueNotification;
 use App\Mail\SubmissionDecision;
 use App\Models\EditorialCapability;
 use App\Models\Submission;
@@ -17,15 +20,17 @@ class SubmissionStateMachine
 {
     private const TRANSITIONS = [
         'submitted'                    => ['under_initial_review', 'rejected'],
-        'under_initial_review'         => ['revision_requested', 'under_peer_review', 'rejected'],
+        'under_initial_review'         => ['revision_requested', 'under_peer_review', 'rejected', 'rejected_pending_lepis'],
         'revision_requested'           => ['under_initial_review'],
-        'under_peer_review'            => ['revision_after_review', 'accepted', 'rejected'],
-        'revision_after_review'        => ['under_peer_review', 'accepted', 'rejected'],
+        'under_peer_review'            => ['revision_after_review', 'accepted', 'rejected', 'rejected_pending_lepis'],
+        'revision_after_review'        => ['under_peer_review', 'accepted', 'rejected', 'rejected_pending_lepis'],
         'accepted'                     => ['in_production'],
         'in_production'                => ['awaiting_author_approval'],
         'awaiting_author_approval'     => ['published', 'in_production'],
         'published'                    => [],
         'rejected'                     => [],
+        'rejected_pending_lepis'       => ['redirected_to_lepis', 'rejected'],
+        'redirected_to_lepis'          => [],
     ];
 
     public function __construct(private SubmissionTransitionLogger $logger) {}
@@ -75,6 +80,52 @@ class SubmissionStateMachine
             $submission->load('author');
             if ($submission->author) {
                 Mail::to($submission->author)->queue(new SubmissionDecision($submission));
+            }
+        }
+
+        // Entrée en file Lepis : flag historique + notif aux admins/chief_editors
+        if ($target === SubmissionStatus::RejectedPendingLepis) {
+            $submission->redirected_to_lepis = true;
+            $submission->save();
+
+            $admins = User::query()
+                ->where(function ($q) {
+                    $q->where('role', User::ROLE_ADMIN)
+                      ->orWhereHas('capabilities', fn ($qq) => $qq->where('capability', EditorialCapability::CHIEF_EDITOR));
+                })
+                ->get()
+                ->unique('id');
+
+            foreach ($admins as $admin) {
+                Mail::to($admin)->queue(new LepisQueueNotification($submission));
+            }
+        }
+
+        // Décision Lepis (accepte OU refuse depuis RejectedPendingLepis) : timestamp + auteur
+        if ($current === SubmissionStatus::RejectedPendingLepis
+            && in_array($target, [SubmissionStatus::RedirectedToLepis, SubmissionStatus::Rejected], true)
+        ) {
+            $submission->lepis_decision_at = now();
+            $submission->lepis_decided_by_user_id = $actor->id;
+            $submission->save();
+        }
+
+        // Mail dédié à l'auteur quand Lepis accepte (pas SubmissionDecision)
+        if ($target === SubmissionStatus::RedirectedToLepis) {
+            $submission->load('author');
+            if ($submission->author) {
+                Mail::to($submission->author)->queue(new ArticleRedirectedToLepis($submission));
+            }
+
+            // Handoff vers le rédacteur en chef de Lepis — il doit maintenant
+            // contacter l'auteur directement (hors plateforme).
+            $lepisEditors = User::whereHas(
+                'capabilities',
+                fn ($q) => $q->where('capability', EditorialCapability::LEPIS_EDITOR)
+            )->get();
+
+            foreach ($lepisEditors as $lepisEditor) {
+                Mail::to($lepisEditor)->queue(new LepisArticleReceived($submission));
             }
         }
 
