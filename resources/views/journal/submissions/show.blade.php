@@ -29,15 +29,16 @@
                                 'awaiting_author_approval' => 'bg-violet-100 text-violet-700',
                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                             ];
-                            $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
+                            $publicStatus = $submission->publicStatus();
+                            $submissionStatusValue = $publicStatus->value;
                         @endphp
                         <span class="inline-flex px-3 py-1 text-xs font-bold rounded-lg {{ $statusColors[$submissionStatusValue] ?? 'bg-slate-100 text-slate-700' }}">
-                            {{ $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->label() : (\App\Models\Submission::getStatuses()[$submission->status] ?? $submission->status) }}
+                            {{ $publicStatus->label() }}
                         </span>
                         <h1 class="text-2xl sm:text-3xl font-bold text-oreina-dark mt-3">{{ $submission->title }}</h1>
                     </div>
 
-                    @if(in_array($submission->status?->value, ['revision_requested', 'revision_after_review']))
+                    @if(in_array($publicStatus->value, ['revision_requested', 'revision_after_review']))
                         <a href="{{ route('journal.submissions.edit', $submission) }}" class="btn-turquoise">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1M12 12V4m0 0L8 8m4-4 4 4"/>

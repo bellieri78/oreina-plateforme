@@ -185,4 +185,36 @@ class LepisQueueTest extends TestCase
         $sub->refresh();
         $this->assertEquals(SubmissionStatus::RejectedPendingLepis, $sub->status);
     }
+
+    public function test_author_sees_public_status_not_lepis_pending_on_show_page(): void
+    {
+        $author = User::factory()->create(['email_verified_at' => now()]);
+        $editor = $this->makeEditor(EditorialCapability::EDITOR);
+
+        // Créer une soumission actuellement en RejectedPendingLepis avec un historique passant par UnderPeerReview
+        $sub = $this->makeSubmission(SubmissionStatus::RejectedPendingLepis, $author, $editor);
+
+        // Log manuellement les transitions pour simuler le passage par UnderPeerReview avant RejectedPendingLepis
+        $sub->transitions()->create([
+            'action' => 'status_changed',
+            'actor_user_id' => $editor->id,
+            'from_status' => 'submitted',
+            'to_status' => 'under_peer_review',
+            'notes' => null,
+        ]);
+        $sub->transitions()->create([
+            'action' => 'status_changed',
+            'actor_user_id' => $editor->id,
+            'from_status' => 'under_peer_review',
+            'to_status' => 'rejected_pending_lepis',
+            'notes' => 'reco Lepis',
+        ]);
+
+        $response = $this->actingAs($author)->get(route('journal.submissions.show', $sub));
+
+        $response->assertOk();
+        $response->assertSee('En relecture');  // label de UnderPeerReview
+        $response->assertDontSee('Rejet en attente Lepis');
+        $response->assertDontSee('Transmis au bulletin Lepis');
+    }
 }
