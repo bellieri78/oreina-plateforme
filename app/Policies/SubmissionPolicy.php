@@ -38,6 +38,14 @@ class SubmissionPolicy
             return true;
         }
 
+        // Les rédacteurs en chef de Lepis peuvent consulter les articles qui
+        // leur sont transmis pour reprise dans le bulletin Lepis.
+        if ($submission->status === SubmissionStatus::RedirectedToLepis
+            && $user->hasCapability(EditorialCapability::LEPIS_EDITOR)
+        ) {
+            return true;
+        }
+
         return false;
     }
 

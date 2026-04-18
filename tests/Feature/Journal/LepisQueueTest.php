@@ -4,6 +4,7 @@ namespace Tests\Feature\Journal;
 
 use App\Enums\SubmissionStatus;
 use App\Mail\ArticleRedirectedToLepis;
+use App\Mail\LepisArticleReceived;
 use App\Mail\LepisQueueNotification;
 use App\Mail\SubmissionDecision;
 use App\Models\EditorialCapability;
@@ -146,6 +147,50 @@ class LepisQueueTest extends TestCase
 
         Mail::assertQueued(ArticleRedirectedToLepis::class, fn ($m) => $m->hasTo($author->email));
         Mail::assertNotQueued(SubmissionDecision::class);
+    }
+
+    public function test_transmit_to_lepis_notifies_lepis_editors(): void
+    {
+        Mail::fake();
+        $admin = $this->makeAdmin();
+        $lepisChief = $this->makeEditor(EditorialCapability::LEPIS_EDITOR);
+        $author = User::factory()->create();
+        $sub = $this->makeSubmission(SubmissionStatus::RejectedPendingLepis, $author);
+
+        $this->actingAs($admin)
+            ->post(route('admin.journal.submissions.transition', $sub), [
+                'target_status' => SubmissionStatus::RedirectedToLepis->value,
+            ]);
+
+        Mail::assertQueued(LepisArticleReceived::class, fn ($m) => $m->hasTo($lepisChief->email));
+        Mail::assertQueued(ArticleRedirectedToLepis::class, fn ($m) => $m->hasTo($author->email));
+    }
+
+    public function test_lepis_editor_can_view_redirected_submission(): void
+    {
+        $lepisChief = $this->makeEditor(EditorialCapability::LEPIS_EDITOR);
+        $author = User::factory()->create();
+        $sub = $this->makeSubmission(SubmissionStatus::RedirectedToLepis, $author);
+
+        $response = $this->actingAs($lepisChief)->get(route('admin.submissions.show', $sub));
+
+        $response->assertOk();
+    }
+
+    public function test_lepis_editor_policy_denies_view_on_non_redirected_submission(): void
+    {
+        // Note : le middleware CheckAdmin ouvre l'accès aux pages admin pour
+        // tout user avec une capacité éditoriale, y compris lepis_editor.
+        // Le cloisonnement fin se fait via la Policy ; on teste ici que la
+        // Policy refuse l'accès à une soumission non redirigée vers Lepis
+        // (ce qui sera effectif le jour où on appelle authorize('view') dans
+        // les controllers admin — cf. revue des droits Lepis à venir).
+        $lepisChief = $this->makeEditor(EditorialCapability::LEPIS_EDITOR);
+        $author = User::factory()->create();
+        $sub = $this->makeSubmission(SubmissionStatus::UnderPeerReview, $author);
+
+        $policy = app(\App\Policies\SubmissionPolicy::class);
+        $this->assertFalse($policy->view($lepisChief, $sub));
     }
 
     public function test_reject_from_lepis_queue_sends_submission_decision_mail(): void

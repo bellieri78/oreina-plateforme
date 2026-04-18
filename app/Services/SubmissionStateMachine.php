@@ -7,6 +7,7 @@ use App\Exceptions\Editorial\IllegalTransitionException;
 use App\Mail\ArticleRedirectedToLepis;
 use App\Mail\AuthorApprovalRequested;
 use App\Mail\AuthorApproved;
+use App\Mail\LepisArticleReceived;
 use App\Mail\LepisQueueNotification;
 use App\Mail\SubmissionDecision;
 use App\Models\EditorialCapability;
@@ -114,6 +115,17 @@ class SubmissionStateMachine
             $submission->load('author');
             if ($submission->author) {
                 Mail::to($submission->author)->queue(new ArticleRedirectedToLepis($submission));
+            }
+
+            // Handoff vers le rédacteur en chef de Lepis — il doit maintenant
+            // contacter l'auteur directement (hors plateforme).
+            $lepisEditors = User::whereHas(
+                'capabilities',
+                fn ($q) => $q->where('capability', EditorialCapability::LEPIS_EDITOR)
+            )->get();
+
+            foreach ($lepisEditors as $lepisEditor) {
+                Mail::to($lepisEditor)->queue(new LepisArticleReceived($submission));
             }
         }
 
