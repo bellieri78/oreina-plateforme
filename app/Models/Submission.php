@@ -43,6 +43,8 @@ class Submission extends Model
         'accepted_at',
         'published_at',
         'redirected_to_lepis',
+        'author_approved_at',
+        'author_approval_requested_at',
     ];
 
     protected $casts = [
@@ -57,6 +59,8 @@ class Submission extends Model
         'received_at' => 'date',
         'accepted_at' => 'date',
         'published_at' => 'datetime',
+        'author_approved_at' => 'datetime',
+        'author_approval_requested_at' => 'datetime',
         'status' => SubmissionStatus::class,
         'redirected_to_lepis' => 'boolean',
     ];
