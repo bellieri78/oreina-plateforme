@@ -95,6 +95,13 @@ class SubmissionPolicy
         return $user->isAdmin() || $user->hasCapability(EditorialCapability::CHIEF_EDITOR);
     }
 
+    public function updateConformity(User $user, Submission $submission): bool
+    {
+        return $user->isAdmin()
+            || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+            || $submission->editor_id === $user->id;
+    }
+
     public function transitionTo(User $user, Submission $submission, SubmissionStatus $target): bool
     {
         $current = $submission->status;
