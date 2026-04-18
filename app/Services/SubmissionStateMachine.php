@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Enums\SubmissionStatus;
 use App\Exceptions\Editorial\IllegalTransitionException;
+use App\Mail\ArticleRedirectedToLepis;
 use App\Mail\AuthorApprovalRequested;
 use App\Mail\AuthorApproved;
+use App\Mail\LepisQueueNotification;
 use App\Mail\SubmissionDecision;
 use App\Models\EditorialCapability;
 use App\Models\Submission;
@@ -77,6 +79,39 @@ class SubmissionStateMachine
             $submission->load('author');
             if ($submission->author) {
                 Mail::to($submission->author)->queue(new SubmissionDecision($submission));
+            }
+        }
+
+        // Entrée en file Lepis : flag historique + notif aux admins/chief_editors
+        if ($target === SubmissionStatus::RejectedPendingLepis) {
+            $submission->redirected_to_lepis = true;
+            $submission->save();
+
+            $admins = User::query()
+                ->where('role', User::ROLE_ADMIN)
+                ->orWhereHas('capabilities', fn ($q) => $q->where('capability', EditorialCapability::CHIEF_EDITOR))
+                ->get()
+                ->unique('id');
+
+            foreach ($admins as $admin) {
+                Mail::to($admin)->queue(new LepisQueueNotification($submission));
+            }
+        }
+
+        // Décision Lepis (accepte OU refuse depuis RejectedPendingLepis) : timestamp + auteur
+        if ($current === SubmissionStatus::RejectedPendingLepis
+            && in_array($target, [SubmissionStatus::RedirectedToLepis, SubmissionStatus::Rejected], true)
+        ) {
+            $submission->lepis_decision_at = now();
+            $submission->lepis_decided_by_user_id = $actor->id;
+            $submission->save();
+        }
+
+        // Mail dédié à l'auteur quand Lepis accepte (pas SubmissionDecision)
+        if ($target === SubmissionStatus::RedirectedToLepis) {
+            $submission->load('author');
+            if ($submission->author) {
+                Mail::to($submission->author)->queue(new ArticleRedirectedToLepis($submission));
             }
         }
 
