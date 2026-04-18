@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Mail;
 class SubmissionStateMachine
 {
     private const TRANSITIONS = [
-        'draft'                  => ['submitted'],
         'submitted'              => ['under_initial_review', 'rejected'],
         'under_initial_review'   => ['revision_requested', 'under_peer_review', 'rejected'],
         'revision_requested'     => ['under_initial_review'],

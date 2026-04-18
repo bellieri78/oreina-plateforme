@@ -38,7 +38,6 @@ class SubmissionStateMachineTest extends TestCase
     public static function validTransitions(): array
     {
         return [
-            ['draft', 'submitted'],
             ['submitted', 'under_initial_review'],
             ['submitted', 'rejected'],
             ['under_initial_review', 'revision_requested'],
@@ -101,13 +100,13 @@ class SubmissionStateMachineTest extends TestCase
         $actor = User::factory()->create(['email_verified_at' => now()]);
 
         $this->expectException(IllegalTransitionException::class);
-        $this->sm->transition($submission, SubmissionStatus::Draft, $actor);
+        $this->sm->transition($submission, SubmissionStatus::Submitted, $actor);
     }
 
     public function test_can_transition_returns_bool(): void
     {
-        $this->assertTrue($this->sm->canTransition(SubmissionStatus::Draft, SubmissionStatus::Submitted));
-        $this->assertFalse($this->sm->canTransition(SubmissionStatus::Draft, SubmissionStatus::Published));
+        $this->assertTrue($this->sm->canTransition(SubmissionStatus::Submitted, SubmissionStatus::UnderInitialReview));
+        $this->assertFalse($this->sm->canTransition(SubmissionStatus::Submitted, SubmissionStatus::Published));
     }
 
     public function test_allowed_next_statuses_returns_enum_array(): void

@@ -62,7 +62,6 @@ class Submission extends Model
     ];
 
     // Statuses
-    public const STATUS_DRAFT = 'draft';
     public const STATUS_SUBMITTED = 'submitted';
     public const STATUS_UNDER_INITIAL_REVIEW  = 'under_initial_review';
     public const STATUS_REVISION_REQUESTED    = 'revision_requested';

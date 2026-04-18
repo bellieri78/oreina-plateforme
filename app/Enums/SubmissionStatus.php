@@ -4,7 +4,6 @@ namespace App\Enums;
 
 enum SubmissionStatus: string
 {
-    case Draft               = 'draft';
     case Submitted           = 'submitted';
     case UnderInitialReview  = 'under_initial_review';
     case RevisionRequested   = 'revision_requested';
@@ -18,7 +17,6 @@ enum SubmissionStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Draft               => 'Brouillon',
             self::Submitted           => 'Soumis',
             self::UnderInitialReview  => 'Évaluation initiale',
             self::RevisionRequested   => 'Retour auteur (avant relecture)',
@@ -34,7 +32,6 @@ enum SubmissionStatus: string
     public function color(): string
     {
         return match ($this) {
-            self::Draft               => 'gray',
             self::Submitted           => 'blue',
             self::UnderInitialReview  => 'amber',
             self::RevisionRequested   => 'orange',

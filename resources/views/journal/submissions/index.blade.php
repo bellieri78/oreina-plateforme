@@ -40,7 +40,6 @@
                                     <div class="flex flex-wrap items-center gap-3 mb-2">
                                         @php
                                             $statusColors = [
-                                                'draft' => 'bg-slate-100 text-slate-700',
                                                 'submitted' => 'bg-blue-100 text-blue-700',
                                                 'under_initial_review' => 'bg-yellow-100 text-yellow-700',
                                                 'under_peer_review' => 'bg-purple-100 text-purple-700',

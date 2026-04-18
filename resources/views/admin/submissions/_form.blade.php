@@ -155,7 +155,7 @@
             <label class="form-label" for="status">Statut *</label>
             <select name="status" id="status" class="form-input" required>
                 @foreach(\App\Models\Submission::getStatuses() as $key => $label)
-                    <option value="{{ $key }}" {{ old('status', $submission->status?->value ?? 'draft') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                    <option value="{{ $key }}" {{ old('status', $submission->status?->value ?? 'submitted') === $key ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
             </select>
         </div>

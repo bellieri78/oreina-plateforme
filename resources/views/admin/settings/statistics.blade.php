@@ -173,7 +173,6 @@
                     <h4 class="stat-section-title">Soumissions par statut</h4>
                     @php
                         $statusLabels = [
-                            'draft' => 'Brouillon',
                             'submitted' => 'Soumis',
                             'under_initial_review' => 'Pre-evaluation',
                             'under_peer_review' => 'En evaluation',
@@ -183,7 +182,6 @@
                             'published' => 'Publie',
                         ];
                         $statusColors = [
-                            'draft' => 'default',
                             'submitted' => 'info',
                             'under_initial_review' => 'warning',
                             'under_peer_review' => 'primary',

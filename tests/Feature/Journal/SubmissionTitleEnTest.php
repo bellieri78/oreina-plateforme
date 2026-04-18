@@ -21,7 +21,7 @@ class SubmissionTitleEnTest extends TestCase
             'title_en' => 'Phylogenetic study of Lycaenidae',
             'abstract' => '',
             'manuscript_file' => 'placeholder.pdf',
-            'status' => 'draft',
+            'status' => 'submitted',
         ]);
 
         $this->assertEquals(
@@ -39,7 +39,7 @@ class SubmissionTitleEnTest extends TestCase
             'title' => 'Titre sans traduction',
             'abstract' => '',
             'manuscript_file' => 'placeholder.pdf',
-            'status' => 'draft',
+            'status' => 'submitted',
         ]);
 
         $this->assertNull($submission->fresh()->title_en);

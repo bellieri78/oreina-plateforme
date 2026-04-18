@@ -462,7 +462,6 @@
                     <div>
                         @php
                             $statusLabels = [
-                                'draft' => ['Brouillon', 'blue'],
                                 'submitted' => ['Soumis', 'blue'],
                                 'under_initial_review' => ['Évaluation initiale', 'gold'],
                                 'revision_requested' => ['Révision demandée', 'coral'],

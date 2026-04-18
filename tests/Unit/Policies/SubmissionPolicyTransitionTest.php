@@ -36,20 +36,20 @@ class SubmissionPolicyTransitionTest extends TestCase
         ]);
     }
 
-    public function test_author_can_transition_draft_to_submitted(): void
+    public function test_author_can_transition_revision_requested_to_under_initial_review_as_author(): void
     {
-        $submission = $this->makeSubmission(SubmissionStatus::Draft);
+        $submission = $this->makeSubmission(SubmissionStatus::RevisionRequested);
         $author = User::find($submission->author_id);
 
-        $this->assertTrue($this->policy->transitionTo($author, $submission, SubmissionStatus::Submitted));
+        $this->assertTrue($this->policy->transitionTo($author, $submission, SubmissionStatus::UnderInitialReview));
     }
 
-    public function test_random_user_cannot_transition_draft_to_submitted(): void
+    public function test_random_user_cannot_transition_submitted_to_under_initial_review(): void
     {
-        $submission = $this->makeSubmission(SubmissionStatus::Draft);
+        $submission = $this->makeSubmission(SubmissionStatus::Submitted);
         $stranger = User::factory()->create(['email_verified_at' => now()]);
 
-        $this->assertFalse($this->policy->transitionTo($stranger, $submission, SubmissionStatus::Submitted));
+        $this->assertFalse($this->policy->transitionTo($stranger, $submission, SubmissionStatus::UnderInitialReview));
     }
 
     public function test_editor_can_reject_from_under_initial_review(): void
