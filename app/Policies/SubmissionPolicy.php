@@ -99,6 +99,11 @@ class SubmissionPolicy
             return false;
         }
 
+        // Transitions sortantes de RejectedPendingLepis : admin only (gestion file Lepis)
+        if ($current === SubmissionStatus::RejectedPendingLepis) {
+            return $user->isAdmin();
+        }
+
         $editorialLayoutTeam = $user->isAdmin()
             || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
             || $submission->layout_editor_id === $user->id;
@@ -125,7 +130,8 @@ class SubmissionPolicy
             SubmissionStatus::RevisionRequested,
             SubmissionStatus::RevisionAfterReview,
             SubmissionStatus::Accepted,
-            SubmissionStatus::Rejected =>
+            SubmissionStatus::Rejected,
+            SubmissionStatus::RejectedPendingLepis =>
                 $user->isAdmin()
                 || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
                 || $submission->editor_id === $user->id,
