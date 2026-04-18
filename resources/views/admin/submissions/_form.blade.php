@@ -151,6 +151,7 @@
     </div>
 
     <div>
+        @isset($submission)
         <div class="form-group">
             <label class="form-label" for="status">Statut *</label>
             <select name="status" id="status" class="form-input" required>
@@ -159,6 +160,7 @@
                 @endforeach
             </select>
         </div>
+        @endisset
 
         <div class="form-group" x-data="{ mode: '{{ old('author_mode', 'existing') }}' }">
             <label class="form-label">Auteur *</label>

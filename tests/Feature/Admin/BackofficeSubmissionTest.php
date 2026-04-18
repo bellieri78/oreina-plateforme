@@ -3,6 +3,8 @@
 namespace Tests\Feature\Admin;
 
 use App\Mail\AccountInvitation;
+use App\Mail\NewSubmissionAlert;
+use App\Mail\SubmissionReceived;
 use App\Models\EditorialCapability;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,7 +28,7 @@ class BackofficeSubmissionTest extends TestCase
     {
         return [
             'title' => 'Un article sur les Chersotis',
-            'abstract' => str_repeat('x', 150),
+            'abstract' => str_repeat('Lorem ipsum dolor sit amet. ', 10),
             'keywords' => 'chersotis, noctuidae',
             'manuscript_file' => UploadedFile::fake()->create('manuscrit.docx', 500),
         ];
@@ -51,7 +53,9 @@ class BackofficeSubmissionTest extends TestCase
             'submitted_by_user_id' => $chief->id,
             'title' => 'Un article sur les Chersotis',
         ]);
-        Mail::assertNothingQueued();
+
+        Mail::assertQueued(SubmissionReceived::class, fn ($m) => $m->hasTo($author->email));
+        Mail::assertNotQueued(AccountInvitation::class);
     }
 
     public function test_editor_can_create_submission_for_new_author(): void

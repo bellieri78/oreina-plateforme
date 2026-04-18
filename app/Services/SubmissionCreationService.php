@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Enums\SubmissionStatus;
 use App\Mail\AccountInvitation;
+use App\Mail\NewSubmissionAlert;
+use App\Mail\SubmissionReceived;
+use App\Models\EditorialCapability;
 use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Contracts\Mail\Mailer;
@@ -20,7 +23,7 @@ class SubmissionCreationService
         array $data,
         User $submittedBy,
     ): Submission {
-        return DB::transaction(function () use ($author, $data, $submittedBy) {
+        $submission = DB::transaction(function () use ($author, $data, $submittedBy) {
             return Submission::create(array_merge($data, [
                 'author_id' => $author->id,
                 'submitted_by_user_id' => $submittedBy->id === $author->id
@@ -30,6 +33,11 @@ class SubmissionCreationService
                 'submitted_at' => now(),
             ]));
         });
+
+        $this->mailer->to($author)->queue(new SubmissionReceived($submission));
+        $this->notifyEditors($submission);
+
+        return $submission;
     }
 
     public function createForNewAuthor(
@@ -38,7 +46,7 @@ class SubmissionCreationService
         array $data,
         User $submittedBy,
     ): Submission {
-        return DB::transaction(function () use ($name, $email, $data, $submittedBy) {
+        [$submission, $author] = DB::transaction(function () use ($name, $email, $data, $submittedBy) {
             $author = User::create([
                 'name' => $name,
                 'email' => $email,
@@ -58,7 +66,25 @@ class SubmissionCreationService
                 ->to($author->email)
                 ->queue(new AccountInvitation($author, $submission, $submittedBy));
 
-            return $submission;
+            return [$submission, $author];
         });
+
+        $this->notifyEditors($submission);
+
+        return $submission;
+    }
+
+    private function notifyEditors(Submission $submission): void
+    {
+        $editors = User::query()
+            ->whereHas('capabilities', fn ($q) => $q->whereIn('capability', [
+                EditorialCapability::EDITOR,
+                EditorialCapability::CHIEF_EDITOR,
+            ]))
+            ->get();
+
+        foreach ($editors as $editor) {
+            $this->mailer->to($editor)->queue(new NewSubmissionAlert($submission));
+        }
     }
 }

@@ -125,4 +125,22 @@ class ClaimAccountTest extends TestCase
         $response->assertRedirect(route('hub.login'));
         $response->assertSessionHas('info');
     }
+
+    public function test_form_action_preserves_signature_so_post_succeeds(): void
+    {
+        $ghost = User::factory()->ghost()->create();
+        $url = $this->signedUrl($ghost);
+
+        // Simulate real browser: GET the signed URL, extract the form action
+        $response = $this->get($url);
+        $response->assertOk();
+
+        // The rendered form must submit to a URL that keeps the signature
+        $html = $response->getContent();
+        $this->assertMatchesRegularExpression(
+            '/action="[^"]*\?[^"]*signature=[^"]+/',
+            $html,
+            'Le formulaire doit garder les query params signature/expires pour que le POST passe le middleware signed.'
+        );
+    }
 }

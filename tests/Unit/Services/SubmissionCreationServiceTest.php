@@ -4,6 +4,9 @@ namespace Tests\Unit\Services;
 
 use App\Enums\SubmissionStatus;
 use App\Mail\AccountInvitation;
+use App\Mail\NewSubmissionAlert;
+use App\Mail\SubmissionReceived;
+use App\Models\EditorialCapability;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\SubmissionCreationService;
@@ -24,11 +27,13 @@ class SubmissionCreationServiceTest extends TestCase
         ], $overrides);
     }
 
-    public function test_create_for_existing_author_persists_submission(): void
+    public function test_create_for_existing_author_persists_submission_and_sends_mails(): void
     {
         Mail::fake();
         $author = User::factory()->create();
         $editor = User::factory()->create();
+        $chief = User::factory()->create();
+        $chief->grantCapability(EditorialCapability::CHIEF_EDITOR);
 
         $service = app(SubmissionCreationService::class);
         $sub = $service->createForExistingAuthor($author, $this->data(), $editor);
@@ -37,6 +42,9 @@ class SubmissionCreationServiceTest extends TestCase
         $this->assertEquals($editor->id, $sub->submitted_by_user_id);
         $this->assertEquals(SubmissionStatus::Submitted, $sub->status);
         $this->assertNotNull($sub->submitted_at);
+
+        Mail::assertQueued(SubmissionReceived::class, fn ($m) => $m->hasTo($author->email));
+        Mail::assertQueued(NewSubmissionAlert::class, fn ($m) => $m->hasTo($chief->email));
     }
 
     public function test_create_for_existing_author_sets_submitted_by_null_when_author_creates_self(): void
@@ -73,6 +81,22 @@ class SubmissionCreationServiceTest extends TestCase
         Mail::assertQueued(AccountInvitation::class, function ($mail) use ($author) {
             return $mail->hasTo($author->email);
         });
+    }
+
+    public function test_create_for_new_author_also_notifies_editors(): void
+    {
+        Mail::fake();
+        $editor = User::factory()->create();
+        $chief = User::factory()->create();
+        $chief->grantCapability(EditorialCapability::CHIEF_EDITOR);
+        $reviewEditor = User::factory()->create();
+        $reviewEditor->grantCapability(EditorialCapability::EDITOR);
+
+        $service = app(SubmissionCreationService::class);
+        $service->createForNewAuthor('Jean Nouveau', 'jean@example.com', $this->data(), $editor);
+
+        Mail::assertQueued(NewSubmissionAlert::class, fn ($m) => $m->hasTo($chief->email));
+        Mail::assertQueued(NewSubmissionAlert::class, fn ($m) => $m->hasTo($reviewEditor->email));
     }
 
     public function test_create_for_new_author_is_atomic_on_mail_failure(): void

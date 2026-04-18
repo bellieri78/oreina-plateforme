@@ -15,7 +15,7 @@
             <div><strong>Email :</strong> {{ $user->email }}</div>
         </div>
 
-        <form method="POST" action="{{ url()->current() }}">
+        <form method="POST" action="{{ request()->fullUrl() }}">
             @csrf
 
             <div style="margin-bottom: 1rem;">

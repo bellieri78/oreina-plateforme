@@ -92,7 +92,7 @@ class SubmissionController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'abstract' => 'nullable|string',
+            'abstract' => 'required|string|min:100',
             'keywords' => 'nullable|string|max:500',
             'author_mode' => 'required|in:existing,new',
             'author_id' => 'required_if:author_mode,existing|nullable|exists:users,id',
