@@ -471,7 +471,7 @@
                                 'revision_after_review' => ['Révision demandée', 'coral'],
                                 'accepted' => ['Accepté', 'sage'],
                                 'in_production' => ['En maquettage', 'blue'],
-                                'awaiting_author_approval' => ['Approbation demandée', 'coral'],
+                                'awaiting_author_approval' => ['Approbation demandée', 'approval'],
                                 'rejected' => ['Refusé', 'coral'],
                                 'published' => ['Publié', 'sage'],
                             ];
