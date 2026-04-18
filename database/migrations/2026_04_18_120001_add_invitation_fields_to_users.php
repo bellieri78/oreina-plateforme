@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,10 +20,11 @@ return new class extends Migration
             $table->index('claimed_at');
         });
 
-        // Le password peut être null pour les users ghost : on rend la colonne nullable
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('password')->nullable()->change();
-        });
+        // Le password peut être null pour les users ghost.
+        // On utilise du SQL brut plutôt que ->change() : Laravel 12 génère
+        // « ALTER COLUMN password DROP IDENTITY IF EXISTS » qui n'est disponible
+        // qu'à partir de PostgreSQL 10. Les serveurs mutualisés en PG 9.6 plantent.
+        DB::statement('ALTER TABLE users ALTER COLUMN password DROP NOT NULL');
     }
 
     public function down(): void
@@ -33,5 +35,7 @@ return new class extends Migration
             $table->dropIndex(['claimed_at']);
             $table->dropColumn(['invited_at', 'claimed_at', 'invited_by_user_id']);
         });
+        // Note : on ne rétablit pas NOT NULL en rollback — ferait planter
+        // si des ghost users existent déjà avec password=null.
     }
 };
