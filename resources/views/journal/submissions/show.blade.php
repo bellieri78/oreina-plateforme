@@ -224,8 +224,11 @@
                                  @keydown.escape.window="showCorrections = false"
                                  style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
                                 <div @click.outside="showCorrections = false"
+                                     role="dialog"
+                                     aria-modal="true"
+                                     aria-labelledby="corrections-modal-title"
                                      style="background:#fff;border-radius:12px;max-width:32rem;width:90%;padding:24px;box-shadow:0 25px 50px rgba(0,0,0,0.25);">
-                                    <h3 style="margin:0 0 12px 0;font-size:1.1rem;font-weight:700;">
+                                    <h3 id="corrections-modal-title" style="margin:0 0 12px 0;font-size:1.1rem;font-weight:700;">
                                         Signaler des corrections
                                     </h3>
                                     <p style="margin:0 0 12px 0;color:#6b7280;font-size:0.875rem;">

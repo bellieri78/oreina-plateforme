@@ -26,6 +26,9 @@
                 summary: { title: '', coAuthorsCount: 0, manuscriptName: '', suppCount: 0 },
                 openConfirm() {
                     const form = this.$refs.formEl;
+                    if (!form.reportValidity()) {
+                        return; // Native browser UI shows the validation errors; modal stays closed.
+                    }
                     this.summary.title = this.$refs.titleInput.value || '(titre non renseigné)';
                     this.summary.coAuthorsCount = form.querySelectorAll('[name^=\'co_authors\'][name$=\'[name]\']').length;
                     const manuscriptInput = form.querySelector('[name=manuscript_file]');
@@ -208,8 +211,11 @@
                      @keydown.escape.window="showConfirm = false"
                      style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
                     <div @click.outside="showConfirm = false"
+                         role="dialog"
+                         aria-modal="true"
+                         aria-labelledby="pre-submission-modal-title"
                          style="background:#fff;border-radius:12px;max-width:36rem;width:90%;padding:28px;box-shadow:0 25px 50px rgba(0,0,0,0.25);">
-                        <h3 style="margin:0 0 8px 0;font-size:1.25rem;font-weight:700;">
+                        <h3 id="pre-submission-modal-title" style="margin:0 0 8px 0;font-size:1.25rem;font-weight:700;">
                             Confirmer la soumission
                         </h3>
                         <p style="margin:0 0 20px 0;color:#6b7280;font-size:0.875rem;">
