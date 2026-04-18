@@ -33,8 +33,10 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label" for="abstract">Resume</label>
-            <textarea name="abstract" id="abstract" class="form-input" rows="6">{{ old('abstract', $submission->abstract ?? '') }}</textarea>
+            <label class="form-label" for="abstract">Résumé *</label>
+            <textarea name="abstract" id="abstract" class="form-input" rows="6" required minlength="100">{{ old('abstract', $submission->abstract ?? '') }}</textarea>
+            <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">100 caractères minimum.</p>
+            @error('abstract')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
         </div>
 
         <div class="form-group">
