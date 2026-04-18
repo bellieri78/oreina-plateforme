@@ -210,6 +210,20 @@ class SubmissionPolicyTransitionTest extends TestCase
         );
     }
 
+    public function test_admin_can_transition_to_awaiting_author_approval(): void
+    {
+        $admin = User::factory()->create([
+            'email_verified_at' => now(),
+            'role' => User::ROLE_ADMIN,
+        ]);
+
+        $submission = $this->makeSubmission(SubmissionStatus::InProduction);
+
+        $this->assertTrue(
+            $this->policy->transitionTo($admin, $submission, SubmissionStatus::AwaitingAuthorApproval)
+        );
+    }
+
     public function test_structurally_invalid_transition_always_false(): void
     {
         $chief = User::factory()->create(['email_verified_at' => now()]);
