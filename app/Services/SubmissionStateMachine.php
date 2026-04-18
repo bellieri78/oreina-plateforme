@@ -13,15 +13,16 @@ use Illuminate\Support\Facades\Mail;
 class SubmissionStateMachine
 {
     private const TRANSITIONS = [
-        'submitted'              => ['under_initial_review', 'rejected'],
-        'under_initial_review'   => ['revision_requested', 'under_peer_review', 'rejected'],
-        'revision_requested'     => ['under_initial_review'],
-        'under_peer_review'      => ['revision_after_review', 'accepted', 'rejected'],
-        'revision_after_review'  => ['under_peer_review', 'accepted', 'rejected'],
-        'accepted'               => ['in_production'],
-        'in_production'          => ['published'],
-        'published'              => [],
-        'rejected'               => [],
+        'submitted'                    => ['under_initial_review', 'rejected'],
+        'under_initial_review'         => ['revision_requested', 'under_peer_review', 'rejected'],
+        'revision_requested'           => ['under_initial_review'],
+        'under_peer_review'            => ['revision_after_review', 'accepted', 'rejected'],
+        'revision_after_review'        => ['under_peer_review', 'accepted', 'rejected'],
+        'accepted'                     => ['in_production'],
+        'in_production'                => ['awaiting_author_approval'],
+        'awaiting_author_approval'     => ['published', 'in_production'],
+        'published'                    => [],
+        'rejected'                     => [],
     ];
 
     public function __construct(private SubmissionTransitionLogger $logger) {}

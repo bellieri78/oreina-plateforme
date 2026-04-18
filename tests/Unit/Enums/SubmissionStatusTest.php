@@ -37,7 +37,7 @@ class SubmissionStatusTest extends TestCase
         $labels = SubmissionStatus::labels();
         $this->assertArrayHasKey('submitted', $labels);
         $this->assertArrayHasKey('under_initial_review', $labels);
-        $this->assertCount(9, $labels);
+        $this->assertCount(10, $labels);
     }
 
     public function test_colors_are_non_empty(): void

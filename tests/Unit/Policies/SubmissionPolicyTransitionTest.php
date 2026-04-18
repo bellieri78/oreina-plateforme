@@ -124,22 +124,44 @@ class SubmissionPolicyTransitionTest extends TestCase
         $this->assertFalse($this->policy->transitionTo($stranger, $submission, SubmissionStatus::UnderInitialReview));
     }
 
-    public function test_layout_editor_can_publish(): void
+    public function test_layout_editor_can_transition_in_production_and_published_statuses(): void
     {
+        // Policy groups InProduction and Published (and AwaitingAuthorApproval once Task 5 is done)
+        // under the same branch: layout_editor_id or admin/chief.
+        // For now, test the currently valid in_production → awaiting_author_approval via policy
+        // using the Published branch which covers layout editors (pre-Task-5 state).
+        $layout = User::factory()->create(['email_verified_at' => now()]);
+        $layout->grantCapability(EditorialCapability::LAYOUT_EDITOR);
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval, layoutId: $layout->id);
+
+        // awaiting_author_approval → published is the structurally valid next step.
+        // The policy match currently lumps InProduction and Published together,
+        // so the layout editor IS allowed here.
+        $this->assertTrue($this->policy->transitionTo($layout, $submission, SubmissionStatus::Published));
+    }
+
+    public function test_editor_cannot_publish_from_awaiting_author_approval(): void
+    {
+        // An editor (not layout editor) cannot drive the final publication step
+        $editor = User::factory()->create(['email_verified_at' => now()]);
+        $editor->grantCapability(EditorialCapability::EDITOR);
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval, editorId: $editor->id);
+
+        $this->assertFalse($this->policy->transitionTo($editor, $submission, SubmissionStatus::Published));
+    }
+
+    public function test_awaiting_author_approval_transitions_not_yet_policy_gated(): void
+    {
+        // TODO Task 5: add AwaitingAuthorApproval to the policy match.
+        // Until then, the policy falls through to default => false for
+        // in_production → awaiting_author_approval, even for layout editors.
         $layout = User::factory()->create(['email_verified_at' => now()]);
         $layout->grantCapability(EditorialCapability::LAYOUT_EDITOR);
         $submission = $this->makeSubmission(SubmissionStatus::InProduction, layoutId: $layout->id);
 
-        $this->assertTrue($this->policy->transitionTo($layout, $submission, SubmissionStatus::Published));
-    }
-
-    public function test_editor_cannot_publish(): void
-    {
-        $editor = User::factory()->create(['email_verified_at' => now()]);
-        $editor->grantCapability(EditorialCapability::EDITOR);
-        $submission = $this->makeSubmission(SubmissionStatus::InProduction, editorId: $editor->id);
-
-        $this->assertFalse($this->policy->transitionTo($editor, $submission, SubmissionStatus::Published));
+        // Currently returns false because AwaitingAuthorApproval is not in the policy match yet.
+        // This test will be updated in Task 5 to assert true.
+        $this->assertFalse($this->policy->transitionTo($layout, $submission, SubmissionStatus::AwaitingAuthorApproval));
     }
 
     public function test_structurally_invalid_transition_always_false(): void

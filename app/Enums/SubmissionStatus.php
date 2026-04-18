@@ -9,10 +9,11 @@ enum SubmissionStatus: string
     case RevisionRequested   = 'revision_requested';
     case UnderPeerReview     = 'under_peer_review';
     case RevisionAfterReview = 'revision_after_review';
-    case Accepted            = 'accepted';
-    case InProduction        = 'in_production';
-    case Published           = 'published';
-    case Rejected            = 'rejected';
+    case Accepted                = 'accepted';
+    case InProduction            = 'in_production';
+    case AwaitingAuthorApproval  = 'awaiting_author_approval';
+    case Published               = 'published';
+    case Rejected                = 'rejected';
 
     public function label(): string
     {
@@ -22,10 +23,11 @@ enum SubmissionStatus: string
             self::RevisionRequested   => 'Retour auteur (avant relecture)',
             self::UnderPeerReview     => 'En relecture',
             self::RevisionAfterReview => 'Révision demandée (après relecture)',
-            self::Accepted            => 'Accepté',
-            self::InProduction        => 'En maquettage',
-            self::Published           => 'Publié',
-            self::Rejected            => 'Rejeté',
+            self::Accepted                => 'Accepté',
+            self::InProduction            => 'En maquettage',
+            self::AwaitingAuthorApproval  => 'En attente d\'approbation auteur',
+            self::Published               => 'Publié',
+            self::Rejected                => 'Rejeté',
         };
     }
 
@@ -37,10 +39,11 @@ enum SubmissionStatus: string
             self::RevisionRequested   => 'orange',
             self::UnderPeerReview     => 'indigo',
             self::RevisionAfterReview => 'orange',
-            self::Accepted            => 'green',
-            self::InProduction        => 'teal',
-            self::Published           => 'emerald',
-            self::Rejected            => 'red',
+            self::Accepted                => 'green',
+            self::InProduction            => 'teal',
+            self::AwaitingAuthorApproval  => 'purple',
+            self::Published               => 'emerald',
+            self::Rejected                => 'red',
         };
     }
 
