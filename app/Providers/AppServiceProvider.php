@@ -34,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
                 || $user->hasCapability(\App\Models\EditorialCapability::EDITOR);
         });
 
+        \Illuminate\Support\Facades\Gate::define('access-lepis-queue', function (\App\Models\User $user) {
+            return $user->isAdmin();
+        });
+
         \Illuminate\Support\Facades\Blade::directive('turnstile', function () {
             return "<?php if (config('services.turnstile.enabled')): ?>
                 <div class=\"cf-turnstile my-3\" data-sitekey=\"<?= config('services.turnstile.site_key') ?>\"></div>
