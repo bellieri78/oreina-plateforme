@@ -9,6 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Sent to the submission's author when the editorial team requests their
+ * approval on the final layout. Caller: Mail::to($submission->author)->queue(...).
+ */
 class AuthorApprovalRequested extends Mailable
 {
     use Queueable, SerializesModels;
@@ -27,7 +31,7 @@ class AuthorApprovalRequested extends Mailable
         return new Content(
             markdown: 'emails.submissions.author-approval-requested',
             with: [
-                'authorName' => $this->submission->author->name,
+                'authorName' => $this->submission->author?->name ?? 'Auteur inconnu',
                 'title' => $this->submission->title,
                 'showUrl' => route('journal.submissions.show', $this->submission),
             ],
