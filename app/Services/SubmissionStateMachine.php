@@ -17,15 +17,17 @@ class SubmissionStateMachine
 {
     private const TRANSITIONS = [
         'submitted'                    => ['under_initial_review', 'rejected'],
-        'under_initial_review'         => ['revision_requested', 'under_peer_review', 'rejected'],
+        'under_initial_review'         => ['revision_requested', 'under_peer_review', 'rejected', 'rejected_pending_lepis'],
         'revision_requested'           => ['under_initial_review'],
-        'under_peer_review'            => ['revision_after_review', 'accepted', 'rejected'],
-        'revision_after_review'        => ['under_peer_review', 'accepted', 'rejected'],
+        'under_peer_review'            => ['revision_after_review', 'accepted', 'rejected', 'rejected_pending_lepis'],
+        'revision_after_review'        => ['under_peer_review', 'accepted', 'rejected', 'rejected_pending_lepis'],
         'accepted'                     => ['in_production'],
         'in_production'                => ['awaiting_author_approval'],
         'awaiting_author_approval'     => ['published', 'in_production'],
         'published'                    => [],
         'rejected'                     => [],
+        'rejected_pending_lepis'       => ['redirected_to_lepis', 'rejected'],
+        'redirected_to_lepis'          => [],
     ];
 
     public function __construct(private SubmissionTransitionLogger $logger) {}
