@@ -160,17 +160,52 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label class="form-label" for="author_id">Auteur *</label>
-            <select name="author_id" id="author_id" class="form-input" required>
-                <option value="">-- Selectionner --</option>
-                @foreach($authors as $author)
-                    <option value="{{ $author->id }}" {{ old('author_id', $submission->author_id ?? '') == $author->id ? 'selected' : '' }}>
-                        {{ $author->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('author_id')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+        <div class="form-group" x-data="{ mode: '{{ old('author_mode', 'existing') }}' }">
+            <label class="form-label">Auteur *</label>
+
+            @if(!isset($submission))
+                <div style="display: flex; gap: 1rem; margin-bottom: 0.75rem; font-size: 0.875rem;">
+                    <label style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer;">
+                        <input type="radio" name="author_mode" value="existing" x-model="mode"> Auteur existant
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer;">
+                        <input type="radio" name="author_mode" value="new" x-model="mode"> Nouvel auteur
+                    </label>
+                </div>
+            @else
+                <input type="hidden" name="author_mode" value="existing">
+            @endif
+
+            <div x-show="mode === 'existing'">
+                <select name="author_id" id="author_id" class="form-input" x-bind:required="mode === 'existing'">
+                    <option value="">-- Selectionner --</option>
+                    @foreach($authors as $author)
+                        <option value="{{ $author->id }}" {{ old('author_id', $submission->author_id ?? '') == $author->id ? 'selected' : '' }}>
+                            {{ $author->name }}{{ $author->isGhost() ? ' (compte non activé)' : '' }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('author_id')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+            </div>
+
+            <div x-show="mode === 'new'" x-cloak>
+                <input type="text" name="author_name" id="author_name"
+                       class="form-input" placeholder="Nom complet"
+                       value="{{ old('author_name') }}"
+                       x-bind:required="mode === 'new'">
+                @error('author_name')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+
+                <input type="email" name="author_email" id="author_email"
+                       class="form-input" placeholder="Email"
+                       value="{{ old('author_email') }}"
+                       style="margin-top: 0.5rem;"
+                       x-bind:required="mode === 'new'">
+                @error('author_email')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+
+                <p style="font-size: 0.8rem; color: #6b7280; margin-top: 0.5rem;">
+                    Un compte sera créé pour l'auteur. Une invitation lui sera envoyée à cette adresse pour activer son accès.
+                </p>
+            </div>
         </div>
 
         <div class="form-group">
