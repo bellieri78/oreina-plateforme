@@ -257,14 +257,14 @@ img {
 
 .sidebar-nav {
     flex: 1;
-    padding: 0;
+    padding: 4px 6px;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,0.2) transparent;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 6px;
 }
 
 .sidebar-nav::-webkit-scrollbar {
@@ -280,17 +280,46 @@ img {
     padding: 0;
     margin: 0;
     display: grid;
-    gap: 4px;
+    gap: 2px;
 }
 
 .nav-section-title {
-    font-size: 12px;
+    font-size: 10.5px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.44);
-    padding: 0 12px 4px;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 4px 10px;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.15s ease;
+}
+
+.nav-section-title:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.nav-section-title .chevron {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s ease;
+    opacity: 0.6;
+}
+
+.nav-section-title .chevron.open {
+    transform: rotate(90deg);
+}
+
+.nav-section-items {
+    display: grid;
+    gap: 2px;
 }
 
 .collapsed .nav-section-title {
@@ -300,15 +329,15 @@ img {
 .nav-link {
     display: flex;
     align-items: center;
-    padding: 12px 14px;
-    color: rgba(255, 255, 255, 0.84);
+    padding: 7px 10px;
+    color: rgba(255, 255, 255, 0.82);
     text-decoration: none;
-    transition: 0.2s ease;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 16px;
+    transition: 0.15s ease;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 10px;
     border: 1px solid transparent;
-    gap: 12px;
+    gap: 8px;
 }
 
 .nav-link:hover,
@@ -319,15 +348,15 @@ img {
 }
 
 .nav-link.active {
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .nav-link svg,
 .nav-link i[data-lucide] {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
-    color: rgba(255, 255, 255, 0.84);
+    color: rgba(255, 255, 255, 0.82);
 }
 
 .nav-link.active svg,
