@@ -48,6 +48,7 @@
                                                 'accepted' => 'bg-green-100 text-green-700',
                                                 'rejected' => 'bg-red-100 text-red-700',
                                                 'in_production' => 'bg-teal-100 text-teal-700',
+                                                'awaiting_author_approval' => 'bg-violet-100 text-violet-700',
                                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                                             ];
                                             $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
