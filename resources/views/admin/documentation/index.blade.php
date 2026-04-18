@@ -1780,6 +1780,36 @@
                 <h4>Cas d'usage typique (articles en transition)</h4>
                 <p>Les articles en attente déposés sur le Drive Oreina seront saisis via ce flow : le rédacteur en chef de la revue renseigne le titre, les mots-clés, le résumé (100 caractères min) et uploade le manuscrit Word/PDF (30 Mo max). L'éditeur reçoit sa notification, l'auteur reçoit son mail d'invitation, et tout le workflow éditorial standard prend le relais à partir de là.</p>
 
+                <h3>Rejet avec recommandation Lepis</h3>
+                <p>Quand un article est jugé mieux adapté au bulletin <strong>Lepis</strong> (publication interne OREINA, format plus court) qu'à Chersotis, l'éditeur peut le rediriger sans prononcer un rejet direct devant l'auteur. Trois étapes :</p>
+                <ol>
+                    <li><strong>Éditeur rejette + coche « Recommander pour Lepis »</strong> dans la modale de rejet. Le statut passe à <code>rejected_pending_lepis</code> (invisible pour l'auteur, qui continue à voir son dernier statut public). Les administrateurs et rédacteurs en chef reçoivent un mail <code>LepisQueueNotification</code>.</li>
+                    <li><strong>Un admin ouvre la File Lepis</strong> (<code>/extranet/revue/file-lepis</code>, menu dédié en sidebar avec badge numérique du nombre en attente) et décide : « Transmettre à Lepis » ou « Rejeter définitivement ».</li>
+                    <li><strong>Transmettre à Lepis</strong> → statut terminal <code>redirected_to_lepis</code> + mail à l'auteur (« Votre article a été transmis au bulletin Lepis, le rédacteur en chef prendra contact ») + mail <code>LepisArticleReceived</code> aux users avec la capacité <code>lepis_editor</code> (contiennent titre, email auteur, motifs, lien vers fiche). <strong>Rejeter définitivement</strong> → flow de rejet standard, l'auteur reçoit <code>SubmissionDecision</code> avec motifs.</li>
+                </ol>
+                <div class="doc-info">
+                    <strong>Capacité lepis_editor :</strong> à accorder via <code>/extranet/users/{id}/edit</code> (section « Capacités éditoriales Chersotis », formulaire indépendant avec bouton dédié « Enregistrer les capacités »).
+                </div>
+
+                <h3>Checklist conformité éditeur avant maquettage</h3>
+                <p>Sur la fiche d'une soumission (<code>/extranet/submissions/{id}</code>), la colonne de droite affiche une card <strong>« Checklist conformité »</strong> (9 items, accent orange). L'éditeur coche au fil de sa relecture les points de conformité formelle qu'il a vérifiés :</p>
+                <ul>
+                    <li>Format bibliographique (Harvard, cohérence citations/biblio)</li>
+                    <li>Affiliations complètes pour tous les auteurs</li>
+                    <li>Coordonnées de correspondance (email auteur référent)</li>
+                    <li>Figures numérotées et légendées</li>
+                    <li>Remerciements présents (financements, permissions)</li>
+                    <li>Résumé FR + EN + mots-clés</li>
+                    <li>Droits images / copyright vérifiés</li>
+                    <li>Conflits d'intérêt déclarés</li>
+                    <li>Données supplémentaires identifiées</li>
+                </ul>
+                <p>Chaque clic est <strong>sauvegardé instantanément</strong> (pas de bouton « Enregistrer » à chercher) — un badge « ✓ enregistré » apparaît brièvement pour le confirmer. Le compteur en haut à droite de la card affiche l'état (ex. <code>7/9</code>).</p>
+                <div class="doc-info">
+                    <strong>Non bloquante :</strong> la checklist n'empêche pas de cliquer « Passer en maquettage » même incomplète — c'est un aide-mémoire, pas un garde-fou. Une fois l'article au statut <code>in_production</code> (ou au-delà), la card devient <strong>en lecture seule</strong> : témoin figé de ce qui a été vérifié avant mise en page.<br>
+                    <strong>Permissions :</strong> seuls l'éditeur assigné, le rédacteur en chef et les admins peuvent cocher. Reviewers et auteurs ne voient pas cette card.
+                </div>
+
                 <h3>Pagination continue (Tomes annuels)</h3>
                 <p>Chersotis utilise une pagination continue par tome annuel : le premier article du tome commence à la page 1, le suivant commence à la page suivant la dernière page du précédent.</p>
 

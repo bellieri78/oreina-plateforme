@@ -35,6 +35,7 @@ class Submission extends Model
         'editor_id',
         'layout_editor_id',
         'editor_notes',
+        'conformity_checklist',
         'decision',
         'decision_at',
         'doi',
@@ -58,6 +59,7 @@ class Submission extends Model
         'content_blocks' => 'array',
         'references' => 'array',
         'author_affiliations' => 'array',
+        'conformity_checklist' => 'array',
         'decision_at' => 'datetime',
         'submitted_at' => 'datetime',
         'received_at' => 'date',
@@ -151,6 +153,19 @@ class Submission extends Model
     {
         return $this->submitted_by_user_id !== null
             && $this->submitted_by_user_id !== $this->author_id;
+    }
+
+    public function conformityChecked(\App\Enums\ConformityChecklistItem $item): bool
+    {
+        return in_array($item->value, $this->conformity_checklist ?? [], true);
+    }
+
+    public function conformityProgress(): array
+    {
+        return [
+            'checked' => count($this->conformity_checklist ?? []),
+            'total'   => count(\App\Enums\ConformityChecklistItem::cases()),
+        ];
     }
 
     public function journalIssue(): BelongsTo

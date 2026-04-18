@@ -276,6 +276,61 @@
                 'eligibleLayoutEditors' => $eligibleLayoutEditors ?? collect(),
             ])
 
+            {{-- Checklist conformité éditeur (avant maquettage) --}}
+            @php
+                $conformityStages = ['submitted', 'under_initial_review', 'under_peer_review', 'revision_requested', 'revision_after_review', 'accepted'];
+                $conformityEditable = in_array($submissionStatusValue, $conformityStages, true)
+                    && app(\App\Policies\SubmissionPolicy::class)->updateConformity(auth()->user(), $submission);
+                $conformityProgress = $submission->conformityProgress();
+            @endphp
+            <div class="card" style="margin-bottom: 1.5rem; border-left: 4px solid #d97706;"
+                 x-data="{ progress: @js($conformityProgress), editable: @js($conformityEditable), savedAt: null }">
+                <div class="card-header">
+                    <h3 class="card-title" style="display:flex; align-items:center; justify-content:space-between;">
+                        <span style="display:flex; align-items:center; gap:0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="18" height="18" style="color:#d97706;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            Checklist conformité
+                        </span>
+                        <span style="display:flex; align-items:center; gap:0.5rem;">
+                            <span x-show="savedAt"
+                                  x-transition
+                                  style="font-size:0.7rem; font-weight:500; color:#0d9488; background:#f0fdfa; padding:2px 8px; border-radius:10px; border:1px solid #99f6e4;">
+                                ✓ enregistré
+                            </span>
+                            <span style="font-size:0.8rem; font-weight:600; color:#d97706;"
+                                  x-text="progress.checked + '/' + progress.total"></span>
+                        </span>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p style="font-size:0.8rem; color:#6b7280; margin:0 0 0.75rem 0;">
+                        @if($conformityEditable)
+                            Cochez au fil de la relecture — sauvegarde automatique à chaque clic.
+                        @else
+                            <strong style="color:#d97706;">Figée (stade post-éditorial).</strong>
+                            Témoin de ce qui a été validé avant maquettage.
+                        @endif
+                    </p>
+                    @foreach(\App\Enums\ConformityChecklistItem::cases() as $item)
+                        <label class="conformity-row"
+                               style="display:flex; gap:0.5rem; align-items:flex-start; padding:0.5rem 0; border-bottom:1px dashed #f3f4f6; cursor:{{ $conformityEditable ? 'pointer' : 'not-allowed' }}; {{ $conformityEditable ? '' : 'opacity:0.75;' }}">
+                            <input type="checkbox"
+                                   value="{{ $item->value }}"
+                                   {{ $submission->conformityChecked($item) ? 'checked' : '' }}
+                                   {{ $conformityEditable ? '' : 'disabled' }}
+                                   x-on:change="toggleConformityItem($event, '{{ $item->value }}')"
+                                   style="margin-top:3px; accent-color:#d97706; flex-shrink:0;">
+                            <span style="font-size:0.85rem; line-height:1.3; flex:1;">
+                                <strong>{{ $item->label() }}</strong><br>
+                                <em style="color:#6b7280; font-size:0.75rem; font-style:normal;">{{ $item->description() }}</em>
+                            </span>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
+
             <div class="card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">
                     <h3 class="card-title">Informations</h3>
@@ -798,4 +853,36 @@
         color: #065f46;
     }
     </style>
+<script>
+window.toggleConformityItem = async function(event, item) {
+    const checkbox = event.target;
+    const url = '{{ route("admin.submissions.conformity.update", $submission) }}';
+    checkbox.disabled = true;
+    try {
+        const res = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ item, checked: checkbox.checked }),
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const card = checkbox.closest('[x-data]');
+        if (card && window.Alpine) {
+            const state = Alpine.$data(card);
+            state.progress = data;
+            state.savedAt = Date.now();
+            setTimeout(() => { if (state.savedAt) state.savedAt = null; }, 1800);
+        }
+    } catch (e) {
+        checkbox.checked = !checkbox.checked; // rollback UI
+        alert('Erreur lors de la sauvegarde — réessayez.');
+    } finally {
+        checkbox.disabled = false;
+    }
+};
+</script>
 @endsection

@@ -144,6 +144,10 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     Route::get('submissions/{submission}/layout', [SubmissionController::class, 'layout'])->name('submissions.layout');
     Route::put('submissions/{submission}/layout', [SubmissionController::class, 'updateLayout'])->name('submissions.layout.update');
 
+    // Conformity checklist
+    Route::patch('submissions/{submission}/conformity', [\App\Http\Controllers\Admin\SubmissionController::class, 'updateConformity'])
+        ->name('submissions.conformity.update');
+
     Route::resource('submissions', SubmissionController::class);
 
     // Reviews
