@@ -97,6 +97,21 @@ class SubmissionPolicy
 
     public function updateConformity(User $user, Submission $submission): bool
     {
+        // La checklist n'est modifiable qu'avant le maquettage.
+        // Au-delà (in_production, awaiting_author_approval, published, rejected, lepis...)
+        // elle sert de témoin figé de ce qui a été vérifié avant la mise en page.
+        $editorialStages = [
+            SubmissionStatus::Submitted,
+            SubmissionStatus::UnderInitialReview,
+            SubmissionStatus::UnderPeerReview,
+            SubmissionStatus::RevisionRequested,
+            SubmissionStatus::RevisionAfterReview,
+            SubmissionStatus::Accepted,
+        ];
+        if (!in_array($submission->status, $editorialStages, true)) {
+            return false;
+        }
+
         return $user->isAdmin()
             || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
             || $submission->editor_id === $user->id;

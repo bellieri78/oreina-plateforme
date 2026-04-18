@@ -181,4 +181,64 @@ class ConformityChecklistTest extends TestCase
 
         $this->assertEquals(['biblio_format', 'figures_numbered'], $sub->fresh()->conformity_checklist);
     }
+
+    public function test_unchecking_item_not_in_list_is_noop(): void
+    {
+        $editor = $this->makeEditor();
+        $sub = $this->makeSubmission($editor);
+
+        $response = $this->actingAs($editor)
+            ->patch(route('admin.submissions.conformity.update', $sub), [
+                'item' => ConformityChecklistItem::BiblioFormat->value,
+                'checked' => false,
+            ]);
+
+        $response->assertOk();
+        $response->assertJson(['checked' => 0, 'total' => 9]);
+        $this->assertEquals([], $sub->fresh()->conformity_checklist);
+    }
+
+    public function test_checklist_frozen_at_in_production(): void
+    {
+        // Au stade in_production, la checklist devient un témoin figé :
+        // les transitions UI doivent déjà être disabled, ET l'API doit refuser 403.
+        $editor = $this->makeEditor();
+        $sub = $this->makeSubmission($editor);
+        $sub->update([
+            'status' => 'in_production',
+            'conformity_checklist' => ['biblio_format'],
+        ]);
+
+        $response = $this->actingAs($editor)
+            ->patch(route('admin.submissions.conformity.update', $sub), [
+                'item' => ConformityChecklistItem::FiguresNumbered->value,
+                'checked' => true,
+            ]);
+
+        $response->assertForbidden();
+        $this->assertEquals(['biblio_format'], $sub->fresh()->conformity_checklist);
+    }
+
+    public function test_checklist_frozen_at_published(): void
+    {
+        $admin = User::factory()->create(['role' => User::ROLE_ADMIN]);
+        $author = User::factory()->create();
+        $sub = Submission::create([
+            'author_id' => $author->id,
+            'title' => 'Test',
+            'abstract' => str_repeat('x', 150),
+            'manuscript_file' => 'submissions/manuscripts/dummy.docx',
+            'status' => 'published',
+            'conformity_checklist' => ['biblio_format', 'figures_numbered'],
+        ]);
+
+        $response = $this->actingAs($admin)
+            ->patch(route('admin.submissions.conformity.update', $sub), [
+                'item' => ConformityChecklistItem::AuthorAffiliations->value,
+                'checked' => true,
+            ]);
+
+        $response->assertForbidden();
+        $this->assertEquals(['biblio_format', 'figures_numbered'], $sub->fresh()->conformity_checklist);
+    }
 }
