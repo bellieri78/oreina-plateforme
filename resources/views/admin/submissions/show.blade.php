@@ -205,6 +205,52 @@
                 </div>
             </div>
 
+            {{-- Fichiers — card accentuée, placée en haut car indispensable à chaque stade --}}
+            @if($submission->manuscript_file || $submission->pdf_file)
+                @php
+                    $earlyStages = ['submitted', 'under_initial_review', 'revision_requested', 'under_peer_review', 'revision_after_review'];
+                    $fichiersAccent = in_array($submissionStatusValue, $earlyStages);
+                @endphp
+                <div class="card" style="margin-bottom: 1.5rem; {{ $fichiersAccent ? 'border-left: 4px solid #0d9488; background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 60%);' : '' }}">
+                    <div class="card-header" style="{{ $fichiersAccent ? 'background: transparent; border-bottom: 1px solid #ccfbf1;' : '' }}">
+                        <h3 class="card-title" style="display: flex; align-items: center; gap: 0.5rem; {{ $fichiersAccent ? 'color: #0d9488;' : '' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="18" height="18">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                            </svg>
+                            Fichiers du manuscrit
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        @if($submission->manuscript_file)
+                            <a href="{{ route('admin.submissions.download', ['submission' => $submission, 'type' => 'manuscript']) }}"
+                               class="file-link"
+                               style="{{ $fichiersAccent ? 'background: white; border: 1px solid #99f6e4; padding: 0.75rem 1rem; font-weight: 500;' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20" style="{{ $fichiersAccent ? 'color: #0d9488;' : '' }}">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                <span>Manuscrit ({{ pathinfo($submission->manuscript_file, PATHINFO_EXTENSION) ?: 'fichier' }})</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="14" height="14" style="margin-left: auto; {{ $fichiersAccent ? 'color: #0d9488;' : '' }}">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                </svg>
+                            </a>
+                        @endif
+                        @if($submission->pdf_file)
+                            <a href="{{ route('admin.submissions.download', ['submission' => $submission, 'type' => 'pdf']) }}"
+                               class="file-link"
+                               style="margin-top: 0.5rem; {{ $fichiersAccent ? 'background: white; border: 1px solid #99f6e4; padding: 0.75rem 1rem; font-weight: 500;' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20" style="{{ $fichiersAccent ? 'color: #0d9488;' : '' }}">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                <span>PDF final</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="14" height="14" style="margin-left: auto; {{ $fichiersAccent ? 'color: #0d9488;' : '' }}">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                </svg>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
             @include('admin.submissions.partials._editorial_sidebar', [
                 'submission' => $submission,
                 'eligibleReviewers' => $eligibleReviewers ?? collect(),
@@ -322,39 +368,6 @@
                     </div>
                     <div class="card-body">
                         <p style="color: #374151; font-size: 0.875rem;">{{ $submission->editor_notes }}</p>
-                    </div>
-                </div>
-            @endif
-
-            {{-- Fichiers --}}
-            @if($submission->manuscript_file || $submission->pdf_file)
-                <div class="card" style="margin-top: 1.5rem;">
-                    <div class="card-header">
-                        <h3 class="card-title">Fichiers</h3>
-                    </div>
-                    <div class="card-body">
-                        @if($submission->manuscript_file)
-                            <a href="{{ route('admin.submissions.download', ['submission' => $submission, 'type' => 'manuscript']) }}" class="file-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                                <span>Manuscrit</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="14" height="14" style="margin-left: auto;">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                </svg>
-                            </a>
-                        @endif
-                        @if($submission->pdf_file)
-                            <a href="{{ route('admin.submissions.download', ['submission' => $submission, 'type' => 'pdf']) }}" class="file-link" style="margin-top: 0.5rem;">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                                <span>PDF final</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="14" height="14" style="margin-left: auto;">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                </svg>
-                            </a>
-                        @endif
                     </div>
                 </div>
             @endif

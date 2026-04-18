@@ -1377,27 +1377,11 @@
                 {{-- ========================================== --}}
 
                 <h3>Schema du workflow</h3>
-                <p>Le parcours principal d'un manuscrit suit les etapes ci-dessous. Deux embranchements sont possibles : la demande de revision (retour a l'auteur) et le rejet (a deux moments du processus).</p>
+                <p>Le parcours principal d'un manuscrit suit les étapes ci-dessous. Deux embranchements sont possibles : la demande de révision (retour à l'auteur) et le rejet (à deux moments du processus). Depuis le P0 du 16 avril 2026, le statut <em>brouillon</em> a été supprimé — la soumission est publiée directement au statut <strong>Soumis</strong>.</p>
 
                 {{-- Visual workflow diagram --}}
                 <div class="workflow-diagram">
                     <div class="workflow-main-path">
-                        {{-- Draft --}}
-                        <div class="workflow-stage">
-                            <div class="workflow-stage-icon draft">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                            </div>
-                            <div class="workflow-stage-label">Brouillon</div>
-                            <div class="workflow-stage-actor">Auteur</div>
-                        </div>
-
-                        <div class="workflow-connector">
-                            <div class="workflow-connector-line"></div>
-                            <div class="workflow-connector-arrow"></div>
-                        </div>
-
                         {{-- Submitted --}}
                         <div class="workflow-stage">
                             <div class="workflow-stage-icon submitted">
@@ -1406,7 +1390,7 @@
                                 </svg>
                             </div>
                             <div class="workflow-stage-label">Soumis</div>
-                            <div class="workflow-stage-actor">Auteur → Editeur</div>
+                            <div class="workflow-stage-actor">Auteur ou rédacteur</div>
                         </div>
 
                         <div class="workflow-connector">
@@ -1505,36 +1489,23 @@
                 <h3>Etapes detaillees</h3>
                 <div class="workflow-details">
 
-                    {{-- 1. Brouillon --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header draft">
-                            <span class="detail-number">1</span>
-                            <span class="detail-title">Brouillon (draft)</span>
-                        </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Auteur</p>
-                            <p><strong>Ce qui se passe :</strong> L'auteur cree un compte sur oreina.org (page /inscription), puis accede au formulaire de soumission a l'adresse <code>/revue/mes-soumissions/nouvelle</code>. Il prepare son manuscrit en renseignant les informations requises (voir section "Contenu de la soumission" ci-dessous). Le brouillon est sauvegarde automatiquement et l'auteur peut y revenir a tout moment.</p>
-                            <p><strong>Action pour passer a l'etape suivante :</strong> L'auteur clique sur "Soumettre" lorsque le manuscrit est complet.</p>
-                        </div>
-                    </div>
-
-                    {{-- 2. Soumis --}}
+                    {{-- 1. Soumis --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header submitted">
-                            <span class="detail-number">2</span>
+                            <span class="detail-number">1</span>
                             <span class="detail-title">Soumis (submitted)</span>
                         </div>
                         <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Editeur (redacteur en chef)</p>
-                            <p><strong>Ce qui se passe :</strong> Le manuscrit arrive dans l'extranet. L'editeur recoit une notification. L'auteur recoit un email de confirmation et peut suivre l'avancement de sa soumission depuis son espace membre (<code>/espace-membre</code>).</p>
+                            <p><strong>Qui agit :</strong> Auteur (soumission directe) ou rédacteur en chef / éditeur (soumission backoffice pour un auteur sans compte — voir section dédiée ci-dessous)</p>
+                            <p><strong>Ce qui se passe :</strong> Le manuscrit arrive dans l'extranet. L'éditeur et le rédacteur en chef reçoivent une notification (<code>NewSubmissionAlert</code>). L'auteur reçoit un accusé de réception (<code>SubmissionReceived</code>, ou <code>AccountInvitation</code> s'il a été saisi via le backoffice) et peut suivre l'avancement depuis son espace <code>/revue/mes-soumissions</code>.</p>
                             <p><strong>Action pour passer a l'etape suivante :</strong> L'editeur clique sur "Evaluer" pour demarrer l'evaluation initiale.</p>
                         </div>
                     </div>
 
-                    {{-- 3. Evaluation initiale --}}
+                    {{-- 2. Evaluation initiale --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header desk-review">
-                            <span class="detail-number">3</span>
+                            <span class="detail-number">2</span>
                             <span class="detail-title">Evaluation initiale (under_initial_review)</span>
                         </div>
                         <div class="detail-content">
@@ -1552,7 +1523,7 @@
                     {{-- 4. En review --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header in-review">
-                            <span class="detail-number">4</span>
+                            <span class="detail-number">3</span>
                             <span class="detail-title">En relecture (under_peer_review)</span>
                         </div>
                         <div class="detail-content">
@@ -1578,7 +1549,7 @@
                     {{-- 4b. Revision --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header revision">
-                            <span class="detail-number">4b</span>
+                            <span class="detail-number">3b</span>
                             <span class="detail-title">Revision demandee (revision_requested / revision_after_review)</span>
                         </div>
                         <div class="detail-content">
@@ -1592,7 +1563,7 @@
                     {{-- 5. Accepte --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header accepted">
-                            <span class="detail-number">5</span>
+                            <span class="detail-number">4</span>
                             <span class="detail-title">Accepte (accepted)</span>
                         </div>
                         <div class="detail-content">
@@ -1611,7 +1582,7 @@
                     {{-- 6. Publie --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header published">
-                            <span class="detail-number">6</span>
+                            <span class="detail-number">5</span>
                             <span class="detail-title">Publie (published)</span>
                         </div>
                         <div class="detail-content">
@@ -1772,7 +1743,8 @@
 
                 <ul>
                     <li><strong>Boutons de transition</strong> — remplacent l'ancien formulaire de changement de statut. Les boutons affichés sont calculés dynamiquement par la policy <code>SubmissionPolicy::transitionTo</code> et passent par la machine à états (pas de changement de statut direct).</li>
-                    <li><strong>Équipe éditoriale</strong> — affiche l'éditeur et le maquettiste assignés. Le rédacteur en chef peut changer l'éditeur ou assigner un maquettiste depuis des formulaires inline.</li>
+                    <li><strong>Équipe éditoriale</strong> — affiche l'éditeur assigné en permanence, et le maquettiste <em>uniquement à partir du stade accepté</em> (pas de maquettiste en amont, le champ serait prématuré). Le rédacteur en chef peut changer l'éditeur ou assigner un maquettiste depuis des formulaires inline.</li>
+                    <li><strong>Carte Fichiers</strong> — placée en haut de la colonne droite et mise en valeur (accent turquoise) tant que la soumission est en phase d'évaluation/relecture/révision. Les liens de téléchargement du manuscrit et du PDF final sont accessibles à tout stade.</li>
                     <li><strong>Invitation de relecteurs</strong> — formulaire inline pour inviter un relecteur parmi les utilisateurs avec la capacité <code>reviewer</code>. La séparation des rôles est vérifiée (un relecteur ne peut pas être l'éditeur du même article sauf override). La liste des relecteurs actuels avec leur statut (invité, accepté, terminé, décliné) est affichée en dessous.</li>
                     <li><strong>Journal des actions</strong> — chronologie complète et non-anonymisée de toutes les transitions : changements de statut, assignations éditeur, invitations relecteurs, avec noms des acteurs/cibles et notes. Visible par les éditeurs et administrateurs uniquement.</li>
                 </ul>
@@ -1780,6 +1752,33 @@
                 <div class="doc-info">
                     <strong>Différence avec le suivi auteur :</strong> le journal des actions admin montre <em>tout</em> (acteurs, assignations internes, notes). Le journal côté auteur (<code>/revue/mes-soumissions/{id}</code>) est anonymisé et ne montre que les changements de statut avec des libellés humains — voir la section "Suivi par l'auteur" ci-dessous.
                 </div>
+
+                <h3>Soumission backoffice (pour un auteur sans compte)</h3>
+                <p>Lorsqu'un article arrive hors de la plateforme (email, Drive, transition depuis le magazine Oreina), un <strong>rédacteur en chef</strong> ou un <strong>éditeur</strong> peut le saisir directement depuis <code>/extranet/submissions/create</code>. Ce bouton "Nouvelle soumission" n'est visible que pour ces deux rôles (Gate <code>create-submission-for-author</code>).</p>
+
+                <h4>Deux modes dans le formulaire</h4>
+                <ul>
+                    <li><strong>Auteur existant</strong> — dropdown classique listant tous les utilisateurs. Utilisé quand l'auteur a déjà un compte oreina.org.</li>
+                    <li><strong>Nouvel auteur</strong> — saisie de <code>nom</code> + <code>email</code> uniquement. Le système crée un <em>compte fantôme</em> (User avec <code>password = null</code>, <code>invited_at = now</code>) et déclenche une <strong>invitation par mail</strong> avec un lien signé (14 jours) pour que l'auteur définisse son mot de passe et active son compte. Ce compte devient un User normal dès activation.</li>
+                </ul>
+
+                <div class="doc-warning">
+                    <strong>Séparation claire des responsabilités :</strong>
+                    <ul style="margin-top:0.5rem;margin-bottom:0;">
+                        <li>Le champ <code>submitted_by_user_id</code> trace qui a saisi la soumission (différent de <code>author_id</code>). Vaut <code>null</code> quand l'auteur se soumet lui-même.</li>
+                        <li>Tant que l'auteur n'a pas activé son compte (<code>claimed_at IS NULL</code>), il apparaît dans le dropdown "Auteur existant" avec le suffixe <em>(compte non activé)</em>, et il n'a aucune capacité éditoriale (donc invisible dans les dropdowns éditeur/relecteur).</li>
+                        <li>Le lien d'invitation est une URL signée HMAC Laravel — pas de table de tokens à gérer. Expiration configurable via <code>config('journal.invitation_expiration_days')</code> (14 jours par défaut).</li>
+                    </ul>
+                </div>
+
+                <h4>Mails envoyés à la création</h4>
+                <ul>
+                    <li><strong>Auteur existant</strong> → <code>SubmissionReceived</code> (accusé de réception) + <code>NewSubmissionAlert</code> (à tous les rédacteurs en chef et éditeurs)</li>
+                    <li><strong>Nouvel auteur</strong> → <code>AccountInvitation</code> (active le compte + sert d'accusé de réception : contient le titre + les 7 étapes du process) + <code>NewSubmissionAlert</code></li>
+                </ul>
+
+                <h4>Cas d'usage typique (Greg — articles en transition)</h4>
+                <p>Les 7-8 articles en attente déposés sur le Drive Oreina seront saisis via ce flow : Greg renseigne le titre, les mots-clés, le résumé (100 caractères min) et uploade le manuscrit Word/PDF (30 Mo max). Le rédacteur en chef reçoit sa notification, l'auteur reçoit son mail d'invitation, et tout le workflow éditorial standard prend le relais à partir de là.</p>
 
                 <h3>Pagination continue (Tomes annuels)</h3>
                 <p>Chersotis utilise une pagination continue par tome annuel : le premier article du tome commence à la page 1, le suivant commence à la page suivant la dernière page du précédent.</p>

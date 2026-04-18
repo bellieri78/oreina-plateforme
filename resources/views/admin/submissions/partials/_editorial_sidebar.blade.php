@@ -1,10 +1,15 @@
 @php
+    use App\Enums\SubmissionStatus;
     use App\Models\EditorialCapability;
     use App\Policies\SubmissionPolicy;
 
     $policy = app(SubmissionPolicy::class);
     $authUser = auth()->user();
     $reviewerIds = $submission->reviews->pluck('reviewer_id')->all();
+
+    // Le maquettiste n'a de sens qu'à partir du moment où l'article est accepté
+    $statusValue = $submission->status instanceof SubmissionStatus ? $submission->status->value : $submission->status;
+    $showLayoutEditor = in_array($statusValue, ['accepted', 'in_production', 'awaiting_author_approval', 'published']);
 @endphp
 
 {{-- Équipe éditoriale --}}
@@ -59,7 +64,8 @@
             @endif
         </div>
 
-        {{-- Maquettiste --}}
+        {{-- Maquettiste — visible seulement à partir du stade "accepté" --}}
+        @if($showLayoutEditor)
         <div style="padding-top: 1rem; border-top: 1px solid #e5e7eb;">
             <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.25rem;">Maquettiste</div>
             @if($submission->layoutEditor)
@@ -86,6 +92,7 @@
                 </form>
             @endif
         </div>
+        @endif
     </div>
 </div>
 
