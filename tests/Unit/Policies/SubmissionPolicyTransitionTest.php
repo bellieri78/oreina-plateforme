@@ -124,20 +124,13 @@ class SubmissionPolicyTransitionTest extends TestCase
         $this->assertFalse($this->policy->transitionTo($stranger, $submission, SubmissionStatus::UnderInitialReview));
     }
 
-    public function test_layout_editor_can_transition_in_production_and_published_statuses(): void
+    public function test_layout_editor_can_transition_in_production_to_awaiting_author_approval(): void
     {
-        // Policy groups InProduction and Published (and AwaitingAuthorApproval once Task 5 is done)
-        // under the same branch: layout_editor_id or admin/chief.
-        // For now, test the currently valid in_production → awaiting_author_approval via policy
-        // using the Published branch which covers layout editors (pre-Task-5 state).
         $layout = User::factory()->create(['email_verified_at' => now()]);
         $layout->grantCapability(EditorialCapability::LAYOUT_EDITOR);
-        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval, layoutId: $layout->id);
+        $submission = $this->makeSubmission(SubmissionStatus::InProduction, layoutId: $layout->id);
 
-        // awaiting_author_approval → published is the structurally valid next step.
-        // The policy match currently lumps InProduction and Published together,
-        // so the layout editor IS allowed here.
-        $this->assertTrue($this->policy->transitionTo($layout, $submission, SubmissionStatus::Published));
+        $this->assertTrue($this->policy->transitionTo($layout, $submission, SubmissionStatus::AwaitingAuthorApproval));
     }
 
     public function test_editor_cannot_publish_from_awaiting_author_approval(): void
@@ -148,6 +141,73 @@ class SubmissionPolicyTransitionTest extends TestCase
         $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval, editorId: $editor->id);
 
         $this->assertFalse($this->policy->transitionTo($editor, $submission, SubmissionStatus::Published));
+    }
+
+    public function test_editor_can_transition_in_production_to_awaiting_author_approval(): void
+    {
+        $editor = User::factory()->create(['email_verified_at' => now()]);
+        $editor->grantCapability(EditorialCapability::EDITOR);
+
+        $submission = $this->makeSubmission(SubmissionStatus::InProduction, editorId: $editor->id);
+
+        $this->assertTrue(
+            $this->policy->transitionTo($editor, $submission, SubmissionStatus::AwaitingAuthorApproval)
+        );
+    }
+
+    public function test_chief_editor_can_transition_to_awaiting_author_approval(): void
+    {
+        $chief = User::factory()->create(['email_verified_at' => now()]);
+        $chief->grantCapability(EditorialCapability::CHIEF_EDITOR);
+
+        $submission = $this->makeSubmission(SubmissionStatus::InProduction);
+
+        $this->assertTrue(
+            $this->policy->transitionTo($chief, $submission, SubmissionStatus::AwaitingAuthorApproval)
+        );
+    }
+
+    public function test_random_user_cannot_send_to_author_approval(): void
+    {
+        $stranger = User::factory()->create(['email_verified_at' => now()]);
+        $submission = $this->makeSubmission(SubmissionStatus::InProduction);
+
+        $this->assertFalse(
+            $this->policy->transitionTo($stranger, $submission, SubmissionStatus::AwaitingAuthorApproval)
+        );
+    }
+
+    public function test_author_can_approve_from_awaiting_author_approval(): void
+    {
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval);
+        $author = User::find($submission->author_id);
+
+        $this->assertTrue(
+            $this->policy->transitionTo($author, $submission, SubmissionStatus::Published)
+        );
+    }
+
+    public function test_author_can_request_corrections_from_awaiting_author_approval(): void
+    {
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval);
+        $author = User::find($submission->author_id);
+
+        $this->assertTrue(
+            $this->policy->transitionTo($author, $submission, SubmissionStatus::InProduction)
+        );
+    }
+
+    public function test_random_user_cannot_approve_someone_elses_submission(): void
+    {
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval);
+        $intruder = User::factory()->create(['email_verified_at' => now()]);
+
+        $this->assertFalse(
+            $this->policy->transitionTo($intruder, $submission, SubmissionStatus::Published)
+        );
+        $this->assertFalse(
+            $this->policy->transitionTo($intruder, $submission, SubmissionStatus::InProduction)
+        );
     }
 
     public function test_structurally_invalid_transition_always_false(): void

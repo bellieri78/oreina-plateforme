@@ -126,11 +126,25 @@ class SubmissionPolicy
                 || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
                 || $submission->editor_id === $user->id,
 
-            SubmissionStatus::InProduction,
-            SubmissionStatus::Published =>
+            SubmissionStatus::AwaitingAuthorApproval =>
                 $user->isAdmin()
                 || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                || $submission->editor_id === $user->id
                 || $submission->layout_editor_id === $user->id,
+
+            SubmissionStatus::Published =>
+                $current === SubmissionStatus::AwaitingAuthorApproval
+                    ? $user->id === $submission->author_id
+                    : ($user->isAdmin()
+                        || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                        || $submission->layout_editor_id === $user->id),
+
+            SubmissionStatus::InProduction =>
+                $current === SubmissionStatus::AwaitingAuthorApproval
+                    ? $user->id === $submission->author_id
+                    : ($user->isAdmin()
+                        || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                        || $submission->layout_editor_id === $user->id),
 
             default => false,
         };
