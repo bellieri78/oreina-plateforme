@@ -88,8 +88,10 @@ class SubmissionStateMachine
             $submission->save();
 
             $admins = User::query()
-                ->where('role', User::ROLE_ADMIN)
-                ->orWhereHas('capabilities', fn ($q) => $q->where('capability', EditorialCapability::CHIEF_EDITOR))
+                ->where(function ($q) {
+                    $q->where('role', User::ROLE_ADMIN)
+                      ->orWhereHas('capabilities', fn ($qq) => $qq->where('capability', EditorialCapability::CHIEF_EDITOR));
+                })
                 ->get()
                 ->unique('id');
 

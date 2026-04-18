@@ -217,4 +217,35 @@ class LepisQueueTest extends TestCase
         $response->assertDontSee('Rejet en attente Lepis');
         $response->assertDontSee('Transmis au bulletin Lepis');
     }
+
+    public function test_author_dashboard_hides_lepis_pending_status(): void
+    {
+        $author = User::factory()->create(['email_verified_at' => now()]);
+        $editor = $this->makeEditor(EditorialCapability::EDITOR);
+
+        $sub = $this->makeSubmission(SubmissionStatus::RejectedPendingLepis, $author, $editor);
+
+        $sub->transitions()->create([
+            'action' => 'status_changed',
+            'actor_user_id' => $editor->id,
+            'from_status' => 'submitted',
+            'to_status' => 'under_peer_review',
+            'notes' => null,
+        ]);
+        $sub->transitions()->create([
+            'action' => 'status_changed',
+            'actor_user_id' => $editor->id,
+            'from_status' => 'under_peer_review',
+            'to_status' => 'rejected_pending_lepis',
+            'notes' => 'reco Lepis',
+        ]);
+
+        $response = $this->actingAs($author)->get(route('member.dashboard'));
+
+        $response->assertOk();
+        $response->assertSee('En relecture');           // publicStatus() → UnderPeerReview label
+        $response->assertDontSee('Rejet en attente Lepis');
+        $response->assertDontSee('Inconnu');            // fuite partielle corrigée
+        $response->assertDontSee('Transmis au bulletin Lepis');
+    }
 }
