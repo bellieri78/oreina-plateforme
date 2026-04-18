@@ -18,6 +18,7 @@ class SubmissionStatusTest extends TestCase
     {
         $this->assertTrue(SubmissionStatus::Published->isTerminal());
         $this->assertTrue(SubmissionStatus::Rejected->isTerminal());
+        $this->assertTrue(SubmissionStatus::RedirectedToLepis->isTerminal());
         $this->assertFalse(SubmissionStatus::Submitted->isTerminal());
         $this->assertFalse(SubmissionStatus::Accepted->isTerminal());
     }
@@ -37,7 +38,7 @@ class SubmissionStatusTest extends TestCase
         $labels = SubmissionStatus::labels();
         $this->assertArrayHasKey('submitted', $labels);
         $this->assertArrayHasKey('under_initial_review', $labels);
-        $this->assertCount(10, $labels);
+        $this->assertCount(12, $labels);
     }
 
     public function test_colors_are_non_empty(): void
