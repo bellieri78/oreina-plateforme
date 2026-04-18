@@ -122,4 +122,28 @@ class AuthorApprovalTest extends TestCase
             ])
             ->assertForbidden();
     }
+
+    public function test_show_page_displays_approval_block_for_author(): void
+    {
+        $author = User::factory()->create();
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval, $author);
+
+        $this->actingAs($author)
+            ->get(route('journal.submissions.show', $submission))
+            ->assertOk()
+            ->assertSee('Votre article est prêt pour publication')
+            ->assertSee('Approuver pour publication')
+            ->assertSee('Signaler des corrections');
+    }
+
+    public function test_show_page_does_not_display_approval_block_for_other_statuses(): void
+    {
+        $author = User::factory()->create();
+        $submission = $this->makeSubmission(SubmissionStatus::InProduction, $author);
+
+        $this->actingAs($author)
+            ->get(route('journal.submissions.show', $submission))
+            ->assertOk()
+            ->assertDontSee('Votre article est prêt pour publication');
+    }
 }

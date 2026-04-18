@@ -172,6 +172,91 @@
                     </div>
                 @endif
 
+                {{-- Bloc approbation auteur --}}
+                @if($submission->status === \App\Enums\SubmissionStatus::AwaitingAuthorApproval && $submission->author_id === auth()->id())
+                    <div x-data="{ showCorrections: false }"
+                         style="border:2px solid #7c3aed;background:#faf5ff;border-radius:12px;padding:24px;margin:24px 0;">
+                        <h2 style="margin:0 0 8px 0;color:#6d28d9;font-size:1.25rem;font-weight:700;">
+                            Votre article est prêt pour publication
+                        </h2>
+                        <p style="margin:0 0 16px 0;color:#4c1d95;">
+                            L'équipe éditoriale a finalisé la maquette de votre article.
+                            Consultez le PDF ci-dessous, puis donnez votre accord pour publication
+                            ou signalez les corrections nécessaires.
+                        </p>
+
+                        @if($submission->pdf_file)
+                            <p style="margin:0 0 16px 0;">
+                                <a href="{{ \Illuminate\Support\Facades\Storage::url($submission->pdf_file) }}"
+                                   target="_blank"
+                                   style="color:#7c3aed;text-decoration:underline;font-weight:500;">
+                                    → Voir le PDF maquetté
+                                </a>
+                            </p>
+                        @else
+                            <p style="margin:0 0 16px 0;color:#991b1b;">
+                                PDF non disponible — contactez le comité éditorial.
+                            </p>
+                        @endif
+
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <form method="POST" action="{{ route('journal.submissions.approve', $submission) }}"
+                                  onsubmit="return confirm('Confirmer l\'approbation pour publication ? Cette action est définitive.');"
+                                  style="margin:0;">
+                                @csrf
+                                <button type="submit"
+                                        style="background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;border:none;font-weight:500;cursor:pointer;">
+                                    ✓ Approuver pour publication
+                                </button>
+                            </form>
+
+                            <button type="button" @click="showCorrections = true"
+                                    style="background:#fff;color:#7c3aed;border:1px solid #7c3aed;padding:10px 20px;border-radius:8px;font-weight:500;cursor:pointer;">
+                                Signaler des corrections
+                            </button>
+                        </div>
+
+                        {{-- Modale corrections --}}
+                        <template x-teleport="body">
+                            <div x-show="showCorrections"
+                                 x-cloak
+                                 x-transition
+                                 @keydown.escape.window="showCorrections = false"
+                                 style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+                                <div @click.outside="showCorrections = false"
+                                     style="background:#fff;border-radius:12px;max-width:32rem;width:90%;padding:24px;box-shadow:0 25px 50px rgba(0,0,0,0.25);">
+                                    <h3 style="margin:0 0 12px 0;font-size:1.1rem;font-weight:700;">
+                                        Signaler des corrections
+                                    </h3>
+                                    <p style="margin:0 0 12px 0;color:#6b7280;font-size:0.875rem;">
+                                        Décrivez précisément les corrections souhaitées (minimum 20 caractères).
+                                        L'équipe maquette les intègre puis vous renvoie la version corrigée pour approbation.
+                                    </p>
+                                    <form method="POST" action="{{ route('journal.submissions.request-corrections', $submission) }}">
+                                        @csrf
+                                        <textarea name="comment" rows="6" required minlength="20" maxlength="5000"
+                                                  placeholder="Ex. : Figure 3, légendes a et b inversées. Paragraphe 2 de la discussion, première phrase à reformuler..."
+                                                  style="width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px;font-size:0.875rem;margin-bottom:16px;resize:vertical;"></textarea>
+                                        @error('comment')
+                                            <p style="color:#dc2626;font-size:0.875rem;margin:-8px 0 12px 0;">{{ $message }}</p>
+                                        @enderror
+                                        <div style="display:flex;justify-content:flex-end;gap:8px;">
+                                            <button type="button" @click="showCorrections = false"
+                                                    style="padding:8px 16px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;">
+                                                Annuler
+                                            </button>
+                                            <button type="submit"
+                                                    style="background:#7c3aed;color:#fff;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;">
+                                                Envoyer les corrections
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                @endif
+
                 {{-- Journal d'activité --}}
                 @if($submission->transitions && $submission->transitions->isNotEmpty())
                     <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6">
