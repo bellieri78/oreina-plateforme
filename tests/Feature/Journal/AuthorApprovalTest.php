@@ -146,4 +146,16 @@ class AuthorApprovalTest extends TestCase
             ->assertOk()
             ->assertDontSee('Votre article est prêt pour publication');
     }
+
+    public function test_show_page_forbids_non_author_access(): void
+    {
+        $author = User::factory()->create();
+        $intruder = User::factory()->create();
+
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval, $author);
+
+        $this->actingAs($intruder)
+            ->get(route('journal.submissions.show', $submission))
+            ->assertForbidden();
+    }
 }

@@ -234,7 +234,8 @@
                                     </p>
                                     <form method="POST" action="{{ route('journal.submissions.request-corrections', $submission) }}">
                                         @csrf
-                                        <textarea name="comment" rows="6" required minlength="20" maxlength="5000"
+                                        <label for="corrections-comment" class="sr-only">Corrections souhaitées</label>
+                                        <textarea id="corrections-comment" name="comment" rows="6" required minlength="20" maxlength="5000"
                                                   placeholder="Ex. : Figure 3, légendes a et b inversées. Paragraphe 2 de la discussion, première phrase à reformuler..."
                                                   style="width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px;font-size:0.875rem;margin-bottom:16px;resize:vertical;"></textarea>
                                         @error('comment')
