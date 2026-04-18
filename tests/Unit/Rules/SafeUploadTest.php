@@ -146,6 +146,7 @@ class SafeUploadTest extends TestCase
         $zip = new ZipArchive();
         $zip->open($path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
         $zip->addFromString('mimetype', 'application/vnd.oasis.opendocument.text');
+        $zip->setCompressionName('mimetype', ZipArchive::CM_STORE);
         $zip->addFromString('content.xml', '<?xml version="1.0" encoding="UTF-8"?><office:document-content xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"/>');
         $zip->close();
     }

@@ -84,8 +84,8 @@ return [
             'mimes'  => [
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.oasis.opendocument.text',
-                'application/zip', // docx/odt = conteneur ZIP, verifier OOXML/ODT confirme
+                'application/vnd.oasis.opendocument.text', // ODT (MIME nominal)
+                'application/zip', // fallback : finfo renvoie application/zip pour ODT/DOCX sur certains systèmes (Windows notamment)
             ],
             'max_kb' => 30720, // 30 Mo
         ],
