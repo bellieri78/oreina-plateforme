@@ -168,7 +168,7 @@ class SubmissionTransitionRouteTest extends TestCase
 
         $submission = $this->makeSubmissionAwaitingAuthorApproval($author, $editor);
 
-        // The policy allows the author to publish when status is awaiting_author_approval
+        // Direct state machine call (bypasses HTTP/policy — we only verify the mail side effect)
         app(\App\Services\SubmissionStateMachine::class)->transition(
             $submission,
             SubmissionStatus::Published,
@@ -179,6 +179,6 @@ class SubmissionTransitionRouteTest extends TestCase
         $this->assertSame(SubmissionStatus::Published, $submission->status);
         $this->assertNotNull($submission->author_approved_at);
 
-        \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\AuthorApproved::class);
+        \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\AuthorApproved::class, 2); // editor + chief editor
     }
 }

@@ -93,8 +93,9 @@ class SubmissionStateMachine
             $submission->save();
 
             $recipients = collect();
-            if ($submission->editor_id) {
-                $recipients->push(User::find($submission->editor_id));
+            $submission->load('editor');
+            if ($submission->editor) {
+                $recipients->push($submission->editor);
             }
             $chiefEditors = User::whereHas(
                 'capabilities',
