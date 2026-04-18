@@ -87,7 +87,7 @@
                             @if($action['showLepis'] ?? false)
                                 <label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.875rem;margin-bottom:1rem;padding:0.75rem;background:#fef3c7;border-radius:6px;border:1px solid #fde68a;">
                                     <input type="checkbox" name="redirect_to_lepis" value="1" style="margin-top:2px;">
-                                    <span>Recommander pour le bulletin <strong>Lepis</strong> (l'auteur ne sera pas notifié du rejet immédiatement, François évaluera la pertinence pour Lepis).</span>
+                                    <span>Recommander pour le bulletin <strong>Lepis</strong> (l'auteur ne sera pas notifié du rejet immédiatement, le rédacteur en chef de Lepis évaluera la pertinence).</span>
                                 </label>
                             @endif
 

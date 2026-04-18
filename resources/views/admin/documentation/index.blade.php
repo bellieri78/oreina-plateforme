@@ -1777,8 +1777,8 @@
                     <li><strong>Nouvel auteur</strong> → <code>AccountInvitation</code> (active le compte + sert d'accusé de réception : contient le titre + les 7 étapes du process) + <code>NewSubmissionAlert</code></li>
                 </ul>
 
-                <h4>Cas d'usage typique (Greg — articles en transition)</h4>
-                <p>Les 7-8 articles en attente déposés sur le Drive Oreina seront saisis via ce flow : Greg renseigne le titre, les mots-clés, le résumé (100 caractères min) et uploade le manuscrit Word/PDF (30 Mo max). Le rédacteur en chef reçoit sa notification, l'auteur reçoit son mail d'invitation, et tout le workflow éditorial standard prend le relais à partir de là.</p>
+                <h4>Cas d'usage typique (articles en transition)</h4>
+                <p>Les articles en attente déposés sur le Drive Oreina seront saisis via ce flow : le rédacteur en chef de la revue renseigne le titre, les mots-clés, le résumé (100 caractères min) et uploade le manuscrit Word/PDF (30 Mo max). L'éditeur reçoit sa notification, l'auteur reçoit son mail d'invitation, et tout le workflow éditorial standard prend le relais à partir de là.</p>
 
                 <h3>Pagination continue (Tomes annuels)</h3>
                 <p>Chersotis utilise une pagination continue par tome annuel : le premier article du tome commence à la page 1, le suivant commence à la page suivant la dernière page du précédent.</p>
