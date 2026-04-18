@@ -211,7 +211,7 @@
                 </div>
 
                 <h3>Capacités éditoriales Chersotis</h3>
-                <p>En complément du rôle global, un système de <strong>capacités éditoriales</strong> (chief_editor, editor, reviewer, layout_editor) permet à un même utilisateur d'occuper plusieurs rôles dans la revue Chersotis. Voir la section dédiée <a href="#capacites-editoriales" style="color:#356B8A;">Capacités éditoriales</a> pour le détail des 4 rôles, la règle de séparation, et la gestion.</p>
+                <p>En complément du rôle global, un système de <strong>capacités éditoriales</strong> (chief_editor, editor, reviewer, layout_editor, lepis_editor) permet à un même utilisateur d'occuper plusieurs rôles dans la revue Chersotis. Voir la section dédiée <a href="#capacites-editoriales" style="color:#356B8A;">Capacités éditoriales</a> pour le détail des 5 rôles, la règle de séparation, et la gestion.</p>
             </section>
 
             {{-- Inscription et rattachement --}}
@@ -2141,12 +2141,13 @@
 
                 <p>Le système de <strong>capacités éditoriales</strong> permet d'attribuer à un utilisateur un ou plusieurs rôles dans le workflow de la revue, indépendamment de son rôle global. Introduit en avril 2026 suite à la réunion du comité de rédac du 7 avril.</p>
 
-                <h3>Les 4 capacités</h3>
+                <h3>Les 5 capacités</h3>
                 <ul>
                     <li><code>chief_editor</code> — <strong>Rédacteur en chef</strong> : supervise l'ensemble du comité, assigne les éditeurs aux articles, modifie les capacités des membres.</li>
                     <li><code>editor</code> — <strong>Éditeur</strong> : prend en charge un article (auto-attribution), désigne les relecteurs, synthétise les retours, valide la version finale, gère les allers-retours auteur.</li>
                     <li><code>reviewer</code> — <strong>Relecteur</strong> : accède au manuscrit assigné, soumet un rapport de relecture. Non anonyme.</li>
                     <li><code>layout_editor</code> — <strong>Maquettiste</strong> : accède aux articles acceptés, crée la maquette, génère le PDF final.</li>
+                    <li><code>lepis_editor</code> — <strong>Rédacteur en chef Lepis</strong> : reçoit par mail les articles que Chersotis transmet au bulletin Lepis (via la File Lepis — cf. <a href="#soumissions" style="color:#356B8A;">Rejet avec recommandation Lepis</a>). Peut consulter la fiche admin des articles <code>redirected_to_lepis</code> pour y lire le manuscrit, puis prend contact avec l'auteur <strong>hors plateforme</strong> pour négocier la publication dans Lepis. Introduit en avril 2026.</li>
                 </ul>
 
                 <h3>Gérer les capacités d'un utilisateur</h3>
