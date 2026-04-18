@@ -52,6 +52,16 @@ class SubmissionPolicyTransitionTest extends TestCase
         $this->assertFalse($this->policy->transitionTo($stranger, $submission, SubmissionStatus::UnderInitialReview));
     }
 
+    public function test_author_cannot_trigger_editorial_transition_on_submitted_submission(): void
+    {
+        $submission = $this->makeSubmission(SubmissionStatus::Submitted);
+        $author = User::find($submission->author_id);
+
+        // Author cannot promote their own submission past the editorial gate
+        $this->assertFalse($this->policy->transitionTo($author, $submission, SubmissionStatus::UnderInitialReview));
+        $this->assertFalse($this->policy->transitionTo($author, $submission, SubmissionStatus::Rejected));
+    }
+
     public function test_editor_can_reject_from_under_initial_review(): void
     {
         $editor = User::factory()->create(['email_verified_at' => now()]);

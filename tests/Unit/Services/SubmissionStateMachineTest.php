@@ -100,7 +100,7 @@ class SubmissionStateMachineTest extends TestCase
         $actor = User::factory()->create(['email_verified_at' => now()]);
 
         $this->expectException(IllegalTransitionException::class);
-        $this->sm->transition($submission, SubmissionStatus::Submitted, $actor);
+        $this->sm->transition($submission, SubmissionStatus::Published, $actor);
     }
 
     public function test_can_transition_returns_bool(): void
