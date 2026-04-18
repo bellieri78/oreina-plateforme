@@ -181,6 +181,8 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
         ->name('journal.submissions.assign-editor');
     Route::post('revue/soumissions/{submission}/assign-layout-editor', [\App\Http\Controllers\Admin\Journal\EditorialQueueController::class, 'assignLayoutEditor'])
         ->name('journal.submissions.assign-layout-editor');
+    Route::get('revue/file-lepis', [\App\Http\Controllers\Admin\Journal\LepisQueueController::class, 'index'])
+        ->name('journal.lepis-queue');
 
     // Documentation
     Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
