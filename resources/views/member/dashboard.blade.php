@@ -453,7 +453,9 @@
                         @endif
                     </div>
                     <div>
-                        <strong>{{ $sub->title }}</strong>
+                        <a href="{{ route('journal.submissions.show', $sub) }}" class="text-link">
+                            <strong>{{ $sub->title }}</strong>
+                        </a>
                         <p>
                             @if($sub->doi)DOI : {{ $sub->doi }} · @endif
                             Soumis le {{ $sub->created_at->format('d/m/Y') }}
