@@ -228,4 +228,91 @@ class SubmissionController extends Controller
         return redirect()->route('journal.submissions.show', $submission)
             ->with('success', 'Votre manuscrit révisé a été soumis avec succès.');
     }
+
+    /**
+     * Author approves the layout for final publication
+     */
+    public function approve(
+        Submission $submission,
+        \App\Services\SubmissionStateMachine $stateMachine,
+    ) {
+        if ($submission->author_id !== Auth::id()) {
+            abort(403, 'Vous n\'êtes pas autorisé à approuver cette soumission.');
+        }
+
+        if ($submission->status !== SubmissionStatus::AwaitingAuthorApproval) {
+            return redirect()->route('journal.submissions.show', $submission)
+                ->with('error', 'Cette soumission ne peut pas être approuvée actuellement.');
+        }
+
+        try {
+            $stateMachine->transition(
+                $submission,
+                SubmissionStatus::Published,
+                Auth::user(),
+                notes: 'Approbation auteur',
+            );
+        } catch (\App\Exceptions\Editorial\IllegalTransitionException $e) {
+            return redirect()->route('journal.submissions.show', $submission)
+                ->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('journal.submissions.show', $submission)
+            ->with('success', 'Merci ! Votre article va maintenant être publié.');
+    }
+
+    /**
+     * Author requests corrections on the layout
+     */
+    public function requestCorrections(
+        Request $request,
+        Submission $submission,
+        \App\Services\SubmissionStateMachine $stateMachine,
+    ) {
+        if ($submission->author_id !== Auth::id()) {
+            abort(403, 'Vous n\'êtes pas autorisé à agir sur cette soumission.');
+        }
+
+        if ($submission->status !== SubmissionStatus::AwaitingAuthorApproval) {
+            return redirect()->route('journal.submissions.show', $submission)
+                ->with('error', 'Cette soumission ne peut pas recevoir de corrections actuellement.');
+        }
+
+        $validated = $request->validate([
+            'comment' => 'required|string|min:20|max:5000',
+        ], [
+            'comment.required' => 'Merci de préciser les corrections souhaitées.',
+            'comment.min' => 'Merci de fournir au moins 20 caractères pour décrire les corrections.',
+        ]);
+
+        try {
+            $stateMachine->transition(
+                $submission,
+                SubmissionStatus::InProduction,
+                Auth::user(),
+                notes: $validated['comment'],
+            );
+        } catch (\App\Exceptions\Editorial\IllegalTransitionException $e) {
+            return redirect()->route('journal.submissions.show', $submission)
+                ->with('error', $e->getMessage());
+        }
+
+        // Notifier éditeur + maquettiste
+        $submission->load(['editor', 'layoutEditor']);
+        $recipients = collect();
+        if ($submission->editor) {
+            $recipients->push($submission->editor);
+        }
+        if ($submission->layoutEditor) {
+            $recipients->push($submission->layoutEditor);
+        }
+        $recipients = $recipients->filter()->unique('id');
+
+        foreach ($recipients as $user) {
+            Mail::to($user)->queue(new \App\Mail\AuthorRequestedCorrections($submission, $validated['comment']));
+        }
+
+        return redirect()->route('journal.submissions.show', $submission)
+            ->with('success', 'Vos demandes de corrections ont été transmises à l\'équipe éditoriale.');
+    }
 }

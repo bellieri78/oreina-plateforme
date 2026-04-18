@@ -47,6 +47,9 @@ Route::prefix('mes-soumissions')->name('submissions.')->middleware(['auth', 'ver
     Route::get('/{submission}/revision', [SubmissionController::class, 'edit'])->name('edit');
     Route::put('/{submission}', [SubmissionController::class, 'update'])->name('update');
 
+    Route::post('/{submission}/approuver', [SubmissionController::class, 'approve'])->name('approve');
+    Route::post('/{submission}/signaler-corrections', [SubmissionController::class, 'requestCorrections'])->name('request-corrections');
+
     Route::get('/{submission}/fichier/{path}', [SubmissionFileController::class, 'download'])
         ->where('path', '.*')
         ->name('file.download');
