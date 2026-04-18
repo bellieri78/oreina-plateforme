@@ -13,6 +13,7 @@ use App\Rules\SafeUpload;
 use App\Services\SubmissionFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -297,6 +298,10 @@ class SubmissionController extends Controller
                 ->with('error', $e->getMessage());
         }
 
+        // Mail dispatched here (not in the state machine) because the validated
+        // comment is not threaded through the transition notes and we want the
+        // full text in the email body.
+
         // Notifier éditeur + maquettiste
         $submission->load(['editor', 'layoutEditor']);
         $recipients = collect();
@@ -306,10 +311,19 @@ class SubmissionController extends Controller
         if ($submission->layoutEditor) {
             $recipients->push($submission->layoutEditor);
         }
-        $recipients = $recipients->filter()->unique('id');
+        $recipients = $recipients->unique('id');
 
-        foreach ($recipients as $user) {
-            Mail::to($user)->queue(new \App\Mail\AuthorRequestedCorrections($submission, $validated['comment']));
+        try {
+            foreach ($recipients as $user) {
+                Mail::to($user)->queue(new \App\Mail\AuthorRequestedCorrections($submission, $validated['comment']));
+            }
+        } catch (\Throwable $e) {
+            Log::error('Failed to queue corrections mail', [
+                'submission_id' => $submission->id,
+                'error' => $e->getMessage(),
+            ]);
+            // Do not re-throw: the state transition succeeded; the author's action completed.
+            // Notifying editors is a best-effort side effect.
         }
 
         return redirect()->route('journal.submissions.show', $submission)

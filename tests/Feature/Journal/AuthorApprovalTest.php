@@ -108,4 +108,18 @@ class AuthorApprovalTest extends TestCase
             ->assertRedirect()
             ->assertSessionHas('error');
     }
+
+    public function test_non_author_cannot_request_corrections(): void
+    {
+        $author = User::factory()->create();
+        $intruder = User::factory()->create();
+
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval, $author);
+
+        $this->actingAs($intruder)
+            ->post(route('journal.submissions.request-corrections', $submission), [
+                'comment' => 'Un imposteur essaie de demander des corrections sans droits.',
+            ])
+            ->assertForbidden();
+    }
 }
