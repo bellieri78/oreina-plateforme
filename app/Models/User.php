@@ -30,6 +30,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'role',
         'is_active',
+        'invited_at',
+        'claimed_at',
+        'invited_by_user_id',
     ];
 
     protected $hidden = [
@@ -43,6 +46,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'invited_at' => 'datetime',
+            'claimed_at' => 'datetime',
         ];
     }
 
@@ -275,5 +280,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeEditors($query)
     {
         return $query->whereIn('role', [self::ROLE_EDITOR, self::ROLE_ADMIN]);
+    }
+
+    // ===== GHOST USERS (invitation flow) =====
+
+    public function invitedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'invited_by_user_id');
+    }
+
+    public function scopeGhost($query)
+    {
+        return $query->whereNull('password')
+                     ->whereNotNull('invited_at')
+                     ->whereNull('claimed_at');
+    }
+
+    public function scopeClaimed($query)
+    {
+        return $query->whereNotNull('claimed_at');
+    }
+
+    public function isGhost(): bool
+    {
+        return $this->password === null
+            && $this->invited_at !== null
+            && $this->claimed_at === null;
     }
 }
