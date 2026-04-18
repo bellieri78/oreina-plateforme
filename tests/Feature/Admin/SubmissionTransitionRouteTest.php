@@ -110,4 +110,75 @@ class SubmissionTransitionRouteTest extends TestCase
             ])
             ->assertSessionHasErrors('target_status');
     }
+
+    private function makeSubmissionInProduction(User $author, User $editor): Submission
+    {
+        return Submission::create([
+            'author_id'       => $author->id,
+            'editor_id'       => $editor->id,
+            'title'           => 'Titre test maquettage',
+            'abstract'        => str_repeat('b', 120),
+            'manuscript_file' => 'dummy.docx',
+            'status'          => SubmissionStatus::InProduction->value,
+        ]);
+    }
+
+    private function makeSubmissionAwaitingAuthorApproval(User $author, User $editor): Submission
+    {
+        return Submission::create([
+            'author_id'       => $author->id,
+            'editor_id'       => $editor->id,
+            'title'           => 'Titre test approbation',
+            'abstract'        => str_repeat('c', 120),
+            'manuscript_file' => 'dummy.docx',
+            'status'          => SubmissionStatus::AwaitingAuthorApproval->value,
+        ]);
+    }
+
+    public function test_editor_can_request_author_approval_and_mail_is_sent(): void
+    {
+        \Illuminate\Support\Facades\Mail::fake();
+
+        $editor = $this->makeEditor();
+        $author = User::factory()->create(['email_verified_at' => now()]);
+
+        $submission = $this->makeSubmissionInProduction($author, $editor);
+
+        $this->actingAs($editor)
+            ->post(route('admin.journal.submissions.transition', $submission), [
+                'target_status' => SubmissionStatus::AwaitingAuthorApproval->value,
+            ])
+            ->assertRedirect();
+
+        $submission->refresh();
+        $this->assertSame(SubmissionStatus::AwaitingAuthorApproval, $submission->status);
+        $this->assertNotNull($submission->author_approval_requested_at);
+
+        \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\AuthorApprovalRequested::class);
+    }
+
+    public function test_author_approval_to_published_sends_notification_to_editorial_team(): void
+    {
+        \Illuminate\Support\Facades\Mail::fake();
+
+        $author = User::factory()->create(['email_verified_at' => now()]);
+        $editor = $this->makeEditor();
+        $chiefEditor = User::factory()->create(['email_verified_at' => now(), 'role' => 'editor']);
+        $chiefEditor->grantCapability(EditorialCapability::CHIEF_EDITOR);
+
+        $submission = $this->makeSubmissionAwaitingAuthorApproval($author, $editor);
+
+        // The policy allows the author to publish when status is awaiting_author_approval
+        app(\App\Services\SubmissionStateMachine::class)->transition(
+            $submission,
+            SubmissionStatus::Published,
+            $author,
+        );
+
+        $submission->refresh();
+        $this->assertSame(SubmissionStatus::Published, $submission->status);
+        $this->assertNotNull($submission->author_approved_at);
+
+        \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\AuthorApproved::class);
+    }
 }
