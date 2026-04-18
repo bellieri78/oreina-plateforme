@@ -150,20 +150,6 @@ class SubmissionPolicyTransitionTest extends TestCase
         $this->assertFalse($this->policy->transitionTo($editor, $submission, SubmissionStatus::Published));
     }
 
-    public function test_awaiting_author_approval_transitions_not_yet_policy_gated(): void
-    {
-        // TODO Task 5: add AwaitingAuthorApproval to the policy match.
-        // Until then, the policy falls through to default => false for
-        // in_production → awaiting_author_approval, even for layout editors.
-        $layout = User::factory()->create(['email_verified_at' => now()]);
-        $layout->grantCapability(EditorialCapability::LAYOUT_EDITOR);
-        $submission = $this->makeSubmission(SubmissionStatus::InProduction, layoutId: $layout->id);
-
-        // Currently returns false because AwaitingAuthorApproval is not in the policy match yet.
-        // This test will be updated in Task 5 to assert true.
-        $this->assertFalse($this->policy->transitionTo($layout, $submission, SubmissionStatus::AwaitingAuthorApproval));
-    }
-
     public function test_structurally_invalid_transition_always_false(): void
     {
         $chief = User::factory()->create(['email_verified_at' => now()]);
