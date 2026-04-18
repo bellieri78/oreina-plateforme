@@ -11,6 +11,7 @@ class Submission extends Model
 {
     protected $fillable = [
         'author_id',
+        'submitted_by_user_id',
         'journal_issue_id',
         'title',
         'title_en',
@@ -110,6 +111,17 @@ class Submission extends Model
     public function layoutEditor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'layout_editor_id');
+    }
+
+    public function submittedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'submitted_by_user_id');
+    }
+
+    public function wasSubmittedOnBehalf(): bool
+    {
+        return $this->submitted_by_user_id !== null
+            && $this->submitted_by_user_id !== $this->author_id;
     }
 
     public function journalIssue(): BelongsTo

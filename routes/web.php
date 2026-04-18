@@ -177,4 +177,19 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
+/*
+|--------------------------------------------------------------------------
+| Claim Account Routes (Signed URL — invitation auteur Chersotis)
+|--------------------------------------------------------------------------
+*/
+
+use App\Http\Controllers\Auth\ClaimAccountController;
+
+Route::middleware('signed')->group(function () {
+    Route::get('/claim-account/{user}', [ClaimAccountController::class, 'show'])
+        ->name('account.claim');
+    Route::post('/claim-account/{user}', [ClaimAccountController::class, 'store'])
+        ->name('account.claim.store');
+});
+
 require __DIR__.'/admin.php';

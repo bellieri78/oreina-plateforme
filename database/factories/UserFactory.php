@@ -29,6 +29,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'claimed_at' => now(),
         ];
     }
 
@@ -39,6 +40,25 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function ghost(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'password' => null,
+            'email_verified_at' => null,
+            'invited_at' => now(),
+            'claimed_at' => null,
+        ]);
+    }
+
+    public function claimed(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'password' => static::$password ??= \Illuminate\Support\Facades\Hash::make('password'),
+            'claimed_at' => now(),
+            'email_verified_at' => now(),
         ]);
     }
 }
