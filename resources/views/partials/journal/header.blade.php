@@ -7,7 +7,7 @@
                 <span style="display:none;font-weight:900;">O</span>
             </a>
             <a href="{{ route('journal.home') }}" class="brand-text">
-                <strong>CHERSOTIS</strong>
+                <strong>Chersotis</strong>
                 <span>Revue scientifique OREINA</span>
             </a>
         </div>

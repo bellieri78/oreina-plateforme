@@ -38,7 +38,6 @@ class SubmissionStateMachineTest extends TestCase
     public static function validTransitions(): array
     {
         return [
-            ['draft', 'submitted'],
             ['submitted', 'under_initial_review'],
             ['submitted', 'rejected'],
             ['under_initial_review', 'revision_requested'],
@@ -52,7 +51,9 @@ class SubmissionStateMachineTest extends TestCase
             ['revision_after_review', 'accepted'],
             ['revision_after_review', 'rejected'],
             ['accepted', 'in_production'],
-            ['in_production', 'published'],
+            ['in_production', 'awaiting_author_approval'],
+            ['awaiting_author_approval', 'published'],
+            ['awaiting_author_approval', 'in_production'],
         ];
     }
 
@@ -101,13 +102,13 @@ class SubmissionStateMachineTest extends TestCase
         $actor = User::factory()->create(['email_verified_at' => now()]);
 
         $this->expectException(IllegalTransitionException::class);
-        $this->sm->transition($submission, SubmissionStatus::Draft, $actor);
+        $this->sm->transition($submission, SubmissionStatus::Published, $actor);
     }
 
     public function test_can_transition_returns_bool(): void
     {
-        $this->assertTrue($this->sm->canTransition(SubmissionStatus::Draft, SubmissionStatus::Submitted));
-        $this->assertFalse($this->sm->canTransition(SubmissionStatus::Draft, SubmissionStatus::Published));
+        $this->assertTrue($this->sm->canTransition(SubmissionStatus::Submitted, SubmissionStatus::UnderInitialReview));
+        $this->assertFalse($this->sm->canTransition(SubmissionStatus::Submitted, SubmissionStatus::Published));
     }
 
     public function test_allowed_next_statuses_returns_enum_array(): void
@@ -131,5 +132,32 @@ class SubmissionStateMachineTest extends TestCase
 
         $this->expectException(IllegalTransitionException::class);
         $this->sm->transition($submission, SubmissionStatus::UnderInitialReview, $actor);
+    }
+
+    public function test_in_production_can_transition_to_awaiting_author_approval(): void
+    {
+        $submission = $this->makeSubmission(SubmissionStatus::InProduction);
+        $actor = User::factory()->create(['email_verified_at' => now()]);
+
+        $this->sm->transition($submission, SubmissionStatus::AwaitingAuthorApproval, $actor);
+        $this->assertSame(SubmissionStatus::AwaitingAuthorApproval, $submission->fresh()->status);
+    }
+
+    public function test_awaiting_author_approval_can_transition_to_published(): void
+    {
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval);
+        $actor = User::factory()->create(['email_verified_at' => now()]);
+
+        $this->sm->transition($submission, SubmissionStatus::Published, $actor);
+        $this->assertSame(SubmissionStatus::Published, $submission->fresh()->status);
+    }
+
+    public function test_awaiting_author_approval_can_transition_back_to_in_production(): void
+    {
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval);
+        $actor = User::factory()->create(['email_verified_at' => now()]);
+
+        $this->sm->transition($submission, SubmissionStatus::InProduction, $actor, notes: 'Corrections demandées');
+        $this->assertSame(SubmissionStatus::InProduction, $submission->fresh()->status);
     }
 }

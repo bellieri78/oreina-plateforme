@@ -147,4 +147,21 @@ class AuthorDashboardTest extends TestCase
 
         $this->assertStringNotContainsString('Action requise', $response->getContent());
     }
+
+    public function test_author_approval_fields_are_cast_to_datetime(): void
+    {
+        $author = User::factory()->create(['email_verified_at' => now()]);
+        $submission = Submission::create([
+            'author_id' => $author->id,
+            'title' => 'Test approval fields',
+            'abstract' => str_repeat('x', 150),
+            'manuscript_file' => 'dummy.pdf',
+            'status' => SubmissionStatus::AwaitingAuthorApproval,
+            'author_approval_requested_at' => now(),
+        ]);
+
+        $fresh = $submission->fresh();
+        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $fresh->author_approval_requested_at);
+        $this->assertNull($fresh->author_approved_at);
+    }
 }

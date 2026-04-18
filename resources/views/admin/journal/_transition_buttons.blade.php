@@ -13,6 +13,7 @@
         'red'     => 'background:#dc2626;color:#fff;',
         'teal'    => 'background:#0d9488;color:#fff;',
         'emerald' => 'background:#059669;color:#fff;',
+        'purple'  => 'background:#7c3aed;color:#fff;',
     ];
 
     $candidates = [
@@ -22,8 +23,9 @@
         ['target' => SubmissionStatus::RevisionAfterReview,  'label' => 'Demander révision (relecture)',  'color' => 'orange', 'needsNotes' => true,  'notesRequired' => false],
         ['target' => SubmissionStatus::Accepted,             'label' => 'Accepter',                       'color' => 'green',  'needsNotes' => false, 'notesRequired' => false],
         ['target' => SubmissionStatus::Rejected,             'label' => 'Rejeter',                        'color' => 'red',    'needsNotes' => true,  'notesRequired' => true, 'showLepis' => true],
-        ['target' => SubmissionStatus::InProduction,         'label' => 'Passer en maquettage',           'color' => 'teal',   'needsNotes' => false, 'notesRequired' => false],
-        ['target' => SubmissionStatus::Published,            'label' => 'Publier',                        'color' => 'emerald','needsNotes' => false, 'notesRequired' => false],
+        ['target' => SubmissionStatus::InProduction,            'label' => 'Passer en maquettage',                      'color' => 'teal',   'needsNotes' => false, 'notesRequired' => false],
+        ['target' => SubmissionStatus::AwaitingAuthorApproval, 'label' => 'Envoyer à l\'auteur pour approbation',       'color' => 'purple', 'needsNotes' => false, 'notesRequired' => false],
+        ['target' => SubmissionStatus::Published,              'label' => 'Publier',                                   'color' => 'emerald','needsNotes' => false, 'notesRequired' => false],
     ];
 
     $actions = array_values(array_filter($candidates, fn($c) => $policy->transitionTo($user, $submission, $c['target'])));

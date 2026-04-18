@@ -21,7 +21,24 @@
             </div>
 
             {{-- Form --}}
-            <form action="{{ route('journal.submissions.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+            <div x-data="{
+                showConfirm: false,
+                summary: { title: '', coAuthorsCount: 0, manuscriptName: '', suppCount: 0 },
+                openConfirm() {
+                    const form = this.$refs.formEl;
+                    if (!form.reportValidity()) {
+                        return; // Native browser UI shows the validation errors; modal stays closed.
+                    }
+                    this.summary.title = this.$refs.titleInput.value || '(titre non renseigné)';
+                    this.summary.coAuthorsCount = form.querySelectorAll('[name^=\'co_authors\'][name$=\'[name]\']').length;
+                    const manuscriptInput = form.querySelector('[name=manuscript_file]');
+                    this.summary.manuscriptName = manuscriptInput?.files?.[0]?.name || '(aucun fichier sélectionné)';
+                    const suppInput = form.querySelector('[name=\'supplementary_files[]\']');
+                    this.summary.suppCount = suppInput?.files?.length || 0;
+                    this.showConfirm = true;
+                }
+            }">
+            <form x-ref="formEl" action="{{ route('journal.submissions.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
 
                 {{-- Article Info --}}
@@ -36,7 +53,7 @@
                             <label for="title" class="block text-sm font-bold text-oreina-dark mb-2">
                                 Titre de l'article <span class="text-red-500">*</span>
                             </label>
-                            <input type="text" id="title" name="title" value="{{ old('title') }}" required
+                            <input x-ref="titleInput" type="text" id="title" name="title" value="{{ old('title') }}" required
                                    class="w-full px-4 py-3 bg-slate-50 border-2 border-oreina-beige/30 rounded-xl focus:ring-2 focus:ring-oreina-turquoise focus:border-oreina-turquoise transition"
                                    placeholder="Titre complet de votre article">
                             @error('title')
@@ -100,7 +117,7 @@
 
                     <div>
                         <label for="manuscript_file" class="block text-sm font-bold text-oreina-dark mb-2">
-                            Fichier Word (.doc / .docx) <span class="text-red-500">*</span>
+                            Manuscrit (.doc, .docx, .odt) <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-2">
                             <label for="manuscript_file" class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-oreina-beige/50 rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition">
@@ -111,15 +128,15 @@
                                     <p class="mb-2 text-sm text-slate-500">
                                         <span class="font-semibold">Cliquez pour télécharger</span> ou glissez-déposez
                                     </p>
-                                    <p class="text-xs text-slate-500">Word .doc ou .docx uniquement (max. 50 Mo)</p>
+                                    <p class="text-xs text-slate-500">Formats acceptés : .doc, .docx, .odt (max. 30 Mo)</p>
                                 </div>
                                 <input id="manuscript_file" name="manuscript_file" type="file" class="hidden"
-                                       accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                       accept=".doc,.docx,.odt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text"
                                        required>
                             </label>
                             <p id="file-name" class="mt-2 text-sm text-oreina-turquoise hidden"></p>
                             <p class="mt-2 text-xs text-slate-500">
-                                Les images doivent être intégrées directement dans le document Word.
+                                Les images doivent être intégrées directement dans le document.
                                 Les tableaux volumineux et annexes lourdes doivent être fournis dans des fichiers supplémentaires séparés.
                             </p>
                         </div>
@@ -177,7 +194,7 @@
                     <a href="{{ route('journal.submissions.index') }}" class="px-6 py-3 text-slate-600 font-semibold hover:bg-slate-100 rounded-xl transition">
                         Annuler
                     </a>
-                    <button type="submit" class="btn-turquoise px-8 py-3">
+                    <button type="button" @click="openConfirm()" class="btn-turquoise px-8 py-3">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="m22 2-7 20-4-9-9-4z"/>
                         </svg>
@@ -185,6 +202,69 @@
                     </button>
                 </div>
             </form>
+
+            {{-- Pre-submission confirmation modal --}}
+            <template x-teleport="body">
+                <div x-show="showConfirm"
+                     x-cloak
+                     x-transition
+                     @keydown.escape.window="showConfirm = false"
+                     style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+                    <div @click.outside="showConfirm = false"
+                         role="dialog"
+                         aria-modal="true"
+                         aria-labelledby="pre-submission-modal-title"
+                         style="background:#fff;border-radius:12px;max-width:36rem;width:90%;padding:28px;box-shadow:0 25px 50px rgba(0,0,0,0.25);">
+                        <h3 id="pre-submission-modal-title" style="margin:0 0 8px 0;font-size:1.25rem;font-weight:700;">
+                            Confirmer la soumission
+                        </h3>
+                        <p style="margin:0 0 20px 0;color:#6b7280;font-size:0.875rem;">
+                            Vérifiez le récapitulatif et la checklist avant de soumettre.
+                            Une fois envoyé, l'article ne peut pas être repris en brouillon.
+                        </p>
+
+                        <div style="background:#f9fafb;border-radius:8px;padding:16px;margin-bottom:20px;">
+                            <h4 style="margin:0 0 8px 0;font-size:0.875rem;font-weight:600;text-transform:uppercase;color:#6b7280;">
+                                Récapitulatif
+                            </h4>
+                            <dl style="margin:0;font-size:0.875rem;">
+                                <dt style="display:inline;font-weight:500;">Titre :</dt>
+                                <dd style="display:inline;margin-left:4px;" x-text="summary.title"></dd><br>
+                                <dt style="display:inline;font-weight:500;">Co-auteurs :</dt>
+                                <dd style="display:inline;margin-left:4px;" x-text="summary.coAuthorsCount"></dd><br>
+                                <dt style="display:inline;font-weight:500;">Manuscrit :</dt>
+                                <dd style="display:inline;margin-left:4px;" x-text="summary.manuscriptName"></dd><br>
+                                <dt style="display:inline;font-weight:500;">Fichiers supplémentaires :</dt>
+                                <dd style="display:inline;margin-left:4px;" x-text="summary.suppCount"></dd>
+                            </dl>
+                        </div>
+
+                        <div style="margin-bottom:20px;">
+                            <h4 style="margin:0 0 8px 0;font-size:0.875rem;font-weight:600;text-transform:uppercase;color:#6b7280;">
+                                Checklist
+                            </h4>
+                            <ul style="margin:0;padding-left:20px;font-size:0.875rem;list-style:none;">
+                                <li style="margin-bottom:6px;">✓ Mon manuscrit est au format Word (.doc / .docx / .odt)</li>
+                                <li style="margin-bottom:6px;">✓ Les images et figures sont intégrées dans le document au bon emplacement</li>
+                                <li style="margin-bottom:6px;">✓ Les tableaux volumineux sont fournis en fichiers supplémentaires Excel si nécessaire</li>
+                                <li style="margin-bottom:6px;color:#d97706;">⚠ Une fois soumis, l'article ne peut pas être repris en brouillon</li>
+                            </ul>
+                        </div>
+
+                        <div style="display:flex;justify-content:flex-end;gap:8px;">
+                            <button type="button" @click="showConfirm = false"
+                                    style="padding:10px 20px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;">
+                                Retour au formulaire
+                            </button>
+                            <button type="button" @click="$refs.formEl.submit()"
+                                    style="background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:500;">
+                                Confirmer la soumission
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            </div>{{-- end Alpine x-data wrapper --}}
         </div>
     </div>
 

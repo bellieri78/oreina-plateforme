@@ -19,13 +19,14 @@
                     <div class="flex-1">
                         @php
                             $statusColors = [
-                                'draft' => 'bg-slate-100 text-slate-700',
                                 'submitted' => 'bg-blue-100 text-blue-700',
                                 'under_initial_review' => 'bg-yellow-100 text-yellow-700',
                                 'under_peer_review' => 'bg-purple-100 text-purple-700',
                                 'revision_after_review' => 'bg-orange-100 text-orange-700',
                                 'accepted' => 'bg-green-100 text-green-700',
                                 'rejected' => 'bg-red-100 text-red-700',
+                                'in_production' => 'bg-slate-100 text-slate-700',
+                                'awaiting_author_approval' => 'bg-violet-100 text-violet-700',
                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                             ];
                             $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
@@ -81,17 +82,18 @@
                             ['label' => 'Relecture',     'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'],
                             ['label' => 'Décision',      'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
                             ['label' => 'Maquettage',    'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'],
+                            ['label' => 'Approbation',   'icon' => 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'],
                             ['label' => 'Publié',        'icon' => 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
                         ];
 
                         $timelineIndex = match($submissionStatusValue) {
-                            'draft' => -1,
                             'submitted' => 0,
                             'under_initial_review', 'revision_requested' => 1,
                             'under_peer_review', 'revision_after_review' => 2,
                             'accepted', 'rejected' => 3,
                             'in_production' => 4,
-                            'published' => 5,
+                            'awaiting_author_approval' => 5,
+                            'published' => 6,
                             default => 0,
                         };
 
@@ -174,6 +176,95 @@
                     </div>
                 @endif
 
+                {{-- Bloc approbation auteur --}}
+                @if($submission->status === \App\Enums\SubmissionStatus::AwaitingAuthorApproval && $submission->author_id === auth()->id())
+                    <div x-data="{ showCorrections: false }"
+                         style="border:2px solid #7c3aed;background:#faf5ff;border-radius:12px;padding:24px;margin:24px 0;">
+                        <h2 style="margin:0 0 8px 0;color:#6d28d9;font-size:1.25rem;font-weight:700;">
+                            Votre article est prêt pour publication
+                        </h2>
+                        <p style="margin:0 0 16px 0;color:#4c1d95;">
+                            L'équipe éditoriale a finalisé la maquette de votre article.
+                            Consultez le PDF ci-dessous, puis donnez votre accord pour publication
+                            ou signalez les corrections nécessaires.
+                        </p>
+
+                        @if($submission->pdf_file)
+                            <p style="margin:0 0 16px 0;">
+                                <a href="{{ \Illuminate\Support\Facades\Storage::url($submission->pdf_file) }}"
+                                   target="_blank"
+                                   style="color:#7c3aed;text-decoration:underline;font-weight:500;">
+                                    → Voir le PDF maquetté
+                                </a>
+                            </p>
+                        @else
+                            <p style="margin:0 0 16px 0;color:#991b1b;">
+                                PDF non disponible — contactez le comité éditorial.
+                            </p>
+                        @endif
+
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <form method="POST" action="{{ route('journal.submissions.approve', $submission) }}"
+                                  onsubmit="return confirm('Confirmer l\'approbation pour publication ? Cette action est définitive.');"
+                                  style="margin:0;">
+                                @csrf
+                                <button type="submit"
+                                        style="background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;border:none;font-weight:500;cursor:pointer;">
+                                    ✓ Approuver pour publication
+                                </button>
+                            </form>
+
+                            <button type="button" @click="showCorrections = true"
+                                    style="background:#fff;color:#7c3aed;border:1px solid #7c3aed;padding:10px 20px;border-radius:8px;font-weight:500;cursor:pointer;">
+                                Signaler des corrections
+                            </button>
+                        </div>
+
+                        {{-- Modale corrections --}}
+                        <template x-teleport="body">
+                            <div x-show="showCorrections"
+                                 x-cloak
+                                 x-transition
+                                 @keydown.escape.window="showCorrections = false"
+                                 style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+                                <div @click.outside="showCorrections = false"
+                                     role="dialog"
+                                     aria-modal="true"
+                                     aria-labelledby="corrections-modal-title"
+                                     style="background:#fff;border-radius:12px;max-width:32rem;width:90%;padding:24px;box-shadow:0 25px 50px rgba(0,0,0,0.25);">
+                                    <h3 id="corrections-modal-title" style="margin:0 0 12px 0;font-size:1.1rem;font-weight:700;">
+                                        Signaler des corrections
+                                    </h3>
+                                    <p style="margin:0 0 12px 0;color:#6b7280;font-size:0.875rem;">
+                                        Décrivez précisément les corrections souhaitées (minimum 20 caractères).
+                                        L'équipe maquette les intègre puis vous renvoie la version corrigée pour approbation.
+                                    </p>
+                                    <form method="POST" action="{{ route('journal.submissions.request-corrections', $submission) }}">
+                                        @csrf
+                                        <label for="corrections-comment" class="sr-only">Corrections souhaitées</label>
+                                        <textarea id="corrections-comment" name="comment" rows="6" required minlength="20" maxlength="5000"
+                                                  placeholder="Ex. : Figure 3, légendes a et b inversées. Paragraphe 2 de la discussion, première phrase à reformuler..."
+                                                  style="width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px;font-size:0.875rem;margin-bottom:16px;resize:vertical;"></textarea>
+                                        @error('comment')
+                                            <p style="color:#dc2626;font-size:0.875rem;margin:-8px 0 12px 0;">{{ $message }}</p>
+                                        @enderror
+                                        <div style="display:flex;justify-content:flex-end;gap:8px;">
+                                            <button type="button" @click="showCorrections = false"
+                                                    style="padding:8px 16px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;">
+                                                Annuler
+                                            </button>
+                                            <button type="submit"
+                                                    style="background:#7c3aed;color:#fff;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;">
+                                                Envoyer les corrections
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                @endif
+
                 {{-- Journal d'activité --}}
                 @if($submission->transitions && $submission->transitions->isNotEmpty())
                     <div class="bg-white rounded-2xl border border-oreina-beige/50 p-6">
@@ -193,6 +284,9 @@
                                 'revision_after_review → accepted'         => 'Votre manuscrit a été accepté pour publication',
                                 'revision_after_review → rejected'         => 'Votre manuscrit n\'a pas été retenu',
                                 'accepted → in_production'                 => 'Votre article est en cours de maquettage',
+                                'in_production → awaiting_author_approval' => 'Envoyé à l\'auteur pour approbation',
+                                'awaiting_author_approval → published'     => 'Approbation auteur — article publié',
+                                'awaiting_author_approval → in_production' => 'Corrections demandées par l\'auteur',
                                 'in_production → published'                => 'Votre article est publié !',
                             ];
                         @endphp

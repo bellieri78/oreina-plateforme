@@ -109,6 +109,23 @@ class SafeUploadTest extends TestCase
         $this->assertFalse($v->passes());
     }
 
+    public function test_odt_file_is_accepted_by_manuscript_preset(): void
+    {
+        $rule = new SafeUpload(
+            allowedMimes: config('journal.uploads.manuscript.mimes'),
+            allowedExts:  config('journal.uploads.manuscript.exts'),
+            maxSizeKb:    config('journal.uploads.manuscript.max_kb'),
+        );
+
+        $path = tempnam(sys_get_temp_dir(), 'odt_');
+        $this->makeFakeOdt($path);
+
+        $file = new UploadedFile($path, 'manuscript.odt', 'application/vnd.oasis.opendocument.text', null, true);
+
+        $v = Validator::make(['manuscript_file' => $file], ['manuscript_file' => ['file', $rule]]);
+        $this->assertTrue($v->passes(), json_encode($v->errors()->toArray()));
+    }
+
     private function makeFakeOoxml(string $path, string $needle): void
     {
         $zip = new ZipArchive();
@@ -120,6 +137,17 @@ class SafeUploadTest extends TestCase
     <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.' . $needle . '.document"/>
 </Types>'
         );
+        $zip->close();
+    }
+
+    private function makeFakeOdt(string $path): void
+    {
+        // ODT is a ZIP container with a mimetype entry (must be first, uncompressed)
+        $zip = new ZipArchive();
+        $zip->open($path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $zip->addFromString('mimetype', 'application/vnd.oasis.opendocument.text');
+        $zip->setCompressionName('mimetype', ZipArchive::CM_STORE);
+        $zip->addFromString('content.xml', '<?xml version="1.0" encoding="UTF-8"?><office:document-content xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"/>');
         $zip->close();
     }
 }

@@ -99,6 +99,10 @@ class SubmissionPolicy
             return false;
         }
 
+        $editorialLayoutTeam = $user->isAdmin()
+            || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+            || $submission->layout_editor_id === $user->id;
+
         return match ($target) {
             SubmissionStatus::Submitted => $user->id === $submission->author_id,
 
@@ -126,11 +130,17 @@ class SubmissionPolicy
                 || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
                 || $submission->editor_id === $user->id,
 
-            SubmissionStatus::InProduction,
-            SubmissionStatus::Published =>
+            SubmissionStatus::AwaitingAuthorApproval =>
                 $user->isAdmin()
                 || $user->hasCapability(EditorialCapability::CHIEF_EDITOR)
+                || $submission->editor_id === $user->id
                 || $submission->layout_editor_id === $user->id,
+
+            SubmissionStatus::Published,
+            SubmissionStatus::InProduction =>
+                $current === SubmissionStatus::AwaitingAuthorApproval
+                    ? $user->id === $submission->author_id
+                    : $editorialLayoutTeam,
 
             default => false,
         };

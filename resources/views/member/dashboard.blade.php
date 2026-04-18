@@ -453,7 +453,9 @@
                         @endif
                     </div>
                     <div>
-                        <strong>{{ $sub->title }}</strong>
+                        <a href="{{ route('journal.submissions.show', $sub) }}" class="text-link">
+                            <strong>{{ $sub->title }}</strong>
+                        </a>
                         <p>
                             @if($sub->doi)DOI : {{ $sub->doi }} · @endif
                             Soumis le {{ $sub->created_at->format('d/m/Y') }}
@@ -462,7 +464,6 @@
                     <div>
                         @php
                             $statusLabels = [
-                                'draft' => ['Brouillon', 'blue'],
                                 'submitted' => ['Soumis', 'blue'],
                                 'under_initial_review' => ['Évaluation initiale', 'gold'],
                                 'revision_requested' => ['Révision demandée', 'coral'],
@@ -470,6 +471,7 @@
                                 'revision_after_review' => ['Révision demandée', 'coral'],
                                 'accepted' => ['Accepté', 'sage'],
                                 'in_production' => ['En maquettage', 'blue'],
+                                'awaiting_author_approval' => ['Approbation demandée', 'approval'],
                                 'rejected' => ['Refusé', 'coral'],
                                 'published' => ['Publié', 'sage'],
                             ];

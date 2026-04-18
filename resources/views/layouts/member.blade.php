@@ -711,6 +711,17 @@
         .status.gold { background: rgba(237,196,66,0.20); color: #8b6c05; }
         .status.blue { background: rgba(53,107,138,0.10); color: var(--blue); }
         .status.sage { background: rgba(133,183,157,0.18); color: #2f694e; }
+        .status.coral { background: rgba(234,88,12,0.12); color: #c2410c; }
+        .status.approval {
+            background: #7c3aed;
+            color: #fff;
+            box-shadow: 0 0 0 0 rgba(124,58,237,0.6);
+            animation: approvalPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes approvalPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.55); }
+            50%      { box-shadow: 0 0 0 8px rgba(124,58,237,0); }
+        }
 
         /* News items */
         .news-item {

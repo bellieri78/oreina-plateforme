@@ -1028,7 +1028,7 @@
                         $harvardCitation = app(\App\Services\CitationExportService::class)->toHarvard($submission);
                     @endphp
                     <div class="citation-text">
-                        {!! str_replace('Chersotis', '<em>Chersotis</em>', e($harvardCitation)) !!}
+                        {!! e($harvardCitation) !!}
                     </div>
                     <div class="citation-actions">
                         <a href="{{ route('journal.articles.cite', [$submission, 'bibtex']) }}" class="btn-action primary" style="height:38px;font-size:13px" download>

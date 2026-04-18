@@ -80,11 +80,12 @@ return [
     */
     'uploads' => [
         'manuscript' => [
-            'exts'   => ['doc', 'docx'],
+            'exts'   => ['doc', 'docx', 'odt'],
             'mimes'  => [
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/zip', // docx = conteneur ZIP, verifier OOXML confirme
+                'application/vnd.oasis.opendocument.text', // ODT (MIME nominal)
+                'application/zip', // fallback : finfo renvoie application/zip pour ODT/DOCX sur certains systèmes (Windows notamment)
             ],
             'max_kb' => 30720, // 30 Mo
         ],

@@ -46,7 +46,7 @@
                             </td>
                             <td>{{ $s->author?->name ?? '—' }}</td>
                             <td>
-                                @php $statusValue = $s->status?->value ?? 'draft'; @endphp
+                                @php $statusValue = $s->status?->value ?? 'submitted'; @endphp
                                 <span class="badge badge-{{ match($statusValue) {
                                     'submitted' => 'info',
                                     'under_initial_review' => 'warning',

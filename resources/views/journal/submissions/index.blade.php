@@ -40,7 +40,6 @@
                                     <div class="flex flex-wrap items-center gap-3 mb-2">
                                         @php
                                             $statusColors = [
-                                                'draft' => 'bg-slate-100 text-slate-700',
                                                 'submitted' => 'bg-blue-100 text-blue-700',
                                                 'under_initial_review' => 'bg-yellow-100 text-yellow-700',
                                                 'under_peer_review' => 'bg-purple-100 text-purple-700',
@@ -49,6 +48,7 @@
                                                 'accepted' => 'bg-green-100 text-green-700',
                                                 'rejected' => 'bg-red-100 text-red-700',
                                                 'in_production' => 'bg-teal-100 text-teal-700',
+                                                'awaiting_author_approval' => 'bg-violet-100 text-violet-700',
                                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                                             ];
                                             $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;

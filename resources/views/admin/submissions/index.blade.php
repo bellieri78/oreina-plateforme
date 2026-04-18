@@ -199,7 +199,6 @@
                             <td>
                                 @php
                                     $statusColors = [
-                                        'draft' => 'default',
                                         'submitted' => 'info',
                                         'under_initial_review' => 'warning',
                                         'under_peer_review' => 'primary',
