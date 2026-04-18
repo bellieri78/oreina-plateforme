@@ -862,6 +862,27 @@ class SubmissionController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function updateConformity(\Illuminate\Http\Request $request, \App\Models\Submission $submission)
+    {
+        $this->authorize('updateConformity', $submission);
+
+        $validated = $request->validate([
+            'item' => ['required', \Illuminate\Validation\Rule::enum(\App\Enums\ConformityChecklistItem::class)],
+            'checked' => 'required|boolean',
+        ]);
+
+        $current = $submission->conformity_checklist ?? [];
+        if ($validated['checked']) {
+            $current = array_values(array_unique(array_merge($current, [$validated['item']])));
+        } else {
+            $current = array_values(array_diff($current, [$validated['item']]));
+        }
+
+        $submission->update(['conformity_checklist' => $current]);
+
+        return response()->json($submission->fresh()->conformityProgress());
+    }
+
     /**
      * Enrich paragraph blocks by wrapping taxon names with Artemisiae links.
      */
