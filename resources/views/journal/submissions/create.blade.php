@@ -100,7 +100,7 @@
 
                     <div>
                         <label for="manuscript_file" class="block text-sm font-bold text-oreina-dark mb-2">
-                            Fichier Word (.doc / .docx) <span class="text-red-500">*</span>
+                            Manuscrit (.doc, .docx, .odt) <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-2">
                             <label for="manuscript_file" class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-oreina-beige/50 rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition">
@@ -111,15 +111,15 @@
                                     <p class="mb-2 text-sm text-slate-500">
                                         <span class="font-semibold">Cliquez pour télécharger</span> ou glissez-déposez
                                     </p>
-                                    <p class="text-xs text-slate-500">Word .doc ou .docx uniquement (max. 50 Mo)</p>
+                                    <p class="text-xs text-slate-500">Formats acceptés : .doc, .docx, .odt (max. 30 Mo)</p>
                                 </div>
                                 <input id="manuscript_file" name="manuscript_file" type="file" class="hidden"
-                                       accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                       accept=".doc,.docx,.odt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text"
                                        required>
                             </label>
                             <p id="file-name" class="mt-2 text-sm text-oreina-turquoise hidden"></p>
                             <p class="mt-2 text-xs text-slate-500">
-                                Les images doivent être intégrées directement dans le document Word.
+                                Les images doivent être intégrées directement dans le document.
                                 Les tableaux volumineux et annexes lourdes doivent être fournis dans des fichiers supplémentaires séparés.
                             </p>
                         </div>

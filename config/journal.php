@@ -80,11 +80,12 @@ return [
     */
     'uploads' => [
         'manuscript' => [
-            'exts'   => ['doc', 'docx'],
+            'exts'   => ['doc', 'docx', 'odt'],
             'mimes'  => [
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/zip', // docx = conteneur ZIP, verifier OOXML confirme
+                'application/vnd.oasis.opendocument.text',
+                'application/zip', // docx/odt = conteneur ZIP, verifier OOXML/ODT confirme
             ],
             'max_kb' => 30720, // 30 Mo
         ],
