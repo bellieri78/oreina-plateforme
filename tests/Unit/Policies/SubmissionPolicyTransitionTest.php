@@ -224,6 +224,28 @@ class SubmissionPolicyTransitionTest extends TestCase
         );
     }
 
+    public function test_admin_cannot_publish_from_awaiting_author_approval_only_author_can(): void
+    {
+        $admin = User::factory()->create([
+            'email_verified_at' => now(),
+            'role' => User::ROLE_ADMIN,
+        ]);
+
+        $author = User::factory()->create(['email_verified_at' => now()]);
+        $submission = $this->makeSubmission(SubmissionStatus::AwaitingAuthorApproval);
+        $submission->author_id = $author->id;
+        $submission->save();
+
+        // Only the author can drive this transition; admin override is intentionally NOT allowed.
+        // Rationale: the spec (16 April 2026 meeting) requires formal author approval before publication.
+        $this->assertFalse(
+            $this->policy->transitionTo($admin, $submission, SubmissionStatus::Published)
+        );
+        $this->assertFalse(
+            $this->policy->transitionTo($admin, $submission, SubmissionStatus::InProduction)
+        );
+    }
+
     public function test_structurally_invalid_transition_always_false(): void
     {
         $chief = User::factory()->create(['email_verified_at' => now()]);

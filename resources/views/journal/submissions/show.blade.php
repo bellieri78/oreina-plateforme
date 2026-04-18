@@ -25,6 +25,8 @@
                                 'revision_after_review' => 'bg-orange-100 text-orange-700',
                                 'accepted' => 'bg-green-100 text-green-700',
                                 'rejected' => 'bg-red-100 text-red-700',
+                                'in_production' => 'bg-slate-100 text-slate-700',
+                                'awaiting_author_approval' => 'bg-violet-100 text-violet-700',
                                 'published' => 'bg-oreina-turquoise/20 text-oreina-teal',
                             ];
                             $submissionStatusValue = $submission->status instanceof \App\Enums\SubmissionStatus ? $submission->status->value : $submission->status;
@@ -80,6 +82,7 @@
                             ['label' => 'Relecture',     'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'],
                             ['label' => 'Décision',      'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
                             ['label' => 'Maquettage',    'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'],
+                            ['label' => 'Approbation',   'icon' => 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'],
                             ['label' => 'Publié',        'icon' => 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
                         ];
 
@@ -89,7 +92,8 @@
                             'under_peer_review', 'revision_after_review' => 2,
                             'accepted', 'rejected' => 3,
                             'in_production' => 4,
-                            'published' => 5,
+                            'awaiting_author_approval' => 5,
+                            'published' => 6,
                             default => 0,
                         };
 
@@ -280,6 +284,9 @@
                                 'revision_after_review → accepted'         => 'Votre manuscrit a été accepté pour publication',
                                 'revision_after_review → rejected'         => 'Votre manuscrit n\'a pas été retenu',
                                 'accepted → in_production'                 => 'Votre article est en cours de maquettage',
+                                'in_production → awaiting_author_approval' => 'Envoyé à l\'auteur pour approbation',
+                                'awaiting_author_approval → published'     => 'Approbation auteur — article publié',
+                                'awaiting_author_approval → in_production' => 'Corrections demandées par l\'auteur',
                                 'in_production → published'                => 'Votre article est publié !',
                             ];
                         @endphp
