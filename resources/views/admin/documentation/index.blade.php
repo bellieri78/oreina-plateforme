@@ -1791,6 +1791,11 @@
                     <strong>Capacité lepis_editor :</strong> à accorder via <code>/extranet/users/{id}/edit</code> (section « Capacités éditoriales Chersotis », formulaire indépendant avec bouton dédié « Enregistrer les capacités »).
                 </div>
 
+                <h3>Numérotation automatique des figures et tableaux</h3>
+                <p>Dans l'éditeur de blocs (<code>/extranet/submissions/{id}/layout</code>), chaque bloc image affiche un badge <strong>« Figure N »</strong> (teal) et chaque bloc table un badge <strong>« Tableau N »</strong> (indigo). La numérotation est <strong>recalculée automatiquement</strong> à chaque déplacement / ajout / suppression de bloc — l'éditeur ou le maquettiste ne renseigne que la légende descriptive (plus de « Fig. 1 - … » saisi à la main).</p>
+                <p>Sur la page publique de l'article (<code>/revue/articles/{slug}</code>), les figures et tableaux sont affichés avec leur numéro en préfixe : <code>Figure 1. &lt;légende&gt;</code>, <code>Tableau 1. &lt;légende&gt;</code>. Les compteurs sont indépendants (une table entre deux images n'incrémente pas le numéro des figures).</p>
+                <p>Côté PDF LaTeX, la numérotation utilise déjà le compteur natif <code>\figure</code> / <code>\table</code> — aucune action requise côté template. Les sous-figures (<em>Figure 1a, 1b</em>) ne sont pas encore implémentées : hors scope MVP, viendra avec un champ <code>sub_figures</code> dans une phase ultérieure.</p>
+
                 <h3>Checklist conformité éditeur avant maquettage</h3>
                 <p>Sur la fiche d'une soumission (<code>/extranet/submissions/{id}</code>), la colonne de droite affiche une card <strong>« Checklist conformité »</strong> (9 items, accent orange). L'éditeur coche au fil de sa relecture les points de conformité formelle qu'il a vérifiés :</p>
                 <ul>

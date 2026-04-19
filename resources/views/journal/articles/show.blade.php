@@ -886,7 +886,13 @@
                     {{-- Main Content --}}
                     @if($submission->content_blocks && is_array($submission->content_blocks) && count($submission->content_blocks) > 0)
                     <section style="margin-bottom:40px">
-                        @php $sectionNumber = 0; @endphp
+                        @php
+                            $sectionNumber = 0;
+                            // Compteurs propres par type : Figure N ne compte que les images,
+                            // Tableau N ne compte que les tables, indépendants de la position globale du bloc.
+                            $figureCounter = 0;
+                            $tableCounter = 0;
+                        @endphp
                         @foreach($submission->content_blocks as $blockIndex => $block)
                             @php $blockType = $block['type'] ?? 'paragraph'; @endphp
 
@@ -905,13 +911,15 @@
                                 @php
                                     $imgSrc = $block['url'] ?? $block['src'] ?? '';
                                     $imgCaption = $block['caption'] ?? '';
+                                    $figureCounter++;
+                                    $figureNum = $figureCounter;
                                 @endphp
                                 @if($imgSrc)
                                 <figure>
-                                    <div class="figure-preview" onclick="openLightbox('{{ $imgSrc }}', 'Figure {{ $blockIndex + 1 }}. {{ addslashes($imgCaption) }}')">
+                                    <div class="figure-preview" onclick="openLightbox('{{ $imgSrc }}', 'Figure {{ $figureNum }}. {{ addslashes($imgCaption) }}')">
                                         <img src="{{ $imgSrc }}" alt="{{ $imgCaption }}">
                                         <div class="figure-actions">
-                                            <button class="figure-action-btn" title="Agrandir" onclick="event.stopPropagation(); openLightbox('{{ $imgSrc }}', 'Figure {{ $blockIndex + 1 }}. {{ addslashes($imgCaption) }}')">
+                                            <button class="figure-action-btn" title="Agrandir" onclick="event.stopPropagation(); openLightbox('{{ $imgSrc }}', 'Figure {{ $figureNum }}. {{ addslashes($imgCaption) }}')">
                                                 <i data-lucide="maximize-2" style="width:16px;height:16px;"></i>
                                             </button>
                                             <a class="figure-action-btn" href="{{ $imgSrc }}" download title="Télécharger" onclick="event.stopPropagation();">
@@ -919,23 +927,23 @@
                                             </a>
                                         </div>
                                     </div>
-                                    @if($imgCaption)
                                     <figcaption>
-                                        <strong>Figure {{ $blockIndex + 1 }}.</strong> {{ $imgCaption }}
+                                        <strong>Figure {{ $figureNum }}.</strong>@if($imgCaption) {{ $imgCaption }}@endif
                                     </figcaption>
-                                    @endif
                                 </figure>
                                 @endif
 
                             @elseif($blockType === 'table')
-                                @php $tableData = $block['data'] ?? []; @endphp
+                                @php
+                                    $tableData = $block['data'] ?? [];
+                                    $tableCounter++;
+                                    $tableNum = $tableCounter;
+                                @endphp
                                 @if(count($tableData) > 0)
                                 <div class="content-table">
-                                    @if(!empty($block['caption']))
                                     <p class="table-caption">
-                                        <strong>Tableau {{ $blockIndex + 1 }}.</strong> {{ $block['caption'] }}
+                                        <strong>Tableau {{ $tableNum }}.</strong>@if(!empty($block['caption'])) {{ $block['caption'] }}@endif
                                     </p>
-                                    @endif
                                     <div class="table-scroll">
                                         <table>
                                             <thead>

@@ -92,6 +92,12 @@
                     {{-- Image block --}}
                     <template x-if="block.type === 'image'">
                         <div class="image-block">
+                            {{-- Auto figure number (computed from position among image blocks) --}}
+                            <div class="figure-label" x-show="block.url">
+                                <span class="figure-label-badge"
+                                      x-text="'Figure ' + (blocks.slice(0, index).filter(b => b.type === 'image').length + 1)"></span>
+                                <span class="figure-label-hint">numéroté automatiquement</span>
+                            </div>
                             {{-- Image alignment options --}}
                             <div class="image-toolbar" x-show="block.url">
                                 <span class="toolbar-label">Alignement :</span>
@@ -145,13 +151,19 @@
                                 <input type="text" x-model="block.url" placeholder="URL de l'image..." class="url-input">
                             </div>
                             <button type="button" x-show="block.url" @click="block.url = ''" class="remove-image-btn">Supprimer l'image</button>
-                            <input type="text" x-model="block.caption" placeholder="Legende (ex: Fig. 1 - Description...)" class="caption-input">
+                            <input type="text" x-model="block.caption" placeholder="Légende de la figure (description uniquement, le numéro est auto)" class="caption-input">
                         </div>
                     </template>
 
                     {{-- Table block --}}
                     <template x-if="block.type === 'table'">
                         <div class="table-block">
+                            {{-- Auto table number --}}
+                            <div class="figure-label">
+                                <span class="figure-label-badge figure-label-badge-table"
+                                      x-text="'Tableau ' + (blocks.slice(0, index).filter(b => b.type === 'table').length + 1)"></span>
+                                <span class="figure-label-hint">numéroté automatiquement</span>
+                            </div>
                             <div class="table-controls">
                                 <button type="button" @click="addTableColumn(index)" class="table-ctrl-btn">+ Colonne</button>
                                 <button type="button" @click="addTableRow(index)" class="table-ctrl-btn">+ Ligne</button>
@@ -182,7 +194,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <input type="text" x-model="block.caption" placeholder="Legende du tableau (ex: Tab. 1 - ...)" class="caption-input">
+                            <input type="text" x-model="block.caption" placeholder="Légende du tableau (description uniquement, le numéro est auto)" class="caption-input">
                         </div>
                     </template>
 
@@ -453,6 +465,37 @@
     line-height: 1.6;
     resize: vertical;
     min-height: 100px;
+}
+
+/* Figure / Table auto-number label */
+.figure-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.figure-label-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #14b8a6;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+}
+
+.figure-label-badge-table {
+    background: #4f46e5;
+}
+
+.figure-label-hint {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    font-style: italic;
 }
 
 /* Image block */
