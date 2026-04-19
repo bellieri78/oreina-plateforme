@@ -3132,39 +3132,23 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
 }
 
 .doc-header {
-    position: relative;
-    text-align: center;
-    padding: 2.5rem 2rem;
-    background:
-        radial-gradient(circle at top right, rgba(237, 196, 66, 0.18), transparent 55%),
-        linear-gradient(135deg, var(--forest) 0%, var(--blue) 100%);
-    color: white;
-    border-radius: var(--radius-xl);
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-}
-
-.doc-header::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--gold) 0%, var(--sage) 100%);
+    padding: 0.5rem 0 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-soft);
 }
 
 .doc-header h1 {
-    font-size: 2rem;
+    font-size: 1.875rem;
     font-weight: 800;
-    margin-bottom: 0.5rem;
+    color: var(--forest);
+    margin: 0 0 0.35rem;
     letter-spacing: -0.01em;
 }
 
 .doc-header p {
-    opacity: 0.88;
+    color: var(--text-secondary);
     font-size: 0.975rem;
+    margin: 0;
 }
 
 .doc-grid {
