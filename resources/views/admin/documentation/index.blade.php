@@ -56,12 +56,12 @@
 
             <div class="doc-nav-section">
                 <div class="doc-nav-title">Revue Chersotis</div>
-                <a href="#numeros" class="doc-nav-link">Numeros</a>
-                <a href="#soumissions" class="doc-nav-link">Workflow editorial</a>
-                <a href="#capacites-editoriales" class="doc-nav-link">Capacites editoriales</a>
-                <a href="#file-attente" class="doc-nav-link">File d'attente editoriale</a>
-                <a href="#mes-articles" class="doc-nav-link">Mes articles (editeur)</a>
-                <a href="#reviews" class="doc-nav-link">Reviews</a>
+                <a href="#numeros" class="doc-nav-link">Numéros</a>
+                <a href="#soumissions" class="doc-nav-link">Workflow éditorial</a>
+                <a href="#capacites-editoriales" class="doc-nav-link">Capacités éditoriales</a>
+                <a href="#file-attente" class="doc-nav-link">File d'attente éditoriale</a>
+                <a href="#mes-articles" class="doc-nav-link">Mes articles (éditeur)</a>
+                <a href="#reviews" class="doc-nav-link">Relectures</a>
             </div>
 
             <div class="doc-nav-section">
@@ -175,31 +175,31 @@
                                 <td><code>user</code></td>
                                 <td>✅ Oui</td>
                                 <td>❌ Non (403)</td>
-                                <td>Adhérent standard — accès à son espace personnel, chat, GT, Lepis</td>
+                                <td>Adhérent standard : accès à son espace personnel, chat, GT, Lepis</td>
                             </tr>
                             <tr>
                                 <td><code>author</code></td>
                                 <td>✅ Oui</td>
                                 <td>❌ Non (403)</td>
-                                <td>Auteur — peut soumettre des articles pour la revue</td>
+                                <td>Auteur : peut soumettre des articles pour la revue</td>
                             </tr>
                             <tr>
                                 <td><code>reviewer</code></td>
                                 <td>✅ Oui</td>
                                 <td>❌ Non (403)</td>
-                                <td>Reviewer — peut évaluer des soumissions</td>
+                                <td>Reviewer : peut évaluer des soumissions</td>
                             </tr>
                             <tr>
                                 <td><code>editor</code></td>
                                 <td>✅ Oui</td>
                                 <td>✅ Oui</td>
-                                <td>Éditeur — accès à l'administration du contenu et des membres</td>
+                                <td>Éditeur : accès à l'administration du contenu et des membres</td>
                             </tr>
                             <tr>
                                 <td><code>admin</code></td>
                                 <td>✅ Oui</td>
                                 <td>✅ Oui</td>
-                                <td>Administrateur — accès complet à toutes les fonctionnalités</td>
+                                <td>Administrateur : accès complet à toutes les fonctionnalités</td>
                             </tr>
                         </tbody>
                     </table>
@@ -232,7 +232,7 @@
                         <span class="step-number">2</span>
                         <div class="step-content">
                             <strong>Email de vérification envoyé</strong>
-                            <p>Un email contenant un lien signé à durée limitée (60 min, route <code>verification.verify</code>) est envoyé à l'adresse fournie. L'utilisateur est connecté immédiatement (soft-gate) mais voit une bannière orange tant qu'il n'a pas cliqué le lien. Les actions sensibles — notamment la soumission d'articles via <code>/revue/mes-soumissions/nouvelle</code> — sont bloquées par le middleware <code>verified</code> tant que l'email n'est pas confirmé.</p>
+                            <p>Un email contenant un lien signé à durée limitée (60 min, route <code>verification.verify</code>) est envoyé à l'adresse fournie. L'utilisateur est connecté immédiatement (soft-gate) mais voit une bannière orange tant qu'il n'a pas cliqué le lien. Les actions sensibles, notamment la soumission d'articles via <code>/revue/mes-soumissions/nouvelle</code>, sont bloquées par le middleware <code>verified</code> tant que l'email n'est pas confirmé.</p>
                         </div>
                     </div>
                     <div class="doc-step">
@@ -1351,133 +1351,147 @@
 
             {{-- Numeros --}}
             <section id="numeros" class="doc-section">
-                <h2>Numeros de la Revue</h2>
-                <p>Gerez les numeros publies de la revue scientifique OREINA.</p>
+                <h2>Numéros de la revue</h2>
+                <p>Gérez les numéros publiés de la revue scientifique OREINA.</p>
 
-                <h3>Creer un numero</h3>
+                <h3>Créer un numéro</h3>
                 <ul>
-                    <li><strong>Volume / Numero</strong> : identifiants du numero</li>
-                    <li><strong>Date de publication</strong> : mois/annee</li>
+                    <li><strong>Volume / Numéro</strong> : identifiants du numéro</li>
+                    <li><strong>Date de publication</strong> : mois/année</li>
                     <li><strong>Couverture</strong> : image de couverture</li>
-                    <li><strong>Statut</strong> : en preparation, publie, archive</li>
+                    <li><strong>Statut</strong> : en préparation, publié, archivé</li>
                 </ul>
             </section>
 
             {{-- Soumissions --}}
             <section id="soumissions" class="doc-section">
-                <h2>Workflow editorial -- Chersotis</h2>
-                <p>Ce document decrit le processus editorial complet de la revue <strong>Chersotis</strong>, journal scientifique de l'association OREINA consacre aux Lepidopteres de France. Le workflow couvre l'ensemble du cycle de vie d'un manuscrit, depuis la soumission par l'auteur jusqu'a la publication en ligne avec attribution d'un DOI. Trois roles interviennent dans ce processus : l'<strong>auteur</strong>, le <strong>redacteur en chef</strong> (editeur) et les <strong>reviewers</strong> (relecteurs experts). Chaque manuscrit transite par une serie de statuts qui garantissent la rigueur scientifique et la tracabilite editoriale.</p>
+                <h2>Workflow éditorial : Chersotis</h2>
+                <p>Ce document décrit le processus éditorial complet de la revue <strong>Chersotis</strong>, journal scientifique de l'association OREINA consacré aux Lépidoptères de France. Le workflow couvre l'ensemble du cycle de vie d'un manuscrit, depuis la soumission par l'auteur jusqu'à la publication en ligne avec attribution d'un DOI. Plusieurs rôles interviennent dans ce processus : l'<strong>auteur</strong>, l'<strong>éditeur</strong> (responsable d'une soumission, pilote le peer review et la décision éditoriale), les <strong>relecteurs</strong> (reviewers experts), le <strong>maquettiste</strong> (mise en page finale) et le <strong>rédacteur en chef</strong> (supervision du comité, attribution des articles aux éditeurs). Le rédacteur en chef peut cumuler la capacité d'éditeur, mais les deux rôles sont distincts, un article est piloté par un éditeur donné, qui n'est pas nécessairement le rédacteur en chef. Chaque manuscrit transite par une série de statuts qui garantissent la rigueur scientifique et la traçabilité éditoriale.</p>
 
                 <div class="doc-info">
-                    <strong>Important :</strong> L'adhesion a OREINA n'est pas requise pour soumettre un manuscrit a Chersotis. Toute personne disposant d'un compte sur oreina.org peut soumettre un article.
+                    <strong>Important :</strong> l'adhésion à OREINA n'est pas requise pour soumettre un manuscrit à Chersotis. Toute personne disposant d'un compte sur oreina.org peut soumettre un article.
                 </div>
 
                 {{-- ========================================== --}}
                 {{-- 1. Schema du workflow                      --}}
                 {{-- ========================================== --}}
 
-                <h3>Schema du workflow</h3>
-                <p>Le parcours principal d'un manuscrit suit les étapes ci-dessous. Deux embranchements sont possibles : la demande de révision (retour à l'auteur) et le rejet (à deux moments du processus). Depuis le P0 du 16 avril 2026, le statut <em>brouillon</em> a été supprimé — la soumission est publiée directement au statut <strong>Soumis</strong>.</p>
+                <h3>Schéma du workflow</h3>
+                <p>Le parcours principal d'un manuscrit suit les sept étapes ci-dessous, cohérentes avec la timeline affichée à l'auteur sur <code>/revue/mes-soumissions/{id}</code>. Deux embranchements sont possibles : la demande de révision (retour à l'auteur) et le rejet (à deux moments du processus). Depuis le P0 du 16 avril 2026, le statut <em>brouillon</em> a été supprimé, la soumission est publiée directement au statut <strong>Soumis</strong>.</p>
 
-                {{-- Visual workflow diagram --}}
-                <div class="workflow-diagram">
-                    <div class="workflow-main-path">
-                        {{-- Submitted --}}
-                        <div class="workflow-stage">
-                            <div class="workflow-stage-icon submitted">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                {{-- Timeline épurée, alignée sur /revue/mes-soumissions/{id} --}}
+                <div class="chersotis-wf">
+                    <div class="chersotis-wf-timeline">
+                        {{-- 1. Soumis --}}
+                        <div class="chersotis-wf-step">
+                            <div class="chersotis-wf-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="22" height="22">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                                 </svg>
                             </div>
-                            <div class="workflow-stage-label">Soumis</div>
-                            <div class="workflow-stage-actor">Auteur ou rédacteur</div>
+                            <div class="chersotis-wf-label">Soumis</div>
+                            <div class="chersotis-wf-actor">Auteur</div>
                         </div>
 
-                        <div class="workflow-connector">
-                            <div class="workflow-connector-line"></div>
-                            <div class="workflow-connector-arrow"></div>
-                        </div>
+                        <div class="chersotis-wf-line"></div>
 
-                        {{-- Desk Review --}}
-                        <div class="workflow-stage">
-                            <div class="workflow-stage-icon desk-review">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        {{-- 2. Éval. initiale --}}
+                        <div class="chersotis-wf-step">
+                            <div class="chersotis-wf-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="22" height="22">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                 </svg>
                             </div>
-                            <div class="workflow-stage-label">Eval. initiale</div>
-                            <div class="workflow-stage-actor">Editeur</div>
+                            <div class="chersotis-wf-label">Éval. initiale</div>
+                            <div class="chersotis-wf-actor">Éditeur</div>
                         </div>
 
-                        <div class="workflow-connector">
-                            <div class="workflow-connector-line"></div>
-                            <div class="workflow-connector-arrow"></div>
-                        </div>
+                        <div class="chersotis-wf-line"></div>
 
-                        {{-- In Review --}}
-                        <div class="workflow-stage">
-                            <div class="workflow-stage-icon in-review">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                        {{-- 3. Relecture --}}
+                        <div class="chersotis-wf-step">
+                            <div class="chersotis-wf-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="22" height="22">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
                             </div>
-                            <div class="workflow-stage-label">En review</div>
-                            <div class="workflow-stage-actor">Reviewers</div>
+                            <div class="chersotis-wf-label">Relecture</div>
+                            <div class="chersotis-wf-actor">Relecteurs</div>
                         </div>
 
-                        <div class="workflow-connector">
-                            <div class="workflow-connector-line"></div>
-                            <div class="workflow-connector-arrow"></div>
-                        </div>
+                        <div class="chersotis-wf-line"></div>
 
-                        {{-- Accepted --}}
-                        <div class="workflow-stage">
-                            <div class="workflow-stage-icon accepted">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        {{-- 4. Décision --}}
+                        <div class="chersotis-wf-step">
+                            <div class="chersotis-wf-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="22" height="22">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
                             </div>
-                            <div class="workflow-stage-label">Accepte</div>
-                            <div class="workflow-stage-actor">Editeur</div>
+                            <div class="chersotis-wf-label">Décision</div>
+                            <div class="chersotis-wf-actor">Éditeur</div>
                         </div>
 
-                        <div class="workflow-connector">
-                            <div class="workflow-connector-line"></div>
-                            <div class="workflow-connector-arrow"></div>
-                        </div>
+                        <div class="chersotis-wf-line"></div>
 
-                        {{-- Published --}}
-                        <div class="workflow-stage">
-                            <div class="workflow-stage-icon published">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                        {{-- 5. Maquettage --}}
+                        <div class="chersotis-wf-step">
+                            <div class="chersotis-wf-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="22" height="22">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                                 </svg>
                             </div>
-                            <div class="workflow-stage-label">Publie</div>
-                            <div class="workflow-stage-actor">Editeur</div>
+                            <div class="chersotis-wf-label">Maquettage</div>
+                            <div class="chersotis-wf-actor">Maquettiste</div>
+                        </div>
+
+                        <div class="chersotis-wf-line"></div>
+
+                        {{-- 6. Approbation --}}
+                        <div class="chersotis-wf-step">
+                            <div class="chersotis-wf-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="22" height="22">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                            <div class="chersotis-wf-label">Approbation</div>
+                            <div class="chersotis-wf-actor">Auteur</div>
+                        </div>
+
+                        <div class="chersotis-wf-line"></div>
+
+                        {{-- 7. Publié --}}
+                        <div class="chersotis-wf-step published">
+                            <div class="chersotis-wf-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="22" height="22">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                                </svg>
+                            </div>
+                            <div class="chersotis-wf-label">Publié</div>
+                            <div class="chersotis-wf-actor">Éditeur</div>
                         </div>
                     </div>
 
-                    {{-- Secondary paths --}}
-                    <div class="workflow-branches">
-                        <div class="workflow-branch revision">
-                            <div class="branch-label">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    {{-- Branches secondaires --}}
+                    <div class="chersotis-wf-branches">
+                        <div class="chersotis-wf-branch revision">
+                            <div class="chersotis-wf-branch-head">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="18" height="18">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
                                 </svg>
-                                Revision demandee
+                                Révision demandée
                             </div>
-                            <div class="branch-description">L'auteur corrige son manuscrit selon les commentaires des reviewers, puis resoumet. Le manuscrit retourne en review ou est directement accepte.</div>
+                            <p>L'auteur corrige son manuscrit selon les commentaires des relecteurs, puis resoumet. Le manuscrit retourne en relecture ou est directement accepté.</p>
                         </div>
-                        <div class="workflow-branch rejected">
-                            <div class="branch-label">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        <div class="chersotis-wf-branch rejected">
+                            <div class="chersotis-wf-branch-head">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" width="18" height="18">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
                                 Rejet possible
                             </div>
-                            <div class="branch-description">Le rejet peut intervenir a deux moments : lors de l'evaluation initiale (desk reject) ou apres la relecture par les pairs</div>
+                            <p>Le rejet peut intervenir à deux moments : lors de l'évaluation initiale (desk reject) ou après la relecture par les pairs.</p>
                         </div>
                     </div>
                 </div>
@@ -1486,133 +1500,154 @@
                 {{-- 2. Etapes detaillees                       --}}
                 {{-- ========================================== --}}
 
-                <h3>Etapes detaillees</h3>
-                <div class="workflow-details">
+                <h3>Étapes détaillées</h3>
+                <div class="chersotis-steps">
 
                     {{-- 1. Soumis --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header submitted">
-                            <span class="detail-number">1</span>
-                            <span class="detail-title">Soumis (submitted)</span>
+                    <div class="chersotis-step submitted">
+                        <div class="chersotis-step-head">
+                            <div class="chersotis-step-num">1</div>
+                            <div>
+                                <h4 class="chersotis-step-title">Soumis</h4>
+                                <p class="chersotis-step-code">submitted</p>
+                            </div>
                         </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Auteur (soumission directe) ou rédacteur en chef / éditeur (soumission backoffice pour un auteur sans compte — voir section dédiée ci-dessous)</p>
-                            <p><strong>Ce qui se passe :</strong> Le manuscrit arrive dans l'extranet. L'éditeur et le rédacteur en chef reçoivent une notification (<code>NewSubmissionAlert</code>). L'auteur reçoit un accusé de réception (<code>SubmissionReceived</code>, ou <code>AccountInvitation</code> s'il a été saisi via le backoffice) et peut suivre l'avancement depuis son espace <code>/revue/mes-soumissions</code>.</p>
-                            <p><strong>Action pour passer a l'etape suivante :</strong> L'editeur clique sur "Evaluer" pour demarrer l'evaluation initiale.</p>
+                        <div class="chersotis-step-body">
+                            <p><strong>Qui agit :</strong> Auteur (soumission directe) ou rédacteur en chef / éditeur (soumission backoffice pour un auteur sans compte, voir section dédiée ci-dessous).</p>
+                            <p><strong>Ce qui se passe :</strong> le manuscrit arrive dans l'extranet. L'éditeur et le rédacteur en chef reçoivent une notification (<code>NewSubmissionAlert</code>). L'auteur reçoit un accusé de réception (<code>SubmissionReceived</code>, ou <code>AccountInvitation</code> s'il a été saisi via le backoffice) et peut suivre l'avancement depuis son espace <code>/revue/mes-soumissions</code>.</p>
+                            <p><strong>Action pour passer à l'étape suivante :</strong> l'éditeur clique sur « Évaluer » pour démarrer l'évaluation initiale.</p>
                         </div>
                     </div>
 
-                    {{-- 2. Evaluation initiale --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header desk-review">
-                            <span class="detail-number">2</span>
-                            <span class="detail-title">Evaluation initiale (under_initial_review)</span>
+                    {{-- 2. Évaluation initiale --}}
+                    <div class="chersotis-step desk-review">
+                        <div class="chersotis-step-head">
+                            <div class="chersotis-step-num">2</div>
+                            <div>
+                                <h4 class="chersotis-step-title">Évaluation initiale</h4>
+                                <p class="chersotis-step-code">under_initial_review</p>
+                            </div>
                         </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Editeur</p>
-                            <p><strong>Ce qui se passe :</strong> L'editeur lit le manuscrit et verifie trois criteres : le sujet correspond-il a la ligne editoriale de Chersotis ? Le manuscrit est-il complet (titre, resume, bibliographie) ? Le formatage est-il correct ?</p>
-                            <p><strong>Delai indicatif :</strong> 1 semaine</p>
+                        <div class="chersotis-step-body">
+                            <p><strong>Qui agit :</strong> éditeur.</p>
+                            <p><strong>Ce qui se passe :</strong> l'éditeur lit le manuscrit et vérifie trois critères : le sujet correspond-il à la ligne éditoriale de Chersotis ? Le manuscrit est-il complet (titre, résumé, bibliographie) ? Le formatage est-il correct ?</p>
+                            <p><strong>Délai indicatif :</strong> 1 semaine.</p>
                             <p><strong>Actions possibles :</strong></p>
                             <ul>
-                                <li><span class="badge badge-success">Envoyer en review</span> -- Le manuscrit est recevable, l'editeur l'envoie aux relecteurs</li>
-                                <li><span class="badge badge-danger">Rejeter</span> -- Le manuscrit ne correspond pas aux criteres de la revue (desk reject). L'auteur est notifie avec un motif.</li>
+                                <li><span class="badge badge-success">Envoyer en relecture</span> : le manuscrit est recevable, l'éditeur l'envoie aux relecteurs.</li>
+                                <li><span class="badge badge-danger">Rejeter</span> : le manuscrit ne correspond pas aux critères de la revue (desk reject). L'auteur est notifié avec un motif.</li>
                             </ul>
                         </div>
                     </div>
 
-                    {{-- 4. En review --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header in-review">
-                            <span class="detail-number">3</span>
-                            <span class="detail-title">En relecture (under_peer_review)</span>
+                    {{-- 3. En relecture --}}
+                    <div class="chersotis-step in-review">
+                        <div class="chersotis-step-head">
+                            <div class="chersotis-step-num">3</div>
+                            <div>
+                                <h4 class="chersotis-step-title">En relecture</h4>
+                                <p class="chersotis-step-code">under_peer_review</p>
+                            </div>
                         </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Editeur (assignation) + Reviewers (evaluation)</p>
-                            <p><strong>Ce qui se passe :</strong> L'editeur assigne 1 a 3 relecteurs experts depuis l'extranet (<code>/extranet/reviews/create</code>). Chaque reviewer recoit un email d'invitation avec une date limite. Les reviewers evaluent le manuscrit de maniere independante.</p>
-                            <p><strong>Delai indicatif :</strong> 4 semaines pour chaque reviewer</p>
-                            <p><strong>Processus cote reviewer :</strong></p>
+                        <div class="chersotis-step-body">
+                            <p><strong>Qui agit :</strong> éditeur (assignation) + relecteurs (évaluation).</p>
+                            <p><strong>Ce qui se passe :</strong> l'éditeur assigne 1 à 3 relecteurs experts depuis l'extranet (<code>/extranet/reviews/create</code>). Chaque relecteur reçoit un email d'invitation avec une date limite. Les relecteurs évaluent le manuscrit de manière indépendante.</p>
+                            <p><strong>Délai indicatif :</strong> 4 semaines pour chaque relecteur.</p>
+                            <p><strong>Processus côté relecteur :</strong></p>
                             <ol>
-                                <li>Reception de l'email d'invitation</li>
-                                <li>Acceptation ou declinaison de la relecture</li>
-                                <li>Evaluation du manuscrit (30 jours par defaut)</li>
-                                <li>Soumission d'une recommandation et de commentaires (voir section "Decisions" ci-dessous)</li>
+                                <li>Réception de l'email d'invitation.</li>
+                                <li>Acceptation ou déclinaison de la relecture.</li>
+                                <li>Évaluation du manuscrit (30 jours par défaut).</li>
+                                <li>Soumission d'une recommandation et de commentaires (voir section « Décisions » ci-dessous).</li>
                             </ol>
-                            <p><strong>Actions de l'editeur une fois les relectures terminees :</strong></p>
+                            <p><strong>Actions de l'éditeur une fois les relectures terminées :</strong></p>
                             <ul>
-                                <li><span class="badge badge-success">Accepter</span> -- Le manuscrit est accepte pour publication</li>
-                                <li><span class="badge badge-warning">Demander revision</span> -- L'auteur doit corriger son manuscrit</li>
-                                <li><span class="badge badge-danger">Rejeter</span> -- Le manuscrit n'est pas publiable</li>
+                                <li><span class="badge badge-success">Accepter</span> : le manuscrit est accepté pour publication.</li>
+                                <li><span class="badge badge-warning">Demander révision</span> : l'auteur doit corriger son manuscrit.</li>
+                                <li><span class="badge badge-danger">Rejeter</span> : le manuscrit n'est pas publiable.</li>
                             </ul>
                         </div>
                     </div>
 
-                    {{-- 4b. Revision --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header revision">
-                            <span class="detail-number">3b</span>
-                            <span class="detail-title">Revision demandee (revision_requested / revision_after_review)</span>
+                    {{-- 3b. Révision --}}
+                    <div class="chersotis-step revision">
+                        <div class="chersotis-step-head">
+                            <div class="chersotis-step-num">3b</div>
+                            <div>
+                                <h4 class="chersotis-step-title">Révision demandée</h4>
+                                <p class="chersotis-step-code">revision_requested / revision_after_review</p>
+                            </div>
                         </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Auteur</p>
-                            <p><strong>Ce qui se passe :</strong> L'auteur recoit les commentaires des relecteurs (commentaires destines a l'auteur uniquement -- les commentaires confidentiels pour l'editeur ne sont pas transmis). L'auteur corrige son manuscrit en tenant compte des remarques.</p>
-                            <p><strong>Delai indicatif :</strong> 4 semaines</p>
-                            <p><strong>Action pour passer a l'etape suivante :</strong> L'auteur soumet la version revisee. Selon l'ampleur des corrections demandees (mineures ou majeures), le manuscrit retourne en relecture ou est directement accepte par l'editeur.</p>
+                        <div class="chersotis-step-body">
+                            <p><strong>Qui agit :</strong> auteur.</p>
+                            <p><strong>Ce qui se passe :</strong> l'auteur reçoit les commentaires des relecteurs (commentaires destinés à l'auteur uniquement, les commentaires confidentiels pour l'éditeur ne sont pas transmis). L'auteur corrige son manuscrit en tenant compte des remarques.</p>
+                            <p><strong>Délai indicatif :</strong> 4 semaines.</p>
+                            <p><strong>Action pour passer à l'étape suivante :</strong> l'auteur soumet la version révisée. Selon l'ampleur des corrections demandées (mineures ou majeures), le manuscrit retourne en relecture ou est directement accepté par l'éditeur.</p>
                         </div>
                     </div>
 
-                    {{-- 5. Accepte --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header accepted">
-                            <span class="detail-number">4</span>
-                            <span class="detail-title">Accepté (accepted)</span>
+                    {{-- 4. Accepté --}}
+                    <div class="chersotis-step accepted">
+                        <div class="chersotis-step-head">
+                            <div class="chersotis-step-num">4</div>
+                            <div>
+                                <h4 class="chersotis-step-title">Accepté</h4>
+                                <p class="chersotis-step-code">accepted</p>
+                            </div>
                         </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Éditeur</p>
-                            <p><strong>Ce qui se passe :</strong> Le manuscrit est accepté pour publication dans Chersotis. L'auteur est notifié. L'éditeur prépare la mise en forme finale (maquettage).</p>
+                        <div class="chersotis-step-body">
+                            <p><strong>Qui agit :</strong> éditeur.</p>
+                            <p><strong>Ce qui se passe :</strong> le manuscrit est accepté pour publication dans Chersotis. L'auteur est notifié. L'éditeur prépare la mise en forme finale (maquettage).</p>
                             <p><strong>Actions disponibles :</strong></p>
                             <ul>
-                                <li><strong>Générer le PDF</strong> — document final mis en page selon le modèle Chersotis (template <em>Biology Letters</em>, sidebar papillon + wordmark, badges OA+CCBY, citation Harvard, ESM+ORCID conditionnels)</li>
-                                <li><strong>Assigner un DOI</strong> — identifiant unique via Crossref ou en local</li>
-                                <li><strong>Assigner à un numéro</strong> — placer l'article dans un numéro de Chersotis</li>
-                                <li><strong>Définir les pages</strong> — indiquer la pagination dans le numéro</li>
-                                <li><strong>Soumettre à l'auteur pour approbation</strong> (étape suivante)</li>
+                                <li><strong>Générer le PDF</strong> : document final mis en page selon le modèle Chersotis (template <em>Biology Letters</em>, sidebar papillon + wordmark, badges OA + CC BY, citation Harvard, ESM + ORCID conditionnels).</li>
+                                <li><strong>Assigner un DOI</strong> : identifiant unique via Crossref ou en local.</li>
+                                <li><strong>Assigner à un numéro</strong> : placer l'article dans un numéro de Chersotis.</li>
+                                <li><strong>Définir les pages</strong> : indiquer la pagination dans le numéro.</li>
+                                <li><strong>Soumettre à l'auteur pour approbation</strong> (étape suivante).</li>
                             </ul>
                         </div>
                     </div>
 
-                    {{-- 6. En attente d'approbation auteur --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header revision">
-                            <span class="detail-number">5</span>
-                            <span class="detail-title">En attente d'approbation auteur (awaiting_author_approval)</span>
+                    {{-- 5. Approbation auteur --}}
+                    <div class="chersotis-step approval">
+                        <div class="chersotis-step-head">
+                            <div class="chersotis-step-num">5</div>
+                            <div>
+                                <h4 class="chersotis-step-title">En attente d'approbation auteur</h4>
+                                <p class="chersotis-step-code">awaiting_author_approval</p>
+                            </div>
                         </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Auteur principal</p>
-                            <p><strong>Ce qui se passe :</strong> Une fois le maquettage terminé, l'éditeur envoie la version mise en page à l'auteur pour relecture et approbation finale avant publication. L'auteur reçoit l'email <code>PendingAuthorApproval</code> avec un lien signé vers son espace.</p>
+                        <div class="chersotis-step-body">
+                            <p><strong>Qui agit :</strong> auteur principal.</p>
+                            <p><strong>Ce qui se passe :</strong> une fois le maquettage terminé, l'éditeur envoie la version mise en page à l'auteur pour relecture et approbation finale avant publication. L'auteur reçoit l'email <code>PendingAuthorApproval</code> avec un lien signé vers son espace.</p>
                             <p><strong>Actions disponibles (auteur) :</strong></p>
                             <ul>
-                                <li><strong>Approuver</strong> — l'article passe en <code>in_production</code>, l'éditeur reçoit <code>AuthorApproved</code> pour publier.</li>
-                                <li><strong>Demander des corrections</strong> — l'article revient en <code>revision_after_review</code> avec les commentaires de l'auteur. L'éditeur reçoit <code>AuthorRequestedCorrections</code>.</li>
+                                <li><strong>Approuver</strong> : l'article passe en <code>in_production</code>, l'éditeur reçoit <code>AuthorApproved</code> pour publier.</li>
+                                <li><strong>Demander des corrections</strong> : l'article revient en <code>revision_after_review</code> avec les commentaires de l'auteur. L'éditeur reçoit <code>AuthorRequestedCorrections</code>.</li>
                             </ul>
-                            <p><strong>Checklist conformité :</strong> au moment de passer en approbation auteur, la card « Checklist conformité » (9 items formels) de l'éditeur passe en lecture seule — témoin figé de ce qui a été vérifié avant maquettage.</p>
+                            <p><strong>Checklist conformité :</strong> au moment de passer en approbation auteur, la card « Checklist conformité » (9 items formels) de l'éditeur passe en lecture seule, témoin figé de ce qui a été vérifié avant maquettage.</p>
                         </div>
                     </div>
 
-                    {{-- 7. Publie --}}
-                    <div class="workflow-detail-card">
-                        <div class="detail-header published">
-                            <span class="detail-number">6</span>
-                            <span class="detail-title">Publié (published)</span>
+                    {{-- 6. Publié --}}
+                    <div class="chersotis-step published">
+                        <div class="chersotis-step-head">
+                            <div class="chersotis-step-num">6</div>
+                            <div>
+                                <h4 class="chersotis-step-title">Publié</h4>
+                                <p class="chersotis-step-code">published</p>
+                            </div>
                         </div>
-                        <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Editeur</p>
-                            <p><strong>Ce qui se passe :</strong> L'article est publie et accessible sur le site public de Chersotis a l'adresse <code>/revue/articles/</code>. Le DOI est actif et redirige vers la fiche de l'article.</p>
-                            <p><strong>Elements publies :</strong></p>
+                        <div class="chersotis-step-body">
+                            <p><strong>Qui agit :</strong> éditeur.</p>
+                            <p><strong>Ce qui se passe :</strong> l'article est publié et accessible sur le site public de Chersotis à l'adresse <code>/revue/articles/</code>. Le DOI est actif et redirige vers la fiche de l'article.</p>
+                            <p><strong>Éléments publiés :</strong></p>
                             <ul>
-                                <li>Fiche article sur le site (titre, auteurs, resume, mots-cles)</li>
-                                <li>PDF telechargeable avec mise en page professionnelle</li>
-                                <li>DOI actif (ex : 10.24349/xxxx-123)</li>
-                                <li>Metadonnees pour les moteurs de recherche academiques</li>
+                                <li>Fiche article sur le site (titre, auteurs, résumé, mots-clés).</li>
+                                <li>PDF téléchargeable avec mise en page professionnelle.</li>
+                                <li>DOI actif (ex. 10.24349/xxxx-123).</li>
+                                <li>Métadonnées pour les moteurs de recherche académiques.</li>
                             </ul>
                         </div>
                     </div>
@@ -1622,31 +1657,41 @@
                 {{-- 3. Roles et responsabilites                --}}
                 {{-- ========================================== --}}
 
-                <h3>Roles et responsabilites</h3>
+                <h3>Rôles et responsabilités</h3>
                 <div class="doc-table">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Role</th>
-                                <th>Qui</th>
-                                <th>Responsabilites</th>
+                                <th>Rôle</th>
+                                <th>Qui (capacité)</th>
+                                <th>Responsabilités</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>Auteur</strong></td>
-                                <td>Toute personne disposant d'un compte oreina.org (adhesion non requise)</td>
-                                <td>Soumettre un manuscrit complet ; reviser le manuscrit si demande ; accepter les conditions de soumission</td>
+                                <td>Toute personne disposant d'un compte oreina.org (adhésion non requise)</td>
+                                <td>Soumettre un manuscrit complet ; réviser le manuscrit si demandé ; approuver l'épreuve maquettée avant publication ; accepter les conditions de soumission</td>
                             </tr>
                             <tr>
-                                <td><strong>Editeur</strong></td>
-                                <td>Redacteur en chef de Chersotis</td>
-                                <td>Evaluer la recevabilite des manuscrits (desk review) ; assigner les reviewers ; prendre la decision editoriale finale (accepter, demander revision, rejeter) ; preparer la publication (DOI, PDF, numero)</td>
+                                <td><strong>Éditeur</strong></td>
+                                <td>Utilisateur avec la capacité <code>editor</code> (attribuée par le rédacteur en chef ou un admin). Plusieurs éditeurs peuvent cohabiter dans le comité, un éditeur donné ne pilote que ses soumissions.</td>
+                                <td>Prendre en charge une soumission depuis la file d'attente (ou se voir attribuer l'article par le rédacteur en chef) ; évaluer la recevabilité (desk review) ; assigner 1 à 3 relecteurs ; synthétiser les retours ; prendre la décision éditoriale (accepter / demander révision / rejeter) ; préparer la publication (DOI, maquettage, numéro)</td>
                             </tr>
                             <tr>
-                                <td><strong>Reviewer</strong></td>
-                                <td>Expert du domaine, invite par l'editeur</td>
-                                <td>Accepter ou decliner l'invitation ; evaluer le manuscrit dans le delai imparti ; soumettre une recommandation argumentee ; fournir des commentaires pour l'auteur et des commentaires confidentiels pour l'editeur</td>
+                                <td><strong>Relecteur</strong></td>
+                                <td>Utilisateur avec la capacité <code>reviewer</code>, expert du domaine, invité par l'éditeur</td>
+                                <td>Accepter ou décliner l'invitation ; évaluer le manuscrit dans le délai imparti ; soumettre une recommandation argumentée ; fournir des commentaires pour l'auteur et des commentaires confidentiels pour l'éditeur</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maquettiste</strong></td>
+                                <td>Utilisateur avec la capacité <code>layout_editor</code>, assigné par l'éditeur après acceptation</td>
+                                <td>Accéder à l'éditeur de maquette dès le statut <code>in_production</code> ; construire la maquette par blocs (avec import Word/Markdown enrichi par IA) ; générer le PDF final</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rédacteur en chef</strong></td>
+                                <td>Utilisateur avec la capacité <code>chief_editor</code>. Peut cumuler la capacité <code>editor</code> pour piloter lui-même certaines soumissions.</td>
+                                <td>Superviser l'ensemble du comité ; attribuer les articles aux éditeurs depuis la file d'attente ; gérer les capacités éditoriales des membres ; arbitrer les overrides (séparation des rôles, redirections Lepis) ; agir en dernier recours si un éditeur est indisponible</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1656,25 +1701,25 @@
                 {{-- 4. Delais indicatifs                       --}}
                 {{-- ========================================== --}}
 
-                <h3>Delais indicatifs</h3>
+                <h3>Délais indicatifs</h3>
                 <div class="doc-table">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Etape</th>
+                                <th>Étape</th>
                                 <th>Responsable</th>
-                                <th>Delai</th>
+                                <th>Délai</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Evaluation initiale (desk review)</td>
-                                <td>Editeur</td>
+                                <td>Évaluation initiale (desk review)</td>
+                                <td>Éditeur</td>
                                 <td>1 semaine</td>
                             </tr>
                             <tr>
                                 <td>Relecture par les pairs (peer review)</td>
-                                <td>Reviewers</td>
+                                <td>Relecteurs</td>
                                 <td>4 semaines</td>
                             </tr>
                             <tr>
@@ -1706,7 +1751,7 @@
                 {{-- ========================================== --}}
 
                 <h3>Contenu de la soumission</h3>
-                <p>Pour soumettre un manuscrit a Chersotis, l'auteur doit fournir les elements suivants via le formulaire en ligne (<code>/revue/mes-soumissions/nouvelle</code>) :</p>
+                <p>Pour soumettre un manuscrit à Chersotis, l'auteur doit fournir les éléments suivants via le formulaire en ligne (<code>/revue/mes-soumissions/nouvelle</code>) :</p>
 
                 <div class="doc-table">
                     <table class="table">
@@ -1724,19 +1769,19 @@
                                 <td>Titre complet du manuscrit</td>
                             </tr>
                             <tr>
-                                <td><strong>Resume</strong></td>
+                                <td><strong>Résumé</strong></td>
                                 <td>Oui</td>
-                                <td>Resume de l'article (abstract)</td>
+                                <td>Résumé de l'article (abstract)</td>
                             </tr>
                             <tr>
-                                <td><strong>Mots-cles</strong></td>
+                                <td><strong>Mots-clés</strong></td>
                                 <td>Oui</td>
-                                <td>Mots-cles pour l'indexation</td>
+                                <td>Mots-clés pour l'indexation</td>
                             </tr>
                             <tr>
                                 <td><strong>Co-auteurs</strong></td>
                                 <td>Non</td>
-                                <td>Liste des co-auteurs eventuels</td>
+                                <td>Liste des co-auteurs éventuels</td>
                             </tr>
                             <tr>
                                 <td><strong>Manuscrit Word</strong></td>
@@ -1771,15 +1816,15 @@
                 <p>La page de détail d'une soumission dans l'extranet (<code>/extranet/submissions/{id}</code>) a été enrichie avec 4 blocs éditoriaux :</p>
 
                 <ul>
-                    <li><strong>Boutons de transition</strong> — remplacent l'ancien formulaire de changement de statut. Les boutons affichés sont calculés dynamiquement par la policy <code>SubmissionPolicy::transitionTo</code> et passent par la machine à états (pas de changement de statut direct).</li>
-                    <li><strong>Équipe éditoriale</strong> — affiche l'éditeur assigné en permanence, et le maquettiste <em>uniquement à partir du stade accepté</em> (pas de maquettiste en amont, le champ serait prématuré). Le rédacteur en chef peut changer l'éditeur ou assigner un maquettiste depuis des formulaires inline.</li>
-                    <li><strong>Carte Fichiers</strong> — placée en haut de la colonne droite et mise en valeur (accent turquoise) tant que la soumission est en phase d'évaluation/relecture/révision. Les liens de téléchargement du manuscrit et du PDF final sont accessibles à tout stade.</li>
-                    <li><strong>Invitation de relecteurs</strong> — formulaire inline pour inviter un relecteur parmi les utilisateurs avec la capacité <code>reviewer</code>. La séparation des rôles est vérifiée (un relecteur ne peut pas être l'éditeur du même article sauf override). La liste des relecteurs actuels avec leur statut (invité, accepté, terminé, décliné) est affichée en dessous.</li>
-                    <li><strong>Journal des actions</strong> — chronologie complète et non-anonymisée de toutes les transitions : changements de statut, assignations éditeur, invitations relecteurs, avec noms des acteurs/cibles et notes. Visible par les éditeurs et administrateurs uniquement.</li>
+                    <li><strong>Boutons de transition</strong> : remplacent l'ancien formulaire de changement de statut. Les boutons affichés sont calculés dynamiquement par la policy <code>SubmissionPolicy::transitionTo</code> et passent par la machine à états (pas de changement de statut direct).</li>
+                    <li><strong>Équipe éditoriale</strong> : affiche l'éditeur assigné en permanence, et le maquettiste <em>uniquement à partir du stade accepté</em> (pas de maquettiste en amont, le champ serait prématuré). Le rédacteur en chef peut changer l'éditeur ou assigner un maquettiste depuis des formulaires inline.</li>
+                    <li><strong>Carte Fichiers</strong> : placée en haut de la colonne droite et mise en valeur (accent turquoise) tant que la soumission est en phase d'évaluation/relecture/révision. Les liens de téléchargement du manuscrit et du PDF final sont accessibles à tout stade.</li>
+                    <li><strong>Invitation de relecteurs</strong> : formulaire inline pour inviter un relecteur parmi les utilisateurs avec la capacité <code>reviewer</code>. La séparation des rôles est vérifiée (un relecteur ne peut pas être l'éditeur du même article sauf override). La liste des relecteurs actuels avec leur statut (invité, accepté, terminé, décliné) est affichée en dessous.</li>
+                    <li><strong>Journal des actions</strong> : chronologie complète et non-anonymisée de toutes les transitions : changements de statut, assignations éditeur, invitations relecteurs, avec noms des acteurs/cibles et notes. Visible par les éditeurs et administrateurs uniquement.</li>
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Différence avec le suivi auteur :</strong> le journal des actions admin montre <em>tout</em> (acteurs, assignations internes, notes). Le journal côté auteur (<code>/revue/mes-soumissions/{id}</code>) est anonymisé et ne montre que les changements de statut avec des libellés humains — voir la section "Suivi par l'auteur" ci-dessous.
+                    <strong>Différence avec le suivi auteur :</strong> le journal des actions admin montre <em>tout</em> (acteurs, assignations internes, notes). Le journal côté auteur (<code>/revue/mes-soumissions/{id}</code>) est anonymisé et ne montre que les changements de statut avec des libellés humains, voir la section "Suivi par l'auteur" ci-dessous.
                 </div>
 
                 <h3>Soumission backoffice (pour un auteur sans compte)</h3>
@@ -1787,8 +1832,8 @@
 
                 <h4>Deux modes dans le formulaire</h4>
                 <ul>
-                    <li><strong>Auteur existant</strong> — dropdown classique listant tous les utilisateurs. Utilisé quand l'auteur a déjà un compte oreina.org.</li>
-                    <li><strong>Nouvel auteur</strong> — saisie de <code>nom</code> + <code>email</code> uniquement. Le système crée un <em>compte fantôme</em> (User avec <code>password = null</code>, <code>invited_at = now</code>) et déclenche une <strong>invitation par mail</strong> avec un lien signé (14 jours) pour que l'auteur définisse son mot de passe et active son compte. Ce compte devient un User normal dès activation.</li>
+                    <li><strong>Auteur existant</strong> : dropdown classique listant tous les utilisateurs. Utilisé quand l'auteur a déjà un compte oreina.org.</li>
+                    <li><strong>Nouvel auteur</strong> : saisie de <code>nom</code> + <code>email</code> uniquement. Le système crée un <em>compte fantôme</em> (User avec <code>password = null</code>, <code>invited_at = now</code>) et déclenche une <strong>invitation par mail</strong> avec un lien signé (14 jours) pour que l'auteur définisse son mot de passe et active son compte. Ce compte devient un User normal dès activation.</li>
                 </ul>
 
                 <div class="doc-warning">
@@ -1796,7 +1841,7 @@
                     <ul style="margin-top:0.5rem;margin-bottom:0;">
                         <li>Le champ <code>submitted_by_user_id</code> trace qui a saisi la soumission (différent de <code>author_id</code>). Vaut <code>null</code> quand l'auteur se soumet lui-même.</li>
                         <li>Tant que l'auteur n'a pas activé son compte (<code>claimed_at IS NULL</code>), il apparaît dans le dropdown "Auteur existant" avec le suffixe <em>(compte non activé)</em>, et il n'a aucune capacité éditoriale (donc invisible dans les dropdowns éditeur/relecteur).</li>
-                        <li>Le lien d'invitation est une URL signée HMAC Laravel — pas de table de tokens à gérer. Expiration configurable via <code>config('journal.invitation_expiration_days')</code> (14 jours par défaut).</li>
+                        <li>Le lien d'invitation est une URL signée HMAC Laravel, pas de table de tokens à gérer. Expiration configurable via <code>config('journal.invitation_expiration_days')</code> (14 jours par défaut).</li>
                     </ul>
                 </div>
 
@@ -1820,25 +1865,25 @@
                     <strong>Capacité lepis_editor :</strong> à accorder via <code>/extranet/users/{id}/edit</code> (section « Capacités éditoriales Chersotis », formulaire indépendant avec bouton dédié « Enregistrer les capacités »).
                 </div>
 
-                <h3>Gabarit PDF — paramètres de maquette</h3>
+                <h3>Gabarit PDF : paramètres de maquette</h3>
                 <p>Le rendu PDF LaTeX est paramétré dans <code>config/latex.php</code> (valeurs surchargeables via <code>.env</code>). Les décisions de la réunion Chersotis du 16 avril 2026 (section 10) sont appliquées par défaut :</p>
                 <ul>
                     <li><strong>Police</strong> : sans-serif (helvetica / Latin Modern Sans via <code>LATEX_FONT_MAIN</code>)</li>
                     <li><strong>Titres H1 (sections) et titre d'article</strong> : dark teal <code>#0F766E</code> (RGB 15/118/110), cohérent entre le titre et les sections</li>
                     <li><strong>Titres H2</strong> : noir, non-italique</li>
-                    <li><strong>Corps de texte</strong> : justifié par défaut (la spec §10 demandait l'alignement à gauche, mais <code>\RaggedRight</code> multiplie trop les lignes courtes en français et fait planter l'API de compilation YtoTech — à réactiver quand on aura une install LaTeX locale)</li>
+                    <li><strong>Corps de texte</strong> : justifié par défaut (la spec §10 demandait l'alignement à gauche, mais <code>\RaggedRight</code> multiplie trop les lignes courtes en français et fait planter l'API de compilation YtoTech, à réactiver quand on aura une install LaTeX locale)</li>
                     <li><strong>Marges main content</strong> (pages 2+) : <code>left=50mm, right=20mm</code> → largeur utile ~140 mm (proche de la cible 130 mm de la spec §10 ; 60mm gauche fait planter l'API)</li>
                     <li><strong>Bibliographie</strong> : taille réduite (<code>\small</code>, 1 cran en dessous du corps)</li>
-                    <li><strong>Figures / Tableaux</strong> : numérotation automatique via compteurs natifs LaTeX (<code>\figure</code>, <code>\table</code>) — cf. section numérotation ci-dessous</li>
+                    <li><strong>Figures / Tableaux</strong> : numérotation automatique via compteurs natifs LaTeX (<code>\figure</code>, <code>\table</code>), cf. section numérotation ci-dessous</li>
                 </ul>
                 <div class="doc-info">
-                    <strong>Personnalisation :</strong> pour modifier une couleur ou une marge sans toucher au code, utilisez les variables d'environnement (<code>LATEX_COLOR_TITLE_GREEN</code>, <code>LATEX_BODY_MARGIN_LEFT</code>, <code>LATEX_BODY_ALIGNMENT</code> — <code>ragged</code> ou <code>justified</code>, etc.).
+                    <strong>Personnalisation :</strong> pour modifier une couleur ou une marge sans toucher au code, utilisez les variables d'environnement (<code>LATEX_COLOR_TITLE_GREEN</code>, <code>LATEX_BODY_MARGIN_LEFT</code>, <code>LATEX_BODY_ALIGNMENT</code> : <code>ragged</code> ou <code>justified</code>, etc.).
                 </div>
 
                 <h3>Numérotation automatique des figures et tableaux</h3>
-                <p>Dans l'éditeur de blocs (<code>/extranet/submissions/{id}/layout</code>), chaque bloc image affiche un badge <strong>« Figure N »</strong> (teal) et chaque bloc table un badge <strong>« Tableau N »</strong> (indigo). La numérotation est <strong>recalculée automatiquement</strong> à chaque déplacement / ajout / suppression de bloc — l'éditeur ou le maquettiste ne renseigne que la légende descriptive (plus de « Fig. 1 - … » saisi à la main).</p>
+                <p>Dans l'éditeur de blocs (<code>/extranet/submissions/{id}/layout</code>), chaque bloc image affiche un badge <strong>« Figure N »</strong> (teal) et chaque bloc table un badge <strong>« Tableau N »</strong> (indigo). La numérotation est <strong>recalculée automatiquement</strong> à chaque déplacement / ajout / suppression de bloc, l'éditeur ou le maquettiste ne renseigne que la légende descriptive (plus de « Fig. 1 - … » saisi à la main).</p>
                 <p>Sur la page publique de l'article (<code>/revue/articles/{slug}</code>), les figures et tableaux sont affichés avec leur numéro en préfixe : <code>Figure 1. &lt;légende&gt;</code>, <code>Tableau 1. &lt;légende&gt;</code>. Les compteurs sont indépendants (une table entre deux images n'incrémente pas le numéro des figures).</p>
-                <p>Côté PDF LaTeX, la numérotation utilise déjà le compteur natif <code>\figure</code> / <code>\table</code> — aucune action requise côté template. Les sous-figures (<em>Figure 1a, 1b</em>) ne sont pas encore implémentées : hors scope MVP, viendra avec un champ <code>sub_figures</code> dans une phase ultérieure.</p>
+                <p>Côté PDF LaTeX, la numérotation utilise déjà le compteur natif <code>\figure</code> / <code>\table</code> : aucune action requise côté template. Les sous-figures (<em>Figure 1a, 1b</em>) ne sont pas encore implémentées : hors scope MVP, viendra avec un champ <code>sub_figures</code> dans une phase ultérieure.</p>
 
                 <h3>Checklist conformité éditeur avant maquettage</h3>
                 <p>Sur la fiche d'une soumission (<code>/extranet/submissions/{id}</code>), la colonne de droite affiche une card <strong>« Checklist conformité »</strong> (9 items, accent orange). L'éditeur coche au fil de sa relecture les points de conformité formelle qu'il a vérifiés :</p>
@@ -1853,9 +1898,9 @@
                     <li>Conflits d'intérêt déclarés</li>
                     <li>Données supplémentaires identifiées</li>
                 </ul>
-                <p>Chaque clic est <strong>sauvegardé instantanément</strong> (pas de bouton « Enregistrer » à chercher) — un badge « ✓ enregistré » apparaît brièvement pour le confirmer. Le compteur en haut à droite de la card affiche l'état (ex. <code>7/9</code>).</p>
+                <p>Chaque clic est <strong>sauvegardé instantanément</strong> (pas de bouton « Enregistrer » à chercher), un badge « ✓ enregistré » apparaît brièvement pour le confirmer. Le compteur en haut à droite de la card affiche l'état (ex. <code>7/9</code>).</p>
                 <div class="doc-info">
-                    <strong>Non bloquante :</strong> la checklist n'empêche pas de cliquer « Passer en maquettage » même incomplète — c'est un aide-mémoire, pas un garde-fou. Une fois l'article au statut <code>in_production</code> (ou au-delà), la card devient <strong>en lecture seule</strong> : témoin figé de ce qui a été vérifié avant mise en page.<br>
+                    <strong>Non bloquante :</strong> la checklist n'empêche pas de cliquer « Passer en maquettage » même incomplète, c'est un aide-mémoire, pas un garde-fou. Une fois l'article au statut <code>in_production</code> (ou au-delà), la card devient <strong>en lecture seule</strong> : témoin figé de ce qui a été vérifié avant mise en page.<br>
                     <strong>Permissions :</strong> seuls l'éditeur assigné, le rédacteur en chef et les admins peuvent cocher. Reviewers et auteurs ne voient pas cette card.
                 </div>
 
@@ -1876,7 +1921,7 @@
                 <p>Le pied de page du PDF généré affiche : <code>Chersotis, Tome X, pp. Y–Z (année)</code>. La citation bibliographique est au format : <code>Auteur (année). Titre. Chersotis, Tome X, Y–Z.</code></p>
 
                 <div class="doc-info">
-                    <strong>Recalcul :</strong> si le nombre de pages change (nouveau PDF maquetté), on peut recalculer. Seul l'article concerné est mis à jour — les articles suivants ne sont pas re-paginés automatiquement (évite les surprises en cascade). Un recalcul global doit être fait manuellement si nécessaire.
+                    <strong>Recalcul :</strong> si le nombre de pages change (nouveau PDF maquetté), on peut recalculer. Seul l'article concerné est mis à jour, les articles suivants ne sont pas re-paginés automatiquement (évite les surprises en cascade). Un recalcul global doit être fait manuellement si nécessaire.
                 </div>
 
                 <h3>Maquettage et transition automatique</h3>
@@ -1888,34 +1933,34 @@
 
                 <h4>Formats acceptés</h4>
                 <ul>
-                    <li><strong>Word</strong> (<code>.docx</code>) — converti en Markdown côté navigateur (instantané via mammoth.js), puis enrichi par l'IA</li>
-                    <li><strong>Markdown</strong> (<code>.md</code>, <code>.txt</code>, <code>.markdown</code>) — enrichi directement par l'IA</li>
+                    <li><strong>Word</strong> (<code>.docx</code>), converti en Markdown côté navigateur (instantané via mammoth.js), puis enrichi par l'IA</li>
+                    <li><strong>Markdown</strong> (<code>.md</code>, <code>.txt</code>, <code>.markdown</code>), enrichi directement par l'IA</li>
                 </ul>
                 <p>Taille maximale : 5 Mo. Tous les formats passent par le même enrichissement IA.</p>
 
                 <h4>Enrichissement intelligent (Claude Haiku)</h4>
                 <p>L'IA analyse le contenu du document et extrait automatiquement :</p>
                 <ul>
-                    <li><strong>Corps de l'article</strong> — titres hiérarchisés, formatage, tableaux, listes. Le titre, les affiliations, le résumé, les références et les remerciements sont <strong>retirés du corps</strong> et placés dans les champs dédiés.</li>
-                    <li><strong>Résumé (français)</strong> — extrait et pré-rempli dans le champ dédié au-dessus de l'éditeur</li>
-                    <li><strong>Summary (anglais)</strong> — extrait si présent, sinon <strong>traduit automatiquement</strong> depuis le résumé français</li>
-                    <li><strong>Auteurs (affichage)</strong> — noms extraits des affiliations, pré-remplis dans le champ sidebar. Ce champ est utilisé pour l'affichage sur toutes les pages publiques (listing, article, recherche, numéro), indépendamment du compte utilisateur lié à la soumission.</li>
-                    <li><strong>Références bibliographiques</strong> — extraites et reformatées en <strong>style Harvard</strong> (noms de revues en italique). Pré-remplies dans le champ sidebar.</li>
-                    <li><strong>Affiliations auteurs</strong> — extraites et pré-remplies dans le champ sidebar</li>
-                    <li><strong>Remerciements</strong> — extraits et pré-remplis dans le champ sidebar</li>
-                    <li><strong>Noms de taxons</strong> — détectés et enrichis avec un <strong>lien vers Artemisiae</strong> (soulignement vert, cliquable vers la fiche espèce)</li>
-                    <li><strong>Citations inline</strong> — les renvois bibliographiques dans le texte comme <code>(Dupont, 2023)</code> sont enrichis avec un <strong>tooltip</strong> affichant la référence complète au survol</li>
-                    <li><strong>Titre détecté</strong> — si différent du titre de la soumission, un bandeau propose de le mettre à jour</li>
+                    <li><strong>Corps de l'article</strong> : titres hiérarchisés, formatage, tableaux, listes. Le titre, les affiliations, le résumé, les références et les remerciements sont <strong>retirés du corps</strong> et placés dans les champs dédiés.</li>
+                    <li><strong>Résumé (français)</strong> : extrait et pré-rempli dans le champ dédié au-dessus de l'éditeur</li>
+                    <li><strong>Summary (anglais)</strong> : extrait si présent, sinon <strong>traduit automatiquement</strong> depuis le résumé français</li>
+                    <li><strong>Auteurs (affichage)</strong> : noms extraits des affiliations, pré-remplis dans le champ sidebar. Ce champ est utilisé pour l'affichage sur toutes les pages publiques (listing, article, recherche, numéro), indépendamment du compte utilisateur lié à la soumission.</li>
+                    <li><strong>Références bibliographiques</strong> : extraites et reformatées en <strong>style Harvard</strong> (noms de revues en italique). Pré-remplies dans le champ sidebar.</li>
+                    <li><strong>Affiliations auteurs</strong> : extraites et pré-remplies dans le champ sidebar</li>
+                    <li><strong>Remerciements</strong> : extraits et pré-remplis dans le champ sidebar</li>
+                    <li><strong>Noms de taxons</strong> : détectés et enrichis avec un <strong>lien vers Artemisiae</strong> (soulignement vert, cliquable vers la fiche espèce)</li>
+                    <li><strong>Citations inline</strong> : les renvois bibliographiques dans le texte comme <code>(Dupont, 2023)</code> sont enrichis avec un <strong>tooltip</strong> affichant la référence complète au survol</li>
+                    <li><strong>Titre détecté</strong> : si différent du titre de la soumission, un bandeau propose de le mettre à jour</li>
                 </ul>
 
                 <h4>Page publique de l'article</h4>
                 <p>Sur la page publique, les enrichissements suivants sont visibles :</p>
                 <ul>
-                    <li><strong>Résumé + Summary</strong> — affichés dans l'encadré dédié (le summary en italique). Remplacent le résumé initial de soumission.</li>
-                    <li><strong>Taxons</strong> — les noms d'espèces en italique sont cliquables (lien vert vers Artemisiae)</li>
-                    <li><strong>Citations</strong> — au survol d'un renvoi comme (Dupont, 2023), un tooltip dark affiche la référence complète</li>
-                    <li><strong>Références</strong> — les noms de revues en italique sont correctement rendus (Markdown <code>*revue*</code> → <em>revue</em>)</li>
-                    <li><strong>Métadonnées</strong> — DOI, date, type, logo Open Access et badge CC BY 4.0 dans une grille compacte</li>
+                    <li><strong>Résumé + Summary</strong> : affichés dans l'encadré dédié (le summary en italique). Remplacent le résumé initial de soumission.</li>
+                    <li><strong>Taxons</strong> : les noms d'espèces en italique sont cliquables (lien vert vers Artemisiae)</li>
+                    <li><strong>Citations</strong> : au survol d'un renvoi comme (Dupont, 2023), un tooltip dark affiche la référence complète</li>
+                    <li><strong>Références</strong> : les noms de revues en italique sont correctement rendus (Markdown <code>*revue*</code> → <em>revue</em>)</li>
+                    <li><strong>Métadonnées</strong> : DOI, date, type, logo Open Access et badge CC BY 4.0 dans une grille compacte</li>
                 </ul>
 
                 <div class="doc-info">
@@ -1952,7 +1997,7 @@
                 <p>Les étapes passées affichent un check vert, l'étape active est surlignée en turquoise. En cas de rejet, l'étape "Décision" affiche une croix rouge.</p>
 
                 <h4>Journal d'activité</h4>
-                <p>Sous la timeline, un bloc "Historique" affiche la chronologie des changements d'état avec des <strong>libellés humains</strong> (ex. "Votre manuscrit a été envoyé en relecture"). Les informations internes (noms d'éditeurs, de relecteurs, notes de transition) ne sont <strong>pas visibles</strong> par l'auteur — principe du "suivi de colis".</p>
+                <p>Sous la timeline, un bloc "Historique" affiche la chronologie des changements d'état avec des <strong>libellés humains</strong> (ex. "Votre manuscrit a été envoyé en relecture"). Les informations internes (noms d'éditeurs, de relecteurs, notes de transition) ne sont <strong>pas visibles</strong> par l'auteur, principe du "suivi de colis".</p>
 
                 <h4>Indicateur "Action requise"</h4>
                 <p>Quand le statut est <code>revision_requested</code> ou <code>revision_after_review</code>, un bandeau orange "Action requise" apparaît sur la page détail et un badge pulsant dans la liste. L'auteur est invité à soumettre sa révision via un bouton visible dans les deux cas.</p>
@@ -2007,47 +2052,47 @@
                 {{-- 6. Decisions editoriales                   --}}
                 {{-- ========================================== --}}
 
-                <h3>Decisions editoriales</h3>
-                <p>Les reviewers soumettent une recommandation parmi les quatre suivantes. L'editeur prend ensuite la decision finale en s'appuyant sur l'ensemble des evaluations recues.</p>
+                <h3>Décisions éditoriales</h3>
+                <p>Les relecteurs soumettent une recommandation parmi les quatre suivantes. L'éditeur prend ensuite la décision finale en s'appuyant sur l'ensemble des évaluations reçues.</p>
 
                 <div class="doc-table">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Decision</th>
+                                <th>Décision</th>
                                 <th>Signification</th>
-                                <th>Consequence</th>
+                                <th>Conséquence</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><span class="badge badge-success">Accepter en l'etat</span></td>
+                                <td><span class="badge badge-success">Accepter en l'état</span></td>
                                 <td>Le manuscrit est publiable tel quel</td>
-                                <td>Statut → <strong>accepted</strong>. L'editeur prepare la publication.</td>
+                                <td>Statut → <strong>accepted</strong>. L'éditeur prépare la publication.</td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-warning">Revisions mineures</span></td>
-                                <td>Corrections legeres requises (coquilles, clarifications, references)</td>
-                                <td>Statut → <strong>revision</strong>. L'auteur corrige et resoumet. L'editeur peut accepter directement apres revision.</td>
+                                <td><span class="badge badge-warning">Révisions mineures</span></td>
+                                <td>Corrections légères requises (coquilles, clarifications, références)</td>
+                                <td>Statut → <strong>revision</strong>. L'auteur corrige et resoumet. L'éditeur peut accepter directement après révision.</td>
                             </tr>
                             <tr>
-                                <td><span class="badge badge-warning">Revisions majeures</span></td>
-                                <td>Modifications substantielles necessaires (methodologie, analyse, structure)</td>
-                                <td>Statut → <strong>revision</strong>. L'auteur corrige et resoumet. Le manuscrit repasse generalement en relecture.</td>
+                                <td><span class="badge badge-warning">Révisions majeures</span></td>
+                                <td>Modifications substantielles nécessaires (méthodologie, analyse, structure)</td>
+                                <td>Statut → <strong>revision</strong>. L'auteur corrige et resoumet. Le manuscrit repasse généralement en relecture.</td>
                             </tr>
                             <tr>
                                 <td><span class="badge badge-danger">Rejeter</span></td>
                                 <td>Le manuscrit n'est pas publiable dans Chersotis</td>
-                                <td>Statut → <strong>rejected</strong>. L'auteur est notifie avec les motifs.</td>
+                                <td>Statut → <strong>rejected</strong>. L'auteur est notifié avec les motifs.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <p>Chaque reviewer fournit deux types de commentaires :</p>
+                <p>Chaque relecteur fournit deux types de commentaires :</p>
                 <ul>
-                    <li><strong>Commentaires pour l'auteur</strong> -- transmis a l'auteur avec la decision</li>
-                    <li><strong>Commentaires confidentiels pour l'editeur</strong> -- visibles uniquement par l'editeur, non transmis a l'auteur</li>
+                    <li><strong>Commentaires pour l'auteur</strong> : transmis à l'auteur avec la décision.</li>
+                    <li><strong>Commentaires confidentiels pour l'éditeur</strong> : visibles uniquement par l'éditeur, non transmis à l'auteur.</li>
                 </ul>
 
                 {{-- ========================================== --}}
@@ -2055,41 +2100,41 @@
                 {{-- ========================================== --}}
 
                 <h3>Publication d'un article</h3>
-                <p>Lorsqu'un manuscrit est <strong>accepte</strong>, une section "Publication" apparait sur sa fiche dans l'extranet. Voici les etapes pour finaliser la publication :</p>
+                <p>Lorsqu'un manuscrit est <strong>accepté</strong>, une section « Publication » apparaît sur sa fiche dans l'extranet. Voici les étapes pour finaliser la publication :</p>
 
                 <div class="doc-steps">
                     <div class="step">
                         <div class="step-number">1</div>
                         <div class="step-content">
-                            <strong>Generer le PDF final</strong>
-                            <p>Cliquez sur "Generer le PDF" pour creer le document avec la mise en page officielle de Chersotis (en-tete, logo, citation formatee).</p>
+                            <strong>Générer le PDF final</strong>
+                            <p>Cliquez sur « Générer le PDF » pour créer le document avec la mise en page officielle de Chersotis (en-tête, logo, citation formatée).</p>
                         </div>
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
                         <div class="step-content">
                             <strong>Assigner le DOI</strong>
-                            <p>Deux options : "DOI local" (genere un identifiant sans enregistrement externe) ou "Enregistrer sur Crossref" (enregistrement officiel aupres de l'agence internationale).</p>
+                            <p>Deux options : « DOI local » (génère un identifiant sans enregistrement externe) ou « Enregistrer sur Crossref » (enregistrement officiel auprès de l'agence internationale).</p>
                         </div>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
                         <div class="step-content">
-                            <strong>Assigner a un numero et publier</strong>
-                            <p>Selectionnez le numero de Chersotis, indiquez les pages, puis cliquez sur "Publier l'article". L'article devient accessible sur le site public a l'adresse <code>/revue/articles/</code>.</p>
+                            <strong>Assigner à un numéro et publier</strong>
+                            <p>Sélectionnez le numéro de Chersotis, indiquez les pages, puis cliquez sur « Publier l'article ». L'article devient accessible sur le site public à l'adresse <code>/revue/articles/</code>.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="doc-info">
-                    <strong>Astuce :</strong> Vous pouvez publier en une seule action en utilisant le formulaire "Publication finale" qui combine toutes les etapes (PDF, DOI, publication).
+                    <strong>Astuce :</strong> vous pouvez publier en une seule action en utilisant le formulaire « Publication finale » qui combine toutes les étapes (PDF, DOI, publication).
                 </div>
 
                 {{-- ========================================== --}}
                 {{-- 8. Recapitulatif des statuts et actions    --}}
                 {{-- ========================================== --}}
 
-                <h3>Recapitulatif des statuts et actions</h3>
+                <h3>Récapitulatif des statuts et actions</h3>
                 <p>Depuis avril 2026, le workflow est géré par une machine à états stricte côté serveur. Les boutons de décision affichés dans l'interface sont dérivés des transitions autorisées pour le statut courant et pour le rôle de l'utilisateur.</p>
 
                 <div class="doc-table">
@@ -2169,17 +2214,17 @@
                 <h4>Attribution du DOI</h4>
                 <p>Le bouton "Obtenir le DOI" dans la fiche admin de la soumission (<code>/extranet/submissions/{id}</code>) attribue un DOI via le service <code>CrossrefService</code>. Deux modes :</p>
                 <ul>
-                    <li><strong>Dry-run</strong> (<code>CROSSREF_DRY_RUN=true</code>, défaut) — le DOI est généré et stocké en base mais aucun dépôt n'est fait auprès de Crossref. Utile tant que l'ISSN n'est pas obtenu.</li>
-                    <li><strong>Production</strong> (<code>CROSSREF_DRY_RUN=false</code>) — le DOI est déposé auprès de Crossref via leur API. Nécessite : ISSN obtenu + identifiants Crossref configurés dans <code>.env</code> (<code>CROSSREF_USERNAME</code>, <code>CROSSREF_PASSWORD</code>).</li>
+                    <li><strong>Dry-run</strong> (<code>CROSSREF_DRY_RUN=true</code>, défaut), le DOI est généré et stocké en base mais aucun dépôt n'est fait auprès de Crossref. Utile tant que l'ISSN n'est pas obtenu.</li>
+                    <li><strong>Production</strong> (<code>CROSSREF_DRY_RUN=false</code>), le DOI est déposé auprès de Crossref via leur API. Nécessite : ISSN obtenu + identifiants Crossref configurés dans <code>.env</code> (<code>CROSSREF_USERNAME</code>, <code>CROSSREF_PASSWORD</code>).</li>
                 </ul>
                 <p>Le DOI doit être attribué <strong>avant</strong> la génération du PDF final (pour qu'il figure dans le document).</p>
 
                 <h4>Exports de citations</h4>
                 <p>Sur la page publique d'un article publié (<code>/articles/{id}</code>), 3 formats sont disponibles :</p>
                 <ul>
-                    <li><strong>BibTeX</strong> — téléchargement <code>.bib</code> via <code>/articles/{id}/cite/bibtex</code></li>
-                    <li><strong>RIS</strong> — téléchargement <code>.ris</code> via <code>/articles/{id}/cite/ris</code> (compatible Zotero, Mendeley, EndNote)</li>
-                    <li><strong>Harvard</strong> — copie dans le presse-papier (format auteur-date, bouton "Copier Harvard")</li>
+                    <li><strong>BibTeX</strong> : téléchargement <code>.bib</code> via <code>/articles/{id}/cite/bibtex</code></li>
+                    <li><strong>RIS</strong> : téléchargement <code>.ris</code> via <code>/articles/{id}/cite/ris</code> (compatible Zotero, Mendeley, EndNote)</li>
+                    <li><strong>Harvard</strong> : copie dans le presse-papier (format auteur-date, bouton "Copier Harvard")</li>
                 </ul>
                 <p>Les citations incluent automatiquement : auteurs, co-auteurs, titre, journal (Chersotis), tome, pages et DOI.</p>
             </section>
@@ -2192,11 +2237,11 @@
 
                 <h3>Les 5 capacités</h3>
                 <ul>
-                    <li><code>chief_editor</code> — <strong>Rédacteur en chef</strong> : supervise l'ensemble du comité, assigne les éditeurs aux articles, modifie les capacités des membres.</li>
-                    <li><code>editor</code> — <strong>Éditeur</strong> : prend en charge un article (auto-attribution), désigne les relecteurs, synthétise les retours, valide la version finale, gère les allers-retours auteur.</li>
-                    <li><code>reviewer</code> — <strong>Relecteur</strong> : accède au manuscrit assigné, soumet un rapport de relecture. Non anonyme.</li>
-                    <li><code>layout_editor</code> — <strong>Maquettiste</strong> : accède aux articles acceptés, crée la maquette, génère le PDF final.</li>
-                    <li><code>lepis_editor</code> — <strong>Rédacteur en chef Lepis</strong> : reçoit par mail les articles que Chersotis transmet au bulletin Lepis (via la File Lepis — cf. <a href="#soumissions" style="color:#356B8A;">Rejet avec recommandation Lepis</a>). Peut consulter la fiche admin des articles <code>redirected_to_lepis</code> pour y lire le manuscrit, puis prend contact avec l'auteur <strong>hors plateforme</strong> pour négocier la publication dans Lepis. Introduit en avril 2026.</li>
+                    <li><code>chief_editor</code> : <strong>Rédacteur en chef</strong> : supervise l'ensemble du comité, assigne les éditeurs aux articles, modifie les capacités des membres.</li>
+                    <li><code>editor</code> : <strong>Éditeur</strong> : prend en charge un article (auto-attribution), désigne les relecteurs, synthétise les retours, valide la version finale, gère les allers-retours auteur.</li>
+                    <li><code>reviewer</code> : <strong>Relecteur</strong> : accède au manuscrit assigné, soumet un rapport de relecture. Non anonyme.</li>
+                    <li><code>layout_editor</code> : <strong>Maquettiste</strong> : accède aux articles acceptés, crée la maquette, génère le PDF final.</li>
+                    <li><code>lepis_editor</code> : <strong>Rédacteur en chef Lepis</strong> : reçoit par mail les articles que Chersotis transmet au bulletin Lepis (via la File Lepis, cf. <a href="#soumissions" style="color:#356B8A;">Rejet avec recommandation Lepis</a>). Peut consulter la fiche admin des articles <code>redirected_to_lepis</code> pour y lire le manuscrit, puis prend contact avec l'auteur <strong>hors plateforme</strong> pour négocier la publication dans Lepis. Introduit en avril 2026.</li>
                 </ul>
 
                 <h3>Gérer les capacités d'un utilisateur</h3>
@@ -2204,14 +2249,14 @@
 
                 <h3>Règle de séparation des rôles</h3>
                 <p>Pour éviter les conflits d'intérêt, un utilisateur <strong>ne peut pas être à la fois éditeur et relecteur du même article</strong>. Toute tentative d'assignation en conflit renvoie une exception <code>RoleConflictException</code> et un message d'erreur à l'utilisateur.</p>
-                <p>Un <strong>override explicite</strong> est possible en cochant la case "forcer" lors de l'assignation (pour les exceptions ponctuelles validées par le groupe). Depuis avril 2026, une <strong>modale de confirmation</strong> s'ouvre au submit et impose de saisir un <strong>motif</strong> (3-500 caractères, obligatoire) — le motif est concaténé à la note standard et enregistré dans <code>submission_transitions.notes</code> sous la forme <code>Override: séparation des rôles forcée — Motif : &lt;texte&gt;</code>.</p>
+                <p>Un <strong>override explicite</strong> est possible en cochant la case "forcer" lors de l'assignation (pour les exceptions ponctuelles validées par le groupe). Depuis avril 2026, une <strong>modale de confirmation</strong> s'ouvre au submit et impose de saisir un <strong>motif</strong> (3-500 caractères, obligatoire), le motif est concaténé à la note standard et enregistré dans <code>submission_transitions.notes</code> sous la forme <code>Override: séparation des rôles forcée — Motif : &lt;texte&gt;</code>.</p>
 
                 <h3>Traçabilité</h3>
                 <p>Toutes les assignations (éditeur pris/assigné, maquettiste assigné, relecteur invité) sont loguées dans la table <code>submission_transitions</code> avec l'acteur, la cible, l'horodatage et les notes éventuelles. Cette table sera aussi utilisée pour tracer les transitions de statut (sous-projet C à venir).</p>
 
                 <h3>Distinction capacité globale vs assignation par article</h3>
                 <ul>
-                    <li>La <strong>capacité</strong> (<code>editorial_capabilities</code>) dit "cet utilisateur <em>peut être</em> éditeur" — c'est l'éligibilité globale.</li>
+                    <li>La <strong>capacité</strong> (<code>editorial_capabilities</code>) dit "cet utilisateur <em>peut être</em> éditeur", c'est l'éligibilité globale.</li>
                     <li>L'<strong>assignation</strong> (<code>submissions.editor_id</code>, <code>submissions.layout_editor_id</code>, <code>reviews.reviewer_id</code>) dit "cet utilisateur <em>est</em> éditeur <em>de cet article précis</em>".</li>
                 </ul>
                 <p>Un même utilisateur peut donc être éditeur de l'article 42 et relecteur de l'article 57, tant que la règle de séparation est respectée sur chaque article.</p>
@@ -2246,7 +2291,7 @@
                 <p>Les éditeurs déjà relecteurs sur l'article en question apparaissent <strong>grisés</strong> avec la mention "(déjà relecteur)" pour signaler le conflit. Une case <strong>"forcer"</strong> à cocher permet d'outrepasser la règle (tracé dans les notes).</p>
 
                 <h3>Où aller ensuite</h3>
-                <p>Une fois un article pris en charge, il apparaît dans le dashboard <a href="#mes-articles" class="doc-nav-link" style="display:inline">Mes articles</a> de l'éditeur concerné. La suite du workflow éditorial (invitation relecteurs, décision, publication) est décrite dans la section <a href="#soumissions" class="doc-nav-link" style="display:inline">Workflow editorial</a>.</p>
+                <p>Une fois un article pris en charge, il apparaît dans le dashboard <a href="#mes-articles" class="doc-nav-link" style="display:inline">Mes articles</a> de l'éditeur concerné. La suite du workflow éditorial (invitation relecteurs, décision, publication) est décrite dans la section <a href="#soumissions" class="doc-nav-link" style="display:inline">Workflow éditorial</a>.</p>
             </section>
 
             {{-- Mes articles (dashboard éditeur) --}}
@@ -2260,7 +2305,7 @@
                     <li><strong>Titre</strong></li>
                     <li><strong>Auteur</strong></li>
                     <li><strong>Statut</strong> (soumis, en évaluation, révision demandée, accepté, etc.)</li>
-                    <li><strong>Relectures</strong> — nombre de relectures complétées / total assignées (ex. <code>2 / 3</code>)</li>
+                    <li><strong>Relectures</strong> : nombre de relectures complétées / total assignées (ex. <code>2 / 3</code>)</li>
                 </ul>
 
                 <div class="doc-info">
@@ -2273,43 +2318,43 @@
 
             {{-- Reviews --}}
             <section id="reviews" class="doc-section">
-                <h2>Reviews (Evaluations par les pairs)</h2>
-                <p>Cette section concerne la gestion des evaluations dans l'extranet. Chaque review correspond a l'evaluation d'un manuscrit par un relecteur expert.</p>
+                <h2>Relectures (évaluations par les pairs)</h2>
+                <p>Cette section concerne la gestion des évaluations dans l'extranet. Chaque relecture correspond à l'évaluation d'un manuscrit par un relecteur expert.</p>
 
                 <div class="doc-info">
-                    <strong>Politique de relecture — décision du 7 avril 2026 :</strong> les relecteurs <strong>ne sont pas anonymes</strong>. Leur identité est communiquée à l'auteur avec leur rapport. Il n'y a pas de mécanisme de masquage d'identité.<br>
+                    <strong>Politique de relecture, décision du 7 avril 2026 :</strong> les relecteurs <strong>ne sont pas anonymes</strong>. Leur identité est communiquée à l'auteur avec leur rapport. Il n'y a pas de mécanisme de masquage d'identité.<br>
                     <strong>Séparation des rôles :</strong> un relecteur ne peut pas être simultanément éditeur du même article (et inversement). Voir la section <a href="#capacites-editoriales" class="doc-nav-link" style="display:inline">Capacités éditoriales</a>.
                 </div>
 
-                <h3>Assigner un reviewer</h3>
-                <p>Depuis l'extranet, accedez a <code>/extranet/reviews/create</code> pour creer une nouvelle evaluation. Selectionnez la soumission concernee, le reviewer (depuis le pool de relecteurs) et la date limite. Un email d'invitation est envoye automatiquement au reviewer selectionne.</p>
+                <h3>Assigner un relecteur</h3>
+                <p>Depuis l'extranet, accédez à <code>/extranet/reviews/create</code> pour créer une nouvelle évaluation. Sélectionnez la soumission concernée, le relecteur (depuis le pool de relecteurs) et la date limite. Un email d'invitation est envoyé automatiquement au relecteur sélectionné.</p>
 
-                <h3>Statuts des reviews</h3>
+                <h3>Statuts des relectures</h3>
                 <ul>
-                    <li><span class="badge badge-info">Invite</span> -- Le reviewer a recu l'invitation, en attente de reponse</li>
-                    <li><span class="badge badge-warning">Accepte</span> -- L'invitation a ete acceptee, l'evaluation est en cours</li>
-                    <li><span class="badge badge-danger">Decline</span> -- Le reviewer a refuse l'invitation</li>
-                    <li><span class="badge badge-success">Complete</span> -- L'evaluation a ete soumise avec une recommandation</li>
-                    <li><span class="badge badge-secondary">Expire</span> -- Le delai est depasse sans reponse du reviewer</li>
+                    <li><span class="badge badge-info">Invité</span> : le relecteur a reçu l'invitation, en attente de réponse.</li>
+                    <li><span class="badge badge-warning">Accepté</span> : l'invitation a été acceptée, l'évaluation est en cours.</li>
+                    <li><span class="badge badge-danger">Décliné</span> : le relecteur a refusé l'invitation.</li>
+                    <li><span class="badge badge-success">Terminé</span> : l'évaluation a été soumise avec une recommandation.</li>
+                    <li><span class="badge badge-secondary">Expiré</span> : le délai est dépassé sans réponse du relecteur.</li>
                 </ul>
 
                 <h3>Recommandations possibles</h3>
                 <ul>
-                    <li><strong>Accepter</strong> -- Le manuscrit est publiable en l'etat</li>
-                    <li><strong>Revisions mineures</strong> -- Corrections legeres requises</li>
-                    <li><strong>Revisions majeures</strong> -- Modifications substantielles necessaires</li>
-                    <li><strong>Rejeter</strong> -- Le manuscrit n'est pas publiable</li>
+                    <li><strong>Accepter</strong> : le manuscrit est publiable en l'état.</li>
+                    <li><strong>Révisions mineures</strong> : corrections légères requises.</li>
+                    <li><strong>Révisions majeures</strong> : modifications substantielles nécessaires.</li>
+                    <li><strong>Rejeter</strong> : le manuscrit n'est pas publiable.</li>
                 </ul>
 
                 <h3>Notifications email</h3>
-                <p>Le systeme gere automatiquement les communications avec les reviewers :</p>
+                <p>Le système gère automatiquement les communications avec les relecteurs :</p>
                 <ul>
-                    <li><strong>Invitation</strong> -- Email envoye automatiquement lors de l'assignation d'une review</li>
-                    <li><strong>Rappel</strong> -- Envoi manuel depuis la liste des reviews (selectionner la review puis cliquer "Envoyer rappel")</li>
+                    <li><strong>Invitation</strong> : email envoyé automatiquement lors de l'assignation d'une relecture.</li>
+                    <li><strong>Rappel</strong> : envoi manuel depuis la liste des relectures (sélectionner la relecture puis cliquer « Envoyer rappel »).</li>
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Astuce :</strong> Les reviews en retard sont signalees en rouge dans la liste. Utilisez le filtre "En retard" pour les identifier rapidement et envoyer des rappels cibles.
+                    <strong>Astuce :</strong> les relectures en retard sont signalées en rouge dans la liste. Utilisez le filtre « En retard » pour les identifier rapidement et envoyer des rappels ciblés.
                 </div>
             </section>
 
@@ -2587,7 +2632,7 @@
                 <p>Le module Brevo permet de synchroniser vos contacts avec la plateforme d'email marketing Brevo (anciennement Sendinblue).</p>
 
                 <h3>Configuration</h3>
-                <p>Pour activer l'integration, ajoutez votre cle API dans le fichier <code>.env</code> :</p>
+                <p>Pour activer l'integration, ajoutez votre cle API dans le fichier <code>.env</code> : </p>
                 <pre style="background: #f3f4f6; padding: 1rem; border-radius: 4px; margin: 1rem 0;">BREVO_API_KEY=votre_cle_api</pre>
                 <p>Vous pouvez obtenir une cle API depuis votre compte Brevo :</p>
                 <ul>
@@ -2833,7 +2878,7 @@
                 <p>Le fichier <code>.env</code> doit contenir <code>MAIL_MAILER=log</code>. Les emails ne sont pas envoyés : ils sont écrits dans <code>storage/logs/laravel.log</code>. Utile pour vérifier le contenu et le déclenchement sans serveur SMTP.</p>
 
                 <h4>En production (Brevo)</h4>
-                <p>Configurer le driver SMTP Brevo dans <code>.env</code> :</p>
+                <p>Configurer le driver SMTP Brevo dans <code>.env</code> : </p>
                 <pre style="background:#f3f4f6;padding:1rem;border-radius:0.5rem;font-size:0.85rem;overflow-x:auto;">
 MAIL_MAILER=smtp
 MAIL_HOST=smtp-relay.brevo.com
@@ -2842,7 +2887,7 @@ MAIL_USERNAME=votre-login-brevo
 MAIL_PASSWORD=votre-clé-api-smtp
 MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS=revue@oreina.org
-MAIL_FROM_NAME="Chersotis — OREINA"</pre>
+MAIL_FROM_NAME="Chersotis, OREINA"</pre>
 
                 <h4>En tests (PHPUnit)</h4>
                 <p><code>phpunit.xml</code> force <code>MAIL_MAILER=array</code> : les emails sont interceptés en mémoire et vérifiables via <code>Mail::assertQueued()</code>. Aucun email réel n'est envoyé.</p>
@@ -2850,20 +2895,20 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
                 <h3>Queue et envoi asynchrone</h3>
                 <p>Tous les mailables implémentent <code>ShouldQueue</code>. En production avec <code>QUEUE_CONNECTION=redis</code> (ou <code>database</code>), les emails sont mis en file d'attente et envoyés par un worker :</p>
                 <pre style="background:#f3f4f6;padding:1rem;border-radius:0.5rem;font-size:0.85rem;">php artisan queue:work</pre>
-                <p>En développement avec <code>QUEUE_CONNECTION=sync</code>, les emails sont envoyés immédiatement (synchrone) — peut ralentir les requêtes HTTP.</p>
+                <p>En développement avec <code>QUEUE_CONNECTION=sync</code>, les emails sont envoyés immédiatement (synchrone), peut ralentir les requêtes HTTP.</p>
 
                 <h3>Templates</h3>
                 <p>Les templates email sont dans <code>resources/views/emails/</code> au format Markdown Blade (<code>&lt;x-mail::message&gt;</code>). Structure :</p>
                 <ul>
-                    <li><code>emails/verify-email.blade.php</code> — vérification email (HTML inline, pas Markdown)</li>
-                    <li><code>emails/submissions/received.blade.php</code> — confirmation soumission auteur</li>
-                    <li><code>emails/submissions/new-alert.blade.php</code> — alerte éditeurs</li>
-                    <li><code>emails/submissions/decision.blade.php</code> — décision accepté/rejeté</li>
-                    <li><code>emails/review-invitation.blade.php</code> — invitation relecture (avec lien signé)</li>
-                    <li><code>emails/review-reminder.blade.php</code> — relance relecture</li>
-                    <li><code>emails/reviews/accepted.blade.php</code> — relecteur a accepté</li>
-                    <li><code>emails/reviews/declined.blade.php</code> — relecteur a décliné</li>
-                    <li><code>emails/reviews/completed.blade.php</code> — évaluation déposée</li>
+                    <li><code>emails/verify-email.blade.php</code> : vérification email (HTML inline, pas Markdown)</li>
+                    <li><code>emails/submissions/received.blade.php</code> : confirmation soumission auteur</li>
+                    <li><code>emails/submissions/new-alert.blade.php</code> : alerte éditeurs</li>
+                    <li><code>emails/submissions/decision.blade.php</code> : décision accepté/rejeté</li>
+                    <li><code>emails/review-invitation.blade.php</code> : invitation relecture (avec lien signé)</li>
+                    <li><code>emails/review-reminder.blade.php</code> : relance relecture</li>
+                    <li><code>emails/reviews/accepted.blade.php</code> : relecteur a accepté</li>
+                    <li><code>emails/reviews/declined.blade.php</code> : relecteur a décliné</li>
+                    <li><code>emails/reviews/completed.blade.php</code> : évaluation déposée</li>
                 </ul>
 
                 <h3>Scheduler</h3>
@@ -2963,12 +3008,12 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
                 <h3>Métriques des articles publiés</h3>
                 <p>Depuis avril 2026, chaque article publié sur <code>/revue/articles/{id}</code> suit automatiquement 4 métriques d'engagement affichées dans la sidebar droite de la page publique :</p>
                 <ul>
-                    <li><strong>Vues</strong> — incrémenté à chaque chargement de la page, dédupliqué par IP hashée (SHA-256 + <code>app.key</code>) <em>ou</em> cookie <code>oreina_visitor</code> sur une fenêtre glissante de 24h.</li>
-                    <li><strong>Téléchargements PDF</strong> — comptés via l'endpoint <code>/revue/articles/{id}/pdf</code>, même logique de dédup.</li>
-                    <li><strong>Partages</strong> — Twitter, LinkedIn, mail, copie du lien, ou partage natif mobile. Dédup <em>par réseau</em> : un utilisateur qui partage sur Twitter puis LinkedIn dans la même heure compte pour 2 events distincts.</li>
-                    <li><strong>Citations Crossref</strong> — <code>is-referenced-by-count</code> récupéré en asynchrone via le service <code>CrossrefCitationService</code> (job <code>SyncCrossrefCitationsJob</code>) avec un TTL de 7 jours. Résilient aux erreurs HTTP (n'écrase jamais les données en cas d'échec).</li>
+                    <li><strong>Vues</strong> : incrémenté à chaque chargement de la page, dédupliqué par IP hashée (SHA-256 + <code>app.key</code>) <em>ou</em> cookie <code>oreina_visitor</code> sur une fenêtre glissante de 24h.</li>
+                    <li><strong>Téléchargements PDF</strong> : comptés via l'endpoint <code>/revue/articles/{id}/pdf</code>, même logique de dédup.</li>
+                    <li><strong>Partages</strong> : Twitter, LinkedIn, mail, copie du lien, ou partage natif mobile. Dédup <em>par réseau</em> : un utilisateur qui partage sur Twitter puis LinkedIn dans la même heure compte pour 2 events distincts.</li>
+                    <li><strong>Citations Crossref</strong> : <code>is-referenced-by-count</code> récupéré en asynchrone via le service <code>CrossrefCitationService</code> (job <code>SyncCrossrefCitationsJob</code>) avec un TTL de 7 jours. Résilient aux erreurs HTTP (n'écrase jamais les données en cas d'échec).</li>
                 </ul>
-                <p>Les événements bruts sont stockés dans la table <code>article_events</code> (submission_id, event_type, hashed_ip, cookie_id, network, user_agent, occurred_at) — il n'y a pas encore de dashboard admin dédié, mais la donnée est disponible pour construire des rapports.</p>
+                <p>Les événements bruts sont stockés dans la table <code>article_events</code> (submission_id, event_type, hashed_ip, cookie_id, network, user_agent, occurred_at), il n'y a pas encore de dashboard admin dédié, mais la donnée est disponible pour construire des rapports.</p>
 
                 <div class="doc-info">
                     <strong>Astuce :</strong> Les statistiques globales sont calculées en temps réel. Les métriques article sont mises en cache 1 heure et invalidées dès qu'un nouvel événement est enregistré.
@@ -3390,218 +3435,224 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
     font-size: 1.25rem;
 }
 
-/* Enhanced Workflow Diagram */
-.workflow-diagram {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+/* ============================================
+   Chersotis workflow, style aligné sur
+   /revue/mes-soumissions/{id}
+   ============================================ */
+.chersotis-wf {
+    background: #fff;
+    border: 1px solid rgba(219, 203, 199, 0.5);
     border-radius: 1rem;
-    padding: 2rem;
-    margin: 1.5rem 0;
-    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    margin: 1.25rem 0;
 }
 
-.workflow-main-path {
+.chersotis-wf-timeline {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-    overflow-x: auto;
-    padding-bottom: 1rem;
+    gap: 0;
 }
 
-.workflow-stage {
+.chersotis-wf-step {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 80px;
+    flex: 0 0 auto;
+    min-width: 92px;
     text-align: center;
 }
 
-.workflow-stage-icon {
-    width: 56px;
-    height: 56px;
+.chersotis-wf-circle {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
+    background: #14B8A6;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 10px rgba(20, 184, 166, 0.18);
+    transition: transform 0.2s;
 }
 
-.workflow-stage:hover .workflow-stage-icon {
-    transform: scale(1.1);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+.chersotis-wf-step:hover .chersotis-wf-circle {
+    transform: scale(1.05);
 }
 
-.workflow-stage-icon.draft { background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); }
-.workflow-stage-icon.submitted { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); }
-.workflow-stage-icon.desk-review { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
-.workflow-stage-icon.in-review { background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%); }
-.workflow-stage-icon.accepted { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); }
-.workflow-stage-icon.published { background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); }
-
-.workflow-stage-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.25rem;
+.chersotis-wf-step.published .chersotis-wf-circle {
+    background: #0f766e;
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.22);
 }
 
-.workflow-stage-actor {
-    font-size: 0.65rem;
-    color: #6b7280;
-    background: white;
-    padding: 0.125rem 0.5rem;
+.chersotis-wf-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #16302B;
+    margin-top: 0.5rem;
+    line-height: 1.2;
+}
+
+.chersotis-wf-actor {
+    font-size: 0.7rem;
+    color: #64748b;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
     border-radius: 9999px;
-    border: 1px solid #e5e7eb;
+    padding: 2px 8px;
+    margin-top: 0.35rem;
+    white-space: nowrap;
 }
 
-.workflow-connector {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    min-width: 20px;
+.chersotis-wf-line {
+    flex: 1 1 auto;
+    height: 2px;
+    background: #14B8A6;
+    margin-top: 23px;
+    min-width: 12px;
     max-width: 60px;
-    margin-top: 1.25rem;
-}
-
-.workflow-connector-line {
-    flex: 1;
-    height: 3px;
-    background: linear-gradient(90deg, #cbd5e1 0%, #94a3b8 100%);
+    align-self: flex-start;
+    opacity: 0.7;
     border-radius: 2px;
 }
 
-.workflow-connector-arrow {
-    width: 0;
-    height: 0;
-    border-left: 8px solid #94a3b8;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-}
-
-.workflow-branches {
-    display: flex;
+.chersotis-wf-branches {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 2px dashed #e2e8f0;
+    border-top: 1px dashed rgba(219, 203, 199, 0.6);
 }
 
-.workflow-branch {
-    flex: 1;
-    padding: 1rem;
+.chersotis-wf-branch {
     border-radius: 0.75rem;
-    border-left: 4px solid;
+    padding: 1rem 1.25rem;
+    border: 1px solid;
 }
 
-.workflow-branch.revision {
-    background: rgba(251, 191, 36, 0.1);
-    border-left-color: #f59e0b;
+.chersotis-wf-branch.revision {
+    background: #fff7ed;
+    border-color: #fed7aa;
 }
 
-.workflow-branch.rejected {
-    background: rgba(239, 68, 68, 0.1);
-    border-left-color: #ef4444;
+.chersotis-wf-branch.rejected {
+    background: #fef2f2;
+    border-color: #fecaca;
 }
 
-.branch-label {
+.chersotis-wf-branch-head {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-weight: 600;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
 }
 
-.workflow-branch.revision .branch-label { color: #b45309; }
-.workflow-branch.rejected .branch-label { color: #dc2626; }
+.chersotis-wf-branch.revision .chersotis-wf-branch-head { color: #c2410c; }
+.chersotis-wf-branch.rejected .chersotis-wf-branch-head { color: #b91c1c; }
 
-.branch-description {
-    font-size: 0.8rem;
-    color: #6b7280;
-    line-height: 1.5;
+.chersotis-wf-branch p {
+    color: #475569;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin: 0;
 }
 
-/* Workflow Detail Cards */
-.workflow-details {
+/* Detail cards */
+.chersotis-steps {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 1fr;
     gap: 1rem;
     margin: 1.5rem 0;
 }
 
-.workflow-detail-card {
-    background: white;
-    border-radius: 0.75rem;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: box-shadow 0.2s;
+@media (min-width: 768px) {
+    .chersotis-steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.workflow-detail-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.chersotis-step {
+    background: #fff;
+    border: 1px solid rgba(219, 203, 199, 0.5);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
 }
 
-.detail-header {
+.chersotis-step:hover {
+    box-shadow: 0 6px 18px rgba(22, 48, 43, 0.06);
+    border-color: rgba(219, 203, 199, 0.9);
+}
+
+.chersotis-step-head {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    color: white;
+    gap: 0.85rem;
+    padding-bottom: 0.9rem;
+    margin-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(219, 203, 199, 0.4);
 }
 
-.detail-header.draft { background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); }
-.detail-header.submitted { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); }
-.detail-header.desk-review { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
-.detail-header.in-review { background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%); }
-.detail-header.revision { background: linear-gradient(135deg, #fb923c 0%, #f97316 100%); }
-.detail-header.accepted { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); }
-.detail-header.published { background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); }
-
-.detail-number {
-    width: 28px;
-    height: 28px;
-    background: rgba(255,255,255,0.2);
+.chersotis-step-num {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.chersotis-step.submitted    .chersotis-step-num { background: #dbeafe; color: #1d4ed8; }
+.chersotis-step.desk-review  .chersotis-step-num { background: #fef9c3; color: #a16207; }
+.chersotis-step.in-review    .chersotis-step-num { background: #e0e7ff; color: #4338ca; }
+.chersotis-step.revision     .chersotis-step-num { background: #ffedd5; color: #c2410c; }
+.chersotis-step.accepted     .chersotis-step-num { background: #dcfce7; color: #15803d; }
+.chersotis-step.approval     .chersotis-step-num { background: #ede9fe; color: #6d28d9; }
+.chersotis-step.published    .chersotis-step-num { background: rgba(20, 184, 166, 0.18); color: #0f766e; }
+
+.chersotis-step-title {
+    font-weight: 700;
+    color: #16302B;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.25;
+}
+
+.chersotis-step-code {
+    margin: 2px 0 0 0;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.chersotis-step-body p {
     font-size: 0.875rem;
-}
-
-.detail-title {
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.detail-content {
-    padding: 1rem;
-}
-
-.detail-content p {
-    font-size: 0.8rem;
-    color: #4b5563;
+    color: #334155;
+    line-height: 1.55;
     margin-bottom: 0.5rem;
-    line-height: 1.5;
 }
 
-.detail-content p:last-child {
+.chersotis-step-body p:last-child {
     margin-bottom: 0;
 }
 
-.detail-content ul,
-.detail-content ol {
-    font-size: 0.8rem;
-    color: #4b5563;
-    margin: 0.5rem 0;
+.chersotis-step-body ul,
+.chersotis-step-body ol {
+    font-size: 0.875rem;
+    color: #334155;
+    margin: 0.35rem 0 0.6rem 0;
     padding-left: 1.25rem;
 }
 
-.detail-content li {
-    margin-bottom: 0.25rem;
+.chersotis-step-body li {
+    margin-bottom: 0.3rem;
+    line-height: 1.5;
 }
 
 /* Footer */
@@ -3640,46 +3691,30 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
         transform: rotate(90deg);
     }
 
-    .workflow-diagram {
-        padding: 1rem;
+    .chersotis-wf {
+        padding: 1.25rem;
     }
 
-    .workflow-main-path {
+    .chersotis-wf-timeline {
         flex-direction: column;
         align-items: center;
         gap: 0;
     }
 
-    .workflow-stage {
+    .chersotis-wf-step {
         min-width: unset;
     }
 
-    .workflow-connector {
-        flex-direction: column;
-        height: 40px;
-        width: auto;
-        margin-top: 0;
+    .chersotis-wf-line {
+        width: 2px;
+        height: 28px;
+        min-height: 28px;
         max-width: unset;
+        margin-top: 0;
+        align-self: center;
     }
 
-    .workflow-connector-line {
-        width: 3px;
-        height: 100%;
-        flex: 1;
-    }
-
-    .workflow-connector-arrow {
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 8px solid #94a3b8;
-        border-bottom: none;
-    }
-
-    .workflow-branches {
-        flex-direction: column;
-    }
-
-    .workflow-details {
+    .chersotis-wf-branches {
         grid-template-columns: 1fr;
     }
 }
