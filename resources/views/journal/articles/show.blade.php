@@ -54,7 +54,7 @@
     .article-header h1 {
         font-size: clamp(1.75rem, 4vw, 2.75rem);
         font-weight: 800;
-        color: var(--forest);
+        color: var(--accent);
         line-height: 1.2;
         margin: 0 0 28px;
     }

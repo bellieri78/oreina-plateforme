@@ -13,6 +13,9 @@
 
         @if($displaySummary)
         <h2 style="margin-top:20px;">Summary</h2>
+        @if($submission->title_en)
+        <p style="font-weight:700;color:#111;margin-bottom:8px;">{{ $submission->title_en }}</p>
+        @endif
         <p style="font-style:italic;">{!! strip_tags($displaySummary, '<strong><em><sub><sup>') !!}</p>
         @endif
 
