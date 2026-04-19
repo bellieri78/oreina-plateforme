@@ -6,7 +6,7 @@
         @foreach($toc as $entry)
             <li>
                 <a href="#{{ $entry['anchor'] }}" data-toc-target="{{ $entry['anchor'] }}">
-                    {{ $entry['number'] }}. {{ $entry['label'] }}
+                    {{ $entry['number'] }}. {!! strip_tags($entry['label'], '<strong><em><sub><sup>') !!}
                 </a>
             </li>
         @endforeach

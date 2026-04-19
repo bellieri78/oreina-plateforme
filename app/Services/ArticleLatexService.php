@@ -238,7 +238,10 @@ PREAMBLE;
         $editor = $submission->editor;
 
         // Prepare data
-        $title = $this->escapeLatex($submission->title);
+        // Title : convertHtmlToLatex preserves <em>/<strong> as \textit{}/\textbf{}.
+        // For the PDF metadata `pdftitle`, we need plain text (no LaTeX commands).
+        $title = $this->convertHtmlToLatex($submission->title);
+        $pdfTitle = $this->escapeLatex(strip_tags($submission->title));
         // Prefer edited/final version (display_abstract) over original submission (abstract); convert HTML tags to LaTeX
         $abstractSource = $submission->display_abstract ?? $submission->abstract ?? '';
         $abstract = $this->convertHtmlToLatex($abstractSource);
@@ -293,15 +296,15 @@ PREAMBLE;
         $doi = $submission->doi ?? '';
         $doiUrl = $doi ? 'https://doi.org/' . $doi : '';
 
-        // Short title
-        $shortTitle = $this->escapeLatex(Str::limit($submission->title, 50));
+        // Short title — used in page headers, plain-text form
+        $shortTitle = $this->escapeLatex(Str::limit(strip_tags($submission->title), 50));
 
         // Harvard citation for sidebar
         $harvardCitation = app(\App\Services\CitationExportService::class)->toHarvard($submission);
         $harvardCitationLatex = $this->escapeLatex($harvardCitation);
 
-        // title_en (optional)
-        $titleEn = $this->escapeLatex($submission->title_en ?? '');
+        // title_en (optional) — keep italic/bold tags as LaTeX commands
+        $titleEn = $this->convertHtmlToLatex($submission->title_en ?? '');
 
         // Summary (optional)
         $displaySummarySource = $submission->display_summary ?? '';
@@ -532,8 +535,8 @@ PREAMBLE;
             ? '\\RaggedRight'
             : '\\justifying';
 
-        // Build preamble
-        $preamble = $this->generatePreamble($title);
+        // Build preamble — pdftitle needs plain text, not the LaTeX-formatted title
+        $preamble = $this->generatePreamble($pdfTitle);
 
         // Build the complete LaTeX document
         return <<<LATEX
