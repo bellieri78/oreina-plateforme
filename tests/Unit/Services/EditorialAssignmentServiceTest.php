@@ -181,6 +181,80 @@ class EditorialAssignmentServiceTest extends TestCase
         ]);
     }
 
+    public function test_assign_editor_override_reason_is_appended_to_transition_note(): void
+    {
+        $submission = $this->makeSubmission();
+        $user = $this->makeEditor();
+        $user->grantCapability(EditorialCapability::REVIEWER);
+
+        Review::create([
+            'submission_id' => $submission->id,
+            'reviewer_id' => $user->id,
+            'status' => Review::STATUS_INVITED,
+            'invited_at' => now(),
+        ]);
+
+        $chief = $this->makeChief();
+        $this->service->assignEditor(
+            $submission,
+            $user,
+            $chief,
+            override: true,
+            overrideReason: 'aucun autre éditeur spécialisé disponible',
+        );
+
+        $this->assertDatabaseHas('submission_transitions', [
+            'submission_id' => $submission->id,
+            'action' => SubmissionTransition::ACTION_EDITOR_ASSIGNED,
+            'notes' => 'Override: séparation des rôles forcée — Motif : aucun autre éditeur spécialisé disponible',
+        ]);
+    }
+
+    public function test_assign_reviewer_override_reason_is_appended_to_transition_note(): void
+    {
+        $submission = $this->makeSubmission();
+        $editor = $this->makeEditor();
+        $editor->grantCapability(EditorialCapability::REVIEWER);
+        $submission->update(['editor_id' => $editor->id]);
+
+        $chief = $this->makeChief();
+        $this->service->assignReviewer(
+            $submission,
+            $editor,
+            $chief,
+            override: true,
+            overrideReason: 'expertise unique validée par le comité',
+        );
+
+        $this->assertDatabaseHas('submission_transitions', [
+            'submission_id' => $submission->id,
+            'action' => SubmissionTransition::ACTION_REVIEWER_INVITED,
+            'notes' => 'Override: séparation des rôles forcée — Motif : expertise unique validée par le comité',
+        ]);
+    }
+
+    public function test_override_without_reason_keeps_legacy_note(): void
+    {
+        // Backward-compat : sans motif passé, la note conserve la forme historique
+        $submission = $this->makeSubmission();
+        $user = $this->makeEditor();
+        $user->grantCapability(EditorialCapability::REVIEWER);
+
+        Review::create([
+            'submission_id' => $submission->id,
+            'reviewer_id' => $user->id,
+            'status' => Review::STATUS_INVITED,
+            'invited_at' => now(),
+        ]);
+
+        $this->service->assignEditor($submission, $user, $this->makeChief(), override: true);
+
+        $this->assertDatabaseHas('submission_transitions', [
+            'submission_id' => $submission->id,
+            'notes' => 'Override: séparation des rôles forcée',
+        ]);
+    }
+
     public function test_assign_reviewer_fails_for_ineligible_user(): void
     {
         $submission = $this->makeSubmission();

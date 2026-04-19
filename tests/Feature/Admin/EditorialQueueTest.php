@@ -122,4 +122,59 @@ class EditorialQueueTest extends TestCase
             ->assertSee($mine->title)
             ->assertDontSee($other->title);
     }
+
+    public function test_assign_editor_override_without_reason_returns_422(): void
+    {
+        $chief = $this->makeChief();
+        $editor = $this->makeEditor();
+        $editor->grantCapability(EditorialCapability::REVIEWER);
+        $sub = $this->makeUnassignedSubmission();
+
+        // editor est déjà relecteur de cette soumission
+        \App\Models\Review::create([
+            'submission_id' => $sub->id,
+            'reviewer_id' => $editor->id,
+            'status' => \App\Models\Review::STATUS_INVITED,
+            'invited_at' => now(),
+        ]);
+
+        $response = $this->actingAs($chief)
+            ->from(route('admin.journal.queue.index'))
+            ->post(route('admin.journal.queue.assign', $sub), [
+                'user_id' => $editor->id,
+                'override' => '1',
+                // pas de override_reason
+            ]);
+
+        $response->assertSessionHasErrors('override_reason');
+    }
+
+    public function test_assign_editor_override_with_reason_succeeds_and_logs_motif(): void
+    {
+        $chief = $this->makeChief();
+        $editor = $this->makeEditor();
+        $editor->grantCapability(EditorialCapability::REVIEWER);
+        $sub = $this->makeUnassignedSubmission();
+
+        \App\Models\Review::create([
+            'submission_id' => $sub->id,
+            'reviewer_id' => $editor->id,
+            'status' => \App\Models\Review::STATUS_INVITED,
+            'invited_at' => now(),
+        ]);
+
+        $this->actingAs($chief)
+            ->post(route('admin.journal.queue.assign', $sub), [
+                'user_id' => $editor->id,
+                'override' => '1',
+                'override_reason' => 'aucun autre éditeur spécialisé',
+            ])
+            ->assertRedirect();
+
+        $this->assertSame($editor->id, $sub->fresh()->editor_id);
+        $this->assertDatabaseHas('submission_transitions', [
+            'submission_id' => $sub->id,
+            'notes' => 'Override: séparation des rôles forcée — Motif : aucun autre éditeur spécialisé',
+        ]);
+    }
 }

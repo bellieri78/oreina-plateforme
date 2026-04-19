@@ -2155,7 +2155,7 @@
 
                 <h3>Règle de séparation des rôles</h3>
                 <p>Pour éviter les conflits d'intérêt, un utilisateur <strong>ne peut pas être à la fois éditeur et relecteur du même article</strong>. Toute tentative d'assignation en conflit renvoie une exception <code>RoleConflictException</code> et un message d'erreur à l'utilisateur.</p>
-                <p>Un <strong>override explicite</strong> est possible en cochant la case "forcer" lors de l'assignation (pour les exceptions ponctuelles validées par le groupe). L'override est tracé dans <code>submission_transitions.notes</code> avec la valeur "Override: séparation des rôles forcée".</p>
+                <p>Un <strong>override explicite</strong> est possible en cochant la case "forcer" lors de l'assignation (pour les exceptions ponctuelles validées par le groupe). Depuis avril 2026, une <strong>modale de confirmation</strong> s'ouvre au submit et impose de saisir un <strong>motif</strong> (3-500 caractères, obligatoire) — le motif est concaténé à la note standard et enregistré dans <code>submission_transitions.notes</code> sous la forme <code>Override: séparation des rôles forcée — Motif : &lt;texte&gt;</code>.</p>
 
                 <h3>Traçabilité</h3>
                 <p>Toutes les assignations (éditeur pris/assigné, maquettiste assigné, relecteur invité) sont loguées dans la table <code>submission_transitions</code> avec l'acteur, la cible, l'horodatage et les notes éventuelles. Cette table sera aussi utilisée pour tracer les transitions de statut (sous-projet C à venir).</p>

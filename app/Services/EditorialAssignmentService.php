@@ -23,8 +23,26 @@ class EditorialAssignmentService
         private SubmissionStateMachine $stateMachine,
     ) {}
 
-    public function assignEditor(Submission $submission, User $target, User $actor, bool $override = false): void
+    /**
+     * Compose la note de transition quand l'override est forcé.
+     * Préserve la forme OVERRIDE_NOTE historique pour compatibilité (docs, stats),
+     * et y ajoute le motif utilisateur s'il est fourni.
+     */
+    private function overrideNote(?string $overrideReason): string
     {
+        if ($overrideReason === null || trim($overrideReason) === '') {
+            return self::OVERRIDE_NOTE;
+        }
+        return self::OVERRIDE_NOTE . ' — Motif : ' . trim($overrideReason);
+    }
+
+    public function assignEditor(
+        Submission $submission,
+        User $target,
+        User $actor,
+        bool $override = false,
+        ?string $overrideReason = null,
+    ): void {
         $this->assertCapability($target, EditorialCapability::EDITOR);
 
         if (!$override && $submission->reviews()->where('reviewer_id', $target->id)->exists()) {
@@ -38,7 +56,7 @@ class EditorialAssignmentService
             action: SubmissionTransition::ACTION_EDITOR_ASSIGNED,
             actor: $actor,
             target: $target,
-            notes: $override ? self::OVERRIDE_NOTE : null,
+            notes: $override ? $this->overrideNote($overrideReason) : null,
         );
 
         $submission->refresh();
@@ -119,8 +137,13 @@ class EditorialAssignmentService
         );
     }
 
-    public function assignReviewer(Submission $submission, User $target, User $actor, bool $override = false): void
-    {
+    public function assignReviewer(
+        Submission $submission,
+        User $target,
+        User $actor,
+        bool $override = false,
+        ?string $overrideReason = null,
+    ): void {
         $this->assertCapability($target, EditorialCapability::REVIEWER);
 
         if (!$override && $submission->editor_id === $target->id) {
@@ -144,7 +167,7 @@ class EditorialAssignmentService
             action: SubmissionTransition::ACTION_REVIEWER_INVITED,
             actor: $actor,
             target: $target,
-            notes: $override ? self::OVERRIDE_NOTE : null,
+            notes: $override ? $this->overrideNote($overrideReason) : null,
         );
 
         Mail::to($target)->queue(new ReviewInvitation($review));

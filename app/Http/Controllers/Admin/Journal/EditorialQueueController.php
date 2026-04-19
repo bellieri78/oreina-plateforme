@@ -62,6 +62,10 @@ class EditorialQueueController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'override' => 'sometimes|boolean',
+            'override_reason' => 'required_if:override,1|nullable|string|min:3|max:500',
+        ], [
+            'override_reason.required_if' => 'Le motif est obligatoire quand la séparation des rôles est forcée.',
+            'override_reason.min' => 'Motif trop court (3 caractères minimum).',
         ]);
 
         $target = User::findOrFail($validated['user_id']);
@@ -72,6 +76,7 @@ class EditorialQueueController extends Controller
                 $target,
                 $request->user(),
                 override: (bool) ($validated['override'] ?? false),
+                overrideReason: $validated['override_reason'] ?? null,
             );
         } catch (RoleConflictException $e) {
             return back()->with('error', $e->getMessage() . ' Coche "forcer" pour outrepasser.');
@@ -143,6 +148,10 @@ class EditorialQueueController extends Controller
         $validated = $request->validate([
             'reviewer_id' => 'required|exists:users,id',
             'override' => 'sometimes|boolean',
+            'override_reason' => 'required_if:override,1|nullable|string|min:3|max:500',
+        ], [
+            'override_reason.required_if' => 'Le motif est obligatoire quand la séparation des rôles est forcée.',
+            'override_reason.min' => 'Motif trop court (3 caractères minimum).',
         ]);
 
         $target = User::findOrFail($validated['reviewer_id']);
@@ -153,6 +162,7 @@ class EditorialQueueController extends Controller
                 $target,
                 $request->user(),
                 override: (bool) ($validated['override'] ?? false),
+                overrideReason: $validated['override_reason'] ?? null,
             );
         } catch (RoleConflictException $e) {
             return back()->with('error', $e->getMessage());
@@ -175,6 +185,10 @@ class EditorialQueueController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'override' => 'sometimes|boolean',
+            'override_reason' => 'required_if:override,1|nullable|string|min:3|max:500',
+        ], [
+            'override_reason.required_if' => 'Le motif est obligatoire quand la séparation des rôles est forcée.',
+            'override_reason.min' => 'Motif trop court (3 caractères minimum).',
         ]);
 
         $target = User::findOrFail($validated['user_id']);
@@ -185,6 +199,7 @@ class EditorialQueueController extends Controller
                 $target,
                 $request->user(),
                 override: (bool) ($validated['override'] ?? false),
+                overrideReason: $validated['override_reason'] ?? null,
             );
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
