@@ -167,6 +167,19 @@ class JournalController extends Controller
         return response()->noContent();
     }
 
+    public function downloadPdf(
+        Submission $submission,
+        \Illuminate\Http\Request $request,
+        \App\Services\ArticleMetricsService $metrics,
+    ) {
+        abort_unless($submission->isPublished(), 404);
+        abort_unless(!empty($submission->pdf_file), 404);
+
+        $metrics->recordPdfDownload($submission, $request);
+
+        return redirect(\Illuminate\Support\Facades\Storage::url($submission->pdf_file));
+    }
+
     public function cite(Submission $submission, string $format, CitationExportService $citations)
     {
         abort_unless($submission->isPublished(), 404);

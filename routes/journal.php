@@ -29,6 +29,8 @@ Route::get('/articles/{submission}/cite/{format}', [JournalController::class, 'c
 
 Route::post('/articles/{submission}/share', [JournalController::class, 'trackShare'])
     ->name('articles.share');
+Route::get('/articles/{submission}/pdf', [JournalController::class, 'downloadPdf'])
+    ->name('articles.pdf');
 
 // Numéros / Archives
 Route::get('/numeros', [JournalController::class, 'issues'])->name('issues.index');
