@@ -28,7 +28,7 @@
                             <div class="md:col-span-1 h-48 sm:h-64 md:h-auto bg-slate-200 overflow-hidden relative">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 @if($article->featured_image)
-                                    <img src="{{ Storage::url($article->featured_image) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                    <img src="{{ Storage::url($article->featured_image) }}" alt="{{ strip_tags($article->title) }}" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center" style="background:var(--accent-surface)">
                                         <i data-lucide="file-text" style="width:64px;height:64px;color:var(--accent);opacity:0.3"></i>
@@ -48,7 +48,7 @@
 
                                 <h3 class="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 leading-tight">
                                     <a href="{{ route('journal.articles.show', $article) }}" style="color:inherit">
-                                        {{ $article->title }}
+                                        {!! strip_tags($article->title, '<strong><em><sub><sup>') !!}
                                     </a>
                                 </h3>
 

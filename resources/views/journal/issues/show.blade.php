@@ -69,7 +69,7 @@
                             <article class="bg-white rounded-2xl p-6 border border-oreina-beige/50 hover:shadow-lg transition">
                                 <h3 class="font-bold mb-2">
                                     <a href="{{ route('journal.articles.show', $article) }}" class="hover:underline" style="color:inherit;--hover:var(--accent)">
-                                        {{ $article->title }}
+                                        {!! strip_tags($article->title, '<strong><em><sub><sup>') !!}
                                     </a>
                                 </h3>
                                 <p class="text-sm text-slate-500 mb-2">{{ $article->display_authors ?? $article->author?->name }}</p>

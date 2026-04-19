@@ -614,7 +614,7 @@
                                 <span class="tag tag-teal"><i class="icon icon-teal" data-lucide="flask-conical"></i>Article</span>
                                 <span class="article-date">{{ $article->published_at?->translatedFormat('d F Y') ?? 'Non publié' }}</span>
                             </div>
-                            <h3><a href="{{ route('journal.articles.show', $article) }}">{{ $article->title }}</a></h3>
+                            <h3><a href="{{ route('journal.articles.show', $article) }}">{!! strip_tags($article->title, '<strong><em><sub><sup>') !!}</a></h3>
                             <div class="article-card-author">
                                 <i class="icon" data-lucide="user" style="width:14px;height:14px;flex:0 0 14px;"></i>
                                 {{ $article->display_authors ?? $article->author?->name ?? 'Auteur inconnu' }}

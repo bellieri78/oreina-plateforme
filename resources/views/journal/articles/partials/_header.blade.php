@@ -15,7 +15,7 @@
     </div>
 
     {{-- Title --}}
-    <h1>{{ $submission->title }}</h1>
+    <h1>{!! strip_tags($submission->title, '<strong><em><sub><sup>') !!}</h1>
 
     {{-- Authors & Affiliations --}}
     <div style="margin-bottom:28px">

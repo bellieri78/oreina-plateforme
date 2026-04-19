@@ -17,13 +17,14 @@
             @php
                 $headingLevel = ltrim((string) ($block['level'] ?? 'h2'), 'h');
             @endphp
+            @php $headingContent = strip_tags((string) ($block['content'] ?? ''), '<strong><em><sub><sup>'); @endphp
             @if($headingLevel === '2')
                 @php $h2Counter++; @endphp
-                <h2 id="section-{{ $h2Counter }}">{{ $h2Counter }}. {{ $block['content'] ?? '' }}</h2>
+                <h2 id="section-{{ $h2Counter }}">{{ $h2Counter }}. {!! $headingContent !!}</h2>
             @elseif($headingLevel === '4')
-                <h4>{{ $block['content'] ?? '' }}</h4>
+                <h4>{!! $headingContent !!}</h4>
             @else
-                <h3>{{ $block['content'] ?? '' }}</h3>
+                <h3>{!! $headingContent !!}</h3>
             @endif
 
         @elseif($blockType === 'paragraph')

@@ -7,7 +7,7 @@
         <article class="related-card">
             <h3>
                 <a href="{{ route('journal.articles.show', $related) }}">
-                    {{ $related->title }}
+                    {!! strip_tags($related->title, '<strong><em><sub><sup>') !!}
                 </a>
             </h3>
             <p class="related-author">{{ $related->display_authors ?? $related->author?->name }}</p>

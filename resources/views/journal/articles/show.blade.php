@@ -1,6 +1,6 @@
 @extends('layouts.journal')
 
-@section('title', $submission->title)
+@section('title', strip_tags($submission->title))
 @section('meta_description', Str::limit(strip_tags($submission->display_abstract ?? $submission->abstract), 160))
 
 @push('styles')
@@ -934,7 +934,7 @@
     @php
         $bibtexYear = $submission->published_at?->year ?? date('Y');
         $bibtexAuthor = $submission->display_authors ?? $submission->author?->name ?? 'Auteur';
-        $bibtexTitle = str_replace(['"', '\\'], ['\"', '\\\\'], $submission->title);
+        $bibtexTitle = str_replace(['"', '\\'], ['\"', '\\\\'], strip_tags($submission->title));
         $lb = '{'; $rb = '}';
         $bibtexLines = [
             "@article{$lb}chersotis{$bibtexYear},",
@@ -1014,7 +1014,7 @@
         // === Share tracking ===
         async function shareArticle(network) {
             const url = window.location.href;
-            const title = {!! json_encode($submission->title) !!};
+            const title = {!! json_encode(strip_tags($submission->title)) !!};
 
             const endpoints = {
                 twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
