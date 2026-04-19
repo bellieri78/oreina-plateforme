@@ -15,10 +15,10 @@
         {{-- Desktop Navigation --}}
         <nav class="hub-nav">
             <a href="{{ route('hub.about') }}" @class(['active' => request()->routeIs('hub.about')])>Association</a>
-            <a href="#portail">Portail</a>
             <a href="#projets">Projets</a>
             <a href="{{ route('hub.articles.index') }}" @class(['active' => request()->routeIs('hub.articles.*')])>Actualités</a>
             <a href="#reseau">Réseau</a>
+            <a href="{{ route('journal.home') }}" @class(['active' => request()->routeIs('journal.*')])>Revue</a>
         </nav>
 
         {{-- Desktop Actions --}}
@@ -49,10 +49,10 @@
         <nav class="hub-nav-mobile">
             <a href="{{ route('hub.home') }}">Accueil</a>
             <a href="{{ route('hub.about') }}">Association</a>
-            <a href="#portail">Portail</a>
             <a href="#projets">Projets</a>
             <a href="{{ route('hub.articles.index') }}">Actualités</a>
             <a href="#reseau">Réseau</a>
+            <a href="{{ route('journal.home') }}">Revue</a>
         </nav>
         <div class="header-actions-mobile">
             @auth
