@@ -2,7 +2,9 @@
 @if($submission->content_blocks && is_array($submission->content_blocks) && count($submission->content_blocks) > 0)
 <section style="margin-bottom:40px">
     @php
-        $sectionNumber = 0;
+        // Compteur h2 dédié : seules les sections de niveau 2 reçoivent un numéro
+        // visible. h3/h4 restent non numérotés pour ne pas créer de sauts.
+        $h2Counter = 0;
         // Compteurs propres par type : Figure N ne compte que les images,
         // Tableau N ne compte que les tables, indépendants de la position globale du bloc.
         $figureCounter = 0;
@@ -13,11 +15,11 @@
 
         @if($blockType === 'heading')
             @php
-                $sectionNumber++;
                 $headingLevel = ltrim((string) ($block['level'] ?? 'h2'), 'h');
             @endphp
             @if($headingLevel === '2')
-                <h2 id="section-{{ $sectionNumber }}">{{ $sectionNumber }}. {{ $block['content'] ?? '' }}</h2>
+                @php $h2Counter++; @endphp
+                <h2 id="section-{{ $h2Counter }}">{{ $h2Counter }}. {{ $block['content'] ?? '' }}</h2>
             @elseif($headingLevel === '4')
                 <h4>{{ $block['content'] ?? '' }}</h4>
             @else

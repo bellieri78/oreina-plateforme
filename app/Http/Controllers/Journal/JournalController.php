@@ -85,20 +85,20 @@ class JournalController extends Controller
 
     private function buildToc(Submission $submission): array
     {
-        // Match the Blade numbering: $sectionNumber increments on every heading (h2 OR h3).
-        // Only h2 entries appear in the TOC, and their anchor uses the same counter
-        // as the "id=section-N" emitted in the Blade.
+        // Seules les sections h2 figurent dans le TOC. Le compteur n'incrémente
+        // que sur h2, en accord avec le Blade qui emet id="section-N" uniquement
+        // pour les h2.
         $toc = [];
         $counter = 0;
         foreach ((array) $submission->content_blocks as $block) {
             if (($block['type'] ?? null) !== 'heading') {
                 continue;
             }
-            $counter++;
             $level = ltrim((string) ($block['level'] ?? 'h2'), 'h');
             if ($level !== '2') {
                 continue;
             }
+            $counter++;
             $toc[] = [
                 'number' => $counter,
                 'label' => (string) ($block['content'] ?? ''),

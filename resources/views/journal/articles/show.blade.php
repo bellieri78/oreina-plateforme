@@ -238,7 +238,7 @@
     .article-content h2 {
         font-size: 1.5rem;
         font-weight: 700;
-        color: var(--forest);
+        color: var(--accent);
         margin: 48px 0 20px;
         padding-bottom: 12px;
         border-bottom: 2px solid var(--accent);
