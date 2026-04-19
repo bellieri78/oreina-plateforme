@@ -148,6 +148,11 @@ class JournalController extends Controller
         return view('journal.about');
     }
 
+    public function documentation()
+    {
+        return view('journal.documentation');
+    }
+
     public function trackShare(
         Submission $submission,
         \Illuminate\Http\Request $request,

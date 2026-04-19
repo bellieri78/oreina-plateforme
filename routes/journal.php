@@ -42,6 +42,8 @@ Route::get('/soumettre', [JournalController::class, 'submit'])->name('submit');
 // Pages statiques
 Route::get('/instructions-auteurs', [JournalController::class, 'authors'])->name('authors');
 Route::get('/a-propos', [JournalController::class, 'about'])->name('about');
+// TEMPORAIRE — documentation publique pour le groupe de travail (avant création des comptes)
+Route::get('/documentation', [JournalController::class, 'documentation'])->name('documentation');
 
 // Soumissions auteur (authentifiées + email vérifié)
 Route::prefix('mes-soumissions')->name('submissions.')->middleware(['auth', 'verified'])->group(function () {
