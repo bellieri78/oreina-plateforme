@@ -47,10 +47,9 @@
                             <option value="">— Sélectionner —</option>
                             @foreach($eligibleEditors as $ed)
                                 @if($ed->id !== ($submission->editor_id ?? 0))
-                                    <option value="{{ $ed->id }}"
-                                        @if(in_array($ed->id, $reviewerIds)) disabled @endif>
+                                    <option value="{{ $ed->id }}">
                                         {{ $ed->name }}
-                                        @if(in_array($ed->id, $reviewerIds)) (relecteur) @endif
+                                        @if(in_array($ed->id, $reviewerIds)) (déjà relecteur — override requis) @endif
                                     </option>
                                 @endif
                             @endforeach
