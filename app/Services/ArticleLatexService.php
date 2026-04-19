@@ -393,6 +393,42 @@ PREAMBLE;
         $authorsDisplay = $submission->display_authors ?? $authorName;
         $authorsDisplayEscaped = $this->escapeLatex($authorsDisplay);
 
+        // Build footer citation author string — based on the REAL article
+        // authors (from author_affiliations or display_authors), NOT on the
+        // submitter. If multiple authors, append " & al." (Harvard style).
+        // Construit en 2 temps : extraire le nom brut, l'échapper, puis
+        // concaténer le " \& al." déjà au format LaTeX pour éviter
+        // re-escape de l'antislash.
+        $footerRawName = null;
+        $footerMultiple = false;
+        if (is_array($submission->author_affiliations) && count($submission->author_affiliations) > 0) {
+            // Format attendu : "Prénom NOM : affiliation, email"
+            $firstAffil = (string) $submission->author_affiliations[0];
+            if (preg_match('/^(.+?)\s*:/', $firstAffil, $m)) {
+                $fullName = trim($m[1]);
+                // Dernier mot = NOM de famille (convention française majuscules)
+                $nameParts = preg_split('/\s+/', $fullName);
+                $footerRawName = end($nameParts) ?: $fullName;
+            }
+            $footerMultiple = count($submission->author_affiliations) > 1;
+        } elseif (!empty($submission->display_authors)) {
+            // Fallback : parser display_authors (virgules)
+            $parts = array_map('trim', explode(',', (string) $submission->display_authors));
+            if (count($parts) > 0) {
+                $firstFull = $parts[0];
+                $nameParts = preg_split('/\s+/', $firstFull);
+                $footerRawName = end($nameParts) ?: $firstFull;
+            }
+            $footerMultiple = count($parts) > 1;
+        }
+        // Ultime fallback : nom du déposant (rarement ce qu'on veut afficher)
+        $footerRawName = $footerRawName ?? ($author?->name ?? 'Auteur');
+        $footerAuthor = $this->escapeLatex($footerRawName);
+        if ($footerMultiple) {
+            // Concat après escape : le \\& reste littéral LaTeX (pas re-échappé)
+            $footerAuthor .= ' \\& al.';
+        }
+
         // Build Summary box LaTeX (conditional)
         $summaryBoxLatex = '';
         if (!empty($displaySummary)) {
@@ -504,7 +540,7 @@ PREAMBLE;
 {$preamble}
 
 % Footer
-\\fancyfoot[L]{\\footnotesize\\textcolor{chersotisGray}{{$authorName} ({$year}), \\textbf{\\textcolor{chersotisTeal}{Chersotis}} {$volumeInfo}. \\url{{$doiUrl}}}}
+\\fancyfoot[L]{\\footnotesize\\textcolor{chersotisGray}{{$footerAuthor} ({$year}), \\textbf{\\textcolor{chersotisTeal}{Chersotis}} {$volumeInfo}. \\url{{$doiUrl}}}}
 \\fancyfoot[R]{\\footnotesize\\textcolor{chersotisGray}{\\thepage}}
 \\renewcommand{\\footrulewidth}{0.3pt}
 

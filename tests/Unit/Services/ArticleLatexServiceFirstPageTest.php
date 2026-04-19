@@ -196,6 +196,42 @@ class ArticleLatexServiceFirstPageTest extends TestCase
         $this->assertStringContainsString('Summary only.', $latex);
     }
 
+    public function test_footer_author_uses_real_first_author_from_affiliations(): void
+    {
+        // Le footer ne doit PAS utiliser le nom du déposant (submitter),
+        // mais le vrai auteur de l'article (première entrée author_affiliations).
+        $latex = $this->buildLatex([
+            'author_affiliations' => ['Marie DUPONT : Université X, marie@ex.org'],
+            'published_at' => '2024-06-15',
+        ]);
+        $this->assertStringContainsString('DUPONT (2024)', $latex);
+        $this->assertStringNotContainsString('Jean Dupont (2024)', $latex);
+    }
+
+    public function test_footer_author_appends_et_al_when_multiple_authors(): void
+    {
+        $latex = $this->buildLatex([
+            'author_affiliations' => [
+                'Marie DUPONT : Université X, marie@ex.org',
+                'Paul MARTIN : Université Y, paul@ex.org',
+                'Alice SMITH : Université Z, alice@ex.org',
+            ],
+            'published_at' => '2024-06-15',
+        ]);
+        // LaTeX-escaped "&" becomes "\&"
+        $this->assertStringContainsString('DUPONT \\& al. (2024)', $latex);
+    }
+
+    public function test_footer_author_falls_back_to_display_authors_when_no_affiliations(): void
+    {
+        $latex = $this->buildLatex([
+            'author_affiliations' => null,
+            'display_authors' => 'Jean BIBI, Simone COCO',
+            'published_at' => '2024-06-15',
+        ]);
+        $this->assertStringContainsString('BIBI \\& al. (2024)', $latex);
+    }
+
     public function test_first_page_footer_contains_license_text(): void
     {
         $latex = $this->buildLatex();
