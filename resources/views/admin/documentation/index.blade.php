@@ -1797,8 +1797,8 @@
                     <li><strong>Police</strong> : sans-serif (helvetica / Latin Modern Sans via <code>LATEX_FONT_MAIN</code>)</li>
                     <li><strong>Titres H1 (sections) et titre article</strong> : vert Chersotis <code>#2C5F2D</code> (charte OREINA, préféré au bleu/teal)</li>
                     <li><strong>Titres H2</strong> : noir, non-italique</li>
-                    <li><strong>Corps de texte</strong> : aligné à gauche (non justifié) via <code>\RaggedRight</code> — meilleure lisibilité, accessibilité dyslexie</li>
-                    <li><strong>Marges main content</strong> (pages 2+) : <code>left=60mm, right=20mm</code> → largeur utile ~130 mm (vs 160 mm précédemment, spec §10)</li>
+                    <li><strong>Corps de texte</strong> : justifié par défaut (la spec §10 demandait l'alignement à gauche, mais <code>\RaggedRight</code> multiplie trop les lignes courtes en français et fait planter l'API de compilation YtoTech — à réactiver quand on aura une install LaTeX locale)</li>
+                    <li><strong>Marges main content</strong> (pages 2+) : <code>left=50mm, right=20mm</code> → largeur utile ~140 mm (proche de la cible 130 mm de la spec §10 ; 60mm gauche fait planter l'API)</li>
                     <li><strong>Bibliographie</strong> : taille réduite (<code>\small</code>, 1 cran en dessous du corps)</li>
                     <li><strong>Figures / Tableaux</strong> : numérotation automatique via compteurs natifs LaTeX (<code>\figure</code>, <code>\table</code>) — cf. section numérotation ci-dessous</li>
                 </ul>

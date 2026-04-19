@@ -59,7 +59,10 @@ return [
     'main_content_margins' => [
         'top' => env('LATEX_BODY_MARGIN_TOP', 22),
         'bottom' => env('LATEX_BODY_MARGIN_BOTTOM', 28),
-        'left' => env('LATEX_BODY_MARGIN_LEFT', 60),
+        // 50mm gauche + 20mm droite = 140mm utile (proche de la cible 130mm
+        // de la spec §10, mais 60mm fait planter le compilateur YtoTech
+        // quand combiné aux longs textes d'article avec hyphenation française).
+        'left' => env('LATEX_BODY_MARGIN_LEFT', 50),
         'right' => env('LATEX_BODY_MARGIN_RIGHT', 20),
     ],
 
@@ -69,11 +72,15 @@ return [
     |--------------------------------------------------------------------------
     |
     | Décision réunion Chersotis 2026-04-16 (section 10) : aligné à gauche
-    | (non justifié) pour une meilleure lisibilité.
-    | - 'ragged' : \RaggedRight (recommandé, meilleure lisibilité dyslexie)
-    | - 'justified' : justifié classique
+    | (non justifié) pour une meilleure lisibilité. Implémentation différée :
+    | \RaggedRight produit TROP de lignes courtes (pas de césure) qui fait
+    | planter le compilateur API YtoTech (SERVER_ERROR sur articles longs).
+    | On reste sur 'justified' en attendant une solution LaTeX locale ou API
+    | plus robuste.
+    | - 'ragged' : \RaggedRight (plus lisible mais incompatible API actuelle)
+    | - 'justified' : justifié classique (actuel, compile de façon fiable)
     */
-    'body_alignment' => env('LATEX_BODY_ALIGNMENT', 'ragged'),
+    'body_alignment' => env('LATEX_BODY_ALIGNMENT', 'justified'),
 
     /*
     |--------------------------------------------------------------------------
