@@ -127,6 +127,7 @@ class ArticleLatexService
         $colorGray = $colors['gray'] ?? '555555';
         $colorLight = $colors['light_gray'] ?? 'F7F7F7';
         $colorDarkTeal = $this->getConfig('colors_extra.dark_teal', '0F766E');
+        $colorTitleGreen = $this->getConfig('colors_extra.title_green', '2C5F2D');
 
         $spacing = $this->getConfig('spacing', []);
         $sectionBefore = $spacing['section_before'] ?? 18;
@@ -184,6 +185,7 @@ class ArticleLatexService
 \\definecolor{chersotisOrange}{HTML}{{$colorPrimary}}
 \\definecolor{chersotisTeal}{HTML}{{$colorSecondary}}
 \\definecolor{chersotisDarkTeal}{HTML}{{$colorDarkTeal}}
+\\definecolor{chersotisTitleGreen}{HTML}{{$colorTitleGreen}}
 \\definecolor{chersotisGray}{HTML}{{$colorGray}}
 \\definecolor{chersotisText}{HTML}{{$colorText}}
 \\definecolor{chersotisLightGray}{HTML}{{$colorLight}}
@@ -198,8 +200,13 @@ class ArticleLatexService
 }
 
 % SECTION STYLING
+% Décision réunion Chersotis 2026-04-16 §10 :
+% - H1 (\section) en vert Chersotis (chartier OREINA, préféré au bleu)
+% - H2 (\subsection) en noir (pas de couleur)
+% - Non-italique (caractères droits) pour que les noms d'espèces en italique
+%   restent distincts
 \\titleformat{\\section}
-    {\\normalfont\\large\\bfseries\\color{chersotisDarkTeal}}
+    {\\normalfont\\large\\bfseries\\color{chersotisTitleGreen}}
     {\\thesection.}{0.5em}{}
 
 \\titleformat{\\subsection}
@@ -475,6 +482,20 @@ PREAMBLE;
         $journalTitleSize = $sizes['journal_title'] ?? 22;
         $articleTitleSize = $sizes['article_title'] ?? 15;
 
+        // Main content geometry (décision réunion 2026-04-16 §10 : marge gauche
+        // élargie pour ~130 mm de largeur utile au lieu de 160 mm).
+        $bodyMargins = $this->getConfig('main_content_margins', []);
+        $bodyTop = $bodyMargins['top'] ?? 22;
+        $bodyBottom = $bodyMargins['bottom'] ?? 28;
+        $bodyLeft = $bodyMargins['left'] ?? 60;
+        $bodyRight = $bodyMargins['right'] ?? 20;
+
+        // Body alignment (décision réunion 2026-04-16 §10 : aligné à gauche,
+        // non justifié — meilleure lisibilité, accessibilité dyslexie).
+        $bodyAlignmentCmd = $this->getConfig('body_alignment', 'ragged') === 'ragged'
+            ? '\\RaggedRight'
+            : '\\justifying';
+
         // Build preamble
         $preamble = $this->generatePreamble($title);
 
@@ -569,8 +590,8 @@ PREAMBLE;
     \\vspace*{-84pt}
     \\raggedright
 
-    % Title — teal dark, not italic
-    {\\fontsize{18}{24}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}\\par}
+    % Title — vert Chersotis, non-italique (réunion 2026-04-16 §10)
+    {\\fontsize{18}{24}\\selectfont\\textbf{\\textcolor{chersotisTitleGreen}{{$title}}}\\par}
 
     \\vspace{18pt}
 
@@ -598,7 +619,9 @@ PREAMBLE;
 \\end{minipage}
 
 \\newpage
-\\newgeometry{top=22mm,bottom=28mm,left=28mm,right=22mm,headheight=15pt,footskip=18mm}
+\\newgeometry{top={$bodyTop}mm,bottom={$bodyBottom}mm,left={$bodyLeft}mm,right={$bodyRight}mm,headheight=15pt,footskip=18mm}
+
+{$bodyAlignmentCmd}
 
 % MAIN CONTENT
 {$contentLatex}

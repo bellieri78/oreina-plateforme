@@ -110,11 +110,12 @@ class ArticleLatexServiceFirstPageTest extends TestCase
         );
     }
 
-    public function test_title_is_not_italic_and_uses_dark_teal(): void
+    public function test_title_is_not_italic_and_uses_chersotis_title_green(): void
     {
+        // Décision réunion 2026-04-16 §10 : titre d'article en vert Chersotis
         $latex = $this->buildLatex(['title' => 'Ma recherche']);
         $this->assertMatchesRegularExpression(
-            '/\\\\textbf\{\\\\textcolor\{chersotisDarkTeal\}\{Ma recherche\}\}/',
+            '/\\\\textbf\{\\\\textcolor\{chersotisTitleGreen\}\{Ma recherche\}\}/',
             $latex
         );
         // Ensure title is NOT wrapped in \textit{...}
@@ -142,9 +143,23 @@ class ArticleLatexServiceFirstPageTest extends TestCase
     public function test_newgeometry_applied_after_first_page_cover(): void
     {
         $latex = $this->buildLatex();
-        // After the cover page ends, \newpage + \newgeometry must be present
+        // After the cover page ends, \newpage + \newgeometry must be present.
+        // Décision réunion 2026-04-16 §10 : marge gauche élargie → left=60mm
+        // pour ~130 mm de largeur utile au lieu des 160 mm précédents.
         $this->assertStringContainsString('\\newpage', $latex);
-        $this->assertMatchesRegularExpression('/\\\\newgeometry\{[^}]*left=28mm[^}]*\}/', $latex);
+        $this->assertMatchesRegularExpression('/\\\\newgeometry\{[^}]*left=60mm[^}]*\}/', $latex);
+    }
+
+    public function test_body_uses_ragged_right_alignment(): void
+    {
+        // Décision réunion 2026-04-16 §10 : corps aligné à gauche (non justifié)
+        $latex = $this->buildLatex();
+        // \RaggedRight must appear AFTER \newgeometry (body start)
+        $newgeoPos = strpos($latex, '\\newgeometry');
+        $raggedPos = strpos($latex, '\\RaggedRight');
+        $this->assertNotFalse($newgeoPos);
+        $this->assertNotFalse($raggedPos);
+        $this->assertGreaterThan($newgeoPos, $raggedPos, '\\RaggedRight must come after \\newgeometry');
     }
 
     public function test_abstract_box_has_resume_header(): void

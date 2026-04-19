@@ -49,6 +49,34 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Marges du corps (pages 2+)
+    |--------------------------------------------------------------------------
+    |
+    | Décision réunion Chersotis 2026-04-16 (section 10) : marge gauche élargie
+    | pour obtenir ~130 mm de largeur utile au lieu des 160 mm précédents.
+    | Sur A4 (210 mm), left=60 + right=20 → 130 mm utile.
+    */
+    'main_content_margins' => [
+        'top' => env('LATEX_BODY_MARGIN_TOP', 22),
+        'bottom' => env('LATEX_BODY_MARGIN_BOTTOM', 28),
+        'left' => env('LATEX_BODY_MARGIN_LEFT', 60),
+        'right' => env('LATEX_BODY_MARGIN_RIGHT', 20),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Justification du corps de texte
+    |--------------------------------------------------------------------------
+    |
+    | Décision réunion Chersotis 2026-04-16 (section 10) : aligné à gauche
+    | (non justifié) pour une meilleure lisibilité.
+    | - 'ragged' : \RaggedRight (recommandé, meilleure lisibilité dyslexie)
+    | - 'justified' : justifié classique
+    */
+    'body_alignment' => env('LATEX_BODY_ALIGNMENT', 'ragged'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Tailles de police (relatives)
     |--------------------------------------------------------------------------
     */
@@ -160,7 +188,10 @@ return [
     |--------------------------------------------------------------------------
     */
     'colors_extra' => [
-        'dark_teal' => env('LATEX_COLOR_DARK_TEAL', '0F766E'),  // Titre article, sections
+        'dark_teal' => env('LATEX_COLOR_DARK_TEAL', '0F766E'),  // Citation sidebar, ancien titre — back-compat
+        // Vert Chersotis (charte OREINA) pour les titres H1/article
+        // Décision réunion 2026-04-16 section 10 : préféré au bleu/teal
+        'title_green' => env('LATEX_COLOR_TITLE_GREEN', '2C5F2D'),
     ],
 
 ];

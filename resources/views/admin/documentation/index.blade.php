@@ -1791,6 +1791,21 @@
                     <strong>Capacité lepis_editor :</strong> à accorder via <code>/extranet/users/{id}/edit</code> (section « Capacités éditoriales Chersotis », formulaire indépendant avec bouton dédié « Enregistrer les capacités »).
                 </div>
 
+                <h3>Gabarit PDF — paramètres de maquette</h3>
+                <p>Le rendu PDF LaTeX est paramétré dans <code>config/latex.php</code> (valeurs surchargeables via <code>.env</code>). Les décisions de la réunion Chersotis du 16 avril 2026 (section 10) sont appliquées par défaut :</p>
+                <ul>
+                    <li><strong>Police</strong> : sans-serif (helvetica / Latin Modern Sans via <code>LATEX_FONT_MAIN</code>)</li>
+                    <li><strong>Titres H1 (sections) et titre article</strong> : vert Chersotis <code>#2C5F2D</code> (charte OREINA, préféré au bleu/teal)</li>
+                    <li><strong>Titres H2</strong> : noir, non-italique</li>
+                    <li><strong>Corps de texte</strong> : aligné à gauche (non justifié) via <code>\RaggedRight</code> — meilleure lisibilité, accessibilité dyslexie</li>
+                    <li><strong>Marges main content</strong> (pages 2+) : <code>left=60mm, right=20mm</code> → largeur utile ~130 mm (vs 160 mm précédemment, spec §10)</li>
+                    <li><strong>Bibliographie</strong> : taille réduite (<code>\small</code>, 1 cran en dessous du corps)</li>
+                    <li><strong>Figures / Tableaux</strong> : numérotation automatique via compteurs natifs LaTeX (<code>\figure</code>, <code>\table</code>) — cf. section numérotation ci-dessous</li>
+                </ul>
+                <div class="doc-info">
+                    <strong>Personnalisation :</strong> pour modifier une couleur ou une marge sans toucher au code, utilisez les variables d'environnement (<code>LATEX_COLOR_TITLE_GREEN</code>, <code>LATEX_BODY_MARGIN_LEFT</code>, <code>LATEX_BODY_ALIGNMENT</code> — <code>ragged</code> ou <code>justified</code>, etc.).
+                </div>
+
                 <h3>Numérotation automatique des figures et tableaux</h3>
                 <p>Dans l'éditeur de blocs (<code>/extranet/submissions/{id}/layout</code>), chaque bloc image affiche un badge <strong>« Figure N »</strong> (teal) et chaque bloc table un badge <strong>« Tableau N »</strong> (indigo). La numérotation est <strong>recalculée automatiquement</strong> à chaque déplacement / ajout / suppression de bloc — l'éditeur ou le maquettiste ne renseigne que la légende descriptive (plus de « Fig. 1 - … » saisi à la main).</p>
                 <p>Sur la page publique de l'article (<code>/revue/articles/{slug}</code>), les figures et tableaux sont affichés avec leur numéro en préfixe : <code>Figure 1. &lt;légende&gt;</code>, <code>Tableau 1. &lt;légende&gt;</code>. Les compteurs sont indépendants (une table entre deux images n'incrémente pas le numéro des figures).</p>
