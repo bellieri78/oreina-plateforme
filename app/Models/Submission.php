@@ -50,6 +50,8 @@ class Submission extends Model
         'lepis_decided_by_user_id',
         'author_approved_at',
         'author_approval_requested_at',
+        'citation_count',
+        'citation_synced_at',
     ];
 
     protected $casts = [
@@ -68,6 +70,7 @@ class Submission extends Model
         'author_approved_at' => 'datetime',
         'author_approval_requested_at' => 'datetime',
         'lepis_decision_at' => 'datetime',
+        'citation_synced_at' => 'datetime',
         'status' => SubmissionStatus::class,
         'redirected_to_lepis' => 'boolean',
     ];
