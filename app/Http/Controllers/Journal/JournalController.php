@@ -147,6 +147,26 @@ class JournalController extends Controller
         return view('journal.about');
     }
 
+    public function trackShare(
+        Submission $submission,
+        \Illuminate\Http\Request $request,
+        \App\Services\ArticleMetricsService $metrics,
+    ) {
+        abort_unless($submission->isPublished(), 404);
+
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'network' => 'required|string|in:' . implode(',', \App\Models\ArticleEvent::NETWORKS),
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $metrics->recordShare($submission, $request, $validator->validated()['network']);
+
+        return response()->noContent();
+    }
+
     public function cite(Submission $submission, string $format, CitationExportService $citations)
     {
         abort_unless($submission->isPublished(), 404);

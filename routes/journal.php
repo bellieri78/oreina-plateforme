@@ -27,6 +27,9 @@ Route::get('/articles/{submission}/cite/{format}', [JournalController::class, 'c
     ->where('format', 'bibtex|ris')
     ->name('articles.cite');
 
+Route::post('/articles/{submission}/share', [JournalController::class, 'trackShare'])
+    ->name('articles.share');
+
 // Numéros / Archives
 Route::get('/numeros', [JournalController::class, 'issues'])->name('issues.index');
 Route::get('/numeros/{issue:slug}', [JournalController::class, 'showIssue'])->name('issues.show');
