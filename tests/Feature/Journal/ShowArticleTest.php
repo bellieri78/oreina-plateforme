@@ -66,4 +66,49 @@ class ShowArticleTest extends TestCase
 
         Queue::assertNotPushed(SyncCrossrefCitationsJob::class);
     }
+
+    public function test_show_article_renders_sidebar_with_metrics(): void
+    {
+        \Illuminate\Support\Facades\Queue::fake();
+        $submission = $this->makePublished(['doi' => '10.24349/chersotis.2026.0001']);
+
+        $response = $this->get(route('journal.articles.show', $submission));
+
+        $response->assertOk()
+            ->assertSee('id="article-sidebar"', false)
+            ->assertSee('data-metric="views"', false)
+            ->assertSee('data-metric="pdf_downloads"', false)
+            ->assertSee('data-metric="shares"', false)
+            ->assertSee('data-metric="citations"', false);
+    }
+
+    public function test_show_article_renders_toc_from_h2_blocks(): void
+    {
+        \Illuminate\Support\Facades\Queue::fake();
+        $submission = $this->makePublished([
+            'content_blocks' => [
+                ['type' => 'heading', 'level' => 'h2', 'content' => 'Introduction'],
+                ['type' => 'paragraph', 'content' => 'Some text.'],
+                ['type' => 'heading', 'level' => 'h2', 'content' => 'Méthodes'],
+            ],
+        ]);
+
+        $response = $this->get(route('journal.articles.show', $submission));
+
+        $response->assertOk()
+            ->assertSee('1. Introduction')
+            ->assertSee('2. Méthodes')
+            ->assertSee('#section-1', false)
+            ->assertSee('#section-2', false);
+    }
+
+    public function test_show_article_without_doi_hides_citation_metric(): void
+    {
+        \Illuminate\Support\Facades\Queue::fake();
+        $submission = $this->makePublished(['doi' => null]);
+
+        $response = $this->get(route('journal.articles.show', $submission));
+
+        $response->assertOk()->assertDontSee('data-metric="citations"', false);
+    }
 }

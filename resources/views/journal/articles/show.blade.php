@@ -748,29 +748,186 @@
             transform: none;
         }
     }
+
+    /* === Layout 2 colonnes (≥1024px) === */
+    .article-layout {
+        display: block;
+    }
+    @media (min-width: 1024px) {
+        .article-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            gap: 48px;
+            align-items: start;
+        }
+        .article-sidebar {
+            position: sticky;
+            top: 24px;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            font-size: 14px;
+        }
+    }
+    .article-sidebar { display: none; }
+    @media (min-width: 1024px) { .article-sidebar { display: flex; } }
+
+    .sidebar-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+    }
+    .sidebar-title {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        margin: 0 0 12px;
+    }
+    .sidebar-actions { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-actions .btn-action { justify-content: center; width: 100%; }
+
+    .sidebar-toc ol {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .sidebar-toc a {
+        display: block;
+        padding: 6px 10px;
+        border-left: 2px solid transparent;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 13px;
+        line-height: 1.4;
+        transition: all .2s;
+    }
+    .sidebar-toc a:hover { color: var(--accent); border-left-color: var(--accent); }
+    .sidebar-toc a.active {
+        color: var(--accent);
+        border-left-color: var(--accent);
+        background: var(--accent-surface);
+        font-weight: 600;
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .metric-tile {
+        background: var(--accent-surface);
+        border-radius: var(--radius-md);
+        padding: 12px;
+        text-align: center;
+    }
+    .metric-value {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--forest);
+        line-height: 1;
+    }
+    .metric-label {
+        margin-top: 4px;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    /* === Mobile FAB + drawer === */
+    .mobile-fab-wrapper { display: contents; }
+    .mobile-fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 60;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    @media (min-width: 1024px) { .mobile-fab { display: none; } }
+    [x-cloak] { display: none !important; }
+    .mobile-drawer-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 60;
+    }
+    .mobile-drawer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 61;
+        background: var(--surface);
+        border-top-left-radius: 18px;
+        border-top-right-radius: 18px;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 16px 20px 32px;
+    }
+    .mobile-drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 12px;
+        font-weight: 700;
+        color: var(--forest);
+    }
+    .mobile-drawer-header button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--muted);
+    }
+    .mobile-drawer-body { display: flex; flex-direction: column; gap: 16px; }
 </style>
 @endpush
 
 @section('content')
     <div style="padding: 40px 0;">
         <div class="container">
-            <article>
-                @include('journal.articles.partials._header')
-                @include('journal.articles.partials._metadata')
+            <div class="article-layout">
+                <article>
+                    @include('journal.articles.partials._header')
+                    @include('journal.articles.partials._metadata')
 
-                <div class="article-content">
-                    @include('journal.articles.partials._abstract')
-                    @include('journal.articles.partials._content-blocks')
-                    @include('journal.articles.partials._acknowledgements')
-                    @include('journal.articles.partials._references')
-                </div>
+                    <div class="article-content">
+                        @include('journal.articles.partials._abstract')
+                        @include('journal.articles.partials._content-blocks')
+                        @include('journal.articles.partials._acknowledgements')
+                        @include('journal.articles.partials._references')
+                    </div>
 
-                @include('journal.articles.partials._citation-block')
-                @include('journal.articles.partials._related')
-            </article>
+                    @include('journal.articles.partials._citation-block')
+                    @include('journal.articles.partials._related')
+                </article>
+
+                @include('journal.articles.partials._sidebar')
+            </div>
         </div>
     </div>
 
+    @include('journal.articles.partials._mobile-fab')
     @include('journal.articles.partials._bottom-nav')
     @include('journal.articles.partials._lightbox')
 
