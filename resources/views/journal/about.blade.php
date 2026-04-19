@@ -23,9 +23,10 @@
                 <h2 class="text-xl font-bold mb-6">Notre mission</h2>
                 <div class="prose prose-slate max-w-none">
                     <p>
-                        Publication scientifique numérique gratuite, exigeante mais accessible, Chersotis valorise
-                        les travaux inédits sur les Lépidoptères de France. Sa vocation : faire avancer les
-                        connaissances et servir de référence aux chercheurs, gestionnaires et naturalistes.
+                        Publication scientifique numérique gratuite, exigeante et accessible à tous, Chersotis
+                        valorise les travaux inédits sur les Lépidoptères (Hétérocères et Rhopalocères) de
+                        France métropolitaine (Corse compris). Sa vocation : faire avancer les connaissances
+                        et servir de référence aux chercheurs, gestionnaires et naturalistes.
                     </p>
 
                     <h3 class="text-lg font-semibold mt-6 mb-3">Domaines de publication</h3>
@@ -35,6 +36,7 @@
                         <li>Inventaires - compilations et analyses de données d'inventaires avec portée scientifique</li>
                         <li>Travaux de recherche - études originales répondant à des questions scientifiques précises</li>
                         <li>Écologie et biologie des espèces - cycle de vie, comportement et relations écologiques</li>
+                        <li>Conservation des espèces - statuts, menaces, mesures de gestion et de protection</li>
                         <li>Acquisition de données - méthodes et outils pour l'obtention de données sur les Lépidoptères</li>
                     </ul>
 
@@ -56,8 +58,9 @@
                         <div>
                             <h3 class="font-bold mb-2">Format</h3>
                             <p class="text-slate-600 text-sm">
-                                Numérique, avec DOI attribués pour un référencement scientifique pérenne.
-                                Impression annuelle disponible sur appel à souscription.
+                                Numérique, sans contrainte de pagination, avec DOI attribués pour un
+                                référencement scientifique pérenne. Impression annuelle disponible sur
+                                appel à souscription.
                             </p>
                         </div>
                     </div>
@@ -70,8 +73,8 @@
                         <div>
                             <h3 class="font-bold mb-2">Périodicité</h3>
                             <p class="text-slate-600 text-sm">
-                                Publication au fil de l'eau, sans contrainte de pagination.
-                                Les articles sont publiés dès leur acceptation par le comité de lecture.
+                                Publication au fil de l'eau. Les articles sont publiés rapidement dès
+                                leur acceptation par le comité de lecture.
                             </p>
                         </div>
                     </div>
