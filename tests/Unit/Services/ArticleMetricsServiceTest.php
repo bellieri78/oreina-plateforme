@@ -185,4 +185,21 @@ class ArticleMetricsServiceTest extends TestCase
 
         $this->assertSame(1, $service->getMetrics($submission)['views']);
     }
+
+    public function test_record_share_dedups_per_network_not_across_networks(): void
+    {
+        $submission = $this->makeSubmission();
+        $service = new ArticleMetricsService();
+
+        // Same IP, same user — but two different networks within 24h
+        $service->recordShare($submission, $this->makeRequest('203.0.113.50'), 'twitter');
+        $service->recordShare($submission, $this->makeRequest('203.0.113.50'), 'linkedin');
+
+        // Both should be recorded (different dedup buckets per network)
+        $this->assertDatabaseCount('article_events', 2);
+
+        // But sharing to twitter AGAIN should be deduplicated
+        $service->recordShare($submission, $this->makeRequest('203.0.113.50'), 'twitter');
+        $this->assertDatabaseCount('article_events', 2);
+    }
 }

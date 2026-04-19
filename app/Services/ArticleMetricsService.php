@@ -55,7 +55,7 @@ class ArticleMetricsService
         $hashedIp = $this->hashIp($request->ip() ?? '0.0.0.0');
         $cookieId = $request->cookie('oreina_visitor');
 
-        if ($this->alreadyRecorded($submission->id, $eventType, $hashedIp, $cookieId)) {
+        if ($this->alreadyRecorded($submission->id, $eventType, $hashedIp, $cookieId, $network)) {
             return;
         }
 
@@ -72,13 +72,23 @@ class ArticleMetricsService
         Cache::forget($this->cacheKey($submission->id));
     }
 
-    private function alreadyRecorded(int $submissionId, string $eventType, string $hashedIp, ?string $cookieId): bool
-    {
+    private function alreadyRecorded(
+        int $submissionId,
+        string $eventType,
+        string $hashedIp,
+        ?string $cookieId,
+        ?string $network = null
+    ): bool {
         $since = now()->subHours(self::DEDUP_WINDOW_HOURS);
 
         $query = ArticleEvent::where('submission_id', $submissionId)
             ->where('event_type', $eventType)
             ->where('occurred_at', '>=', $since);
+
+        // For share events, different networks are different dedup buckets
+        if ($eventType === ArticleEvent::TYPE_SHARE && $network !== null) {
+            $query->where('network', $network);
+        }
 
         if ($cookieId) {
             return (clone $query)->where(function ($q) use ($hashedIp, $cookieId) {

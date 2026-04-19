@@ -57,7 +57,7 @@ class JournalController extends Controller
                 60 * 24 * 365, // 1 year
                 '/',
                 null,
-                false,
+                config('session.secure', false),
                 true, // httpOnly
                 false,
                 'lax'
