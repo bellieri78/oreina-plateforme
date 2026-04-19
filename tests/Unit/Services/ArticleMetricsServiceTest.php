@@ -139,4 +139,50 @@ class ArticleMetricsServiceTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $service->recordShare($submission, $this->makeRequest(), 'myspace');
     }
+
+    public function test_get_metrics_returns_counts(): void
+    {
+        $submission = $this->makeSubmission();
+        $submission->update(['citation_count' => 3]);
+
+        ArticleEvent::create([
+            'submission_id' => $submission->id,
+            'event_type' => ArticleEvent::TYPE_VIEW,
+            'hashed_ip' => str_repeat('a', 64),
+            'occurred_at' => now(),
+        ]);
+        ArticleEvent::create([
+            'submission_id' => $submission->id,
+            'event_type' => ArticleEvent::TYPE_PDF_DOWNLOAD,
+            'hashed_ip' => str_repeat('b', 64),
+            'occurred_at' => now(),
+        ]);
+        ArticleEvent::create([
+            'submission_id' => $submission->id,
+            'event_type' => ArticleEvent::TYPE_SHARE,
+            'hashed_ip' => str_repeat('c', 64),
+            'network' => 'twitter',
+            'occurred_at' => now(),
+        ]);
+
+        $service = new ArticleMetricsService();
+        $metrics = $service->getMetrics($submission);
+
+        $this->assertSame(1, $metrics['views']);
+        $this->assertSame(1, $metrics['pdf_downloads']);
+        $this->assertSame(1, $metrics['shares']);
+        $this->assertSame(3, $metrics['citations']);
+    }
+
+    public function test_cache_invalidated_on_new_event(): void
+    {
+        $submission = $this->makeSubmission();
+        $service = new ArticleMetricsService();
+
+        $this->assertSame(0, $service->getMetrics($submission)['views']);
+
+        $service->recordView($submission, $this->makeRequest('203.0.113.77'));
+
+        $this->assertSame(1, $service->getMetrics($submission)['views']);
+    }
 }

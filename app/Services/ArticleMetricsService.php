@@ -30,6 +30,26 @@ class ArticleMetricsService
         $this->record($submission, ArticleEvent::TYPE_SHARE, $request, $network);
     }
 
+    public function getMetrics(Submission $submission): array
+    {
+        return Cache::remember(
+            $this->cacheKey($submission->id),
+            self::CACHE_TTL,
+            fn () => [
+                'views' => ArticleEvent::where('submission_id', $submission->id)
+                    ->where('event_type', ArticleEvent::TYPE_VIEW)
+                    ->count(),
+                'pdf_downloads' => ArticleEvent::where('submission_id', $submission->id)
+                    ->where('event_type', ArticleEvent::TYPE_PDF_DOWNLOAD)
+                    ->count(),
+                'shares' => ArticleEvent::where('submission_id', $submission->id)
+                    ->where('event_type', ArticleEvent::TYPE_SHARE)
+                    ->count(),
+                'citations' => (int) $submission->citation_count,
+            ]
+        );
+    }
+
     private function record(Submission $submission, string $eventType, Request $request, ?string $network = null): void
     {
         $hashedIp = $this->hashIp($request->ip() ?? '0.0.0.0');
