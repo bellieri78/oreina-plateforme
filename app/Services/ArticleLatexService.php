@@ -590,8 +590,8 @@ PREAMBLE;
     \\vspace*{-84pt}
     \\raggedright
 
-    % Title — vert Chersotis, non-italique (réunion 2026-04-16 §10)
-    {\\fontsize{18}{24}\\selectfont\\textbf{\\textcolor{chersotisTitleGreen}{{$title}}}\\par}
+    % Title — vert dark teal (RGB 15,118,110) historique, non-italique
+    {\\fontsize{18}{24}\\selectfont\\textbf{\\textcolor{chersotisDarkTeal}{{$title}}}\\par}
 
     \\vspace{18pt}
 
@@ -620,6 +620,9 @@ PREAMBLE;
 
 \\newpage
 \\newgeometry{top={$bodyTop}mm,bottom={$bodyBottom}mm,left={$bodyLeft}mm,right={$bodyRight}mm,headheight=15pt,footskip=18mm}
+% fancyhdr ne recalcule pas \\headwidth après \\newgeometry — on le force
+% pour que le trait d'en-tête ne déborde plus à droite sur les pages 2+
+\\setlength{\\headwidth}{\\textwidth}
 
 % MAIN CONTENT (body alignment scopé au contenu, restaure auto après)
 \\begingroup

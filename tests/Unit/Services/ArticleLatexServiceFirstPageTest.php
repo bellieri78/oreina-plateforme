@@ -110,12 +110,13 @@ class ArticleLatexServiceFirstPageTest extends TestCase
         );
     }
 
-    public function test_title_is_not_italic_and_uses_chersotis_title_green(): void
+    public function test_title_is_not_italic_and_uses_dark_teal(): void
     {
-        // Décision réunion 2026-04-16 §10 : titre d'article en vert Chersotis
+        // Titre d'article gardé en dark teal (#0F766E, RGB 15/118/110) historique
+        // — le vert Chersotis (#2C5F2D) s'applique seulement aux sections H1.
         $latex = $this->buildLatex(['title' => 'Ma recherche']);
         $this->assertMatchesRegularExpression(
-            '/\\\\textbf\{\\\\textcolor\{chersotisTitleGreen\}\{Ma recherche\}\}/',
+            '/\\\\textbf\{\\\\textcolor\{chersotisDarkTeal\}\{Ma recherche\}\}/',
             $latex
         );
         // Ensure title is NOT wrapped in \textit{...}
