@@ -12,10 +12,6 @@
             <p class="meta-value">{{ $submission->published_at?->translatedFormat('d F Y') ?? '-' }}</p>
         </div>
         <div>
-            <p class="meta-label">Type d'article</p>
-            <p class="meta-value">Article de recherche</p>
-        </div>
-        <div>
             <p class="meta-label">Accès</p>
             <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" title="Cet article est en accès libre">
                 <img src="/images/open-access.png" alt="Open Access" class="meta-logo">
