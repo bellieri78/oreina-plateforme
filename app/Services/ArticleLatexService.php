@@ -621,10 +621,11 @@ PREAMBLE;
 \\newpage
 \\newgeometry{top={$bodyTop}mm,bottom={$bodyBottom}mm,left={$bodyLeft}mm,right={$bodyRight}mm,headheight=15pt,footskip=18mm}
 
+% MAIN CONTENT (body alignment scopé au contenu, restaure auto après)
+\\begingroup
 {$bodyAlignmentCmd}
-
-% MAIN CONTENT
 {$contentLatex}
+\\endgroup
 
 {$acknowledgementsLatex}
 
