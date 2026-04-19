@@ -91,8 +91,8 @@
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Version actuelle :</strong> 1.0<br>
-                    <strong>Derniere mise a jour :</strong> Mars 2026
+                    <strong>Version actuelle :</strong> 1.2<br>
+                    <strong>Dernière mise à jour :</strong> Avril 2026
                 </div>
             </section>
 
@@ -1564,26 +1564,45 @@
                     <div class="workflow-detail-card">
                         <div class="detail-header accepted">
                             <span class="detail-number">4</span>
-                            <span class="detail-title">Accepte (accepted)</span>
+                            <span class="detail-title">Accepté (accepted)</span>
                         </div>
                         <div class="detail-content">
-                            <p><strong>Qui agit :</strong> Editeur</p>
-                            <p><strong>Ce qui se passe :</strong> Le manuscrit est accepte pour publication dans Chersotis. L'auteur est notifie. L'editeur prepare la mise en forme finale.</p>
+                            <p><strong>Qui agit :</strong> Éditeur</p>
+                            <p><strong>Ce qui se passe :</strong> Le manuscrit est accepté pour publication dans Chersotis. L'auteur est notifié. L'éditeur prépare la mise en forme finale (maquettage).</p>
                             <p><strong>Actions disponibles :</strong></p>
                             <ul>
-                                <li><strong>Generer le PDF</strong> -- Creer le document final avec la mise en page de Chersotis (en-tete, logo, citation)</li>
-                                <li><strong>Assigner un DOI</strong> -- Attribuer un identifiant unique via Crossref ou en local</li>
-                                <li><strong>Assigner a un numero</strong> -- Placer l'article dans un numero de Chersotis</li>
-                                <li><strong>Definir les pages</strong> -- Indiquer la pagination dans le numero</li>
+                                <li><strong>Générer le PDF</strong> — document final mis en page selon le modèle Chersotis (template <em>Biology Letters</em>, sidebar papillon + wordmark, badges OA+CCBY, citation Harvard, ESM+ORCID conditionnels)</li>
+                                <li><strong>Assigner un DOI</strong> — identifiant unique via Crossref ou en local</li>
+                                <li><strong>Assigner à un numéro</strong> — placer l'article dans un numéro de Chersotis</li>
+                                <li><strong>Définir les pages</strong> — indiquer la pagination dans le numéro</li>
+                                <li><strong>Soumettre à l'auteur pour approbation</strong> (étape suivante)</li>
                             </ul>
                         </div>
                     </div>
 
-                    {{-- 6. Publie --}}
+                    {{-- 6. En attente d'approbation auteur --}}
+                    <div class="workflow-detail-card">
+                        <div class="detail-header revision">
+                            <span class="detail-number">5</span>
+                            <span class="detail-title">En attente d'approbation auteur (awaiting_author_approval)</span>
+                        </div>
+                        <div class="detail-content">
+                            <p><strong>Qui agit :</strong> Auteur principal</p>
+                            <p><strong>Ce qui se passe :</strong> Une fois le maquettage terminé, l'éditeur envoie la version mise en page à l'auteur pour relecture et approbation finale avant publication. L'auteur reçoit l'email <code>PendingAuthorApproval</code> avec un lien signé vers son espace.</p>
+                            <p><strong>Actions disponibles (auteur) :</strong></p>
+                            <ul>
+                                <li><strong>Approuver</strong> — l'article passe en <code>in_production</code>, l'éditeur reçoit <code>AuthorApproved</code> pour publier.</li>
+                                <li><strong>Demander des corrections</strong> — l'article revient en <code>revision_after_review</code> avec les commentaires de l'auteur. L'éditeur reçoit <code>AuthorRequestedCorrections</code>.</li>
+                            </ul>
+                            <p><strong>Checklist conformité :</strong> au moment de passer en approbation auteur, la card « Checklist conformité » (9 items formels) de l'éditeur passe en lecture seule — témoin figé de ce qui a été vérifié avant maquettage.</p>
+                        </div>
+                    </div>
+
+                    {{-- 7. Publie --}}
                     <div class="workflow-detail-card">
                         <div class="detail-header published">
-                            <span class="detail-number">5</span>
-                            <span class="detail-title">Publie (published)</span>
+                            <span class="detail-number">6</span>
+                            <span class="detail-title">Publié (published)</span>
                         </div>
                         <div class="detail-content">
                             <p><strong>Qui agit :</strong> Editeur</p>
@@ -1659,14 +1678,24 @@
                                 <td>4 semaines</td>
                             </tr>
                             <tr>
-                                <td>Revision du manuscrit</td>
+                                <td>Révision du manuscrit</td>
                                 <td>Auteur</td>
                                 <td>4 semaines</td>
                             </tr>
                             <tr>
-                                <td>Preparation de la publication</td>
-                                <td>Editeur</td>
-                                <td>Variable (selon le calendrier du numero)</td>
+                                <td>Maquettage + préparation PDF</td>
+                                <td>Éditeur / Layout editor</td>
+                                <td>1 à 2 semaines</td>
+                            </tr>
+                            <tr>
+                                <td>Approbation auteur (épreuves)</td>
+                                <td>Auteur</td>
+                                <td>1 à 2 semaines</td>
+                            </tr>
+                            <tr>
+                                <td>Publication dans le numéro</td>
+                                <td>Éditeur</td>
+                                <td>Variable (selon le calendrier du numéro)</td>
                             </tr>
                         </tbody>
                     </table>
@@ -2931,8 +2960,18 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
                     <li><strong>Dons par mois</strong> : evolution mensuelle des dons sur l'annee en cours</li>
                 </ul>
 
+                <h3>Métriques des articles publiés</h3>
+                <p>Depuis avril 2026, chaque article publié sur <code>/revue/articles/{id}</code> suit automatiquement 4 métriques d'engagement affichées dans la sidebar droite de la page publique :</p>
+                <ul>
+                    <li><strong>Vues</strong> — incrémenté à chaque chargement de la page, dédupliqué par IP hashée (SHA-256 + <code>app.key</code>) <em>ou</em> cookie <code>oreina_visitor</code> sur une fenêtre glissante de 24h.</li>
+                    <li><strong>Téléchargements PDF</strong> — comptés via l'endpoint <code>/revue/articles/{id}/pdf</code>, même logique de dédup.</li>
+                    <li><strong>Partages</strong> — Twitter, LinkedIn, mail, copie du lien, ou partage natif mobile. Dédup <em>par réseau</em> : un utilisateur qui partage sur Twitter puis LinkedIn dans la même heure compte pour 2 events distincts.</li>
+                    <li><strong>Citations Crossref</strong> — <code>is-referenced-by-count</code> récupéré en asynchrone via le service <code>CrossrefCitationService</code> (job <code>SyncCrossrefCitationsJob</code>) avec un TTL de 7 jours. Résilient aux erreurs HTTP (n'écrase jamais les données en cas d'échec).</li>
+                </ul>
+                <p>Les événements bruts sont stockés dans la table <code>article_events</code> (submission_id, event_type, hashed_ip, cookie_id, network, user_agent, occurred_at) — il n'y a pas encore de dashboard admin dédié, mais la donnée est disponible pour construire des rapports.</p>
+
                 <div class="doc-info">
-                    <strong>Astuce :</strong> Les statistiques sont calculees en temps reel. Actualisez la page pour obtenir les dernieres donnees.
+                    <strong>Astuce :</strong> Les statistiques globales sont calculées en temps réel. Les métriques article sont mises en cache 1 heure et invalidées dès qu'un nouvel événement est enregistré.
                 </div>
             </section>
 
@@ -3093,27 +3132,45 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
 }
 
 .doc-header {
+    position: relative;
     text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-sidebar-dark) 100%);
+    padding: 2.5rem 2rem;
+    background:
+        radial-gradient(circle at top right, rgba(237, 196, 66, 0.18), transparent 55%),
+        linear-gradient(135deg, var(--forest) 0%, var(--blue) 100%);
     color: white;
-    border-radius: 0.75rem;
+    border-radius: var(--radius-xl);
     margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.doc-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--sage) 100%);
 }
 
 .doc-header h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
+    font-weight: 800;
     margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
 }
 
 .doc-header p {
-    opacity: 0.9;
+    opacity: 0.88;
+    font-size: 0.975rem;
 }
 
 .doc-grid {
     display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 2rem;
+    grid-template-columns: 240px 1fr;
+    gap: 1.5rem;
 }
 
 /* Navigation */
@@ -3121,10 +3178,18 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
     position: sticky;
     top: calc(var(--navbar-height) + 1.5rem);
     height: fit-content;
-    background: white;
-    border-radius: 0.75rem;
-    padding: 1rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    max-height: calc(100vh - var(--navbar-height) - 3rem);
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-normal);
+}
+
+.doc-nav:hover {
+    box-shadow: var(--shadow-md);
 }
 
 .doc-nav-section {
@@ -3136,48 +3201,52 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
 }
 
 .doc-nav-title {
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.68rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #9ca3af;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
     padding: 0.25rem 0.5rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
 }
 
 .doc-nav-link {
     display: block;
-    padding: 0.4rem 0.5rem;
+    padding: 0.45rem 0.65rem;
     font-size: 0.875rem;
-    color: #4b5563;
+    color: var(--text-secondary);
     text-decoration: none;
-    border-radius: 0.375rem;
-    transition: all 0.15s ease;
+    border-radius: var(--radius-sm);
+    border-left: 2px solid transparent;
+    transition: all var(--transition-fast);
 }
 
 .doc-nav-link:hover {
-    background: #f3f4f6;
-    color: #1f2937;
+    background: var(--surface-soft);
+    color: var(--forest);
+    border-left-color: var(--sage);
 }
 
 .doc-nav-link.active {
-    background: rgba(53, 107, 138, 0.1);
-    color: var(--color-primary);
-    font-weight: 500;
+    background: var(--surface-blue);
+    color: var(--blue);
+    font-weight: 600;
+    border-left-color: var(--blue);
 }
 
 /* Content */
 .doc-content {
-    background: white;
-    border-radius: 0.75rem;
-    padding: 2rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-xl);
+    padding: 2.25rem 2.5rem;
+    box-shadow: var(--shadow-md);
 }
 
 .doc-section {
-    padding-bottom: 2rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 2.25rem;
+    margin-bottom: 2.25rem;
+    border-bottom: 1px solid var(--border-soft);
 }
 
 .doc-section:last-of-type {
@@ -3186,23 +3255,30 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
 }
 
 .doc-section h2 {
-    font-size: 1.5rem;
-    color: #1f2937;
-    margin-bottom: 1rem;
-    padding-top: 1rem;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--forest);
+    margin: 0 0 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--sage);
+    display: inline-block;
 }
 
 .doc-section h3 {
-    font-size: 1.1rem;
-    color: #374151;
-    margin: 1.5rem 0 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin: 1.75rem 0 0.85rem;
 }
 
 .doc-section h4 {
     font-size: 0.95rem;
-    color: #4b5563;
-    margin: 1.25rem 0 0.5rem;
-    font-weight: 600;
+    color: var(--blue);
+    margin: 1.35rem 0 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .doc-section p {
@@ -3222,42 +3298,51 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
 }
 
 .doc-section code {
-    background: #f3f4f6;
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    color: #e11d48;
+    background: var(--surface-soft);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.825rem;
+    color: var(--coral);
+    border: 1px solid var(--border-soft);
+    font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
 }
 
 /* Info box */
 .doc-info {
-    background: rgba(53, 107, 138, 0.1);
-    border-left: 4px solid var(--color-primary);
-    padding: 1rem;
-    border-radius: 0 0.5rem 0.5rem 0;
-    color: #1f2937;
-    line-height: 1.8;
+    background: var(--surface-blue);
+    border-left: 4px solid var(--blue);
+    padding: 1rem 1.25rem;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin: 1rem 0;
 }
 
 /* Warning box */
 .doc-warning {
-    background: rgba(251, 99, 64, 0.1);
-    border-left: 4px solid var(--color-warning);
-    padding: 1rem;
-    border-radius: 0 0.5rem 0.5rem 0;
-    color: #1f2937;
+    background: rgba(237, 196, 66, 0.14);
+    border-left: 4px solid var(--gold);
+    padding: 1rem 1.25rem;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin: 1rem 0;
 }
 
 /* Steps */
 .doc-steps {
-    margin: 1rem 0;
+    margin: 1.25rem 0;
+    background: var(--surface-soft);
+    border-radius: var(--radius-lg);
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--border-soft);
 }
 
 .doc-step {
     display: flex;
     gap: 1rem;
     padding: 1rem 0;
-    border-bottom: 1px dashed #e5e7eb;
+    border-bottom: 1px dashed var(--border-soft);
 }
 
 .doc-step:last-child {
@@ -3265,16 +3350,17 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
 }
 
 .step-number {
-    width: 32px;
-    height: 32px;
-    background: var(--color-primary);
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--forest) 100%);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
+    font-weight: 700;
     flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(22, 48, 43, 0.2);
 }
 
 .step-content strong {
@@ -3310,10 +3396,10 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
     font-weight: 500;
 }
 
-.workflow-status.pending { background: #fef3c7; color: #92400e; }
-.workflow-status.info { background: rgba(53, 107, 138, 0.15); color: #2d5a75; }
-.workflow-status.warning { background: rgba(251, 99, 64, 0.15); color: #c2410c; }
-.workflow-status.success { background: rgba(45, 206, 137, 0.15); color: #059669; }
+.workflow-status.pending { background: rgba(237, 196, 66, 0.15); color: #92400e; }
+.workflow-status.info { background: var(--surface-blue); color: var(--blue); }
+.workflow-status.warning { background: rgba(239, 122, 92, 0.15); color: var(--coral); }
+.workflow-status.success { background: var(--surface-sage); color: #059669; }
 
 .workflow-arrow {
     color: #9ca3af;
@@ -3537,14 +3623,17 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
 /* Footer */
 .doc-footer {
     margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
+    padding: 1.25rem;
+    border-top: 1px solid var(--border-soft);
     text-align: center;
+    background: var(--surface-soft);
+    border-radius: var(--radius-md);
 }
 
 .doc-footer p {
-    color: #9ca3af;
+    color: var(--text-muted);
     font-size: 0.875rem;
+    margin: 0;
 }
 
 /* Mobile */
@@ -3618,27 +3707,40 @@ MAIL_FROM_NAME="Chersotis — OREINA"</pre>
     border-collapse: collapse;
     margin: 1rem 0;
     font-size: 0.875rem;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-soft);
 }
 
 .doc-section table.doc-table th,
 .doc-section .doc-table th,
 .doc-section table.doc-table td,
 .doc-section .doc-table td {
-    padding: 0.75rem;
+    padding: 0.85rem 1rem;
     text-align: left;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-soft);
 }
 
 .doc-section table.doc-table th,
 .doc-section .doc-table th {
-    background: #f9fafb;
-    font-weight: 600;
-    color: #374151;
+    background: var(--surface-soft);
+    font-weight: 700;
+    color: var(--forest);
+    font-size: 0.825rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .doc-section table.doc-table tbody tr:hover,
 .doc-section .doc-table tbody tr:hover {
-    background: #f9fafb;
+    background: var(--surface-soft);
+}
+
+.doc-section table.doc-table tbody tr:last-child td,
+.doc-section .doc-table tbody tr:last-child td {
+    border-bottom: none;
 }
 </style>
 
