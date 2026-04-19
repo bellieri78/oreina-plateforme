@@ -17,6 +17,19 @@ class ArticleMetricsService
         $this->record($submission, ArticleEvent::TYPE_VIEW, $request);
     }
 
+    public function recordPdfDownload(Submission $submission, Request $request): void
+    {
+        $this->record($submission, ArticleEvent::TYPE_PDF_DOWNLOAD, $request);
+    }
+
+    public function recordShare(Submission $submission, Request $request, string $network): void
+    {
+        if (!in_array($network, ArticleEvent::NETWORKS, true)) {
+            throw new \InvalidArgumentException("Unknown share network: {$network}");
+        }
+        $this->record($submission, ArticleEvent::TYPE_SHARE, $request, $network);
+    }
+
     private function record(Submission $submission, string $eventType, Request $request, ?string $network = null): void
     {
         $hashedIp = $this->hashIp($request->ip() ?? '0.0.0.0');

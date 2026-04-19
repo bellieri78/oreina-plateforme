@@ -103,4 +103,40 @@ class ArticleMetricsServiceTest extends TestCase
         $event = ArticleEvent::first();
         $this->assertSame(64, strlen($event->hashed_ip));
     }
+
+    public function test_record_pdf_download_inserts_event(): void
+    {
+        $submission = $this->makeSubmission();
+        $service = new ArticleMetricsService();
+
+        $service->recordPdfDownload($submission, $this->makeRequest());
+
+        $this->assertDatabaseHas('article_events', [
+            'submission_id' => $submission->id,
+            'event_type' => ArticleEvent::TYPE_PDF_DOWNLOAD,
+        ]);
+    }
+
+    public function test_record_share_stores_network(): void
+    {
+        $submission = $this->makeSubmission();
+        $service = new ArticleMetricsService();
+
+        $service->recordShare($submission, $this->makeRequest(), 'twitter');
+
+        $this->assertDatabaseHas('article_events', [
+            'submission_id' => $submission->id,
+            'event_type' => ArticleEvent::TYPE_SHARE,
+            'network' => 'twitter',
+        ]);
+    }
+
+    public function test_record_share_rejects_invalid_network(): void
+    {
+        $submission = $this->makeSubmission();
+        $service = new ArticleMetricsService();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $service->recordShare($submission, $this->makeRequest(), 'myspace');
+    }
 }
