@@ -35,13 +35,40 @@ class JournalController extends Controller
         return view('journal.articles.index', compact('articles'));
     }
 
-    public function showArticle(Submission $submission)
-    {
+    public function showArticle(
+        Submission $submission,
+        \Illuminate\Http\Request $request,
+        \App\Services\ArticleMetricsService $metrics,
+        \App\Services\CrossrefCitationService $citations,
+    ) {
         if (!$submission->isPublished()) {
             abort(404);
         }
 
         $submission->load(['author', 'journalIssue']);
+
+        // Set the dedup cookie before recording so the event carries a stable cookie_id
+        if (!$request->cookie('oreina_visitor')) {
+            $cookieValue = (string) \Illuminate\Support\Str::uuid();
+            $request->cookies->set('oreina_visitor', $cookieValue);
+            \Illuminate\Support\Facades\Cookie::queue(
+                'oreina_visitor',
+                $cookieValue,
+                60 * 24 * 365, // 1 year
+                '/',
+                null,
+                false,
+                true, // httpOnly
+                false,
+                'lax'
+            );
+        }
+
+        $metrics->recordView($submission, $request);
+
+        if ($citations->shouldSync($submission)) {
+            \App\Jobs\SyncCrossrefCitationsJob::dispatch($submission->id);
+        }
 
         $relatedArticles = Submission::published()
             ->where('id', '!=', $submission->id)
@@ -50,7 +77,34 @@ class JournalController extends Controller
             ->take(3)
             ->get();
 
-        return view('journal.articles.show', compact('submission', 'relatedArticles'));
+        $articleMetrics = $metrics->getMetrics($submission);
+        $toc = $this->buildToc($submission);
+
+        return view('journal.articles.show', compact('submission', 'relatedArticles', 'articleMetrics', 'toc'));
+    }
+
+    private function buildToc(Submission $submission): array
+    {
+        // Match the Blade numbering: $sectionNumber increments on every heading (h2 OR h3).
+        // Only h2 entries appear in the TOC, and their anchor uses the same counter
+        // as the "id=section-N" emitted in the Blade.
+        $toc = [];
+        $counter = 0;
+        foreach ((array) $submission->content_blocks as $block) {
+            if (($block['type'] ?? null) !== 'heading') {
+                continue;
+            }
+            $counter++;
+            if (($block['level'] ?? 'h2') !== 'h2') {
+                continue;
+            }
+            $toc[] = [
+                'number' => $counter,
+                'label' => (string) ($block['content'] ?? ''),
+                'anchor' => 'section-' . $counter,
+            ];
+        }
+        return $toc;
     }
 
     public function issues()
