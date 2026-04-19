@@ -18,7 +18,7 @@
             <a href="#projets">Projets</a>
             <a href="{{ route('hub.articles.index') }}" @class(['active' => request()->routeIs('hub.articles.*')])>Actualités</a>
             <a href="#reseau">Réseau</a>
-            <a href="{{ route('journal.home') }}" @class(['active' => request()->routeIs('journal.*')])>Revue</a>
+            <a href="{{ route('journal.home') }}" @class(['active' => request()->routeIs('journal.*')])>Chersotis</a>
         </nav>
 
         {{-- Desktop Actions --}}
@@ -52,7 +52,7 @@
             <a href="#projets">Projets</a>
             <a href="{{ route('hub.articles.index') }}">Actualités</a>
             <a href="#reseau">Réseau</a>
-            <a href="{{ route('journal.home') }}">Revue</a>
+            <a href="{{ route('journal.home') }}">Chersotis</a>
         </nav>
         <div class="header-actions-mobile">
             @auth
