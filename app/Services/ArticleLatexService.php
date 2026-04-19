@@ -693,11 +693,19 @@ LATEX;
 
             switch ($type) {
                 case 'heading':
-                    $latex .= "\n\\section*{" . $this->escapeLatex($content) . "}\n\n";
+                    // Map level to section depth (2→\section, 3→\subsection, 4→\subsubsection).
+                    // Preserve <em>/<strong> via convertHtmlToLatex so species names stay italic.
+                    $level = ltrim((string) ($block['level'] ?? '2'), 'h');
+                    $sectionCmd = match ($level) {
+                        '4' => '\\subsubsection*',
+                        '3' => '\\subsection*',
+                        default => '\\section*',
+                    };
+                    $latex .= "\n{$sectionCmd}{" . $this->convertHtmlToLatex($content) . "}\n\n";
                     break;
 
                 case 'subheading':
-                    $latex .= "\n\\subsection*{" . $this->escapeLatex($content) . "}\n\n";
+                    $latex .= "\n\\subsection*{" . $this->convertHtmlToLatex($content) . "}\n\n";
                     break;
 
                 case 'paragraph':
@@ -712,7 +720,7 @@ LATEX;
                     if (!empty($items)) {
                         $latex .= "\\begin{itemize}[nosep,leftmargin=1.5em]\n";
                         foreach ($items as $item) {
-                            $latex .= "    \\item " . $this->escapeLatex($item) . "\n";
+                            $latex .= "    \\item " . $this->convertHtmlToLatex($item) . "\n";
                         }
                         $latex .= "\\end{itemize}\n\n";
                     }
