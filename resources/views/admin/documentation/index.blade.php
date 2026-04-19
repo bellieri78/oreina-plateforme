@@ -1795,7 +1795,7 @@
                 <p>Le rendu PDF LaTeX est paramétré dans <code>config/latex.php</code> (valeurs surchargeables via <code>.env</code>). Les décisions de la réunion Chersotis du 16 avril 2026 (section 10) sont appliquées par défaut :</p>
                 <ul>
                     <li><strong>Police</strong> : sans-serif (helvetica / Latin Modern Sans via <code>LATEX_FONT_MAIN</code>)</li>
-                    <li><strong>Titres H1 (sections) et titre article</strong> : vert Chersotis <code>#2C5F2D</code> (charte OREINA, préféré au bleu/teal)</li>
+                    <li><strong>Titres H1 (sections) et titre d'article</strong> : dark teal <code>#0F766E</code> (RGB 15/118/110), cohérent entre le titre et les sections</li>
                     <li><strong>Titres H2</strong> : noir, non-italique</li>
                     <li><strong>Corps de texte</strong> : justifié par défaut (la spec §10 demandait l'alignement à gauche, mais <code>\RaggedRight</code> multiplie trop les lignes courtes en français et fait planter l'API de compilation YtoTech — à réactiver quand on aura une install LaTeX locale)</li>
                     <li><strong>Marges main content</strong> (pages 2+) : <code>left=50mm, right=20mm</code> → largeur utile ~140 mm (proche de la cible 130 mm de la spec §10 ; 60mm gauche fait planter l'API)</li>

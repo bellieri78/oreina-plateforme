@@ -21,10 +21,10 @@ class ArticleLatexServicePreambleTest extends TestCase
         );
     }
 
-    public function test_section_uses_chersotis_title_green(): void
+    public function test_section_uses_dark_teal(): void
     {
-        // Décision réunion 2026-04-16 §10 : sections H1 en vert Chersotis
-        // (charte OREINA, préféré au bleu/teal)
+        // Sections H1 et titre d'article partagent la même couleur
+        // dark teal (#0F766E) pour cohérence visuelle.
         $service = app(ArticleLatexService::class);
 
         $reflection = new \ReflectionMethod($service, 'generatePreamble');
@@ -32,7 +32,7 @@ class ArticleLatexServicePreambleTest extends TestCase
         $output = $reflection->invoke($service, 'T');
 
         $this->assertStringContainsString(
-            '\\color{chersotisTitleGreen}',
+            '\\color{chersotisDarkTeal}',
             $output
         );
     }

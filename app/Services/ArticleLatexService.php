@@ -206,7 +206,7 @@ class ArticleLatexService
 % - Non-italique (caractères droits) pour que les noms d'espèces en italique
 %   restent distincts
 \\titleformat{\\section}
-    {\\normalfont\\large\\bfseries\\color{chersotisTitleGreen}}
+    {\\normalfont\\large\\bfseries\\color{chersotisDarkTeal}}
     {\\thesection.}{0.5em}{}
 
 \\titleformat{\\subsection}
@@ -573,7 +573,7 @@ PREAMBLE;
     \\vspace{14pt}\\color{gray!30}\\hrule\\vspace{14pt}\\color{black}
 
     % Correspondance
-    \\textbf{\\textcolor{chersotisTeal}{Correspondance auteur}}\\\\
+    \\textbf{\\textcolor{chersotisTeal}{Correspondance auteur}}\\\\[4pt]
     {\\small {$correspondenceName}\\\\
     \\href{mailto:{$correspondenceEmail}}{\\textcolor{chersotisTeal}{{$correspondenceEmail}}}}
 
