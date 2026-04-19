@@ -990,6 +990,76 @@
                 alert('BibTeX copié !');
             });
         }
+
+        // === TOC scrollspy ===
+        (function () {
+            const links = document.querySelectorAll('.sidebar-toc a[data-toc-target]');
+            if (!links.length) return;
+            const targets = Array.from(links).map(a => document.getElementById(a.dataset.tocTarget)).filter(Boolean);
+            if (!targets.length) return;
+
+            const setActive = (id) => {
+                links.forEach(a => a.classList.toggle('active', a.dataset.tocTarget === id));
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) setActive(entry.target.id);
+                });
+            }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+            targets.forEach(t => observer.observe(t));
+        })();
+
+        // === Share tracking ===
+        async function shareArticle(network) {
+            const url = window.location.href;
+            const title = {!! json_encode($submission->title) !!};
+
+            const endpoints = {
+                twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+                linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+                mail: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+            };
+
+            if (network === 'copy') {
+                await navigator.clipboard.writeText(url);
+                alert('Lien copié !');
+            } else if (network === 'native' && navigator.share) {
+                try { await navigator.share({ title, url }); }
+                catch (e) { return; }
+            } else if (endpoints[network]) {
+                window.open(endpoints[network], '_blank', 'noopener');
+            } else {
+                return;
+            }
+
+            try {
+                const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+                await fetch({!! json_encode(route('journal.articles.share', $submission)) !!}, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfMeta ? csrfMeta.content : '',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ network })
+                });
+            } catch (e) { /* silencieux */ }
+        }
+
+        // Share picker — v1: minimal prompt. The sidebar "Partager" button
+        // dispatches `open-share` which the Alpine mobile drawer listens for;
+        // on desktop we also show a picker.
+        window.addEventListener('open-share', () => {
+            // Only pop the picker on desktop. Mobile: Alpine drawer already opened.
+            if (window.innerWidth < 1024) return;
+            const choice = prompt('Partager via : twitter, linkedin, mail, copy, native', 'copy');
+            if (choice && ['twitter','linkedin','mail','copy','native'].includes(choice)) {
+                shareArticle(choice);
+            }
+        });
     </script>
     @endpush
 @endsection
