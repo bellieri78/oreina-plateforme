@@ -12,11 +12,16 @@
         @php $blockType = $block['type'] ?? 'paragraph'; @endphp
 
         @if($blockType === 'heading')
-            @php $sectionNumber++; @endphp
-            @if(($block['level'] ?? 'h2') === 'h2')
+            @php
+                $sectionNumber++;
+                $headingLevel = ltrim((string) ($block['level'] ?? 'h2'), 'h');
+            @endphp
+            @if($headingLevel === '2')
                 <h2 id="section-{{ $sectionNumber }}">{{ $sectionNumber }}. {{ $block['content'] ?? '' }}</h2>
+            @elseif($headingLevel === '4')
+                <h4>{{ $block['content'] ?? '' }}</h4>
             @else
-                <h3>{{ $sectionNumber }}.{{ $loop->iteration }}. {{ $block['content'] ?? '' }}</h3>
+                <h3>{{ $block['content'] ?? '' }}</h3>
             @endif
 
         @elseif($blockType === 'paragraph')

@@ -95,7 +95,8 @@ class JournalController extends Controller
                 continue;
             }
             $counter++;
-            if (($block['level'] ?? 'h2') !== 'h2') {
+            $level = ltrim((string) ($block['level'] ?? 'h2'), 'h');
+            if ($level !== '2') {
                 continue;
             }
             $toc[] = [
