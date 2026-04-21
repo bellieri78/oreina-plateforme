@@ -49,9 +49,9 @@ Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
 
 Route::prefix('lepis/bulletins')->name('hub.lepis.bulletins.')->group(function () {
-    Route::get('/', fn () => abort(501))->name('index');
-    Route::get('/{bulletin}', fn () => abort(501))->name('show');
-    Route::get('/{bulletin}/pdf', fn () => abort(501))->name('download');
+    Route::get('/', [\App\Http\Controllers\Hub\LepisBulletinController::class, 'index'])->name('index');
+    Route::get('/{bulletin}', [\App\Http\Controllers\Hub\LepisBulletinController::class, 'show'])->name('show');
+    Route::get('/{bulletin}/pdf', [\App\Http\Controllers\Hub\LepisBulletinController::class, 'download'])->name('download');
 });
 
 // Authentification membre (depuis le hub)
