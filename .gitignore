@@ -24,6 +24,8 @@ Homestead.yaml
 Thumbs.db
 /docs
 /.claude
+/.worktrees
+/.superpowers
 CLAUDE.md
 
 # Production env files
