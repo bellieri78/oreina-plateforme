@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\LepisBulletin;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class LepisAnnouncementRenderer
@@ -18,7 +19,7 @@ class LepisAnnouncementRenderer
 
         $withTokens = str_replace(
             '{{lien_bulletin}}',
-            route('hub.lepis.bulletins.show', $bulletin),
+            URL::signedRoute('hub.lepis.bulletins.download', $bulletin),
             $body
         );
 

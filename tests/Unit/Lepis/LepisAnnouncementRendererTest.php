@@ -11,7 +11,7 @@ class LepisAnnouncementRendererTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_interpolates_bulletin_link_token(): void
+    public function test_interpolates_bulletin_link_token_with_signed_download_url(): void
     {
         $bulletin = LepisBulletin::create([
             'title' => 'Dossier hibernation',
@@ -27,8 +27,10 @@ class LepisAnnouncementRendererTest extends TestCase
         $rendered = (new LepisAnnouncementRenderer())->render($bulletin);
 
         $this->assertSame('Lepis n°42 vient de paraître', $rendered['subject']);
-        $expectedUrl = route('hub.lepis.bulletins.show', $bulletin);
-        $this->assertStringContainsString($expectedUrl, $rendered['body_html']);
+
+        // Le token doit être remplacé par une URL de download avec signature.
+        $this->assertStringContainsString('/lepis/bulletins/' . $bulletin->id . '/pdf', $rendered['body_html']);
+        $this->assertStringContainsString('signature=', $rendered['body_html']);
         $this->assertStringNotContainsString('{{lien_bulletin}}', $rendered['body_html']);
     }
 

@@ -83,6 +83,32 @@ class HubLepisBulletinsDownloadTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_signed_url_bypasses_policy_for_members_bulletin(): void
+    {
+        Storage::fake('public');
+        $bulletin = $this->makeBulletinWithPdf('members');
+
+        // Guest with a valid signed URL must be able to download.
+        $signedUrl = \Illuminate\Support\Facades\URL::signedRoute('hub.lepis.bulletins.download', $bulletin);
+
+        $response = $this->get($signedUrl);
+
+        $response->assertOk();
+    }
+
+    public function test_tampered_signed_url_is_rejected(): void
+    {
+        Storage::fake('public');
+        $bulletin = $this->makeBulletinWithPdf('members');
+
+        $signedUrl = \Illuminate\Support\Facades\URL::signedRoute('hub.lepis.bulletins.download', $bulletin);
+        $tampered = $signedUrl . 'deadbeef';  // altère la signature
+
+        $response = $this->get($tampered);
+
+        $response->assertForbidden();
+    }
+
     private function makeBulletinWithPdf(string $status): LepisBulletin
     {
         $file = UploadedFile::fake()->create('test.pdf', 10, 'application/pdf');

@@ -47,19 +47,26 @@
             @csrf
             @method('PUT')
 
+            @php
+                $defaultSubject = str_replace('#[N]', '#' . $bulletin->issue_number, \App\Models\LepisBulletin::DEFAULT_ANNOUNCEMENT_SUBJECT);
+                $defaultBody    = \App\Models\LepisBulletin::DEFAULT_ANNOUNCEMENT_BODY;
+                $subjectValue   = $bulletin->announcement_subject ?: $defaultSubject;
+                $bodyValue      = $bulletin->announcement_body    ?: $defaultBody;
+            @endphp
+
             <div class="form-group">
                 <label class="form-label" for="announcement_subject">Objet de l'email</label>
                 <input type="text" name="announcement_subject" id="announcement_subject" class="form-input"
-                    value="{{ old('announcement_subject', $bulletin->announcement_subject) }}">
+                    value="{{ old('announcement_subject', $subjectValue) }}">
                 @error('announcement_subject')<p style="color:#dc2626;font-size:0.875rem;margin-top:0.25rem;">{{ $message }}</p>@enderror
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="announcement_body">Corps de l'annonce</label>
                 <textarea name="announcement_body" id="announcement_body" class="form-input" rows="8"
-                    style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.875rem;">{{ old('announcement_body', $bulletin->announcement_body) }}</textarea>
+                    style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.875rem;">{{ old('announcement_body', $bodyValue) }}</textarea>
                 <p style="font-size:0.8rem;color:#6b7280;margin-top:0.25rem;">
-                    Markdown supporté. Le lien vers le bulletin sera inséré via le token <code>{{'{{'}}lien_bulletin{{'}}'}}</code>.
+                    Markdown supporté. Le lien vers le bulletin sera inséré via le token <code>@{{lien_bulletin}}</code>.
                 </p>
                 @error('announcement_body')<p style="color:#dc2626;font-size:0.875rem;margin-top:0.25rem;">{{ $message }}</p>@enderror
             </div>

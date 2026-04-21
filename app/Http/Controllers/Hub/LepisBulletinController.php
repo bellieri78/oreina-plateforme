@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Hub;
 
 use App\Http\Controllers\Controller;
 use App\Models\LepisBulletin;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class LepisBulletinController extends Controller
@@ -48,9 +49,13 @@ class LepisBulletinController extends Controller
         return view('hub.lepis.bulletins.show', compact('bulletin', 'previous', 'next'));
     }
 
-    public function download(LepisBulletin $bulletin)
+    public function download(Request $request, LepisBulletin $bulletin)
     {
-        $this->authorize('download', $bulletin);
+        // Une URL signée valide (typiquement envoyée par email depuis Brevo)
+        // permet l'accès au PDF sans être connecté. Sinon la policy s'applique.
+        if (! $request->hasValidSignature()) {
+            $this->authorize('download', $bulletin);
+        }
 
         if (! $bulletin->pdf_path || ! Storage::disk('public')->exists($bulletin->pdf_path)) {
             abort(404, 'PDF non trouvé');

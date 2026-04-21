@@ -10,6 +10,20 @@ class LepisBulletin extends Model
     public const STATUS_MEMBERS = 'members';
     public const STATUS_PUBLIC  = 'public';
 
+    public const DEFAULT_ANNOUNCEMENT_SUBJECT = 'Téléchargez Lepis #[N], le bulletin des adhérents oreina';
+
+    public const DEFAULT_ANNOUNCEMENT_BODY = <<<'MD'
+Cher(e)s ami(e)s, cher(e)s collègues, cher(e)s adhérent(e)s,
+
+Lors de votre adhésion vous avez souscrit à la version numérique de Lepis, le bulletin des adhérents d'oreina. Cliquez ci-dessous pour consulter ce numéro.
+
+**[Télécharger Lepis]({{lien_bulletin}})**
+
+Nous vous souhaitons une bonne lecture et espérons que vous participerez activement à l'élaboration des suivants.
+
+Le Conseil d'administration.
+MD;
+
     protected $fillable = [
         'title',
         'issue_number',
