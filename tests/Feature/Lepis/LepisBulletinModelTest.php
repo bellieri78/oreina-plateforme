@@ -44,6 +44,18 @@ class LepisBulletinModelTest extends TestCase
         $this->assertSame('Été', $bulletin->quarter_label);
     }
 
+    public function test_brevo_list_url_accessor_builds_correct_url(): void
+    {
+        $bulletin = LepisBulletin::create($this->baseAttrs(['brevo_list_id' => 789]));
+        $this->assertSame('https://app.brevo.com/contact/list/id/789', $bulletin->brevo_list_url);
+    }
+
+    public function test_brevo_list_url_returns_null_when_no_list_id(): void
+    {
+        $bulletin = LepisBulletin::create($this->baseAttrs());
+        $this->assertNull($bulletin->brevo_list_url);
+    }
+
     private function baseAttrs(array $overrides = []): array
     {
         return array_merge([
