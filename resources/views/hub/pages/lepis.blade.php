@@ -359,6 +359,24 @@
         </div>
     </section>
 
+    @if ($latestBulletins->isNotEmpty())
+    {{-- Derniers numéros --}}
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between mb-8">
+                <h2 class="text-2xl font-bold text-oreina-dark">Derniers numéros</h2>
+                <a href="{{ route('hub.lepis.bulletins.index') }}" class="text-oreina-green hover:underline">Voir tous les numéros →</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @foreach ($latestBulletins as $bulletin)
+                    @include('hub.lepis.bulletins._card', ['bulletin' => $bulletin])
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+
     {{-- CTA --}}
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

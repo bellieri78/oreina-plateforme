@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Hub;
 
 use App\Http\Controllers\Controller;
+use App\Models\LepisBulletin;
 use App\Models\MembershipType;
 
 class PageController extends Controller
@@ -19,7 +20,13 @@ class PageController extends Controller
 
     public function lepis()
     {
-        return view('hub.pages.lepis');
+        $latestBulletins = LepisBulletin::visibleOnHub()
+            ->orderBy('year', 'desc')
+            ->orderBy('issue_number', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('hub.pages.lepis', compact('latestBulletins'));
     }
 
     public function membership()
