@@ -6,18 +6,60 @@ use Illuminate\Database\Eloquent\Model;
 
 class LepisBulletin extends Model
 {
+    public const STATUS_DRAFT   = 'draft';
+    public const STATUS_MEMBERS = 'members';
+    public const STATUS_PUBLIC  = 'public';
+
     protected $fillable = [
-        'title', 'issue_number', 'quarter', 'year', 'pdf_path', 'published_at', 'is_published',
+        'title',
+        'issue_number',
+        'quarter',
+        'year',
+        'pdf_path',
+        'status',
+        'published_to_members_at',
+        'published_public_at',
+        'summary',
+        'cover_image',
+        'announcement_subject',
+        'announcement_body',
+        'brevo_list_id',
+        'brevo_list_name',
+        'brevo_synced_at',
+        'brevo_sync_failed',
     ];
 
     protected $casts = [
-        'published_at' => 'datetime',
-        'is_published' => 'boolean',
+        'published_to_members_at' => 'datetime',
+        'published_public_at'     => 'datetime',
+        'brevo_synced_at'         => 'datetime',
+        'brevo_sync_failed'       => 'boolean',
+        'brevo_list_id'           => 'integer',
     ];
 
-    public function scopePublished($query)
+    protected $attributes = [
+        'status'            => 'draft',
+        'brevo_sync_failed' => false,
+    ];
+
+    public function scopeVisibleOnHub($query)
     {
-        return $query->where('is_published', true);
+        return $query->whereIn('status', [self::STATUS_MEMBERS, self::STATUS_PUBLIC]);
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === self::STATUS_DRAFT;
+    }
+
+    public function isInMembersPhase(): bool
+    {
+        return $this->status === self::STATUS_MEMBERS;
+    }
+
+    public function isPublic(): bool
+    {
+        return $this->status === self::STATUS_PUBLIC;
     }
 
     public function getQuarterLabelAttribute(): string
@@ -29,5 +71,12 @@ class LepisBulletin extends Model
             'Q4' => 'Hiver',
             default => $this->quarter,
         };
+    }
+
+    public function getBrevoListUrlAttribute(): ?string
+    {
+        return $this->brevo_list_id
+            ? "https://app.brevo.com/contact/list/id/{$this->brevo_list_id}"
+            : null;
     }
 }
