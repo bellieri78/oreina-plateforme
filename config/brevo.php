@@ -25,6 +25,8 @@ return [
     |
     */
 
+    'folder_id_lepis' => env('BREVO_FOLDER_ID_LEPIS', 1),
+
     'lists' => [
         'all_contacts' => env('BREVO_LIST_ALL', null),        // Tous les contacts
         'members' => env('BREVO_LIST_MEMBERS', null),          // Adherents actifs
