@@ -34,7 +34,7 @@
 
             @if ($bulletin->summary)
                 <div class="prose max-w-none mb-8">
-                    {!! \Illuminate\Support\Str::markdown($bulletin->summary) !!}
+                    {!! \Illuminate\Support\Str::markdown($bulletin->summary, ['html_input' => 'strip']) !!}
                 </div>
             @endif
 

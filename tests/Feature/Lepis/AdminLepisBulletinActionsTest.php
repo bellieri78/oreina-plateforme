@@ -107,6 +107,48 @@ class AdminLepisBulletinActionsTest extends TestCase
         $this->assertSame('draft', $bulletin->fresh()->status);
     }
 
+    public function test_destroy_allowed_for_draft_bulletin(): void
+    {
+        $editor = $this->lepisEditor();
+        $bulletin = $this->makeBulletin(['status' => 'draft']);
+
+        $response = $this->actingAs($editor)
+            ->delete(route('admin.lepis.destroy', $bulletin));
+
+        $response->assertRedirect(route('admin.lepis.index'));
+        $this->assertDatabaseMissing('lepis_bulletins', ['id' => $bulletin->id]);
+    }
+
+    public function test_destroy_rejected_for_members_bulletin(): void
+    {
+        $editor = $this->lepisEditor();
+        $bulletin = $this->makeBulletin([
+            'status' => 'members',
+            'published_to_members_at' => now(),
+        ]);
+
+        $response = $this->actingAs($editor)
+            ->delete(route('admin.lepis.destroy', $bulletin));
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('lepis_bulletins', ['id' => $bulletin->id]);
+    }
+
+    public function test_destroy_rejected_for_public_bulletin(): void
+    {
+        $editor = $this->lepisEditor();
+        $bulletin = $this->makeBulletin([
+            'status' => 'public',
+            'published_public_at' => now(),
+        ]);
+
+        $response = $this->actingAs($editor)
+            ->delete(route('admin.lepis.destroy', $bulletin));
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('lepis_bulletins', ['id' => $bulletin->id]);
+    }
+
     private function lepisEditor(): User
     {
         $user = User::factory()->create();

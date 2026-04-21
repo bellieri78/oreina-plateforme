@@ -24,7 +24,7 @@ class LepisAnnouncementRenderer
 
         return [
             'subject'   => $subject,
-            'body_html' => (string) Str::markdown($withTokens),
+            'body_html' => (string) Str::markdown($withTokens, ['html_input' => 'strip']),
         ];
     }
 }

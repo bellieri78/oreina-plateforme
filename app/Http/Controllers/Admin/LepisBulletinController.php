@@ -130,6 +130,10 @@ class LepisBulletinController extends Controller
 
     public function destroy(LepisBulletin $lepi)
     {
+        if (! $lepi->isDraft()) {
+            return back()->with('error', "Impossible de supprimer un bulletin déjà publié. Revenez en brouillon avant suppression.");
+        }
+
         if ($lepi->pdf_path) {
             Storage::disk('public')->delete($lepi->pdf_path);
         }
