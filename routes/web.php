@@ -48,6 +48,12 @@ Route::get('/a-propos', [PageController::class, 'about'])->name('hub.about');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
 
+Route::prefix('lepis/bulletins')->name('hub.lepis.bulletins.')->group(function () {
+    Route::get('/', fn () => abort(501))->name('index');
+    Route::get('/{bulletin}', fn () => abort(501))->name('show');
+    Route::get('/{bulletin}/pdf', fn () => abort(501))->name('download');
+});
+
 // Authentification membre (depuis le hub)
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\EmailVerificationController;
