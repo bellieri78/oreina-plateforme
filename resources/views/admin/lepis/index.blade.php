@@ -44,15 +44,39 @@
             </div>
         </div>
 
+        <div class="stat-card stat-card-warning">
+            <div class="stat-card-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div class="stat-card-content">
+                <span class="stat-card-value">{{ $stats['draft'] }}</span>
+                <span class="stat-card-label">Brouillons</span>
+            </div>
+        </div>
+
         <div class="stat-card stat-card-success">
+            <div class="stat-card-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
+            <div class="stat-card-content">
+                <span class="stat-card-value">{{ $stats['members'] }}</span>
+                <span class="stat-card-label">Adhérents</span>
+            </div>
+        </div>
+
+        <div class="stat-card stat-card-primary">
             <div class="stat-card-icon">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
             <div class="stat-card-content">
-                <span class="stat-card-value">{{ $stats['published'] }}</span>
-                <span class="stat-card-label">Publies</span>
+                <span class="stat-card-value">{{ $stats['public'] }}</span>
+                <span class="stat-card-label">Publics</span>
             </div>
         </div>
     </div>
@@ -70,7 +94,7 @@
 
                 <div class="filters-actions">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
-                    @if(request()->hasAny(['search']))
+                    @if(request()->hasAny(['search', 'status']))
                         <a href="{{ route('admin.lepis.index') }}" class="btn btn-ghost">Reset</a>
                     @endif
                 </div>
@@ -116,14 +140,16 @@
                                 <span>{{ $bulletin->quarter_label }} {{ $bulletin->year }}</span>
                             </td>
                             <td>
-                                @if($bulletin->is_published)
-                                    <span class="badge badge-success">Publie</span>
+                                @if($bulletin->status === 'public')
+                                    <span class="badge badge-success">Public</span>
+                                @elseif($bulletin->status === 'members')
+                                    <span class="badge badge-info">Adhérents</span>
                                 @else
                                     <span class="badge badge-default">Brouillon</span>
                                 @endif
                             </td>
                             <td>
-                                <span class="text-muted">{{ $bulletin->published_at ? $bulletin->published_at->format('d/m/Y') : '-' }}</span>
+                                <span class="text-muted">{{ $bulletin->published_to_members_at ? $bulletin->published_to_members_at->format('d/m/Y') : '-' }}</span>
                             </td>
                             <td class="text-right">
                                 <div class="table-actions">
@@ -135,20 +161,6 @@
                                             </svg>
                                         </a>
                                     @endif
-                                    <form action="{{ route('admin.lepis.toggle-publish', $bulletin) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-ghost btn-sm" title="{{ $bulletin->is_published ? 'Depublier' : 'Publier' }}">
-                                            @if($bulletin->is_published)
-                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
-                                                </svg>
-                                            @else
-                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                </svg>
-                                            @endif
-                                        </button>
-                                    </form>
                                     <a href="{{ route('admin.lepis.edit', $bulletin) }}" class="btn btn-ghost btn-sm" title="Modifier">
                                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>

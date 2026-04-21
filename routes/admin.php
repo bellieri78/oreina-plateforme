@@ -280,7 +280,11 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
 
     // Lepis Bulletins
     Route::resource('lepis', LepisBulletinController::class)->except(['show'])->names('lepis');
-    Route::post('lepis/{bulletin}/toggle-publish', [LepisBulletinController::class, 'togglePublish'])->name('lepis.toggle-publish');
+    Route::post('lepis/{bulletin}/publish-to-members', [LepisBulletinController::class, 'publishToMembers'])->name('lepis.publish-to-members');
+    Route::post('lepis/{bulletin}/make-public', [LepisBulletinController::class, 'makePublic'])->name('lepis.make-public');
+    Route::post('lepis/{bulletin}/revert-to-draft', [LepisBulletinController::class, 'revertToDraft'])->name('lepis.revert-to-draft');
+    Route::post('lepis/{bulletin}/resync-brevo', [LepisBulletinController::class, 'resyncBrevo'])->name('lepis.resync-brevo');
+    Route::put('lepis/{bulletin}/announcement', [LepisBulletinController::class, 'updateAnnouncement'])->name('lepis.announcement');
 
     // Lepis Suggestions
     Route::get('lepis-suggestions', [LepisSuggestionController::class, 'index'])->name('lepis-suggestions.index');
