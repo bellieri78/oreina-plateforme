@@ -1,26 +1,26 @@
 @extends('layouts.admin')
-@section('title', 'Modifier bulletin Lepis')
+@section('title', 'Bulletin Lepis n°' . $bulletin->issue_number)
 @section('breadcrumb')
     <a href="{{ route('admin.lepis.index') }}">Lepis</a>
     <span>/</span>
-    <span>Modifier</span>
+    <span>n°{{ $bulletin->issue_number }}</span>
 @endsection
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Modifier le bulletin Lepis</h3>
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title">Lepis n°{{ $bulletin->issue_number }} — {{ $bulletin->quarter_label }} {{ $bulletin->year }}</h1>
+            <p class="page-subtitle">{{ $bulletin->title }}</p>
         </div>
-        <div class="card-body">
-            <form action="{{ route('admin.lepis.update', $bulletin) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                @include('admin.lepis._form', ['bulletin' => $bulletin])
-                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    <a href="{{ route('admin.lepis.index') }}" class="btn btn-secondary">Annuler</a>
-                </div>
-            </form>
+        <div class="page-header-actions">
+            @if ($bulletin->isInMembersPhase() || $bulletin->isPublic())
+                <a href="{{ route('hub.lepis.bulletins.show', $bulletin) }}" target="_blank" class="btn btn-outline">Voir sur le site</a>
+            @endif
         </div>
     </div>
+
+    @include('admin.lepis._carte_infos')
+    @include('admin.lepis._carte_pdf')
+    @include('admin.lepis._carte_cycle')
+    @include('admin.lepis._carte_annonce')
 @endsection
