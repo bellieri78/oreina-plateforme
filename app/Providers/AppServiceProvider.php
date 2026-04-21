@@ -29,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Policies\SubmissionPolicy::class
         );
 
+        \Illuminate\Support\Facades\Gate::policy(
+            \App\Models\LepisBulletin::class,
+            \App\Policies\LepisBulletinPolicy::class
+        );
+
         \Illuminate\Support\Facades\Gate::define('create-submission-for-author', function (\App\Models\User $user) {
             return $user->hasCapability(\App\Models\EditorialCapability::CHIEF_EDITOR)
                 || $user->hasCapability(\App\Models\EditorialCapability::EDITOR);
