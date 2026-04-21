@@ -8,7 +8,7 @@
 <div class="space-y-6">
     {{-- Back link --}}
     <div>
-        <a href="{{ route('member.lepis') }}" class="inline-flex items-center gap-2 text-link hover:underline text-sm">
+        <a href="{{ route('hub.lepis.bulletins.index') }}" class="inline-flex items-center gap-2 text-link hover:underline text-sm">
             <i data-lucide="arrow-left" style="width:16px;height:16px"></i>
             Retour aux bulletins
         </a>
@@ -58,7 +58,7 @@
                     <i data-lucide="send"></i>
                     Envoyer la suggestion
                 </button>
-                <a href="{{ route('member.lepis') }}" class="text-sm text-link hover:underline">Annuler</a>
+                <a href="{{ route('hub.lepis.bulletins.index') }}" class="text-sm text-link hover:underline">Annuler</a>
             </div>
         </form>
     </div>

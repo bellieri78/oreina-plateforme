@@ -39,7 +39,7 @@
                 <div class="quick-actions">
                     <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
                     <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
-                    <a href="{{ route('member.lepis') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
+                    <a href="{{ route('hub.lepis.bulletins.index') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
                 </div>
             @else
                 <p>
@@ -77,7 +77,7 @@
                     <strong>Lepis</strong>
                     <p>Le bulletin trimestriel des adhérents. Actualités, synthèses et contributions.</p>
                 </div>
-                <a href="{{ route('member.lepis') }}" class="text-link"><i data-lucide="newspaper"></i>Consulter Lepis</a>
+                <a href="{{ route('hub.lepis.bulletins.index') }}" class="text-link"><i data-lucide="newspaper"></i>Consulter Lepis</a>
             </article>
             @endif
 

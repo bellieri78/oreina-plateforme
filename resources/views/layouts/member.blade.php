@@ -1048,7 +1048,7 @@
                     <span class="nav-label">Chersotis</span>
                 </a>
                 @if($authMember)
-                <a href="{{ route('member.lepis') }}" class="nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
+                <a href="{{ route('hub.lepis.bulletins.index') }}" class="nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
                     <i data-lucide="newspaper" class="icon"></i>
                     <span class="nav-label">Lepis</span>
                 </a>

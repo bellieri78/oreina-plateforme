@@ -139,10 +139,10 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
     Route::get('/groupes-de-travail/{workGroup:slug}', [MemberWorkGroupController::class, 'show'])->name('work-groups.show');
 
     // Lepis
-    Route::get('/lepis', [MemberLepisController::class, 'index'])->name('lepis');
+    Route::get('/lepis', fn () => redirect()->route('hub.lepis.bulletins.index', [], 301))->name('lepis');
     Route::get('/lepis/suggerer', [MemberLepisController::class, 'suggest'])->name('lepis.suggest');
     Route::post('/lepis/suggerer', [MemberLepisController::class, 'storeSuggestion'])->name('lepis.suggest.store');
-    Route::get('/lepis/{bulletin}/telecharger', [MemberLepisController::class, 'download'])->name('lepis.download');
+    Route::get('/lepis/{bulletin}/telecharger', fn ($bulletin) => redirect()->route('hub.lepis.bulletins.download', ['bulletin' => $bulletin], 301))->name('lepis.download');
 
     // Community
     Route::get('/communaute', [MemberCommunityController::class, 'index'])->name('community');
