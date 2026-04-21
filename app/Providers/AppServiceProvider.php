@@ -40,7 +40,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         \Illuminate\Support\Facades\Gate::define('access-lepis-queue', function (\App\Models\User $user) {
-            return $user->isAdmin();
+            return $user->isAdmin()
+                || $user->hasCapability(\App\Models\EditorialCapability::LEPIS_EDITOR);
         });
 
         \Illuminate\Support\Facades\Blade::directive('turnstile', function () {

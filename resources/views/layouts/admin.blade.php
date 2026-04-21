@@ -32,11 +32,11 @@
             @php
                 $authUser = auth()->user();
                 $sectionActive = [
-                    'vie-asso'  => request()->routeIs('admin.members.*', 'admin.structures.*', 'admin.map.*', 'admin.memberships.*', 'admin.member-cards.*'),
+                    'vie-asso'  => request()->routeIs('admin.members.*', 'admin.structures.*', 'admin.map.*', 'admin.memberships.*', 'admin.member-cards.*', 'admin.lepis.*', 'admin.lepis-suggestions.*', 'admin.journal.lepis-queue'),
                     'finances'  => request()->routeIs('admin.donations.*', 'admin.products.*', 'admin.purchases.*'),
                     'benevolat' => request()->routeIs('admin.volunteer.*'),
                     'contenu'   => request()->routeIs('admin.articles.*', 'admin.events.*', 'admin.brevo.*', 'admin.import-export.*'),
-                    'revue'     => request()->routeIs('admin.journal-issues.*', 'admin.submissions.*', 'admin.reviews.*', 'admin.journal.*'),
+                    'revue'     => request()->routeIs('admin.journal-issues.*', 'admin.submissions.*', 'admin.reviews.*', 'admin.journal.queue.*', 'admin.journal.mine', 'admin.journal.submissions.*'),
                     'admin'     => request()->routeIs('admin.users.*', 'admin.settings.*', 'admin.rgpd.*', 'admin.reports.*', 'admin.documentation'),
                 ];
             @endphp
@@ -77,6 +77,28 @@
                             <i data-lucide="id-card"></i>
                             <span>Cartes d'adhérent</span>
                         </a>
+                        <a href="{{ route('admin.lepis.index') }}" class="nav-link {{ request()->routeIs('admin.lepis.*') && ! request()->routeIs('admin.lepis-suggestions.*') ? 'active' : '' }}">
+                            <i data-lucide="newspaper"></i>
+                            <span>Bulletins Lepis</span>
+                        </a>
+                        <a href="{{ route('admin.lepis-suggestions.index') }}" class="nav-link {{ request()->routeIs('admin.lepis-suggestions.*') ? 'active' : '' }}">
+                            <i data-lucide="message-square-quote"></i>
+                            <span>Suggestions Lepis</span>
+                        </a>
+                        @can('access-lepis-queue')
+                            @php
+                                $lepisQueueCount = \App\Models\Submission::where('status', 'rejected_pending_lepis')->count();
+                            @endphp
+                            <a href="{{ route('admin.journal.lepis-queue') }}" class="nav-link {{ request()->routeIs('admin.journal.lepis-queue') ? 'active' : '' }}" style="display:flex;align-items:center;justify-content:space-between;">
+                                <span style="display:flex;align-items:center;gap:8px;">
+                                    <i data-lucide="file-warning"></i>
+                                    <span>File Lepis (articles Chersotis)</span>
+                                </span>
+                                @if($lepisQueueCount > 0)
+                                    <span style="background:#d97706;color:white;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;">{{ $lepisQueueCount }}</span>
+                                @endif
+                            </a>
+                        @endcan
                     </div>
                 </div>
 
@@ -186,20 +208,6 @@
                                     <span>Mes articles</span>
                                 </a>
                             @endif
-                            @can('access-lepis-queue')
-                                @php
-                                    $lepisQueueCount = \App\Models\Submission::where('status', 'rejected_pending_lepis')->count();
-                                @endphp
-                                <a href="{{ route('admin.journal.lepis-queue') }}" class="nav-link {{ request()->routeIs('admin.journal.lepis-queue') ? 'active' : '' }}" style="display:flex;align-items:center;justify-content:space-between;">
-                                    <span style="display:flex;align-items:center;gap:8px;">
-                                        <i data-lucide="file-warning"></i>
-                                        <span>File Lepis</span>
-                                    </span>
-                                    @if($lepisQueueCount > 0)
-                                        <span style="background:#d97706;color:white;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;">{{ $lepisQueueCount }}</span>
-                                    @endif
-                                </a>
-                            @endcan
                         @endif
                     </div>
                 </div>
