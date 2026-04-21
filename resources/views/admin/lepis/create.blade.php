@@ -38,7 +38,7 @@
                             <textarea name="announcement_body" id="announcement_body" class="form-input" rows="6"
                                 style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.875rem;">{{ old('announcement_body', $defaults['announcement_body'] ?? '') }}</textarea>
                             <p style="font-size:0.8rem;color:#6b7280;margin-top:0.25rem;">
-                                Markdown supporté. Utilisez le token <code>{{'{{'}}lien_bulletin{{'}}'}}</code> pour insérer le lien.
+                                Markdown supporté. Utilisez le token <code>@{{lien_bulletin}}</code> pour insérer le lien.
                             </p>
                             @error('announcement_body')<p style="color:#dc2626;font-size:0.875rem;margin-top:0.25rem;">{{ $message }}</p>@enderror
                         </div>

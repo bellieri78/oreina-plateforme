@@ -55,9 +55,15 @@ class LepisBulletinController extends Controller
             ->orderBy('issue_number', 'desc')
             ->first();
 
+        $nextIssue = ($previous?->issue_number ?? 0) + 1;
+
         $defaults = [
-            'announcement_subject' => $previous?->announcement_subject ?? '',
-            'announcement_body'    => $previous?->announcement_body ?? '',
+            'announcement_subject' => filled($previous?->announcement_subject)
+                ? $previous->announcement_subject
+                : str_replace('#[N]', '#' . $nextIssue, LepisBulletin::DEFAULT_ANNOUNCEMENT_SUBJECT),
+            'announcement_body' => filled($previous?->announcement_body)
+                ? $previous->announcement_body
+                : LepisBulletin::DEFAULT_ANNOUNCEMENT_BODY,
         ];
 
         return view('admin.lepis.create', compact('defaults'));
@@ -153,6 +159,15 @@ class LepisBulletinController extends Controller
             $this->publication->publishToMembers($bulletin);
         } catch (MissingPdfException|InvalidTransitionException $e) {
             return back()->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            // En sync mode, une exception du Job Brevo (ex: IP non whitelistée)
+            // remonte ici. La transition en 'members' est déjà commitée et le
+            // flag brevo_sync_failed a été posé par le failed() handler.
+            // On laisse donc l'admin relancer depuis la carte Annonce.
+            return back()->with(
+                'error',
+                "Bulletin publié aux adhérents, mais la synchronisation Brevo a échoué : {$e->getMessage()}. Relancez depuis la carte Annonce."
+            );
         }
 
         return back()->with('success', 'Bulletin publié aux adhérents. Synchronisation Brevo en cours…');
@@ -186,6 +201,11 @@ class LepisBulletinController extends Controller
             $this->publication->resyncBrevo($bulletin);
         } catch (InvalidTransitionException $e) {
             return back()->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            return back()->with(
+                'error',
+                "La synchronisation Brevo a de nouveau échoué : {$e->getMessage()}."
+            );
         }
 
         return back()->with('success', 'Relance de la synchronisation Brevo…');
