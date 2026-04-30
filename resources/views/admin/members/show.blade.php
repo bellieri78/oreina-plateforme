@@ -183,6 +183,46 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Bulletins Lepis -->
+            <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.25rem; margin-top: 1.5rem;">
+                <h3 style="margin-top: 0; font-weight: 600;">Bulletins Lepis recus</h3>
+
+                @if($member->lepisBulletinRecipients->isEmpty())
+                    <p style="color: #6b7280; margin: 0;">Aucun envoi de bulletin pour ce contact.</p>
+                @else
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <th style="padding: 0.5rem; text-align: left;">Bulletin</th>
+                                <th style="padding: 0.5rem; text-align: left;">Format</th>
+                                <th style="padding: 0.5rem; text-align: left;">Date d'envoi</th>
+                                <th style="padding: 0.5rem; text-align: left;">Liste Brevo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($member->lepisBulletinRecipients as $r)
+                                <tr style="border-bottom: 1px solid #f3f4f6;">
+                                    <td style="padding: 0.5rem;">
+                                        <a href="{{ route('admin.lepis.edit', $r->bulletin) }}" style="color: #2C5F2D; text-decoration: none;">
+                                            {{ $r->bulletin?->title ?? '#' . $r->lepis_bulletin_id }}
+                                        </a>
+                                    </td>
+                                    <td style="padding: 0.5rem;">
+                                        {{ $r->format === 'digital' ? 'Numerique' : 'Papier' }}
+                                    </td>
+                                    <td style="padding: 0.5rem;">
+                                        {{ $r->included_at?->locale('fr')->isoFormat('LL') }}
+                                    </td>
+                                    <td style="padding: 0.5rem; color: #6b7280; font-size: 0.875rem;">
+                                        {{ $r->brevo_list_id ? '#' . $r->brevo_list_id : '-' }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+            </div>
         </div>
     </div>
 @endsection

@@ -113,7 +113,7 @@ class MemberController extends Controller
 
     public function show(Member $member)
     {
-        $member->load(['memberships', 'donations', 'consents']);
+        $member->load(['memberships', 'donations', 'consents', 'lepisBulletinRecipients.bulletin']);
 
         return view('admin.members.show', compact('member'));
     }
