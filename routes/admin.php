@@ -285,6 +285,8 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     Route::post('lepis/{bulletin}/revert-to-draft', [LepisBulletinController::class, 'revertToDraft'])->name('lepis.revert-to-draft');
     Route::post('lepis/{bulletin}/resync-brevo', [LepisBulletinController::class, 'resyncBrevo'])->name('lepis.resync-brevo');
     Route::put('lepis/{bulletin}/announcement', [LepisBulletinController::class, 'updateAnnouncement'])->name('lepis.announcement');
+    Route::get('/lepis/{bulletin}/recipients/export', [LepisBulletinController::class, 'exportRecipients'])->name('lepis.recipients.export');
+    Route::post('/lepis/{bulletin}/recipients/snapshot', [LepisBulletinController::class, 'recalculateSnapshot'])->name('lepis.recipients.snapshot');
 
     // Lepis Suggestions
     Route::get('lepis-suggestions', [LepisSuggestionController::class, 'index'])->name('lepis-suggestions.index');

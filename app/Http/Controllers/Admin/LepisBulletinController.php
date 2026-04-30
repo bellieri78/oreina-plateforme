@@ -222,4 +222,47 @@ class LepisBulletinController extends Controller
 
         return back()->with('success', "Template d'annonce enregistré.");
     }
+
+    public function exportRecipients(LepisBulletin $bulletin, Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $format = $request->query('format', 'paper');
+        abort_unless(in_array($format, ['paper', 'digital']), 400);
+
+        $recipients = $bulletin->recipients()->where('format', $format)->with('member')->get();
+
+        $filename = "lepis-{$bulletin->year}-{$bulletin->quarter}-{$format}.csv";
+
+        return response()->streamDownload(function () use ($recipients) {
+            $out = fopen('php://output', 'w');
+            // BOM for Excel UTF-8 compatibility
+            fwrite($out, "\xEF\xBB\xBF");
+            fputcsv($out, ['prenom', 'nom', 'email', 'adresse', 'code_postal', 'ville', 'pays', 'numero_adherent']);
+            foreach ($recipients as $r) {
+                $address = $r->postal_address_at_snapshot ?? [];
+                fputcsv($out, [
+                    $r->member->first_name ?? '',
+                    $r->member->last_name ?? '',
+                    $r->email_at_snapshot ?? $r->member->email ?? '',
+                    $address['address'] ?? $r->member->address ?? '',
+                    $address['postal_code'] ?? $r->member->postal_code ?? '',
+                    $address['city'] ?? $r->member->city ?? '',
+                    $address['country'] ?? $r->member->country ?? '',
+                    $r->member->member_number ?? '',
+                ]);
+            }
+            fclose($out);
+        }, $filename, ['Content-Type' => 'text/csv; charset=UTF-8']);
+    }
+
+    public function recalculateSnapshot(LepisBulletin $bulletin): \Illuminate\Http\RedirectResponse
+    {
+        $result = app(\App\Services\LepisBulletinRecipientSnapshotter::class)->snapshot($bulletin);
+
+        $msg = "Snapshot recalcule : {$result->paperCount} papier, {$result->digitalCount} numerique";
+        if (count($result->skipped) > 0) {
+            $msg .= ", " . count($result->skipped) . " ecarte(s)";
+        }
+
+        return redirect()->route('admin.lepis.edit', $bulletin)->with('success', $msg);
+    }
 }

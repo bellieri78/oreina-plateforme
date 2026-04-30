@@ -23,4 +23,7 @@
     @include('admin.lepis._carte_pdf')
     @include('admin.lepis._carte_cycle')
     @include('admin.lepis._carte_annonce')
+    @if(in_array($bulletin->status, ['members', 'public']))
+        @include('admin.lepis._carte_diffusion', ['bulletin' => $bulletin])
+    @endif
 @endsection
