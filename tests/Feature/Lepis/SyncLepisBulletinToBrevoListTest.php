@@ -17,11 +17,12 @@ class SyncLepisBulletinToBrevoListTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_creates_brevo_list_and_imports_current_members(): void
+    public function test_creates_brevo_list_and_imports_only_digital_members(): void
     {
         $bulletin = $this->makeBulletin();
-        $this->makeCurrentMember('alice@example.com');
-        $this->makeCurrentMember('bob@example.com');
+        $this->makeCurrentMember('alice@example.com', 'digital');
+        $this->makeCurrentMember('bob@example.com', 'digital');
+        $this->makeCurrentMember('paperino@example.com', 'paper');
         $this->makeExpiredMember('old@example.com');
 
         $this->mock(BrevoService::class, function (MockInterface $mock) {
@@ -33,8 +34,8 @@ class SyncLepisBulletinToBrevoListTest extends TestCase
             $mock->shouldReceive('importContacts')
                 ->once()
                 ->withArgs(function ($members, $listId) {
-                    return $listId === 123
-                        && $members->pluck('email')->sort()->values()->all() === ['alice@example.com', 'bob@example.com'];
+                    $emails = $members->pluck('email')->sort()->values()->all();
+                    return $listId === 123 && $emails === ['alice@example.com', 'bob@example.com'];
                 })
                 ->andReturn(['success' => true, 'count' => 2]);
         });
@@ -46,6 +47,13 @@ class SyncLepisBulletinToBrevoListTest extends TestCase
         $this->assertSame('Lepis 2026 Q2', $bulletin->brevo_list_name);
         $this->assertNotNull($bulletin->brevo_synced_at);
         $this->assertFalse($bulletin->brevo_sync_failed);
+
+        // Snapshot must have been written: 2 digital + 1 paper recipients
+        $recipients = $bulletin->recipients;
+        $this->assertCount(3, $recipients);
+        $this->assertSame(2, $recipients->where('format', 'digital')->count());
+        $this->assertSame(1, $recipients->where('format', 'paper')->count());
+        $this->assertSame(123, $recipients->where('format', 'digital')->first()->brevo_list_id);
     }
 
     public function test_throws_when_list_creation_fails(): void
@@ -119,7 +127,7 @@ class SyncLepisBulletinToBrevoListTest extends TestCase
         ]);
     }
 
-    private function makeCurrentMember(string $email): Member
+    private function makeCurrentMember(string $email, string $format = 'digital'): Member
     {
         $user = User::factory()->create(['email' => $email]);
         $member = Member::create([
@@ -128,6 +136,10 @@ class SyncLepisBulletinToBrevoListTest extends TestCase
             'email' => $email,
             'first_name' => 'First',
             'last_name' => 'Last',
+            'address' => '1 rue Test',
+            'postal_code' => '75000',
+            'city' => 'Paris',
+            'country' => 'France',
             'joined_at' => now()->subYear(),
         ]);
         Membership::create([
@@ -137,6 +149,7 @@ class SyncLepisBulletinToBrevoListTest extends TestCase
             'start_date' => now()->subMonth(),
             'end_date' => now()->addMonth(),
             'amount_paid' => 30.00,
+            'lepis_format' => $format,
         ]);
         return $member;
     }
