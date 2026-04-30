@@ -13,8 +13,10 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $member = Member::where('user_id', $user->id)->first();
+        $currentMembership = $member?->currentMembership();
+        $lepisFormat = $currentMembership?->lepisFormatOrDefault();
 
-        return view('member.profile', compact('user', 'member'));
+        return view('member.profile', compact('user', 'member', 'lepisFormat'));
     }
 
     public function update(Request $request)

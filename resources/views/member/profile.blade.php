@@ -142,6 +142,27 @@
         </div>
     </form>
 
+    {{-- Format Lepis (lecture seule) --}}
+    @if($lepisFormat)
+    <div class="card panel mb-6">
+        <div class="panel-head">
+            <div>
+                <h2>Bulletin Lepis</h2>
+            </div>
+        </div>
+        <div>
+            <p class="text-sm font-semibold mb-1" style="color:var(--forest)">Format de reception du bulletin Lepis :</p>
+            <p class="font-bold" style="color:var(--forest)">
+                {{ $lepisFormat === 'digital' ? 'Numerique' : 'Papier' }}
+            </p>
+            <p class="mt-2 text-sm" style="color:var(--muted)">
+                Pour modifier ce choix, contactez le secretariat a
+                <a href="mailto:secretariat@oreina.org" class="text-link hover:underline">secretariat@oreina.org</a>.
+            </p>
+        </div>
+    </div>
+    @endif
+
     {{-- Preferences link --}}
     <div class="mt-8 pt-8" style="border-top:1px solid var(--border)">
         <a href="{{ route('member.profile.preferences') }}" class="inline-flex items-center gap-2 font-medium hover:underline text-link">
