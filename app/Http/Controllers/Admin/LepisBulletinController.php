@@ -242,11 +242,11 @@ class LepisBulletinController extends Controller
                 fputcsv($out, [
                     $r->member->first_name ?? '',
                     $r->member->last_name ?? '',
-                    $r->email_at_snapshot ?? $r->member->email ?? '',
-                    $address['address'] ?? $r->member->address ?? '',
-                    $address['postal_code'] ?? $r->member->postal_code ?? '',
-                    $address['city'] ?? $r->member->city ?? '',
-                    $address['country'] ?? $r->member->country ?? '',
+                    $r->email_at_snapshot ?? '',
+                    $address['address'] ?? '',
+                    $address['postal_code'] ?? '',
+                    $address['city'] ?? '',
+                    $address['country'] ?? '',
                     $r->member->member_number ?? '',
                 ]);
             }
