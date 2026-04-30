@@ -43,6 +43,11 @@ class MembershipController extends Controller
             $query->where('payment_method', $request->get('payment_method'));
         }
 
+        // Filter by lepis format
+        if ($request->filled('lepis_format')) {
+            $query->where('lepis_format', $request->input('lepis_format'));
+        }
+
         // Filter by date range
         if ($request->filled('date_from')) {
             $query->whereDate('start_date', '>=', $request->get('date_from'));
@@ -106,6 +111,7 @@ class MembershipController extends Controller
             'payment_method' => 'nullable|string',
             'payment_reference' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
+            'lepis_format' => ['required', 'in:paper,digital'],
         ]);
 
         $membership = Membership::create($validated);
@@ -140,6 +146,7 @@ class MembershipController extends Controller
             'payment_method' => 'nullable|string',
             'payment_reference' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
+            'lepis_format' => ['required', 'in:paper,digital'],
         ]);
 
         $membership->update($validated);

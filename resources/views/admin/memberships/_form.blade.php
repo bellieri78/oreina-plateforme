@@ -59,3 +59,14 @@
     <label class="form-label" for="notes">Notes</label>
     <textarea name="notes" id="notes" class="form-input" rows="2">{{ old('notes', $membership->notes ?? '') }}</textarea>
 </div>
+
+<div class="form-group">
+    <label class="form-label" for="lepis_format">Format Lepis *</label>
+    <select name="lepis_format" id="lepis_format" class="form-input" required>
+        <option value="">-- Selectionner --</option>
+        <option value="paper" {{ old('lepis_format', $membership->lepis_format ?? '') === 'paper' ? 'selected' : '' }}>Papier</option>
+        <option value="digital" {{ old('lepis_format', $membership->lepis_format ?? '') === 'digital' ? 'selected' : '' }}>Numerique</option>
+    </select>
+    @error('lepis_format')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+    <small style="color: #6b7280; font-size: 0.875rem;">Choix fige pour la duree de l'adhesion. Redecide au renouvellement.</small>
+</div>
