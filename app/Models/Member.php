@@ -148,6 +148,11 @@ class Member extends Model
         return $this->hasMany(Membership::class);
     }
 
+    public function lepisBulletinRecipients(): HasMany
+    {
+        return $this->hasMany(LepisBulletinRecipient::class)->orderByDesc('included_at');
+    }
+
     public function donations(): HasMany
     {
         return $this->hasMany(Donation::class);

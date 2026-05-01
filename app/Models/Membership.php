@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Membership extends Model
 {
+    public const LEPIS_FORMAT_PAPER = 'paper';
+    public const LEPIS_FORMAT_DIGITAL = 'digital';
+
     protected $fillable = [
         'member_id',
         'membership_type_id',
@@ -22,6 +25,7 @@ class Membership extends Model
         'notes',
         'import_source',
         'import_reference',
+        'lepis_format',
     ];
 
     protected $casts = [
@@ -72,5 +76,10 @@ class Membership extends Model
     {
         return $query->active()
             ->where('end_date', '<=', now()->addDays($days));
+    }
+
+    public function lepisFormatOrDefault(): string
+    {
+        return $this->lepis_format ?: self::LEPIS_FORMAT_PAPER;
     }
 }

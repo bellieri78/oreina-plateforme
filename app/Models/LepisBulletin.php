@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LepisBulletin extends Model
 {
@@ -92,5 +93,20 @@ MD;
         return $this->brevo_list_id
             ? "https://app.brevo.com/contact/list/id/{$this->brevo_list_id}"
             : null;
+    }
+
+    public function recipients(): HasMany
+    {
+        return $this->hasMany(LepisBulletinRecipient::class, 'lepis_bulletin_id');
+    }
+
+    public function paperRecipientsCount(): int
+    {
+        return $this->recipients()->where('format', LepisBulletinRecipient::FORMAT_PAPER)->count();
+    }
+
+    public function digitalRecipientsCount(): int
+    {
+        return $this->recipients()->where('format', LepisBulletinRecipient::FORMAT_DIGITAL)->count();
     }
 }

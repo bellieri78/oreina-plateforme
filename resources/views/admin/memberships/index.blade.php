@@ -99,6 +99,12 @@
                         <option value="expired" {{ request('status') === 'expired' ? 'selected' : '' }}>Expirees</option>
                     </select>
 
+                    <select name="lepis_format" id="lepis_format" class="form-select">
+                        <option value="">Tous les formats</option>
+                        <option value="paper" {{ request('lepis_format') === 'paper' ? 'selected' : '' }}>Papier</option>
+                        <option value="digital" {{ request('lepis_format') === 'digital' ? 'selected' : '' }}>Numerique</option>
+                    </select>
+
                     <select name="year" class="form-select">
                         <option value="">Toutes les annees</option>
                         @foreach($years as $y)
@@ -116,7 +122,7 @@
 
                 <div class="filters-actions">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
-                    @if(request()->hasAny(['search', 'status', 'year', 'type', 'payment_method', 'date_from', 'date_to']))
+                    @if(request()->hasAny(['search', 'status', 'lepis_format', 'year', 'type', 'payment_method', 'date_from', 'date_to']))
                         <a href="{{ route('admin.memberships.index') }}" class="btn btn-ghost">Reset</a>
                     @endif
                 </div>
@@ -194,6 +200,7 @@
                             </a>
                         </th>
                         <th>Statut</th>
+                        <th>Format</th>
                         <th class="text-right">Actions</th>
                     </tr>
                 </thead>
@@ -249,6 +256,9 @@
                                     <span class="badge badge-danger">Expiree</span>
                                 @endif
                             </td>
+                            <td>
+                                <span class="badge badge-outline">{{ $m->lepis_format === 'digital' ? 'Numerique' : 'Papier' }}</span>
+                            </td>
                             <td class="text-right">
                                 <div class="table-actions">
                                     <a href="{{ route('admin.memberships.show', $m) }}" class="btn btn-ghost btn-sm" title="Voir">
@@ -275,7 +285,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">
+                            <td colspan="8">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">
                                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="48" height="48">

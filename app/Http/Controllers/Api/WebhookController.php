@@ -192,15 +192,19 @@ class WebhookController extends Controller
 
         $amount = collect($items)->sum('amount') / 100; // Convert cents to euros
 
+        // Extract Lepis format from items[].customFields[]
+        $lepisFormat = $this->extractLepisFormat($items);
+
         $membership = Membership::create([
             'member_id' => $member->id,
             'membership_type_id' => $membershipType?->id,
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'amount' => $amount,
+            'amount_paid' => $amount,
             'payment_method' => 'helloasso',
             'payment_reference' => $data['id'] ?? null,
             'status' => 'active',
+            'lepis_format' => $lepisFormat,
         ]);
 
         // Update member status
@@ -359,8 +363,33 @@ class WebhookController extends Controller
 
         // Default to standard membership
         return MembershipType::where('slug', 'standard')
-            ->orWhere('is_default', true)
+            ->orWhere('slug', 'adhesion')
             ->first();
+    }
+
+    /**
+     * Extrait le format Lepis depuis les customFields des items HelloAsso
+     */
+    private function extractLepisFormat(array $items): string
+    {
+        foreach ($items as $item) {
+            foreach ($item['customFields'] ?? [] as $field) {
+                $name = $field['name'] ?? '';
+                $answer = $field['answer'] ?? '';
+                if (mb_strtolower($name) === 'format lepis') {
+                    $normalized = mb_strtolower(trim($answer));
+                    if ($normalized === 'numérique' || $normalized === 'numerique' || $normalized === 'digital') {
+                        return 'digital';
+                    }
+                    if ($normalized === 'papier' || $normalized === 'paper') {
+                        return 'paper';
+                    }
+                }
+            }
+        }
+
+        Log::channel('webhooks')->warning('HelloAsso: lepis_format custom field missing or unrecognized, defaulting to paper');
+        return 'paper';
     }
 
     /**
