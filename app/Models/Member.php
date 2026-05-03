@@ -24,6 +24,20 @@ class Member extends Model
     // Civilites
     public const CIVILITES = ['M.', 'Mme', 'Dr', 'Pr'];
 
+    // ===== DIRECTORY =====
+
+    public const DIRECTORY_GROUP_RHOPALO = 'rhopalo';
+    public const DIRECTORY_GROUP_MICRO   = 'micro';
+    public const DIRECTORY_GROUP_MACRO   = 'macro';
+    public const DIRECTORY_GROUP_ZYGENES = 'zygenes';
+
+    public const DIRECTORY_GROUPS = [
+        self::DIRECTORY_GROUP_RHOPALO => 'Rhopalocères',
+        self::DIRECTORY_GROUP_MICRO   => 'Microlépidoptères',
+        self::DIRECTORY_GROUP_MACRO   => 'Macrolépidoptères',
+        self::DIRECTORY_GROUP_ZYGENES => 'Zygènes',
+    ];
+
     protected $fillable = [
         'contact_type',
         'civilite',
@@ -58,6 +72,12 @@ class Member extends Model
         'created_by',
         'updated_by',
         'deleted_by',
+        // Directory (annuaire)
+        'directory_opt_in',
+        'directory_phone_visible',
+        'directory_groups',
+        'directory_opt_in_at',
+        'directory_opt_in_source',
         // RGPD
         'consent_communication',
         'consent_image',
@@ -81,6 +101,11 @@ class Member extends Model
         'consent_image' => 'boolean',
         'rgpd_reviewed_at' => 'datetime',
         'last_interaction_at' => 'datetime',
+        // Directory
+        'directory_opt_in' => 'boolean',
+        'directory_phone_visible' => 'boolean',
+        'directory_groups' => 'array',
+        'directory_opt_in_at' => 'datetime',
     ];
 
     protected static function booted(): void
@@ -346,6 +371,16 @@ class Member extends Model
             ->exists();
     }
 
+    public function isInDirectory(): bool
+    {
+        return (bool) $this->directory_opt_in && $this->isCurrentMember();
+    }
+
+    public function directoryDepartment(): ?string
+    {
+        return $this->postal_code ? substr($this->postal_code, 0, 2) : null;
+    }
+
     // ===== PARTNERSHIP METHODS =====
 
     /**
@@ -572,6 +607,16 @@ class Member extends Model
             self::TYPE_ASSOCIATION,
             self::TYPE_ENTREPRISE,
         ]);
+    }
+
+    public function scopeInDirectory($query)
+    {
+        return $query
+            ->where('directory_opt_in', true)
+            ->whereHas('memberships', fn ($m) =>
+                $m->where('status', 'active')
+                  ->whereDate('end_date', '>=', now()->toDateString())
+            );
     }
 
     public function scopeCurrentMembers($query)
