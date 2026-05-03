@@ -8,6 +8,92 @@
 @endsection
 
 @section('content')
+    @php
+        $adhesionsCount = $member->memberships->count();
+        $donsTotal = $member->donations->sum('amount');
+        $achatsCount = $member->purchases->count();
+        $bulletinsCount = $member->lepisBulletinRecipients->count();
+        $groupesCount = $member->workGroups->count();
+        $publicationsCount = $member->user?->submissions->count() ?? 0;
+        $suggestionsCount = $member->lepisSuggestions->count();
+        $currentMembership = $member->memberships->where('end_date', '>=', now())->sortByDesc('end_date')->first();
+        $lepisFormat = $currentMembership?->lepis_format ?: ($currentMembership ? 'paper' : null);
+
+        $formatDonsTotal = function ($v) {
+            if ($v >= 1000) return number_format($v / 1000, 1, ',', ' ') . 'k €';
+            return number_format($v, 0, ',', ' ') . ' €';
+        };
+    @endphp
+
+    {{-- KPI BAR : visible seulement si au moins un compteur > 0 --}}
+    @if($adhesionsCount + $donsTotal + $achatsCount + $bulletinsCount + $groupesCount + $publicationsCount + $suggestionsCount > 0)
+        <div class="dashboard-stats" style="margin-bottom: 1.5rem;">
+            @if($adhesionsCount > 0)
+                <a href="#adhesions" class="dashboard-stat-card dashboard-stat-purple" style="text-decoration: none;">
+                    <div class="dashboard-stat-icon"><i data-lucide="id-card" style="width:28px;height:28px;"></i></div>
+                    <div class="dashboard-stat-content">
+                        <span class="dashboard-stat-value">{{ $adhesionsCount }}</span>
+                        <span class="dashboard-stat-label">Adhésions</span>
+                    </div>
+                </a>
+            @endif
+            @if($donsTotal > 0)
+                <a href="#dons" class="dashboard-stat-card dashboard-stat-green" style="text-decoration: none;">
+                    <div class="dashboard-stat-icon"><i data-lucide="circle-dollar-sign" style="width:28px;height:28px;"></i></div>
+                    <div class="dashboard-stat-content">
+                        <span class="dashboard-stat-value">{{ $formatDonsTotal($donsTotal) }}</span>
+                        <span class="dashboard-stat-label">Dons cumulés</span>
+                    </div>
+                </a>
+            @endif
+            @if($achatsCount > 0)
+                <a href="#achats" class="dashboard-stat-card dashboard-stat-orange" style="text-decoration: none;">
+                    <div class="dashboard-stat-icon"><i data-lucide="shopping-cart" style="width:28px;height:28px;"></i></div>
+                    <div class="dashboard-stat-content">
+                        <span class="dashboard-stat-value">{{ $achatsCount }}</span>
+                        <span class="dashboard-stat-label">Achats</span>
+                    </div>
+                </a>
+            @endif
+            @if($bulletinsCount > 0)
+                <a href="#bulletins" class="dashboard-stat-card dashboard-stat-blue" style="text-decoration: none;">
+                    <div class="dashboard-stat-icon"><i data-lucide="mail" style="width:28px;height:28px;"></i></div>
+                    <div class="dashboard-stat-content">
+                        <span class="dashboard-stat-value">{{ $bulletinsCount }}</span>
+                        <span class="dashboard-stat-label">Bulletins reçus</span>
+                    </div>
+                </a>
+            @endif
+            @if($groupesCount > 0)
+                <a href="#engagement" class="dashboard-stat-card dashboard-stat-purple" style="text-decoration: none;">
+                    <div class="dashboard-stat-icon"><i data-lucide="users-round" style="width:28px;height:28px;"></i></div>
+                    <div class="dashboard-stat-content">
+                        <span class="dashboard-stat-value">{{ $groupesCount }}</span>
+                        <span class="dashboard-stat-label">Groupes</span>
+                    </div>
+                </a>
+            @endif
+            @if($publicationsCount > 0)
+                <a href="#engagement" class="dashboard-stat-card dashboard-stat-blue" style="text-decoration: none;">
+                    <div class="dashboard-stat-icon"><i data-lucide="book-open" style="width:28px;height:28px;"></i></div>
+                    <div class="dashboard-stat-content">
+                        <span class="dashboard-stat-value">{{ $publicationsCount }}</span>
+                        <span class="dashboard-stat-label">Publications Chersotis</span>
+                    </div>
+                </a>
+            @endif
+            @if($suggestionsCount > 0)
+                <a href="#engagement" class="dashboard-stat-card dashboard-stat-orange" style="text-decoration: none;">
+                    <div class="dashboard-stat-icon"><i data-lucide="lightbulb" style="width:28px;height:28px;"></i></div>
+                    <div class="dashboard-stat-content">
+                        <span class="dashboard-stat-value">{{ $suggestionsCount }}</span>
+                        <span class="dashboard-stat-label">Suggestions Lepis</span>
+                    </div>
+                </a>
+            @endif
+        </div>
+    @endif
+
     <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem;">
         <!-- Info Card -->
         <div class="card">
