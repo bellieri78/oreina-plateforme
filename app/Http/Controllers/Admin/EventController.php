@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class EventController extends Controller
@@ -99,6 +100,7 @@ class EventController extends Controller
             'status' => 'required|in:draft,published',
             'organizer_id' => 'nullable|exists:users,id',
             'published_at' => 'nullable|date',
+            'featured_image' => 'nullable|image|max:5120',
         ]);
 
         if (empty($validated['slug'])) {
@@ -113,6 +115,11 @@ class EventController extends Controller
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
+        }
+
+        if ($request->hasFile('featured_image')) {
+            $validated['featured_image'] = $request->file('featured_image')
+                ->store('events/images', 'public');
         }
 
         $event = Event::create($validated);
@@ -154,6 +161,7 @@ class EventController extends Controller
             'status' => 'required|in:draft,published',
             'organizer_id' => 'nullable|exists:users,id',
             'published_at' => 'nullable|date',
+            'featured_image' => 'nullable|image|max:5120',
         ]);
 
         if (empty($validated['slug'])) {
@@ -164,6 +172,14 @@ class EventController extends Controller
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
+        }
+
+        if ($request->hasFile('featured_image')) {
+            if ($event->featured_image) {
+                Storage::disk('public')->delete($event->featured_image);
+            }
+            $validated['featured_image'] = $request->file('featured_image')
+                ->store('events/images', 'public');
         }
 
         $event->update($validated);
