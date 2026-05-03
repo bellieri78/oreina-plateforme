@@ -73,6 +73,16 @@ class MemberEditFormTest extends TestCase
             ->assertSee('Statut & RGPD');
     }
 
+    public function test_create_form_does_not_render_sidebar_recap(): void
+    {
+        $admin = $this->makeAdmin();
+
+        $response = $this->actingAs($admin)->get('/extranet/members/create');
+
+        $response->assertOk()
+            ->assertDontSee('Retour à la fiche');
+    }
+
     protected function makeAdmin(): User
     {
         return User::factory()->create(['role' => User::ROLE_ADMIN]);
