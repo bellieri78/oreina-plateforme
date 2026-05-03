@@ -203,23 +203,17 @@
 
         <!-- Tabs Content -->
         <div>
-            <!-- Memberships -->
-            <div class="card" style="margin-bottom: 1.5rem;">
+            {{-- Adhésions --}}
+            @php $adhesions = $member->memberships->sortByDesc('start_date')->values(); @endphp
+            <div class="card" id="adhesions" style="margin-bottom: 1.5rem;">
                 <div class="card-header">
-                    <h3 class="card-title">Adhesions</h3>
+                    <h3 class="card-title">Adhésions ({{ $adhesions->count() }})</h3>
                 </div>
                 <div class="card-body" style="padding: 0;">
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Periode</th>
-                                <th>Montant</th>
-                                <th>Statut</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Type</th><th>Période</th><th>Montant</th><th>Statut</th></tr></thead>
                         <tbody>
-                            @forelse($member->memberships()->orderByDesc('start_date')->get() as $membership)
+                            @forelse($adhesions->take(5) as $membership)
                                 <tr>
                                     <td>{{ $membership->membershipType->name ?? 'Standard' }}</td>
                                     <td>{{ $membership->start_date->format('d/m/Y') }} - {{ $membership->end_date->format('d/m/Y') }}</td>
@@ -228,78 +222,102 @@
                                         @if($membership->end_date >= now())
                                             <span class="badge badge-success">Active</span>
                                         @else
-                                            <span class="badge badge-warning">Expiree</span>
+                                            <span class="badge badge-warning">Expirée</span>
                                         @endif
                                     </td>
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="4" style="text-align: center; color: #9ca3af;">Aucune adhesion</td>
-                                </tr>
+                                <tr><td colspan="4" style="text-align: center; color: #9ca3af;">Aucune adhésion</td></tr>
                             @endforelse
                         </tbody>
                     </table>
+                    @if($adhesions->count() > 5)
+                        <details style="border-top: 1px solid #e5e7eb;">
+                            <summary style="padding: 0.75rem 1rem; cursor: pointer; color: #356B8A; font-size: 0.875rem;">Voir tout ({{ $adhesions->count() }})</summary>
+                            <table class="table">
+                                <tbody>
+                                    @foreach($adhesions->slice(5) as $membership)
+                                        <tr>
+                                            <td>{{ $membership->membershipType->name ?? 'Standard' }}</td>
+                                            <td>{{ $membership->start_date->format('d/m/Y') }} - {{ $membership->end_date->format('d/m/Y') }}</td>
+                                            <td>{{ number_format($membership->amount_paid, 2, ',', ' ') }} EUR</td>
+                                            <td>
+                                                @if($membership->end_date >= now())
+                                                    <span class="badge badge-success">Active</span>
+                                                @else
+                                                    <span class="badge badge-warning">Expirée</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </details>
+                    @endif
                 </div>
             </div>
 
-            <!-- Donations -->
-            <div class="card" style="margin-bottom: 1.5rem;">
-                <div class="card-header">
-                    <h3 class="card-title">Dons</h3>
-                </div>
+            {{-- Dons --}}
+            @php $dons = $member->donations->sortByDesc('donation_date')->values(); @endphp
+            <div class="card" id="dons" style="margin-bottom: 1.5rem;">
+                <div class="card-header"><h3 class="card-title">Dons ({{ $dons->count() }})</h3></div>
                 <div class="card-body" style="padding: 0;">
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Montant</th>
-                                <th>Paiement</th>
-                                <th>Recu</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Date</th><th>Montant</th><th>Paiement</th><th>Reçu</th></tr></thead>
                         <tbody>
-                            @forelse($member->donations as $donation)
+                            @forelse($dons->take(5) as $donation)
                                 <tr>
                                     <td>{{ $donation->donation_date->format('d/m/Y') }}</td>
-                                    <td>
-                                        <span class="badge badge-success">{{ number_format($donation->amount, 0, ',', ' ') }} EUR</span>
-                                    </td>
+                                    <td><span class="badge badge-success">{{ number_format($donation->amount, 0, ',', ' ') }} EUR</span></td>
                                     <td>{{ $donation->payment_method ?? '-' }}</td>
                                     <td>
                                         @if($donation->tax_receipt_sent)
-                                            <span class="badge badge-info">Envoye</span>
+                                            <span class="badge badge-info">Envoyé</span>
                                         @else
-                                            <span class="badge badge-warning">A envoyer</span>
+                                            <span class="badge badge-warning">À envoyer</span>
                                         @endif
                                     </td>
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="4" style="text-align: center; color: #9ca3af;">Aucun don</td>
-                                </tr>
+                                <tr><td colspan="4" style="text-align: center; color: #9ca3af;">Aucun don</td></tr>
                             @endforelse
                         </tbody>
                     </table>
+                    @if($dons->count() > 5)
+                        <details style="border-top: 1px solid #e5e7eb;">
+                            <summary style="padding: 0.75rem 1rem; cursor: pointer; color: #356B8A; font-size: 0.875rem;">Voir tout ({{ $dons->count() }})</summary>
+                            <table class="table">
+                                <tbody>
+                                    @foreach($dons->slice(5) as $donation)
+                                        <tr>
+                                            <td>{{ $donation->donation_date->format('d/m/Y') }}</td>
+                                            <td><span class="badge badge-success">{{ number_format($donation->amount, 0, ',', ' ') }} EUR</span></td>
+                                            <td>{{ $donation->payment_method ?? '-' }}</td>
+                                            <td>
+                                                @if($donation->tax_receipt_sent)
+                                                    <span class="badge badge-info">Envoyé</span>
+                                                @else
+                                                    <span class="badge badge-warning">À envoyer</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </details>
+                    @endif
                 </div>
             </div>
 
-            <!-- Achats -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Achats</h3>
-                </div>
+            {{-- Achats --}}
+            @php $achats = $member->purchases->sortByDesc('purchase_date')->values(); @endphp
+            <div class="card" id="achats" style="margin-bottom: 1.5rem;">
+                <div class="card-header"><h3 class="card-title">Achats ({{ $achats->count() }})</h3></div>
                 <div class="card-body" style="padding: 0;">
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Produit</th>
-                                <th>Montant</th>
-                                <th>Source</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Date</th><th>Produit</th><th>Montant</th><th>Source</th></tr></thead>
                         <tbody>
-                            @forelse($member->purchases()->orderByDesc('purchase_date')->get() as $purchase)
+                            @forelse($achats->take(5) as $purchase)
                                 <tr>
                                     <td>{{ $purchase->purchase_date->format('d/m/Y') }}</td>
                                     <td>
@@ -310,60 +328,79 @@
                                         @endif
                                     </td>
                                     <td>{{ number_format($purchase->total_amount, 2, ',', ' ') }} EUR</td>
-                                    <td>
-                                        <span class="badge badge-{{ $purchase->source === 'import' ? 'warning' : 'info' }}">
-                                            {{ $purchase->getSourceLabel() }}
-                                        </span>
-                                    </td>
+                                    <td><span class="badge badge-{{ $purchase->source === 'import' ? 'warning' : 'info' }}">{{ $purchase->getSourceLabel() }}</span></td>
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="4" style="text-align: center; color: #9ca3af;">Aucun achat</td>
-                                </tr>
+                                <tr><td colspan="4" style="text-align: center; color: #9ca3af;">Aucun achat</td></tr>
                             @endforelse
                         </tbody>
                     </table>
+                    @if($achats->count() > 5)
+                        <details style="border-top: 1px solid #e5e7eb;">
+                            <summary style="padding: 0.75rem 1rem; cursor: pointer; color: #356B8A; font-size: 0.875rem;">Voir tout ({{ $achats->count() }})</summary>
+                            <table class="table">
+                                <tbody>
+                                    @foreach($achats->slice(5) as $purchase)
+                                        <tr>
+                                            <td>{{ $purchase->purchase_date->format('d/m/Y') }}</td>
+                                            <td>
+                                                @if($purchase->product)
+                                                    <a href="{{ route('admin.products.show', $purchase->product) }}">{{ $purchase->product->name }}</a>
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>{{ number_format($purchase->total_amount, 2, ',', ' ') }} EUR</td>
+                                            <td><span class="badge badge-{{ $purchase->source === 'import' ? 'warning' : 'info' }}">{{ $purchase->getSourceLabel() }}</span></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </details>
+                    @endif
                 </div>
             </div>
 
-            <!-- Bulletins Lepis -->
-            <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.25rem; margin-top: 1.5rem;">
-                <h3 style="margin-top: 0; font-weight: 600;">Bulletins Lepis recus</h3>
-
-                @if($member->lepisBulletinRecipients->isEmpty())
-                    <p style="color: #6b7280; margin: 0;">Aucun envoi de bulletin pour ce contact.</p>
-                @else
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="border-bottom: 1px solid #e5e7eb;">
-                                <th style="padding: 0.5rem; text-align: left;">Bulletin</th>
-                                <th style="padding: 0.5rem; text-align: left;">Format</th>
-                                <th style="padding: 0.5rem; text-align: left;">Date d'envoi</th>
-                                <th style="padding: 0.5rem; text-align: left;">Liste Brevo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($member->lepisBulletinRecipients as $r)
-                                <tr style="border-bottom: 1px solid #f3f4f6;">
-                                    <td style="padding: 0.5rem;">
-                                        <a href="{{ route('admin.lepis.edit', $r->bulletin) }}" style="color: #2C5F2D; text-decoration: none;">
-                                            {{ $r->bulletin?->title ?? '#' . $r->lepis_bulletin_id }}
-                                        </a>
-                                    </td>
-                                    <td style="padding: 0.5rem;">
-                                        {{ $r->format === 'digital' ? 'Numerique' : 'Papier' }}
-                                    </td>
-                                    <td style="padding: 0.5rem;">
-                                        {{ $r->included_at?->locale('fr')->isoFormat('LL') }}
-                                    </td>
-                                    <td style="padding: 0.5rem; color: #6b7280; font-size: 0.875rem;">
-                                        {{ $r->brevo_list_id ? '#' . $r->brevo_list_id : '-' }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
+            {{-- Bulletins Lepis (converti au pattern .card) --}}
+            @php $recipients = $member->lepisBulletinRecipients; @endphp
+            <div class="card" id="bulletins" style="margin-bottom: 1.5rem;">
+                <div class="card-header"><h3 class="card-title">Bulletins Lepis reçus ({{ $recipients->count() }})</h3></div>
+                <div class="card-body" style="padding: 0;">
+                    @if($recipients->isEmpty())
+                        <div style="padding: 1rem; color: #6b7280;">Aucun envoi de bulletin pour ce contact.</div>
+                    @else
+                        <table class="table">
+                            <thead><tr><th>Bulletin</th><th>Format</th><th>Date d'envoi</th><th>Liste Brevo</th></tr></thead>
+                            <tbody>
+                                @foreach($recipients->take(5) as $r)
+                                    <tr>
+                                        <td><a href="{{ route('admin.lepis.edit', $r->bulletin) }}" style="color: #2C5F2D;">{{ $r->bulletin?->title ?? '#' . $r->lepis_bulletin_id }}</a></td>
+                                        <td>{{ $r->format === 'digital' ? 'Numérique' : 'Papier' }}</td>
+                                        <td>{{ $r->included_at?->locale('fr')->isoFormat('LL') }}</td>
+                                        <td style="color: #6b7280; font-size: 0.875rem;">{{ $r->brevo_list_id ? '#' . $r->brevo_list_id : '-' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @if($recipients->count() > 5)
+                            <details style="border-top: 1px solid #e5e7eb;">
+                                <summary style="padding: 0.75rem 1rem; cursor: pointer; color: #356B8A; font-size: 0.875rem;">Voir tout ({{ $recipients->count() }})</summary>
+                                <table class="table">
+                                    <tbody>
+                                        @foreach($recipients->slice(5) as $r)
+                                            <tr>
+                                                <td><a href="{{ route('admin.lepis.edit', $r->bulletin) }}" style="color: #2C5F2D;">{{ $r->bulletin?->title ?? '#' . $r->lepis_bulletin_id }}</a></td>
+                                                <td>{{ $r->format === 'digital' ? 'Numérique' : 'Papier' }}</td>
+                                                <td>{{ $r->included_at?->locale('fr')->isoFormat('LL') }}</td>
+                                                <td style="color: #6b7280; font-size: 0.875rem;">{{ $r->brevo_list_id ? '#' . $r->brevo_list_id : '-' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </details>
+                        @endif
+                    @endif
+                </div>
             </div>
         </div>
     </div>

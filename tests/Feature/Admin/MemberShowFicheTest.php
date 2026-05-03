@@ -84,6 +84,38 @@ class MemberShowFicheTest extends TestCase
             ->assertDontSee('Format Lepis');  // pas de membership active
     }
 
+    public function test_membership_card_truncates_at_5(): void
+    {
+        $admin = $this->makeAdmin();
+        $member = $this->makeMember();
+        if (! MembershipType::where('slug', 'standard')->exists()) {
+            MembershipType::create([
+                'name' => 'Standard', 'slug' => 'standard', 'price' => 30,
+                'duration_months' => 12, 'is_active' => true, 'sort_order' => 1,
+            ]);
+        }
+        $typeId = MembershipType::where('slug', 'standard')->first()->id;
+        // Create 7 memberships
+        for ($i = 0; $i < 7; $i++) {
+            Membership::create([
+                'member_id' => $member->id,
+                'membership_type_id' => $typeId,
+                'status' => 'active',
+                'start_date' => now()->subYears(7 - $i),
+                'end_date' => now()->subYears(6 - $i),
+                'amount_paid' => 30,
+                'lepis_format' => 'paper',
+            ]);
+        }
+
+        $response = $this->actingAs($admin)->get("/extranet/members/{$member->id}");
+
+        $response->assertOk()
+            ->assertSee('Adhésions (7)')
+            ->assertSee('Voir tout')
+            ->assertSee('<details', escape: false);
+    }
+
     protected function makeAdmin(): User
     {
         return User::factory()->create(['role' => User::ROLE_ADMIN]);
