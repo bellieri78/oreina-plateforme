@@ -58,6 +58,21 @@ class MemberEditFormTest extends TestCase
         $response->assertSessionHasErrors('contact_type');
     }
 
+    public function test_edit_form_renders_5_cards(): void
+    {
+        $admin = $this->makeAdmin();
+        $member = $this->makeMember();
+
+        $response = $this->actingAs($admin)->get("/extranet/members/{$member->id}/edit");
+
+        $response->assertOk()
+            ->assertSee('Identité')
+            ->assertSee('Contact')
+            ->assertSee('Adresse')
+            ->assertSee('Préférences')
+            ->assertSee('Statut & RGPD');
+    }
+
     protected function makeAdmin(): User
     {
         return User::factory()->create(['role' => User::ROLE_ADMIN]);
