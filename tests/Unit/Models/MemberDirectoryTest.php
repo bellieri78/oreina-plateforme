@@ -91,4 +91,48 @@ class MemberDirectoryTest extends TestCase
         $member->postal_code = null;
         $this->assertNull($member->directoryDepartment());
     }
+
+    public function test_set_rgpd_consent_directory_to_true_updates_opt_in_at_and_source(): void
+    {
+        $member = $this->makeMember();
+
+        $member->setRgpdConsent(\App\Models\RgpdConsentHistory::TYPE_DIRECTORY, true, 'member_portal');
+
+        $member->refresh();
+        $this->assertTrue($member->directory_opt_in);
+        $this->assertNotNull($member->directory_opt_in_at);
+        $this->assertSame('member_portal', $member->directory_opt_in_source);
+    }
+
+    public function test_set_rgpd_consent_directory_to_false_keeps_groups_and_phone_visible(): void
+    {
+        $member = $this->makeMember([
+            'directory_opt_in' => true,
+            'directory_phone_visible' => true,
+            'directory_groups' => ['zygenes'],
+            'directory_opt_in_at' => now()->subDay(),
+            'directory_opt_in_source' => 'member_portal',
+        ]);
+
+        $member->setRgpdConsent(\App\Models\RgpdConsentHistory::TYPE_DIRECTORY, false, 'member_portal');
+
+        $member->refresh();
+        $this->assertFalse($member->directory_opt_in);
+        $this->assertTrue($member->directory_phone_visible, 'phone_visible doit être conservé');
+        $this->assertSame(['zygenes'], $member->directory_groups, 'groupes doivent être conservés');
+    }
+
+    public function test_set_rgpd_consent_directory_creates_history_entry(): void
+    {
+        $member = $this->makeMember();
+
+        $member->setRgpdConsent(\App\Models\RgpdConsentHistory::TYPE_DIRECTORY, true, 'questionnaire');
+
+        $this->assertDatabaseHas('rgpd_consent_history', [
+            'member_id' => $member->id,
+            'consent_type' => 'directory',
+            'value' => true,
+            'source' => 'questionnaire',
+        ]);
+    }
 }

@@ -540,11 +540,11 @@ class Member extends Model
      */
     public function setRgpdConsent(string $type, bool $value, string $source = 'manual', ?string $notes = null): void
     {
-        // Map consent type to column name
         $columnMap = [
-            RgpdConsentHistory::TYPE_NEWSLETTER => 'newsletter_subscribed',
+            RgpdConsentHistory::TYPE_NEWSLETTER    => 'newsletter_subscribed',
             RgpdConsentHistory::TYPE_COMMUNICATION => 'consent_communication',
-            RgpdConsentHistory::TYPE_IMAGE => 'consent_image',
+            RgpdConsentHistory::TYPE_IMAGE         => 'consent_image',
+            RgpdConsentHistory::TYPE_DIRECTORY     => 'directory_opt_in',
         ];
 
         $column = $columnMap[$type] ?? null;
@@ -552,7 +552,6 @@ class Member extends Model
             return;
         }
 
-        // Only log if value changed
         if ($this->{$column} !== $value) {
             RgpdConsentHistory::create([
                 'member_id' => $this->id,
@@ -563,7 +562,18 @@ class Member extends Model
                 'user_id' => auth()->id(),
             ]);
 
-            $this->update([$column => $value]);
+            $updates = [$column => $value];
+
+            if ($type === RgpdConsentHistory::TYPE_DIRECTORY) {
+                if ($value === true) {
+                    $updates['directory_opt_in_at'] = now();
+                    $updates['directory_opt_in_source'] = $source;
+                }
+                // Sur false : on n'efface PAS opt_in_at/source ni groups/phone_visible
+                // (préservation pour ré-activation future).
+            }
+
+            $this->update($updates);
         }
     }
 
