@@ -144,9 +144,16 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
     Route::post('/lepis/suggerer', [MemberLepisController::class, 'storeSuggestion'])->name('lepis.suggest.store');
     Route::get('/lepis/{bulletin}/telecharger', fn ($bulletin) => redirect()->route('hub.lepis.bulletins.download', ['bulletin' => $bulletin], 301))->name('lepis.download');
 
-    // Community
+    // Directory (annuaire des adhérents) — réservé aux adhérents à jour
+    Route::middleware('current_member')->group(function () {
+        Route::get('/annuaire', [\App\Http\Controllers\Member\DirectoryController::class, 'index'])->name('directory.index');
+        Route::get('/annuaire/data', [\App\Http\Controllers\Member\DirectoryController::class, 'data'])->name('directory.data');
+        Route::get('/annuaire/{member}', [\App\Http\Controllers\Member\DirectoryController::class, 'show'])->name('directory.show');
+    });
+
+    // Legacy redirects (community + map)
     Route::get('/communaute', [MemberCommunityController::class, 'index'])->name('community');
-    Route::get('/carte', [MemberCommunityController::class, 'map'])->name('map');
+    Route::get('/carte', fn () => redirect('/espace-membre/annuaire', 301))->name('map');
 
     // Chat
     Route::get('/chat', [MemberChatController::class, 'index'])->name('chat');
