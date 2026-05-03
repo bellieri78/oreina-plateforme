@@ -106,6 +106,12 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     Route::post('events/bulk-status', [EventController::class, 'bulkStatus'])->name('events.bulk-status');
     Route::resource('events', EventController::class);
 
+    // Menus (header + footer)
+    Route::post('menus/{menu}/reorder/{direction}', [\App\Http\Controllers\Admin\MenuItemController::class, 'reorder'])
+        ->whereIn('direction', ['up', 'down'])
+        ->name('menus.reorder');
+    Route::resource('menus', \App\Http\Controllers\Admin\MenuItemController::class);
+
     // Journal Issues
     Route::get('journal-issues/export', [JournalIssueController::class, 'export'])->name('journal-issues.export');
     Route::post('journal-issues/bulk-delete', [JournalIssueController::class, 'bulkDelete'])->name('journal-issues.bulk-delete');
