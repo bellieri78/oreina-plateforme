@@ -163,7 +163,7 @@ class WebhookController extends Controller
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'email' => $email,
-                'phone' => $payer['phone'] ?? null,
+                'mobile' => $payer['phone'] ?? null,
                 'address' => $payer['address'] ?? null,
                 'city' => $payer['city'] ?? null,
                 'postal_code' => $payer['zipCode'] ?? null,
