@@ -48,6 +48,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'permission' => \App\Http\Middleware\CheckPermission::class,
             'admin' => \App\Http\Middleware\CheckAdmin::class,
+            'current_member' => \App\Http\Middleware\EnsureCurrentMember::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
