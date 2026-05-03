@@ -1371,7 +1371,7 @@
                     <li><strong>Infos</strong> — titre, numéro, trimestre, année, résumé, image de couverture.</li>
                     <li><strong>PDF</strong> — upload du fichier finalisé.</li>
                     <li><strong>Cycle</strong> — boutons "Diffuser aux adhérents" puis "Rendre public" + statut Brevo (synchronisé / échec).</li>
-                    <li><strong>Annonce</strong> — saisie de l'objet et du corps (markdown) avec token <code>{{ '{{lien_bulletin}}' }}</code>. À copier-coller dans une campagne Brevo manuelle pour l'envoi numérique.</li>
+                    <li><strong>Annonce</strong> — saisie de l'objet et du corps (markdown) avec token <code>@{{lien_bulletin}}</code>. À copier-coller dans une campagne Brevo manuelle pour l'envoi numérique.</li>
                     <li><strong>Diffusion</strong> (visible à partir de l'état <code>members</code>) — compteurs papier/numérique, date du dernier snapshot, bouton <em>Exporter destinataires papier (CSV)</em> pour l'imprimeur ou le secrétariat, bouton <em>Recalculer le snapshot</em> si une adhésion a été corrigée a posteriori. Si la sync Brevo a réussi, le numéro de liste est affiché.</li>
                 </ul>
 
