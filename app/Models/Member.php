@@ -153,6 +153,17 @@ class Member extends Model
         return $this->hasMany(LepisBulletinRecipient::class)->orderByDesc('included_at');
     }
 
+    public function lepisSuggestions(): HasMany
+    {
+        return $this->hasMany(\App\Models\LepisSuggestion::class)->orderByDesc('submitted_at');
+    }
+
+    public function submissions(): HasMany
+    {
+        // Member.user_id maps directly to Submission.author_id — no intermediate table needed.
+        return $this->hasMany(\App\Models\Submission::class, 'author_id', 'user_id')->orderByDesc('created_at');
+    }
+
     public function donations(): HasMany
     {
         return $this->hasMany(Donation::class);

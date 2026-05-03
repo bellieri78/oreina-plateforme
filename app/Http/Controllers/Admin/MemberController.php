@@ -113,7 +113,18 @@ class MemberController extends Controller
 
     public function show(Member $member)
     {
-        $member->load(['memberships', 'donations', 'consents', 'lepisBulletinRecipients.bulletin']);
+        $member->load([
+            'memberships.membershipType',
+            'donations',
+            'purchases.product',
+            'consents',
+            'lepisBulletinRecipients.bulletin',
+            'workGroups',
+            'lepisSuggestions',
+            'user.submissions' => function ($q) {
+                $q->orderByDesc('created_at');
+            },
+        ]);
 
         return view('admin.members.show', compact('member'));
     }
