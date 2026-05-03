@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
             JournalIssueSeeder::class,
             SubmissionSeeder::class,
+            MenuItemsSeeder::class,
         ]);
     }
 }

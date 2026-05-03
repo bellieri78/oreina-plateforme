@@ -7,13 +7,11 @@
                 <p style="margin-top:12px;font-size:13px;opacity:.6;">&copy; {{ date('Y') }} OREINA — Tous droits réservés</p>
             </div>
             <div class="footer-links">
-                <a href="{{ route('hub.about') }}">Association</a>
-                <a href="{{ route('hub.home') }}">Portail</a>
-                <a href="#">Projets</a>
-                <a href="{{ route('hub.articles.index') }}">Actualités</a>
-                <a href="{{ route('hub.contact') }}">Réseau</a>
-                <a href="#">Mentions légales</a>
-                <a href="#">Politique de données</a>
+                @foreach($footerMenu as $item)
+                    <a href="{{ $item->url }}" {!! $item->open_in_new_tab ? 'target="_blank" rel="noopener"' : '' !!}>
+                        {{ $item->label }}
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>

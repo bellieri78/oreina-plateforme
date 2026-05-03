@@ -50,5 +50,14 @@ class AppServiceProvider extends ServiceProvider
                 <script src=\"https://challenges.cloudflare.com/turnstile/v0/api.js\" async defer></script>
             <?php endif; ?>";
         });
+
+        View::composer(
+            ['layouts.hub', 'partials.hub.header', 'partials.hub.footer'],
+            function ($view) {
+                $renderer = app(\App\Services\MenuRenderer::class);
+                $view->with('headerMenu', $renderer->forLocation('header'));
+                $view->with('footerMenu', $renderer->forLocation('footer'));
+            }
+        );
     }
 }

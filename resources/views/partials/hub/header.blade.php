@@ -14,11 +14,30 @@
 
         {{-- Desktop Navigation --}}
         <nav class="hub-nav">
-            <a href="{{ route('hub.about') }}" @class(['active' => request()->routeIs('hub.about')])>Association</a>
-            <a href="#projets">Projets</a>
-            <a href="{{ route('hub.articles.index') }}" @class(['active' => request()->routeIs('hub.articles.*')])>Actualités</a>
-            <a href="#reseau">Réseau</a>
-            <a href="{{ route('journal.home') }}" @class(['active' => request()->routeIs('journal.*')])>Chersotis</a>
+            @foreach($headerMenu as $item)
+                @if($item->children->isEmpty())
+                    <a href="{{ $item->url }}"
+                       @class(['active' => request()->path() === ltrim($item->url, '/')])
+                       {!! $item->open_in_new_tab ? 'target="_blank" rel="noopener"' : '' !!}>
+                        {{ $item->label }}
+                    </a>
+                @else
+                    <div class="hub-nav-dropdown" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <a href="{{ $item->url }}" class="hub-nav-dropdown-toggle"
+                           {!! $item->open_in_new_tab ? 'target="_blank" rel="noopener"' : '' !!}>
+                            {{ $item->label }} ▾
+                        </a>
+                        <div class="hub-nav-dropdown-menu" x-show="open" x-transition style="display: none;">
+                            @foreach($item->children as $child)
+                                <a href="{{ $child->url }}"
+                                   {!! $child->open_in_new_tab ? 'target="_blank" rel="noopener"' : '' !!}>
+                                    {{ $child->label }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            @endforeach
         </nav>
 
         {{-- Desktop Actions --}}
@@ -47,12 +66,27 @@
     {{-- Mobile Navigation --}}
     <div class="mobile-nav" x-show="mobileOpen" x-transition x-cloak>
         <nav class="hub-nav-mobile">
-            <a href="{{ route('hub.home') }}">Accueil</a>
-            <a href="{{ route('hub.about') }}">Association</a>
-            <a href="#projets">Projets</a>
-            <a href="{{ route('hub.articles.index') }}">Actualités</a>
-            <a href="#reseau">Réseau</a>
-            <a href="{{ route('journal.home') }}">Chersotis</a>
+            @foreach($headerMenu as $item)
+                @if($item->children->isEmpty())
+                    <a href="{{ $item->url }}" {!! $item->open_in_new_tab ? 'target="_blank" rel="noopener"' : '' !!}>
+                        {{ $item->label }}
+                    </a>
+                @else
+                    <div x-data="{ subOpen: false }">
+                        <button type="button" class="hub-nav-mobile-toggle" @click="subOpen = !subOpen" style="display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; padding: inherit; cursor: pointer; text-align: left; font: inherit; color: inherit;">
+                            <span>{{ $item->label }}</span>
+                            <span x-text="subOpen ? '▴' : '▾'"></span>
+                        </button>
+                        <div x-show="subOpen" x-transition x-cloak style="padding-left: 1rem;">
+                            @foreach($item->children as $child)
+                                <a href="{{ $child->url }}" {!! $child->open_in_new_tab ? 'target="_blank" rel="noopener"' : '' !!}>
+                                    {{ $child->label }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            @endforeach
         </nav>
         <div class="header-actions-mobile">
             @auth
