@@ -91,8 +91,9 @@
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Version actuelle :</strong> 1.2<br>
-                    <strong>Dernière mise à jour :</strong> Avril 2026
+                    <strong>Version actuelle :</strong> 1.3<br>
+                    <strong>Dernière mise à jour :</strong> Mai 2026<br>
+                    <strong>Évolutions récentes :</strong> diffusion progressive Lepis (3 états + format papier/numérique par adhérent), refonte fiche contact admin (KPI bar synthétique + carte Engagement OREINA), formulaire édition contact en 5 cartes thématiques avec tous les champs métier.
                 </div>
             </section>
 
@@ -603,36 +604,40 @@
 
                 <h3>Types de contacts</h3>
                 <ul>
-                    <li><strong>Individuel</strong> : personne physique</li>
-                    <li><strong>Association</strong> : structure associative (detectee automatiquement a l'import)</li>
+                    <li><strong>Individuel</strong> : personne physique (cas par défaut)</li>
+                    <li><strong>Organisation</strong> : structure associative ou institutionnelle</li>
                 </ul>
 
                 <h3>Liste des contacts</h3>
                 <p>Affiche tous les contacts avec leurs informations principales. Utilisez les filtres pour affiner la recherche :</p>
                 <ul>
                     <li><strong>Recherche</strong> : par nom, prenom ou email</li>
-                    <li><strong>Type</strong> : individuel ou association</li>
+                    <li><strong>Type</strong> : individuel ou organisation</li>
                     <li><strong>Statut</strong> : actif ou inactif</li>
                     <li><strong>Adhesion</strong> : active, expiree ou sans adhesion</li>
                 </ul>
 
-                <h3>Ajouter un contact</h3>
-                <p>Cliquez sur "Nouveau contact" et remplissez le formulaire :</p>
-                <ul>
-                    <li><strong>Civilite</strong> : M., Mme, etc.</li>
-                    <li><strong>Nom / Prenom</strong> : nom obligatoire</li>
-                    <li><strong>Email</strong> : adresse de contact principale (optionnel)</li>
-                    <li><strong>Adresse</strong> : pour l'envoi des publications</li>
-                    <li><strong>Options</strong> : newsletter, annuaire, etc.</li>
-                </ul>
+                <h3>Créer / éditer un contact</h3>
+                <p>Le formulaire est organisé en <strong>5 cartes thématiques</strong>, à remplir dans l'ordre. Tous les champs sauf indication sont facultatifs.</p>
+                <ol>
+                    <li><strong>Identité</strong> — civilité (M./Mme/Dr/Pr), prénom*, nom*, date de naissance, profession.</li>
+                    <li><strong>Contact</strong> — email*, mobile (placeholder 06 XX XX XX XX), téléphone fixe (placeholder 01 XX XX XX XX).</li>
+                    <li><strong>Adresse</strong> — adresse, code postal, ville, pays (pré-rempli "France").</li>
+                    <li><strong>Préférences</strong> — type de contact* (individuel / organisation), inscription newsletter, intérêts (texte libre).</li>
+                    <li><strong>Statut & RGPD</strong> — contact actif (case par défaut cochée), autorisation des communications associatives, autorisation de l'utilisation de l'image (les 2 RGPD sont décochés par défaut, opt-in explicite requis).</li>
+                </ol>
+                <p>Côté édition <code>/extranet/members/{id}/edit</code>, une <strong>sidebar récap</strong> à gauche affiche l'avatar, le numéro d'adhérent, la date d'inscription et un bouton "← Retour à la fiche". Côté création, le formulaire est en colonne unique sans sidebar.</p>
+                <div class="doc-info">
+                    <strong>Validation</strong> : email unique, date de naissance dans le passé, type de contact obligatoire, civilité parmi M./Mme/Dr/Pr.
+                </div>
 
                 <h3>Fiche contact</h3>
-                <p>Chaque fiche contact affiche :</p>
+                <p>La fiche d'un contact <code>/extranet/members/{id}</code> est organisée pour donner une vue synthétique en un coup d'œil :</p>
                 <ul>
-                    <li><strong>Informations personnelles</strong> : coordonnees, adresse</li>
-                    <li><strong>Adhesions</strong> : historique complet avec type et montant</li>
-                    <li><strong>Achats</strong> : produits achetes (magazines, hors-series, etc.)</li>
-                    <li><strong>Dons</strong> : historique des dons</li>
+                    <li><strong>KPI bar synthétique</strong> en haut : 7 indicateurs cliquables qui n'apparaissent que s'ils ont une valeur — Adhésions, Dons cumulés (en €), Achats, Bulletins reçus, Groupes, Publications Chersotis, Suggestions Lepis. Cliquer sur une carte déroule jusqu'à la section correspondante.</li>
+                    <li><strong>Sidebar à gauche</strong> : avatar avec initiales, badge actif/inactif, coordonnées (email, mobile, téléphone fixe, adresse), date d'inscription. Trois sous-blocs additionnels apparaissent si applicable : <em>Format Lepis</em> (papier ou numérique selon l'adhésion en cours), <em>Groupes de travail</em> (avec rôle si différent de "membre"), <em>Engagement</em> (auteur Chersotis et/ou contributeur Lepis avec compteurs).</li>
+                    <li><strong>Cartes principales à droite</strong> : Adhésions, Dons, Achats, Bulletins Lepis reçus. Chaque carte affiche les 5 derniers items et propose un "Voir tout (N)" qui déplie la liste complète inline si l'historique est plus long.</li>
+                    <li><strong>Carte "Engagement OREINA"</strong> en bas (visible uniquement si activité associative) : 3 sous-sections — groupes de travail avec date d'entrée et rôle pivot, soumissions Chersotis avec badge de statut et année, suggestions Lepis avec statut "En attente" / "Notée".</li>
                 </ul>
 
                 <div class="doc-warning">
@@ -1334,19 +1339,62 @@
             {{-- Lepis --}}
             <section id="lepis" class="doc-section">
                 <h2>Lepis (bulletins trimestriels)</h2>
-                <p>Le bulletin Lepis est un PDF trimestriel mis à disposition des adhérents dans leur espace membre.</p>
+                <p>Le bulletin Lepis est un PDF trimestriel diffusé aux adhérents. Il peut être <strong>papier</strong> (envoi postal) ou <strong>numérique</strong> (campagne email Brevo) selon le choix exprimé par chaque adhérent au moment de son adhésion.</p>
 
-                <h3>Publier un bulletin</h3>
-                <p>Accédez à <strong>Lepis > Nouveau bulletin</strong> et renseignez :</p>
+                <h3>Format papier vs numérique</h3>
+                <p>Chaque <strong>adhésion</strong> porte un format Lepis figé pour sa durée :</p>
                 <ul>
-                    <li><strong>Titre</strong> : titre du bulletin</li>
-                    <li><strong>Numéro</strong> et <strong>trimestre</strong> (Q1 à Q4) + <strong>année</strong></li>
-                    <li><strong>Fichier PDF</strong> : le bulletin finalisé à uploader</li>
-                    <li><strong>Publié</strong> : cocher pour rendre accessible aux adhérents</li>
+                    <li><strong>Papier</strong> : l'adhérent reçoit le bulletin par courrier postal. La liste des destinataires papier est exportable depuis la fiche bulletin.</li>
+                    <li><strong>Numérique</strong> : l'adhérent reçoit le bulletin par email via une campagne Brevo (créée manuellement par le rédac-chef à partir d'une liste générée automatiquement).</li>
+                </ul>
+                <div class="doc-info">
+                    <strong>Capture du choix</strong> : le formulaire HelloAsso d'adhésion en ligne propose un champ "Format Lepis". En backoffice, le formulaire d'édition d'une adhésion impose ce choix. Le format est figé pour la durée de l'adhésion et redécidé au renouvellement. Les adhésions importées avant cette feature ont été par défaut migrées en <strong>papier</strong> (aucune surprise pour l'existant).
+                </div>
+
+                <h3>Cycle de publication d'un bulletin</h3>
+                <p>Un bulletin a 3 états successifs. Chaque transition est manuelle, déclenchée par un bouton sur la fiche admin du bulletin :</p>
+                <ol>
+                    <li><strong>Brouillon</strong> (<code>draft</code>) — visible uniquement par les éditeurs Lepis et les admins. Permet de finaliser le PDF, le résumé, l'image de couverture et le template d'annonce sans pression.</li>
+                    <li><strong>Diffusé adhérents</strong> (<code>members</code>) — accessible en téléchargement aux adhérents à jour via leur espace membre. Au passage en <code>members</code>, le système :
+                        <ul>
+                            <li>fige un <strong>snapshot des destinataires</strong> (papier + numérique) dans la base — adresses et emails capturés au moment de la diffusion ;</li>
+                            <li>crée automatiquement une <strong>liste Brevo</strong> nommée <code>Lepis {année} {trimestre}</code> contenant uniquement les abonnés numériques ;</li>
+                            <li>marque la date de diffusion adhérents.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Public</strong> (<code>public</code>) — accessible à tout visiteur via le hub <code>/lepis/bulletins/{id}</code>. Transition typique : quelques mois après la diffusion adhérents, lorsque l'embargo expire.</li>
+                </ol>
+
+                <h3>Fiche admin d'un bulletin</h3>
+                <p>La fiche bulletin <code>/extranet/lepis/{id}/edit</code> est organisée en cartes :</p>
+                <ul>
+                    <li><strong>Infos</strong> — titre, numéro, trimestre, année, résumé, image de couverture.</li>
+                    <li><strong>PDF</strong> — upload du fichier finalisé.</li>
+                    <li><strong>Cycle</strong> — boutons "Diffuser aux adhérents" puis "Rendre public" + statut Brevo (synchronisé / échec).</li>
+                    <li><strong>Annonce</strong> — saisie de l'objet et du corps (markdown) avec token <code>{{ '{{lien_bulletin}}' }}</code>. À copier-coller dans une campagne Brevo manuelle pour l'envoi numérique.</li>
+                    <li><strong>Diffusion</strong> (visible à partir de l'état <code>members</code>) — compteurs papier/numérique, date du dernier snapshot, bouton <em>Exporter destinataires papier (CSV)</em> pour l'imprimeur ou le secrétariat, bouton <em>Recalculer le snapshot</em> si une adhésion a été corrigée a posteriori. Si la sync Brevo a réussi, le numéro de liste est affiché.</li>
                 </ul>
 
+                <h3>Workflow type de diffusion</h3>
+                <ol>
+                    <li>Le rédac-chef crée le bulletin en <code>draft</code> et finalise les contenus.</li>
+                    <li>Il rédige l'annonce dans la carte Annonce (objet + markdown).</li>
+                    <li>Il clique "Diffuser aux adhérents" → le bulletin passe en <code>members</code>, le snapshot est figé, la liste Brevo est créée.</li>
+                    <li>Il <strong>exporte le CSV papier</strong> et le transmet au secrétariat / à l'imprimeur pour l'envoi postal.</li>
+                    <li>Pour l'envoi numérique, il se connecte à Brevo, crée une campagne, sélectionne la liste auto-créée, colle le HTML d'annonce généré côté admin, vérifie le rendu et envoie.</li>
+                    <li>Quelques mois plus tard, il clique "Rendre public" pour ouvrir l'accès à tous.</li>
+                </ol>
+
+                <h3>Tracking d'envoi par contact</h3>
+                <p>Sur la fiche d'un contact admin, la section <strong>Bulletins Lepis reçus</strong> liste tous les bulletins pour lesquels ce contact figurait dans le snapshot de diffusion (papier ou numérique), avec date d'envoi et numéro de liste Brevo si numérique. Permet de répondre rapidement à un adhérent qui demande "ai-je bien reçu le numéro précédent ?".</p>
+
+                <h3>Backfill historique</h3>
+                <p>Pour reconstituer l'historique des destinataires sur les bulletins déjà diffusés avant la mise en place du tracking, exécuter une fois en production :</p>
+                <pre><code>php artisan lepis:backfill-recipients</code></pre>
+                <p>Cette commande est <strong>idempotente</strong> (peut être relancée sans risque) et reconstruit la table <code>lepis_bulletin_recipients</code> à partir des adhésions actives au moment de chaque diffusion historique.</p>
+
                 <h3>Suggestions d'articles</h3>
-                <p>Les adhérents peuvent soumettre des suggestions d'articles via leur espace membre. Consultez-les dans <strong>Suggestions Lepis</strong> pour les marquer comme "noté" ou les supprimer.</p>
+                <p>Les adhérents peuvent soumettre des suggestions d'articles via leur espace membre. Consultez-les dans <strong>Suggestions Lepis</strong> (sidebar admin) pour les marquer comme <em>Notée</em> ou les supprimer. Une suggestion notée apparaît avec un badge vert sur la fiche du contact qui l'a soumise.</p>
             </section>
 
             {{-- Numeros --}}
