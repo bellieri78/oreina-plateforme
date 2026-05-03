@@ -39,16 +39,15 @@ class DirectoryController extends Controller
         ]);
     }
 
-    public function show(Request $request, Member $member)
+    public function show(Request $request, int $id)
     {
-        if (!$member->isInDirectory()) {
+        $self = $request->attributes->get('current_member');
+
+        if (!$self || $id === $self->id) {
             abort(404);
         }
 
-        $self = $request->attributes->get('current_member');
-        if ($member->id === $self->id) {
-            abort(404);
-        }
+        $member = Member::inDirectory()->findOrFail($id);
 
         return view('member.directory._modal', [
             'member' => $member,
