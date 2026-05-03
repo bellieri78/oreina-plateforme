@@ -402,6 +402,116 @@
                     @endif
                 </div>
             </div>
+
+            {{-- Engagement OREINA --}}
+            @php
+                $submissions = $member->user?->submissions ?? collect();
+                $suggestions = $member->lepisSuggestions;
+                $groups = $member->workGroups;
+            @endphp
+            @if($groups->isNotEmpty() || $submissions->isNotEmpty() || $suggestions->isNotEmpty())
+                <div class="card" id="engagement" style="margin-bottom: 1.5rem;">
+                    <div class="card-header"><h3 class="card-title">Engagement OREINA</h3></div>
+                    <div class="card-body">
+
+                        @if($groups->isNotEmpty())
+                            <div style="margin-bottom: 1.25rem;">
+                                <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.5rem;">
+                                    Groupes de travail ({{ $groups->count() }})
+                                </div>
+                                @foreach($groups as $group)
+                                    <div style="margin-bottom: 0.5rem;">
+                                        · <strong>{{ $group->name }}</strong>
+                                        @if(($group->pivot->role ?? 'member') !== 'member')
+                                            — {{ $group->pivot->role }}
+                                        @endif
+                                        @if($group->pivot->joined_at)
+                                            <div style="color: #6b7280; font-size: 0.8125rem; margin-left: 0.875rem;">
+                                                Membre depuis le {{ \Carbon\Carbon::parse($group->pivot->joined_at)->format('d/m/Y') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        @if($submissions->isNotEmpty())
+                            <div style="margin-bottom: 1.25rem;">
+                                <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.5rem;">
+                                    Chersotis ({{ $submissions->count() }} soumission{{ $submissions->count() > 1 ? 's' : '' }})
+                                </div>
+                                @foreach($submissions->take(5) as $sub)
+                                    <div style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="flex: 1;">
+                                            · <a href="{{ route('admin.submissions.show', $sub) }}" style="color: #2C5F2D;">{{ $sub->title }}</a>
+                                            <span class="badge badge-info" style="margin-left: 0.5rem;">{{ $sub->status?->label() ?? $sub->status }}</span>
+                                        </div>
+                                        <div style="color: #6b7280; font-size: 0.8125rem;">
+                                            {{ $sub->published_at?->format('Y') ?? $sub->created_at->format('Y') }}
+                                        </div>
+                                    </div>
+                                @endforeach
+                                @if($submissions->count() > 5)
+                                    <details style="margin-top: 0.5rem;">
+                                        <summary style="cursor: pointer; color: #356B8A; font-size: 0.875rem;">Voir tout ({{ $submissions->count() }})</summary>
+                                        @foreach($submissions->slice(5) as $sub)
+                                            <div style="margin: 0.5rem 0; display: flex; justify-content: space-between; align-items: center;">
+                                                <div style="flex: 1;">
+                                                    · <a href="{{ route('admin.submissions.show', $sub) }}" style="color: #2C5F2D;">{{ $sub->title }}</a>
+                                                    <span class="badge badge-info" style="margin-left: 0.5rem;">{{ $sub->status?->label() ?? $sub->status }}</span>
+                                                </div>
+                                                <div style="color: #6b7280; font-size: 0.8125rem;">
+                                                    {{ $sub->published_at?->format('Y') ?? $sub->created_at->format('Y') }}
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </details>
+                                @endif
+                            </div>
+                        @endif
+
+                        @if($suggestions->isNotEmpty())
+                            <div>
+                                <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.5rem;">
+                                    Lepis — Suggestions ({{ $suggestions->count() }})
+                                </div>
+                                @foreach($suggestions->take(5) as $sug)
+                                    <div style="margin-bottom: 0.75rem;">
+                                        · <strong>« {{ $sug->title }} »</strong>
+                                        <span class="badge badge-{{ $sug->status === 'noted' ? 'success' : 'warning' }}" style="margin-left: 0.5rem;">
+                                            {{ $sug->status === 'noted' ? 'Notée' : 'En attente' }}
+                                        </span>
+                                        @if($sug->submitted_at)
+                                            <div style="color: #6b7280; font-size: 0.8125rem; margin-left: 0.875rem;">
+                                                Soumise le {{ $sug->submitted_at->format('d/m/Y') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                                @if($suggestions->count() > 5)
+                                    <details>
+                                        <summary style="cursor: pointer; color: #356B8A; font-size: 0.875rem;">Voir tout ({{ $suggestions->count() }})</summary>
+                                        @foreach($suggestions->slice(5) as $sug)
+                                            <div style="margin: 0.5rem 0;">
+                                                · <strong>« {{ $sug->title }} »</strong>
+                                                <span class="badge badge-{{ $sug->status === 'noted' ? 'success' : 'warning' }}" style="margin-left: 0.5rem;">
+                                                    {{ $sug->status === 'noted' ? 'Notée' : 'En attente' }}
+                                                </span>
+                                                @if($sug->submitted_at)
+                                                    <div style="color: #6b7280; font-size: 0.8125rem; margin-left: 0.875rem;">
+                                                        Soumise le {{ $sug->submitted_at->format('d/m/Y') }}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </details>
+                                @endif
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

@@ -116,6 +116,62 @@ class MemberShowFicheTest extends TestCase
             ->assertSee('<details', escape: false);
     }
 
+    public function test_engagement_card_hidden_when_no_activity(): void
+    {
+        $admin = $this->makeAdmin();
+        $member = $this->makeMember();
+        // No groups, no submissions, no suggestions
+        $response = $this->actingAs($admin)->get("/extranet/members/{$member->id}");
+
+        $response->assertOk()
+            ->assertDontSee('Engagement OREINA');
+    }
+
+    public function test_engagement_card_shows_groups_with_role(): void
+    {
+        $admin = $this->makeAdmin();
+        $member = $this->makeMember();
+        $group = \App\Models\WorkGroup::create(['name' => 'Coléoptères', 'slug' => 'coleopteres']);
+        $member->workGroups()->attach($group->id, ['role' => 'coordinator', 'joined_at' => now()->subYear()]);
+
+        $response = $this->actingAs($admin)->get("/extranet/members/{$member->id}");
+
+        $response->assertOk()
+            ->assertSee('Engagement OREINA')
+            ->assertSee('Coléoptères')
+            ->assertSee('coordinator');
+    }
+
+    public function test_engagement_card_shows_all_submissions_with_status_badges(): void
+    {
+        $admin = $this->makeAdmin();
+        $member = $this->makeMember();
+        \App\Models\Submission::create([
+            'author_id' => $member->user_id,
+            'title' => 'Pieridae alpines',
+            'abstract' => '',
+            'manuscript_file' => '',
+            'status' => 'published',
+            'published_at' => now()->subMonths(3),
+        ]);
+        \App\Models\Submission::create([
+            'author_id' => $member->user_id,
+            'title' => 'Note Saxifraga',
+            'abstract' => '',
+            'manuscript_file' => '',
+            'status' => 'under_peer_review',
+        ]);
+
+        $response = $this->actingAs($admin)->get("/extranet/members/{$member->id}");
+
+        $response->assertOk()
+            ->assertSee('Engagement OREINA')
+            ->assertSee('Pieridae alpines')
+            ->assertSee('Note Saxifraga')
+            ->assertSee('Publié')
+            ->assertSee('En relecture');
+    }
+
     protected function makeAdmin(): User
     {
         return User::factory()->create(['role' => User::ROLE_ADMIN]);
