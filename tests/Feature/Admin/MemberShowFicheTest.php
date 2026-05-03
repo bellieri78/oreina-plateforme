@@ -58,6 +58,32 @@ class MemberShowFicheTest extends TestCase
             ->assertSee('330'); // sum of donations
     }
 
+    public function test_lepis_format_in_sidebar_when_active_membership(): void
+    {
+        $admin = $this->makeAdmin();
+        $member = $this->makeMember();
+        $this->makeActiveMembership($member, 'paper');
+
+        $response = $this->actingAs($admin)->get("/extranet/members/{$member->id}");
+
+        $response->assertOk()
+            ->assertSee('Format Lepis')
+            ->assertSee('Papier');
+    }
+
+    public function test_sidebar_engagement_block_hidden_when_no_activity(): void
+    {
+        $admin = $this->makeAdmin();
+        $member = $this->makeMember();
+        // No memberships, no submissions, no suggestions, no work groups
+        $response = $this->actingAs($admin)->get("/extranet/members/{$member->id}");
+
+        $response->assertOk()
+            ->assertDontSee('Auteur Chersotis')
+            ->assertDontSee('Contributeur Lepis')
+            ->assertDontSee('Format Lepis');  // pas de membership active
+    }
+
     protected function makeAdmin(): User
     {
         return User::factory()->create(['role' => User::ROLE_ADMIN]);

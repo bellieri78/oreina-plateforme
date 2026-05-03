@@ -142,6 +142,62 @@
                         <div>{{ $member->created_at->format('d/m/Y') }}</div>
                     </div>
                 </div>
+
+                {{-- NOUVEAU : Format Lepis --}}
+                @if($lepisFormat)
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 1rem; margin-top: 1rem;">
+                        <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.25rem;">Format Lepis</div>
+                        <div>{{ $lepisFormat === 'digital' ? 'Numérique' : 'Papier' }}</div>
+                    </div>
+                @endif
+
+                {{-- NOUVEAU : Groupes --}}
+                @if($member->workGroups->isNotEmpty())
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 1rem; margin-top: 1rem;">
+                        <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.5rem;">Groupes ({{ $member->workGroups->count() }})</div>
+                        @foreach($member->workGroups->take(5) as $group)
+                            <div style="margin-bottom: 0.25rem; font-size: 0.875rem;">
+                                · {{ $group->name }}
+                                @if(($group->pivot->role ?? 'member') !== 'member')
+                                    <span style="color: #6b7280; font-style: italic;">— {{ $group->pivot->role }}</span>
+                                @endif
+                            </div>
+                        @endforeach
+                        @if($member->workGroups->count() > 5)
+                            <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">+ {{ $member->workGroups->count() - 5 }} autres</div>
+                        @endif
+                    </div>
+                @endif
+
+                {{-- NOUVEAU : Engagement (auteur Chersotis + contributeur Lepis) --}}
+                @php
+                    $publishedSubmissionsCount = $member->user?->submissions->where('status', \App\Enums\SubmissionStatus::Published)->count() ?? 0;
+                    $draftSubmissionsCount = ($publicationsCount > 0) ? $publicationsCount - $publishedSubmissionsCount : 0;
+                @endphp
+                @if($publicationsCount > 0 || $suggestionsCount > 0)
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 1rem; margin-top: 1rem;">
+                        <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.5rem;">Engagement</div>
+                        @if($publicationsCount > 0)
+                            <div style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+                                <strong>Auteur Chersotis</strong>
+                                <div style="color: #6b7280; font-size: 0.8125rem;">
+                                    {{ $publishedSubmissionsCount }} publi{{ $publishedSubmissionsCount > 1 ? 's' : '' }}
+                                    @if($draftSubmissionsCount > 0)
+                                        · {{ $draftSubmissionsCount }} en cours
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                        @if($suggestionsCount > 0)
+                            <div style="margin-bottom: 0.5rem; font-size: 0.875rem;">
+                                <strong>Contributeur Lepis</strong>
+                                <div style="color: #6b7280; font-size: 0.8125rem;">
+                                    {{ $suggestionsCount }} suggestion{{ $suggestionsCount > 1 ? 's' : '' }}
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
 
