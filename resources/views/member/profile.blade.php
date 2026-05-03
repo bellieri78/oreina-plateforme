@@ -72,7 +72,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1" style="color:var(--forest)">Téléphone fixe</label>
-                    <input type="tel" name="phone" value="{{ old('phone', $member?->phone) }}" class="w-full px-3 py-2 border rounded-lg" style="border-color:var(--border)">
+                    <input type="tel" name="telephone_fixe" value="{{ old('telephone_fixe', $member?->telephone_fixe) }}" class="w-full px-3 py-2 border rounded-lg" style="border-color:var(--border)">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1" style="color:var(--forest)">Mobile</label>

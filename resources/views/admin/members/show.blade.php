@@ -121,10 +121,16 @@
                         <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.25rem;">Email</div>
                         <div>{{ $member->email }}</div>
                     </div>
-                    @if($member->phone)
+                    @if($member->mobile)
                         <div style="margin-bottom: 1rem;">
-                            <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.25rem;">Telephone</div>
-                            <div>{{ $member->phone }}</div>
+                            <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.25rem;">Mobile</div>
+                            <div>{{ $member->mobile }}</div>
+                        </div>
+                    @endif
+                    @if($member->telephone_fixe)
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase; margin-bottom: 0.25rem;">Téléphone fixe</div>
+                            <div>{{ $member->telephone_fixe }}</div>
                         </div>
                     @endif
                     @if($member->address || $member->city)
