@@ -135,4 +135,24 @@ class MemberDirectoryTest extends TestCase
             'source' => 'questionnaire',
         ]);
     }
+
+    public function test_anonymize_forces_directory_opt_out_and_clears_directory_data(): void
+    {
+        $member = $this->makeMember([
+            'directory_opt_in' => true,
+            'directory_phone_visible' => true,
+            'directory_groups' => ['rhopalo', 'macro'],
+            'directory_opt_in_at' => now()->subDay(),
+            'directory_opt_in_source' => 'member_portal',
+        ]);
+
+        $member->anonymize();
+
+        $member->refresh();
+        $this->assertFalse($member->directory_opt_in);
+        $this->assertFalse($member->directory_phone_visible);
+        $this->assertNull($member->directory_groups);
+        $this->assertNull($member->directory_opt_in_at);
+        $this->assertNull($member->directory_opt_in_source);
+    }
 }

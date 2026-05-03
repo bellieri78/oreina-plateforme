@@ -516,6 +516,12 @@ class Member extends Model
             'newsletter_subscribed' => false,
             'consent_communication' => false,
             'consent_image' => false,
+            // Directory (annuaire)
+            'directory_opt_in' => false,
+            'directory_phone_visible' => false,
+            'directory_groups' => null,
+            'directory_opt_in_at' => null,
+            'directory_opt_in_source' => null,
         ]);
 
         // Delete photo file if exists
