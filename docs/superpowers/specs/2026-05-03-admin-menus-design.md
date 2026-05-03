@@ -222,7 +222,7 @@ Le sélecteur "parent" est masqué quand `location === 'footer'` ou quand l'item
 
 ### Sidebar admin nav
 
-Ajout d'un lien "Menus" dans la sidebar nav admin (`resources/views/layouts/admin.blade.php` ou son partial nav). Section "Paramètres" si elle existe, sinon ajouté juste avant "Documentation" en bas. Icône Lucide `menu` ou `list`.
+Ajout d'un lien **"Menus"** dans la sidebar nav admin, **à côté des liens Articles et Événements** (section "Contenu" de la sidebar). Icône Lucide `menu` ou `list`. Implémentation : trouver le bloc qui contient les liens Articles/Événements dans `resources/views/layouts/admin.blade.php` (ou son partial nav) et insérer le lien `admin.menus.index` dans le même groupe, juste après "Événements".
 
 ## Rendu côté hub
 
