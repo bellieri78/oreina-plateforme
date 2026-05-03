@@ -12,7 +12,7 @@
             <h3 class="card-title">Modifier l'evenement</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.events.update', $event) }}" method="POST">
+            <form action="{{ route('admin.events.update', $event) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @include('admin.events._form', ['event' => $event])
