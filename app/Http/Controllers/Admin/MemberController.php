@@ -91,18 +91,30 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'civilite' => ['nullable', 'in:' . implode(',', Member::CIVILITES)],
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'birth_date' => 'nullable|date|before:today',
+            'profession' => 'nullable|string|max:255',
             'email' => 'required|email|unique:members,email',
-            'phone' => 'nullable|string|max:20',
+            'mobile' => 'nullable|string|max:20',
+            'telephone_fixe' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:10',
             'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
+            'contact_type' => ['required', 'in:individuel,organisation'],
+            'interests' => 'nullable|string|max:2000',
             'is_active' => 'boolean',
+            'newsletter_subscribed' => 'boolean',
+            'consent_communication' => 'boolean',
+            'consent_image' => 'boolean',
         ]);
 
         $validated['is_active'] = $request->has('is_active');
+        $validated['newsletter_subscribed'] = $request->has('newsletter_subscribed');
+        $validated['consent_communication'] = $request->has('consent_communication');
+        $validated['consent_image'] = $request->has('consent_image');
 
         $member = Member::create($validated);
 
@@ -137,18 +149,30 @@ class MemberController extends Controller
     public function update(Request $request, Member $member)
     {
         $validated = $request->validate([
+            'civilite' => ['nullable', 'in:' . implode(',', Member::CIVILITES)],
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'birth_date' => 'nullable|date|before:today',
+            'profession' => 'nullable|string|max:255',
             'email' => 'required|email|unique:members,email,' . $member->id,
-            'phone' => 'nullable|string|max:20',
+            'mobile' => 'nullable|string|max:20',
+            'telephone_fixe' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:10',
             'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
+            'contact_type' => ['required', 'in:individuel,organisation'],
+            'interests' => 'nullable|string|max:2000',
             'is_active' => 'boolean',
+            'newsletter_subscribed' => 'boolean',
+            'consent_communication' => 'boolean',
+            'consent_image' => 'boolean',
         ]);
 
         $validated['is_active'] = $request->has('is_active');
+        $validated['newsletter_subscribed'] = $request->has('newsletter_subscribed');
+        $validated['consent_communication'] = $request->has('consent_communication');
+        $validated['consent_image'] = $request->has('consent_image');
 
         $member->update($validated);
 
