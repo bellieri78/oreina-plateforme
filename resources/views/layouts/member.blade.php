@@ -1033,9 +1033,17 @@
                     <i data-lucide="file-text" class="icon"></i>
                     <span class="nav-label">Mes documents</span>
                 </a>
-                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') || request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
+                <a href="{{ route('member.directory.index') }}" class="nav-item {{ request()->routeIs('member.directory*') ? 'active' : '' }}">
+                    <i data-lucide="users-round" class="icon"></i>
+                    <span class="nav-label">Annuaire</span>
+                </a>
+                <a href="{{ route('member.chat') }}" class="nav-item {{ request()->routeIs('member.chat*') ? 'active' : '' }}">
+                    <i data-lucide="message-circle" class="icon"></i>
+                    <span class="nav-label">Chat</span>
+                </a>
+                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') ? 'active' : '' }}">
                     <i data-lucide="users" class="icon"></i>
-                    <span class="nav-label">Groupes et réseau</span>
+                    <span class="nav-label">Groupes de travail</span>
                 </a>
                 @endif
             </nav>
