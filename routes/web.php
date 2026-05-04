@@ -16,7 +16,6 @@ use App\Http\Controllers\Member\DocumentController as MemberDocumentController;
 use App\Http\Controllers\Member\JournalController as MemberJournalController;
 use App\Http\Controllers\Member\WorkGroupController as MemberWorkGroupController;
 use App\Http\Controllers\Member\LepisController as MemberLepisController;
-use App\Http\Controllers\Member\CommunityController as MemberCommunityController;
 use App\Http\Controllers\Member\ChatController as MemberChatController;
 use Illuminate\Support\Facades\Route;
 
@@ -151,8 +150,7 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         Route::get('/annuaire/{member}', [\App\Http\Controllers\Member\DirectoryController::class, 'show'])->name('directory.show');
     });
 
-    // Legacy redirects (community + map)
-    Route::get('/communaute', [MemberCommunityController::class, 'index'])->name('community');
+    // Legacy redirects (map → annuaire)
     Route::get('/carte', fn () => redirect('/espace-membre/annuaire', 301))->name('map');
 
     // Chat
