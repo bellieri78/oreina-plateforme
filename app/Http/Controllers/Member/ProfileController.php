@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
@@ -90,7 +91,7 @@ class ProfileController extends Controller
             'directory_opt_in'        => 'sometimes|boolean',
             'directory_phone_visible' => 'sometimes|boolean',
             'directory_groups'        => 'required_if:directory_opt_in,1|array|min:1',
-            'directory_groups.*'      => 'in:rhopalo,micro,macro,zygenes',
+            'directory_groups.*'      => Rule::in(array_keys(\App\Models\Member::DIRECTORY_GROUPS)),
         ]);
 
         // 1) Consents simples (newsletter / communication / image)
