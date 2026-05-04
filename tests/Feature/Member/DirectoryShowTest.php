@@ -62,8 +62,7 @@ class DirectoryShowTest extends TestCase
         $this->actingAs($this->authUser)
             ->get(route('member.directory.show', $other))
             ->assertOk()
-            ->assertSee('Marie')
-            ->assertSee('DUPONT')
+            ->assertSeeText('Marie DUPONT')
             ->assertSee('marie.dupont@example.com');
     }
 
@@ -116,6 +115,7 @@ class DirectoryShowTest extends TestCase
         $this->actingAs($this->authUser)
             ->get(route('member.directory.show', $other))
             ->assertOk()
-            ->assertDontSee('0699999999');
+            ->assertDontSee('0699999999')
+            ->assertSee($other->email);
     }
 }

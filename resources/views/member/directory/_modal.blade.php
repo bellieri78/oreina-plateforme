@@ -1,16 +1,17 @@
 <div class="directory-modal" data-member-id="{{ $member->id }}">
     <div class="directory-modal-header">
         @if($member->photo_path)
-            <img src="{{ \Storage::disk('public')->url($member->photo_path) }}" alt="" class="directory-modal-photo">
+            <img src="{{ \Storage::disk('public')->url($member->photo_path) }}" alt="Photo de {{ $member->first_name }} {{ $member->last_name }}" class="directory-modal-photo">
         @else
-            <div class="directory-modal-photo-fallback">
+            <div class="directory-modal-photo-fallback" aria-hidden="true">
                 {{ strtoupper(mb_substr($member->first_name, 0, 1)) }}{{ strtoupper(mb_substr($member->last_name, 0, 1)) }}
             </div>
         @endif
         <div>
             <h2>{{ $member->first_name }} {{ $member->last_name }}</h2>
-            @if($member->directoryDepartment())
-                <span class="badge">Département {{ $member->directoryDepartment() }}</span>
+            @php($dept = $member->directoryDepartment())
+            @if($dept)
+                <span class="badge">Département {{ $dept }}</span>
             @endif
         </div>
     </div>
@@ -31,12 +32,12 @@
     <div class="directory-modal-contact">
         <h3>Coordonnées</h3>
         <p>
-            <i data-lucide="mail"></i>
+            <i data-lucide="mail" aria-hidden="true"></i>
             <a href="mailto:{{ $member->email }}">{{ $member->email }}</a>
         </p>
         @if($phone)
             <p>
-                <i data-lucide="phone"></i>
+                <i data-lucide="phone" aria-hidden="true"></i>
                 <a href="tel:{{ $phone }}">{{ $phone }}</a>
             </p>
         @endif
