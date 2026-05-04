@@ -40,7 +40,7 @@
     <div class="mt-6">
         <div class="flex items-center justify-between mb-2">
             <h3 class="text-xs font-bold text-oreina-dark">Carte des membres</h3>
-            <a href="{{ route('member.map') }}" class="text-[10px] text-oreina-green hover:underline">Agrandir →</a>
+            <a href="{{ route('member.directory.index') }}" class="text-[10px] text-oreina-green hover:underline">Agrandir →</a>
         </div>
         <x-member.map-france :compact="true" />
     </div>

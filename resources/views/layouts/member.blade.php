@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -1025,7 +1026,7 @@
                     <span class="nav-label">Mes soumissions</span>
                 </a>
                 @if($authMember)
-                <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') || request()->routeIs('member.work-groups*') ? 'active' : '' }}">
+                <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') ? 'active' : '' }}">
                     <i data-lucide="folder-open" class="icon"></i>
                     <span class="nav-label">Mes contributions</span>
                 </a>
@@ -1033,9 +1034,17 @@
                     <i data-lucide="file-text" class="icon"></i>
                     <span class="nav-label">Mes documents</span>
                 </a>
-                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') || request()->routeIs('member.community*') || request()->routeIs('member.map*') || request()->routeIs('member.chat*') ? 'active' : '' }}">
+                <a href="{{ route('member.directory.index') }}" class="nav-item {{ request()->routeIs('member.directory*') ? 'active' : '' }}">
+                    <i data-lucide="users-round" class="icon"></i>
+                    <span class="nav-label">Annuaire</span>
+                </a>
+                <a href="{{ route('member.chat') }}" class="nav-item {{ request()->routeIs('member.chat*') ? 'active' : '' }}">
+                    <i data-lucide="message-circle" class="icon"></i>
+                    <span class="nav-label">Chat</span>
+                </a>
+                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') ? 'active' : '' }}">
                     <i data-lucide="users" class="icon"></i>
-                    <span class="nav-label">Groupes et réseau</span>
+                    <span class="nav-label">Groupes de travail</span>
                 </a>
                 @endif
             </nav>

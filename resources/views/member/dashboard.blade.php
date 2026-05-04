@@ -213,7 +213,7 @@
                 </div>
 
                 <div style="margin-top:16px;">
-                    <a href="{{ route('member.map') }}" class="btn btn-primary"><i data-lucide="map"></i>Explorer la carte</a>
+                    <a href="{{ route('member.directory.index') }}" class="btn btn-primary"><i data-lucide="map"></i>Voir l'annuaire</a>
                 </div>
             </article>
 
@@ -323,7 +323,7 @@
                         <h2>Vie du réseau</h2>
                         <p>Prochains événements et actualités de la communauté OREINA.</p>
                     </div>
-                    <a href="{{ route('member.community') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir l'agenda</a>
+                    <a href="{{ route('hub.events.index') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir l'agenda</a>
                 </div>
 
                 <div class="news-list">

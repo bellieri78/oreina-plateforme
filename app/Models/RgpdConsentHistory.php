@@ -25,6 +25,7 @@ class RgpdConsentHistory extends Model
     public const TYPE_NEWSLETTER = 'newsletter';
     public const TYPE_COMMUNICATION = 'communication';
     public const TYPE_IMAGE = 'image';
+    public const TYPE_DIRECTORY = 'directory';
 
     public const SOURCE_MANUAL = 'manual';
     public const SOURCE_IMPORT = 'import';
@@ -37,6 +38,7 @@ class RgpdConsentHistory extends Model
             self::TYPE_NEWSLETTER => 'Newsletter',
             self::TYPE_COMMUNICATION => 'Communication',
             self::TYPE_IMAGE => 'Droit a l\'image',
+            self::TYPE_DIRECTORY => 'Annuaire des adhérents',
         ];
     }
 
