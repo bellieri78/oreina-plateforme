@@ -16,7 +16,49 @@
     .directory-count { margin-left:auto; font-weight:600; color:var(--muted); }
 
     .directory-map-container { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .directory-map-wrapper { position: relative; }
     #directory-map { width:100%; height:600px; }
+
+    .directory-side-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 320px;
+        max-width: 90%;
+        height: 100%;
+        background: var(--surface);
+        border-left: 1px solid var(--border);
+        padding: 20px 16px;
+        overflow-y: auto;
+        box-shadow: -4px 0 12px rgba(22,48,43,0.08);
+        z-index: 10;
+    }
+    .directory-side-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--muted);
+    }
+    .directory-side-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--forest);
+        margin: 0 0 4px 0;
+    }
+    .directory-side-count {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+    .directory-side-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .directory-side-list .directory-card { padding: 12px; }
 
     .directory-list { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
     .directory-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:transform .15s; }
@@ -65,16 +107,16 @@
 
     {{-- Filtres --}}
     <div class="directory-toolbar">
-        <input type="search" placeholder="Rechercher un nom..." x-model.debounce.300ms="filters.q" @input="reload()">
+        <input type="search" placeholder="Rechercher un nom..." x-model.debounce.300ms="filters.q">
 
-        <select x-ref="dept" multiple size="1" @change="filters.dept = Array.from($event.target.selectedOptions).map(o => o.value).filter(v => v); reload()">
+        <select x-ref="dept" multiple size="1" @change="filters.dept = Array.from($event.target.selectedOptions).map(o => o.value).filter(v => v)">
             <option value="">Tous les départements</option>
             <template x-for="d in availableDepartments" :key="d">
                 <option :value="d" x-text="d"></option>
             </template>
         </select>
 
-        <select x-ref="groups" multiple size="1" @change="filters.groups = Array.from($event.target.selectedOptions).map(o => o.value).filter(v => v); reload()">
+        <select x-ref="groups" multiple size="1" @change="filters.groups = Array.from($event.target.selectedOptions).map(o => o.value).filter(v => v)">
             <option value="">Tous les groupes</option>
             @foreach($groups as $key => $label)
                 <option value="{{ $key }}">{{ $label }}</option>
@@ -91,7 +133,28 @@
 
     {{-- Vue Carte --}}
     <div x-show="view === 'carte'" x-cloak class="directory-map-container">
-        <div id="directory-map"></div>
+        <div class="directory-map-wrapper">
+            <div id="directory-map"></div>
+            <div class="directory-side-panel" x-show="selectedDept" x-transition>
+                <button type="button" class="directory-side-close" @click="selectedDept = null" aria-label="Fermer">
+                    <i data-lucide="x" aria-hidden="true"></i>
+                </button>
+                <h3 class="directory-side-title" x-text="'Département ' + selectedDept"></h3>
+                <p class="directory-side-count" x-text="membersInSelectedDept().length + ' membre' + (membersInSelectedDept().length > 1 ? 's' : '')"></p>
+                <div class="directory-side-list">
+                    <template x-for="m in membersInSelectedDept()" :key="m.id">
+                        <div class="directory-card" @click="openModal(m.id)">
+                            <div class="directory-card-name" x-text="m.first_name + ' ' + m.last_name"></div>
+                            <div class="directory-card-meta">
+                                <template x-for="g in m.groups">
+                                    <span class="badge" :class="'badge-group-' + g" x-text="groupLabel(g)"></span>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{-- Vue Liste --}}
@@ -130,40 +193,65 @@ function directoryApp() {
     return {
         view: new URLSearchParams(window.location.search).get('vue') || 'carte',
         filters: { q: '', dept: [], groups: [] },
+        allMembers: [],
         members: [],
         count: 0,
         availableDepartments: [],
+        selectedDept: null,
         modalOpen: false,
         modalContent: '',
         olMap: null,
 
         async init() {
-            await this.reload();
+            const res = await fetch('{{ route('member.directory.data') }}');
+            const data = await res.json();
+            this.allMembers = data.members;
+            this.members = data.members;
+            this.count = data.count;
+            this.availableDepartments = Array.from(new Set(this.members.map(m => m.department).filter(Boolean))).sort();
+
             this.initMap();
+
             this.$watch('view', () => {
                 if (this.view === 'carte' && this.olMap) {
                     setTimeout(() => this.olMap.updateSize(), 50);
                 }
                 this.syncUrl();
             });
+
+            this.$watch('filters', () => {
+                this.members = this.applyFilters();
+                this.count = this.members.length;
+                this.refreshMap();
+            }, { deep: true });
         },
 
-        async reload() {
-            const params = new URLSearchParams();
-            if (this.filters.q) params.set('q', this.filters.q);
-            if (this.filters.dept.length) params.set('dept', this.filters.dept.join(','));
-            if (this.filters.groups.length) params.set('groups', this.filters.groups.join(','));
+        applyFilters() {
+            let result = this.allMembers;
 
-            const res = await fetch('{{ route('member.directory.data') }}?' + params.toString());
-            const data = await res.json();
-            this.members = data.members;
-            this.count = data.count;
+            if (this.filters.q) {
+                const q = this.filters.q.toLowerCase();
+                result = result.filter(m =>
+                    (m.first_name + ' ' + m.last_name).toLowerCase().includes(q)
+                );
+            }
 
-            // Liste des départements distincts
-            const depts = new Set(this.members.map(m => m.department).filter(Boolean));
-            this.availableDepartments = Array.from(depts).sort();
+            if (this.filters.dept.length > 0) {
+                result = result.filter(m => this.filters.dept.includes(m.department));
+            }
 
-            this.refreshMap();
+            if (this.filters.groups.length > 0) {
+                result = result.filter(m =>
+                    (m.groups || []).some(g => this.filters.groups.includes(g))
+                );
+            }
+
+            return result;
+        },
+
+        membersInSelectedDept() {
+            if (!this.selectedDept) return [];
+            return this.allMembers.filter(m => m.department === this.selectedDept);
         },
 
         groupLabel(slug) {
@@ -210,13 +298,17 @@ function directoryApp() {
                 })
             });
 
-            // Click sur dept → bascule sur la liste filtrée par dept
+            // Click sur dept → ouvre le panneau latéral
             this.olMap.on('click', (evt) => {
                 this.olMap.forEachFeatureAtPixel(evt.pixel, (feature) => {
                     const code = feature.get('code');
-                    this.filters.dept = [code];
-                    this.view = 'liste';
-                    this.reload();
+                    const counts = this.deptCounts();
+                    if (counts[code] > 0) {
+                        this.selectedDept = code;
+                        this.$nextTick(() => {
+                            if (window.lucide) window.lucide.createIcons();
+                        });
+                    }
                 });
             });
         },
