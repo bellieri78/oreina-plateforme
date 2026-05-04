@@ -67,7 +67,7 @@
                 <div>
                     <h2>Annuaire des adhérents</h2>
                     @if($member?->directory_opt_in)
-                        <span class="badge badge-success">Publié</span>
+                        <span class="badge sage">Publié</span>
                     @endif
                 </div>
             </div>
