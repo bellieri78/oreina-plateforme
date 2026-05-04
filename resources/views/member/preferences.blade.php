@@ -4,6 +4,10 @@
 @section('page-title', 'Préférences')
 @section('page-subtitle', 'Gestion de vos consentements et communications')
 
+@push('styles')
+<style>[x-cloak] { display: none !important; }</style>
+@endpush
+
 @section('content')
 <div>
     <form action="{{ route('member.profile.preferences.update') }}" method="POST">
@@ -55,6 +59,79 @@
                     </div>
                 </label>
             </div>
+        </div>
+
+        {{-- Annuaire des adhérents --}}
+        <div class="card panel mb-6" x-data="{ optIn: {{ $member?->directory_opt_in ? 'true' : 'false' }} }">
+            <div class="panel-head">
+                <div>
+                    <h2>Annuaire des adhérents</h2>
+                    @if($member?->directory_opt_in)
+                        <span class="badge badge-success">Publié</span>
+                    @endif
+                </div>
+            </div>
+
+            @if(!$member?->directory_opt_in)
+                <p class="text-sm mb-4" style="color:var(--muted)">
+                    Vous ne figurez pas dans l'annuaire des adhérents. Cochez ci-dessous pour
+                    apparaître dans l'annuaire partagé entre adhérents à jour de cotisation.
+                    Vos nom, prénom, département et email seront visibles.
+                </p>
+            @else
+                <p class="text-sm mb-4" style="color:var(--muted)">
+                    Vous figurez dans l'annuaire depuis le {{ $member->directory_opt_in_at?->format('d/m/Y') }}
+                    (source&nbsp;: {{ $member->directory_opt_in_source }}).
+                    Pour modifier nom/prénom/email/département, rendez-vous sur
+                    <a href="{{ route('member.profile') }}" class="underline">votre profil</a>.
+                </p>
+            @endif
+
+            {{-- Toggle opt-in --}}
+            <label class="flex items-start gap-4 p-4 border rounded-lg cursor-pointer mb-4" style="border-color:var(--border)">
+                <input type="checkbox" name="directory_opt_in" value="1" x-model="optIn"
+                       {{ $member?->directory_opt_in ? 'checked' : '' }}
+                       class="mt-1 w-5 h-5 rounded">
+                <div class="flex-1">
+                    <div class="font-medium" style="color:var(--forest)">J'accepte d'apparaître dans l'annuaire</div>
+                    <p class="text-sm mt-1" style="color:var(--muted)">
+                        Mes coordonnées seront visibles par les autres adhérents à jour.
+                    </p>
+
+                    {{-- Sous-formulaire conditionnel --}}
+                    <div x-show="optIn" x-transition class="mt-4 space-y-4" x-cloak>
+                        {{-- Téléphone visible --}}
+                        @if($member?->mobile)
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" name="directory_phone_visible" value="1"
+                                       {{ $member?->directory_phone_visible ? 'checked' : '' }}
+                                       class="w-4 h-4 rounded">
+                                <span class="text-sm">Exposer mon téléphone&nbsp;: <strong>{{ $member->mobile }}</strong></span>
+                            </label>
+                        @else
+                            <p class="text-sm" style="color:var(--muted)">
+                                Aucun téléphone renseigné. <a href="{{ route('member.profile') }}" class="underline">Ajoutez votre mobile</a> pour pouvoir l'exposer.
+                            </p>
+                        @endif
+
+                        {{-- Groupes --}}
+                        <div>
+                            <div class="font-medium mb-2" style="color:var(--forest)">Mes groupes de prédilection</div>
+                            <div class="grid grid-cols-2 gap-2">
+                                @foreach(\App\Models\Member::DIRECTORY_GROUPS as $key => $label)
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" name="directory_groups[]" value="{{ $key }}"
+                                               {{ in_array($key, $member?->directory_groups ?? [], true) ? 'checked' : '' }}
+                                               class="w-4 h-4 rounded">
+                                        <span class="text-sm">{{ $label }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            @error('directory_groups')<p class="text-sm" style="color:#dc2626">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
+                </div>
+            </label>
         </div>
 
         {{-- Info box --}}
