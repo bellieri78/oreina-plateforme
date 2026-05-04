@@ -84,23 +84,32 @@ class ProfileController extends Controller
         }
 
         $validated = $request->validate([
-            'newsletter_subscribed' => 'boolean',
-            'consent_communication' => 'boolean',
-            'consent_image' => 'boolean',
+            'newsletter_subscribed'   => 'sometimes|boolean',
+            'consent_communication'   => 'sometimes|boolean',
+            'consent_image'           => 'sometimes|boolean',
+            'directory_opt_in'        => 'sometimes|boolean',
+            'directory_phone_visible' => 'sometimes|boolean',
+            'directory_groups'        => 'required_if:directory_opt_in,1|array|min:1',
+            'directory_groups.*'      => 'in:rhopalo,micro,macro,zygenes',
         ]);
 
-        // Use the RGPD consent methods for proper history tracking
-        if (isset($validated['newsletter_subscribed'])) {
-            $member->setRgpdConsent('newsletter', (bool) $validated['newsletter_subscribed'], 'member_portal');
-        }
+        // 1) Consents simples (newsletter / communication / image)
+        $member->setRgpdConsent('newsletter',    (bool) $request->boolean('newsletter_subscribed'),  'member_portal');
+        $member->setRgpdConsent('communication', (bool) $request->boolean('consent_communication'), 'member_portal');
+        $member->setRgpdConsent('image',         (bool) $request->boolean('consent_image'),         'member_portal');
 
-        if (isset($validated['consent_communication'])) {
-            $member->setRgpdConsent('communication', (bool) $validated['consent_communication'], 'member_portal');
-        }
+        // 2) Annuaire — opt-in/opt-out
+        $optIn = $request->boolean('directory_opt_in');
+        $member->setRgpdConsent(\App\Models\RgpdConsentHistory::TYPE_DIRECTORY, $optIn, 'member_portal');
 
-        if (isset($validated['consent_image'])) {
-            $member->setRgpdConsent('image', (bool) $validated['consent_image'], 'member_portal');
+        // 3) Détails annuaire (groupes + phone visible) — uniquement si opt-in
+        if ($optIn) {
+            $member->update([
+                'directory_groups' => $request->input('directory_groups', []),
+                'directory_phone_visible' => (bool) $request->boolean('directory_phone_visible'),
+            ]);
         }
+        // Si opt-out : on conserve groups et phone_visible pour ré-activation future.
 
         return back()->with('success', 'Préférences mises à jour avec succès.');
     }
