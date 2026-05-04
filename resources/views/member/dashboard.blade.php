@@ -213,7 +213,7 @@
                 </div>
 
                 <div style="margin-top:16px;">
-                    <a href="{{ route('member.map') }}" class="btn btn-primary"><i data-lucide="map"></i>Explorer la carte</a>
+                    <a href="{{ route('member.directory.index') }}" class="btn btn-primary"><i data-lucide="map"></i>Voir l'annuaire</a>
                 </div>
             </article>
 

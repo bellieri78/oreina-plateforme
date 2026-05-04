@@ -1025,7 +1025,7 @@
                     <span class="nav-label">Mes soumissions</span>
                 </a>
                 @if($authMember)
-                <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') || request()->routeIs('member.work-groups*') ? 'active' : '' }}">
+                <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') ? 'active' : '' }}">
                     <i data-lucide="folder-open" class="icon"></i>
                     <span class="nav-label">Mes contributions</span>
                 </a>
