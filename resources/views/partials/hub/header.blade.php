@@ -1,4 +1,6 @@
-<header class="site-header" x-data="{ mobileOpen: false, newsletterOpen: false }">
+<header class="site-header"
+        x-data="{ mobileOpen: false, newsletterOpen: false }"
+        @close-newsletter.window="newsletterOpen = false">
     {{-- ====== TOP BAR (ligne 1) ====== --}}
     <div class="site-topbar">
         <div class="container site-topbar-inner">

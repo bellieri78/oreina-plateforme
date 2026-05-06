@@ -61,6 +61,13 @@ class NewsletterController extends Controller
         $brevoResult = $brevo->subscribeNewsletterEmail($email, $firstName, $lastName);
 
         if (!$brevoResult['success']) {
+            if (!$member) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Erreur lors de l\'inscription. Réessayez plus tard.',
+                ], 502);
+            }
+
             return response()->json([
                 'success' => false,
                 'message' => 'Inscription enregistrée mais erreur côté Brevo. Vous serez bien recontacté·e.',

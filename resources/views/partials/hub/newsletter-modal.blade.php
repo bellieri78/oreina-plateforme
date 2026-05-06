@@ -4,7 +4,7 @@
      x-show="newsletterOpen"
      x-transition.opacity
      x-cloak
-     @keydown.escape.window="newsletterOpen = false"
+     @keydown.escape.window="$dispatch('close-newsletter')"
      x-data="{
         loading: false,
         success: false,
@@ -29,7 +29,7 @@
                 } else if (data.success) {
                     this.success = true;
                     setTimeout(() => {
-                        this.newsletterOpen = false;
+                        this.$dispatch('close-newsletter');
                         this.success = false;
                         this.form = { email: '', first_name: '', last_name: '', consent: false };
                     }, 2500);
@@ -43,12 +43,12 @@
             }
         }
      }">
-    <div class="newsletter-modal-overlay" @click="newsletterOpen = false"></div>
+    <div class="newsletter-modal-overlay" @click="$dispatch('close-newsletter')"></div>
 
     <div class="newsletter-modal-card" role="dialog" aria-modal="true" aria-labelledby="newsletter-modal-title">
         <button type="button"
                 class="newsletter-modal-close"
-                @click="newsletterOpen = false"
+                @click="$dispatch('close-newsletter')"
                 aria-label="Fermer">
             <i data-lucide="x"></i>
         </button>
@@ -103,7 +103,7 @@
             </form>
         </div>
 
-        <div x-show="success" x-cloak class="newsletter-success">
+        <div x-show="success" x-cloak class="newsletter-success" x-effect="if (success) { $nextTick(() => window.lucide && window.lucide.createIcons()); }">
             <i data-lucide="check-circle-2" class="newsletter-success-icon"></i>
             <p>Merci ! Vous êtes inscrit·e à la newsletter.</p>
         </div>
