@@ -1,28 +1,19 @@
-<header class="site-header"
-        x-data="{ mobileOpen: false, newsletterOpen: false }"
-        @close-newsletter.window="newsletterOpen = false">
+<header class="site-header" x-data="{ mobileOpen: false }">
     {{-- ====== TOP BAR (ligne 1) ====== --}}
     <div class="site-topbar">
         <div class="container site-topbar-inner">
             <button type="button"
                     class="topbar-link"
-                    @click="newsletterOpen = true"
+                    @click="$dispatch('open-newsletter')"
                     aria-label="S'inscrire à la newsletter">
                 <i data-lucide="mail"></i>
                 <span class="topbar-link-label">Newsletter</span>
             </button>
 
-            @auth
-                <a href="{{ route('member.dashboard') }}" class="btn btn-sm btn-ghost-dark">
-                    <i data-lucide="user-round"></i>
-                    <span class="btn-label">Mon espace OREINA</span>
-                </a>
-            @else
-                <a href="{{ route('hub.login') }}" class="btn btn-sm btn-ghost-dark">
-                    <i data-lucide="log-in"></i>
-                    <span class="btn-label">Connexion</span>
-                </a>
-            @endauth
+            <a href="{{ auth()->check() ? route('member.dashboard') : route('hub.login') }}" class="btn btn-sm btn-ghost-dark">
+                <i data-lucide="user-round"></i>
+                <span class="btn-label">Mon espace OREINA</span>
+            </a>
 
             <a href="{{ route('hub.membership') }}" class="btn btn-sm btn-primary">
                 <i data-lucide="heart-plus"></i>
@@ -107,5 +98,4 @@
         </nav>
     </div>
 
-    @include('partials.hub.newsletter-modal')
 </header>

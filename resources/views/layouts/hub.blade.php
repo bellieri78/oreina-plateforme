@@ -527,6 +527,8 @@
         @yield('content')
     </main>
 
+    @include('partials.hub.newsletter-modal')
+
     @include('partials.hub.footer')
 
     <script>lucide.createIcons();</script>
