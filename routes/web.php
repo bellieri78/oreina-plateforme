@@ -47,6 +47,11 @@ Route::get('/a-propos', [PageController::class, 'about'])->name('hub.about');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
 
+// Newsletter (inscription publique depuis le hub)
+Route::post('/newsletter/subscribe', [\App\Http\Controllers\Hub\NewsletterController::class, 'subscribe'])
+    ->middleware('throttle:5,1')
+    ->name('hub.newsletter.subscribe');
+
 Route::prefix('lepis/bulletins')->name('hub.lepis.bulletins.')->group(function () {
     Route::get('/', [\App\Http\Controllers\Hub\LepisBulletinController::class, 'index'])->name('index');
     Route::get('/{bulletin}', [\App\Http\Controllers\Hub\LepisBulletinController::class, 'show'])->name('show');
