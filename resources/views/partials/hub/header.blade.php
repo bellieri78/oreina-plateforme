@@ -1,4 +1,35 @@
-<header class="site-header" x-data="{ mobileOpen: false }">
+<header class="site-header" x-data="{ mobileOpen: false, newsletterOpen: false }">
+    {{-- ====== TOP BAR (ligne 1) ====== --}}
+    <div class="site-topbar">
+        <div class="container site-topbar-inner">
+            <button type="button"
+                    class="topbar-link"
+                    @click="newsletterOpen = true"
+                    aria-label="S'inscrire à la newsletter">
+                <i data-lucide="mail"></i>
+                <span class="topbar-link-label">Newsletter</span>
+            </button>
+
+            @auth
+                <a href="{{ route('member.dashboard') }}" class="btn btn-sm btn-ghost-dark">
+                    <i data-lucide="user-round"></i>
+                    <span class="btn-label">Mon espace OREINA</span>
+                </a>
+            @else
+                <a href="{{ route('hub.login') }}" class="btn btn-sm btn-ghost-dark">
+                    <i data-lucide="log-in"></i>
+                    <span class="btn-label">Connexion</span>
+                </a>
+            @endauth
+
+            <a href="{{ route('hub.membership') }}" class="btn btn-sm btn-primary">
+                <i data-lucide="heart-plus"></i>
+                <span class="btn-label">Adhérer</span>
+            </a>
+        </div>
+    </div>
+
+    {{-- ====== MAIN BAR (ligne 2) ====== --}}
     <div class="container site-header-inner">
         {{-- Brand --}}
         <a href="{{ route('hub.home') }}" class="brand">
@@ -40,22 +71,6 @@
             @endforeach
         </nav>
 
-        {{-- Desktop Actions --}}
-        <div class="header-actions">
-            @auth
-                <a href="{{ route('member.dashboard') }}" class="btn btn-secondary">
-                    <i data-lucide="user-round"></i>Mon espace
-                </a>
-            @else
-                <a href="{{ route('hub.login') }}" class="btn btn-secondary">
-                    <i data-lucide="log-in"></i>Connexion
-                </a>
-            @endauth
-            <a href="{{ route('hub.membership') }}" class="btn btn-primary">
-                <i data-lucide="heart-plus"></i>Adhérer
-            </a>
-        </div>
-
         {{-- Mobile hamburger --}}
         <button type="button" class="mobile-menu-toggle" @click="mobileOpen = !mobileOpen">
             <i x-show="!mobileOpen" data-lucide="menu"></i>
@@ -63,7 +78,7 @@
         </button>
     </div>
 
-    {{-- Mobile Navigation --}}
+    {{-- ====== MOBILE NAV PANEL ====== --}}
     <div class="mobile-nav" x-show="mobileOpen" x-transition x-cloak>
         <nav class="hub-nav-mobile">
             @foreach($headerMenu as $item)
@@ -88,19 +103,7 @@
                 @endif
             @endforeach
         </nav>
-        <div class="header-actions-mobile">
-            @auth
-                <a href="{{ route('member.dashboard') }}" class="btn btn-secondary">
-                    <i data-lucide="user-round"></i>Mon espace
-                </a>
-            @else
-                <a href="{{ route('hub.login') }}" class="btn btn-secondary">
-                    <i data-lucide="log-in"></i>Connexion
-                </a>
-            @endauth
-            <a href="{{ route('hub.membership') }}" class="btn btn-primary">
-                <i data-lucide="heart-plus"></i>Adhérer
-            </a>
-        </div>
     </div>
+
+    @include('partials.hub.newsletter-modal')
 </header>
