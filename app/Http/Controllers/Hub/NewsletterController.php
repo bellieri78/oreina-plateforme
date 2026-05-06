@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Services\BrevoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsletterController extends Controller
 {
@@ -27,33 +28,36 @@ class NewsletterController extends Controller
         $member = Member::where('email', $email)->first();
 
         if ($member) {
-            $member->update(['newsletter_subscribed' => true]);
+            DB::transaction(function () use ($member, $request) {
+                $member->update(['newsletter_subscribed' => true]);
 
-            $consent = Consent::firstOrCreate(
-                [
-                    'member_id' => $member->id,
-                    'type' => Consent::TYPE_NEWSLETTER,
-                ],
-                [
-                    'status' => true,
-                    'consent_date' => now(),
-                    'method' => Consent::METHOD_WEB_FORM,
-                    'source' => Consent::SOURCE_NEWSLETTER_HUB,
-                    'ip_address' => $request->ip(),
-                    'user_agent' => $request->userAgent(),
-                ]
-            );
-
-            // Si le consent existait déjà mais désactivé, le réactiver via updateStatus.
-            if (!$consent->wasRecentlyCreated && !$consent->status) {
-                $consent->updateStatus(
-                    true,
-                    Consent::METHOD_WEB_FORM,
-                    Consent::SOURCE_NEWSLETTER_HUB
+                $consent = Consent::firstOrCreate(
+                    [
+                        'member_id' => $member->id,
+                        'type' => Consent::TYPE_NEWSLETTER,
+                    ],
+                    [
+                        'status' => true,
+                        'consent_date' => now(),
+                        'method' => Consent::METHOD_WEB_FORM,
+                        'source' => Consent::SOURCE_NEWSLETTER_HUB,
+                        'ip_address' => $request->ip(),
+                        'user_agent' => $request->userAgent(),
+                    ]
                 );
-            }
+
+                // Si le consent existait déjà mais désactivé, le réactiver via updateStatus.
+                if (!$consent->wasRecentlyCreated && !$consent->status) {
+                    $consent->updateStatus(
+                        true,
+                        Consent::METHOD_WEB_FORM,
+                        Consent::SOURCE_NEWSLETTER_HUB
+                    );
+                }
+            });
         }
 
+        // Push à Brevo systématiquement (membres ET inconnus) — Brevo gère opt-out/RGPD côté lui ; consent local n'est créé que pour les membres rattachés.
         $brevoResult = $brevo->subscribeNewsletterEmail($email, $firstName, $lastName);
 
         if (!$brevoResult['success']) {
