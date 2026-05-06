@@ -115,6 +115,51 @@
             color: white;
             border: 1px solid rgba(255,255,255,0.16);
         }
+        .btn-sm {
+            height: 36px;
+            padding: 0 14px;
+            font-size: 13px;
+            border-radius: 12px;
+        }
+        .btn-ghost-dark {
+            background: rgba(255,255,255,0.10);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        .btn-ghost-dark:hover {
+            background: rgba(255,255,255,0.18);
+        }
+
+        /* === SITE TOPBAR (ligne 1) === */
+        .site-topbar {
+            background: var(--forest);
+            color: rgba(255,255,255,0.92);
+            font-size: 13px;
+        }
+        .site-topbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            min-height: 44px;
+            padding: 4px 0;
+        }
+        .topbar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: 0;
+            color: rgba(255,255,255,0.85);
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 8px;
+            transition: color 0.15s ease, background 0.15s ease;
+        }
+        .topbar-link:hover { color: white; background: rgba(255,255,255,0.06); }
+        .topbar-link i, .topbar-link svg { width: 16px; height: 16px; }
 
         /* === HEADER === */
         .site-header {
@@ -319,9 +364,156 @@
                 align-items: flex-start;
                 padding: 22px;
             }
+            .site-topbar-inner { gap: 8px; min-height: 40px; }
+            .site-topbar .btn-label,
+            .site-topbar .topbar-link-label { display: none; }
+            .site-topbar .btn {
+                width: 36px;
+                padding: 0;
+                border-radius: 50%;
+            }
+            .site-topbar .topbar-link {
+                width: 36px;
+                height: 36px;
+                padding: 0;
+                justify-content: center;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.08);
+            }
         }
         @media (max-width: 480px) {
             .brand-text { display: none; }
+        }
+
+        /* === NEWSLETTER MODAL === */
+        .newsletter-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .newsletter-modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(22,48,43,0.55);
+            backdrop-filter: blur(2px);
+        }
+        .newsletter-modal-card {
+            position: relative;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 30px 60px rgba(22,48,43,0.20);
+            padding: 28px;
+            width: 100%;
+            max-width: 480px;
+        }
+        .newsletter-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            padding: 6px;
+            color: var(--muted);
+            border-radius: 8px;
+        }
+        .newsletter-modal-close:hover { background: rgba(22,48,43,0.06); }
+        .newsletter-modal-title {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+        .newsletter-modal-lede {
+            margin: 0 0 20px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .newsletter-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .newsletter-form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text);
+        }
+        .newsletter-form-field span em {
+            font-style: normal;
+            color: var(--muted);
+            font-weight: 400;
+        }
+        .newsletter-form-field input[type=text],
+        .newsletter-form-field input[type=email] {
+            height: 44px;
+            padding: 0 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface-soft);
+            font: inherit;
+            color: var(--text);
+            transition: border-color 0.15s ease;
+        }
+        .newsletter-form-field input:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+        .newsletter-form-checkbox {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.4;
+            cursor: pointer;
+        }
+        .newsletter-form-checkbox input {
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .newsletter-form-error {
+            color: #b3261e;
+            font-size: 12px;
+        }
+        .newsletter-form-error-global {
+            margin: 0;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: rgba(179,38,30,0.08);
+            border: 1px solid rgba(179,38,30,0.20);
+        }
+        .newsletter-form-submit {
+            margin-top: 4px;
+            justify-content: center;
+        }
+        .newsletter-success {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .newsletter-success p { margin: 0; font-weight: 700; color: var(--text); }
+        .newsletter-success-icon {
+            color: var(--sage);
+            width: 44px;
+            height: 44px;
+        }
+        @media (max-width: 480px) {
+            .newsletter-form-row { grid-template-columns: 1fr; }
         }
     </style>
 
@@ -334,6 +526,8 @@
     <main>
         @yield('content')
     </main>
+
+    @include('partials.hub.newsletter-modal')
 
     @include('partials.hub.footer')
 

@@ -358,6 +358,65 @@ class BrevoService
     }
 
     /**
+     * Subscribe a public visitor (not necessarily a Member) to the newsletter list.
+     *
+     * Sends a POST /contacts to Brevo with the configured newsletter list ID.
+     * If no newsletter list is configured, succeeds silently (logs a warning).
+     */
+    public function subscribeNewsletterEmail(
+        string $email,
+        ?string $firstName = null,
+        ?string $lastName = null
+    ): array {
+        if (!$this->isConfigured()) {
+            Log::channel('daily')->warning('Newsletter subscribe: Brevo not configured', [
+                'email' => $email,
+            ]);
+            return ['success' => false, 'error' => 'Brevo not configured'];
+        }
+
+        $listId = config('brevo.lists.newsletter');
+
+        if (empty($listId)) {
+            Log::channel('daily')->warning('Newsletter subscribe: no newsletter list configured', [
+                'email' => $email,
+            ]);
+            return ['success' => true, 'data' => ['note' => 'no_list_configured']];
+        }
+
+        $attributes = array_filter([
+            'PRENOM' => $firstName,
+            'NOM' => $lastName,
+            'NEWSLETTER' => true,
+        ], fn ($v) => $v !== null && $v !== '');
+
+        $payload = [
+            'email' => $email,
+            'attributes' => $attributes,
+            'listIds' => [(int) $listId],
+            'updateEnabled' => true,
+        ];
+
+        try {
+            $response = $this->request('POST', '/contacts', $payload);
+
+            Log::channel('daily')->info('Newsletter subscribed via Hub', [
+                'email' => $email,
+                'list_id' => $listId,
+            ]);
+
+            return ['success' => true, 'data' => $response];
+        } catch (\Exception $e) {
+            Log::channel('daily')->error('Newsletter subscribe failed', [
+                'email' => $email,
+                'error' => $e->getMessage(),
+            ]);
+
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
      * Build Brevo attributes from Member model
      */
     protected function buildAttributes(Member $member): array

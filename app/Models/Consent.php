@@ -43,6 +43,7 @@ class Consent extends Model
     public const SOURCE_BREVO = 'brevo';
     public const SOURCE_FORMULAIRE_INSCRIPTION = 'formulaire_inscription';
     public const SOURCE_FORMULAIRE_CONTACT = 'formulaire_contact';
+    public const SOURCE_NEWSLETTER_HUB = 'newsletter_hub';
     public const SOURCE_ADMIN = 'admin';
     public const SOURCE_IMPORT = 'import';
     public const SOURCE_HELLOASSO = 'helloasso';
@@ -86,6 +87,7 @@ class Consent extends Model
             self::SOURCE_BREVO => 'Brevo',
             self::SOURCE_FORMULAIRE_INSCRIPTION => 'Formulaire d\'inscription',
             self::SOURCE_FORMULAIRE_CONTACT => 'Formulaire de contact',
+            self::SOURCE_NEWSLETTER_HUB => 'Newsletter (site Hub)',
             self::SOURCE_ADMIN => 'Administration',
             self::SOURCE_IMPORT => 'Import en masse',
             self::SOURCE_HELLOASSO => 'HelloAsso',
