@@ -68,6 +68,7 @@ class NewsletterSubscribeTest extends TestCase
             'first_name' => 'Test',
             'last_name' => 'Member',
             'email' => 'member@example.com',
+            'member_number' => 'TEST-NL-001',
             'newsletter_subscribed' => false,
         ]);
 
