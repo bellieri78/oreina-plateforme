@@ -5,12 +5,12 @@
 
 @section('content')
     {{-- Header --}}
-    <section class="pt-28 pb-16 bg-warm">
+    <section class="pt-16 pb-16 bg-warm">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-oreina-green/10 text-oreina-green text-sm font-bold mb-6">
-                <i data-lucide="heart-handshake" style="width:16px;height:16px"></i>
+            <div class="eyebrow gold mb-6">
+                <i class="icon icon-gold" data-lucide="heart-handshake"></i>
                 Adhésion
-            </span>
+            </div>
             <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Rejoignez OREINA</h1>
             <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
                 Devenez membre et participez à la connaissance des Lépidoptères
@@ -178,8 +178,8 @@
                 <p class="text-white/90 mb-8 max-w-2xl mx-auto">
                     N'hésitez pas à nous contacter pour toute question concernant les formules d'adhésion ou la revue OREINA.
                 </p>
-                <a href="{{ route('hub.contact') }}" class="inline-flex items-center gap-2 bg-white text-oreina-teal px-8 py-4 rounded-2xl font-bold hover:shadow-lg transition">
-                    <i data-lucide="mail" style="width:20px;height:20px"></i>
+                <a href="{{ route('hub.contact') }}" class="btn btn-primary">
+                    <i class="icon icon-sage" data-lucide="mail"></i>
                     Nous contacter
                 </a>
             </div>
