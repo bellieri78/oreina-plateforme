@@ -2,6 +2,7 @@
     $hubRoutes = [
         '/' => 'Accueil',
         '/a-propos' => 'Association',
+        '/equipe' => 'L\'équipe',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',
         '/lepis' => 'Lepis',
