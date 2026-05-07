@@ -3,6 +3,7 @@
         '/' => 'Accueil',
         '/a-propos' => 'Association',
         '/equipe' => 'L\'équipe',
+        '/pourquoi-oreina' => 'Pourquoi oreina',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',
         '/lepis' => 'Lepis',
