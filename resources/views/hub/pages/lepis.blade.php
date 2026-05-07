@@ -5,21 +5,6 @@
 
 @push('styles')
 <style>
-    .lepis-hero {
-        background: linear-gradient(135deg, var(--color-oreina-green) 0%, #1a4a3a 100%);
-        position: relative;
-        overflow: hidden;
-    }
-    .lepis-hero::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 60%;
-        height: 200%;
-        background: radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, transparent 70%);
-        pointer-events: none;
-    }
     .rubrique-card {
         background: white;
         border: 1px solid rgba(219, 203, 199, 0.5);
@@ -31,47 +16,44 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0,0,0,0.06);
     }
-    .rubrique-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        background: linear-gradient(135deg, var(--color-oreina-green), #1a6b4a);
-    }
     .passerelle-block {
         background: var(--color-oreina-beige);
         border-radius: 1rem;
         padding: 1.5rem;
     }
+    .lepis-visual {
+        min-height: 280px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 </style>
 @endpush
 
 @section('content')
-    {{-- Hero --}}
-    <section class="lepis-hero pt-28 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6">
-                    <i data-lucide="book-open" style="width:16px;height:16px"></i>
-                    Publication trimestrielle
-                </div>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">Lepis</h1>
-                <p class="text-xl sm:text-2xl text-white/90 max-w-2xl mx-auto">
-                    Le bulletin trimestriel des adhérents d'OREINA
-                </p>
+    {{-- Header --}}
+    <section class="pt-16 pb-16 bg-warm">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="eyebrow sage mb-6">
+                <i class="icon icon-sage" data-lucide="book-open"></i>
+                Publication trimestrielle
             </div>
+            <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Lepis</h1>
+            <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+                Le bulletin trimestriel des adhérents d'OREINA
+            </p>
         </div>
     </section>
 
     {{-- Présentation --}}
     <section class="py-16 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-start">
-                <div>
-                    <span class="px-4 py-2 rounded-full bg-oreina-green/10 text-oreina-green text-sm font-bold">Présentation</span>
+            <div class="grid lg:grid-cols-2 gap-12 items-stretch">
+                <div class="flex flex-col justify-center">
+                    <span class="inline-flex self-start px-4 py-2 rounded-full bg-oreina-green/10 text-oreina-green text-sm font-bold">Présentation</span>
                     <h2 class="text-3xl font-bold text-oreina-dark mt-4 mb-6">La proximité associative</h2>
                     <div class="prose prose-lg text-slate-600">
                         <p>
@@ -85,35 +67,45 @@
                         </p>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="users" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
-                            <h3 class="font-bold text-oreina-dark text-sm">Public</h3>
+                <div class="lepis-visual" style="background-image: url('/images/lepis.png'); min-height: 400px;"></div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="users"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Adhérents d'OREINA, tous niveaux</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Public</h3>
                     </div>
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="file-text" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
-                            <h3 class="font-bold text-oreina-dark text-sm">Format</h3>
+                    <p class="text-slate-600 text-sm">Adhérents d'OREINA, tous niveaux</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="file-text"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Papier, 12-16 pages abondamment illustrées</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Format</h3>
                     </div>
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="calendar" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
-                            <h3 class="font-bold text-oreina-dark text-sm">Périodicité</h3>
+                    <p class="text-slate-600 text-sm">Papier, 12-16 pages abondamment illustrées</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon gold flex-shrink-0">
+                            <i class="icon icon-gold" data-lucide="calendar"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Trimestriel (4 numéros par an)</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Périodicité</h3>
                     </div>
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
-                            <h3 class="font-bold text-oreina-dark text-sm">Validation</h3>
+                    <p class="text-slate-600 text-sm">Trimestriel (4 numéros par an)</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="shield-check"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Conseil d'administration et adhérents</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Validation</h3>
                     </div>
+                    <p class="text-slate-600 text-sm">Conseil d'administration et adhérents</p>
                 </div>
             </div>
         </div>
@@ -134,8 +126,8 @@
                 {{-- Avancements projets OREINA --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="rocket" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="rocket"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Avancements projets OREINA</h3>
@@ -151,8 +143,8 @@
                 {{-- Appel à contribution --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="megaphone" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="megaphone"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Appel à contribution</h3>
@@ -168,8 +160,8 @@
                 {{-- Fiches d'identification --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="search" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon gold flex-shrink-0">
+                            <i class="icon icon-gold" data-lucide="search"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Fiches d'identification</h3>
@@ -184,8 +176,8 @@
                 {{-- Notes de terrain / Observations remarquables --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="binoculars" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="binoculars"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Notes de terrain / Observations remarquables</h3>
@@ -201,8 +193,8 @@
                 {{-- Actualités membres et associations --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="heart" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="heart"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Actualités membres et associations</h3>
@@ -217,8 +209,8 @@
                 {{-- Conseils techniques --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="wrench" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="wrench"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Conseils techniques</h3>
@@ -234,8 +226,8 @@
                 {{-- Portfolio --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="image" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon gold flex-shrink-0">
+                            <i class="icon icon-gold" data-lucide="image"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Portfolio</h3>
@@ -250,8 +242,8 @@
                 {{-- Courrier des lecteurs --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="mail" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="mail"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Courrier des lecteurs</h3>
@@ -266,8 +258,8 @@
                 {{-- Infos partenaires --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="handshake" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="handshake"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Infos partenaires</h3>
@@ -282,8 +274,8 @@
                 {{-- Analyses d'ouvrages --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="book-marked" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="book-marked"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Analyses d'ouvrages</h3>
@@ -312,8 +304,8 @@
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="passerelle-block">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-xl bg-oreina-green flex items-center justify-center">
-                            <i data-lucide="arrow-up-right" style="width:20px;height:20px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="arrow-up-right"></i>
                         </div>
                         <h3 class="font-bold text-oreina-dark">De Lepis vers Chersotis</h3>
                     </div>
@@ -335,8 +327,8 @@
 
                 <div class="passerelle-block">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-xl bg-oreina-turquoise flex items-center justify-center">
-                            <i data-lucide="arrow-down-left" style="width:20px;height:20px;color:white"></i>
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="arrow-down-left"></i>
                         </div>
                         <h3 class="font-bold text-oreina-dark">De Chersotis vers Lepis</h3>
                     </div>
@@ -380,23 +372,21 @@
     {{-- CTA --}}
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="stats-banner text-center">
-                <h2 class="text-2xl font-bold mb-4">Contribuez à Lepis</h2>
-                <p class="text-white/90 mb-8 max-w-2xl mx-auto">
-                    Vous avez une observation à partager, une idée d'article ou un conseil technique ?
-                    Lepis est ouvert à toutes les contributions de ses adhérents.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="{{ route('member.lepis.suggest') }}" class="inline-flex items-center gap-2 bg-white text-oreina-teal px-8 py-4 rounded-2xl font-bold hover:shadow-lg transition">
-                        <i data-lucide="pen-line" style="width:20px;height:20px"></i>
+            <article class="cta-panel">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="pen-line"></i>Contribuer</div>
+                <h2>Contribuez à Lepis</h2>
+                <p>Vous avez une observation à partager, une idée d'article ou un conseil technique ? Lepis est ouvert à toutes les contributions de ses adhérents.</p>
+                <div class="content-actions">
+                    <a href="{{ route('member.lepis.suggest') }}" class="btn btn-primary">
+                        <i class="icon icon-sage" data-lucide="pen-line"></i>
                         Suggérer un article
                     </a>
-                    <a href="{{ route('hub.membership') }}" class="inline-flex items-center gap-2 bg-white/10 text-white border border-white/30 px-8 py-4 rounded-2xl font-bold hover:bg-white/20 transition">
-                        <i data-lucide="heart" style="width:20px;height:20px"></i>
+                    <a href="{{ route('hub.membership') }}" class="btn btn-ghost-light">
+                        <i class="icon icon-white" data-lucide="heart-plus"></i>
                         Adhérer à OREINA
                     </a>
                 </div>
-            </div>
+            </article>
         </div>
     </section>
 @endsection

@@ -306,6 +306,70 @@
             font-size: 13px;
             font-weight: 800;
         }
+        .eyebrow.sage { background: rgba(133,183,157,0.16); color: #2f694e; }
+        .eyebrow.gold { background: rgba(237,196,66,0.20); color: #8b6c05; }
+        .eyebrow.blue { background: rgba(53,107,138,0.10); color: var(--blue); }
+
+        /* === PUB CARD ICON === */
+        .pub-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+        }
+        .pub-card-icon.sage { background: rgba(133,183,157,0.14); }
+        .pub-card-icon.coral { background: rgba(239,122,92,0.10); }
+        .pub-card-icon.gold { background: rgba(237,196,66,0.14); }
+        .pub-card-icon.blue { background: rgba(53,107,138,0.10); }
+
+        /* === CTA PANEL === */
+        .cta-panel {
+            position: relative;
+            overflow: hidden;
+            padding: 38px;
+            background: var(--forest);
+            color: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+        }
+        .cta-panel::after {
+            content: "";
+            position: absolute;
+            right: -34px;
+            bottom: -34px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(237,196,66,0.14);
+        }
+        .cta-panel > * { position: relative; z-index: 1; }
+        .cta-panel .eyebrow {
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: rgba(255,255,255,0.86);
+            margin-bottom: 14px;
+        }
+        .cta-panel h2 {
+            margin: 12px 0 10px;
+            line-height: 1.08;
+            letter-spacing: -0.04em;
+            font-size: clamp(26px, 3.5vw, 38px);
+            color: white;
+        }
+        .cta-panel p {
+            max-width: 760px;
+            color: rgba(255,255,255,0.82);
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .content-actions {
+            margin-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
 
         /* === TEXT LINK === */
         .text-link {

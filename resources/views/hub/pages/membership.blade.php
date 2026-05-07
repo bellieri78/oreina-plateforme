@@ -5,19 +5,16 @@
 
 @section('content')
     {{-- Header --}}
-    <section class="pt-28 pb-12 bg-warm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="icon-box bg-oreina-green text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-3xl sm:text-4xl font-bold text-oreina-dark">Rejoignez OREINA</h1>
-                    <p class="text-slate-500 mt-1">Devenez membre et participez à la connaissance des Lépidoptères</p>
-                </div>
+    <section class="pt-16 pb-16 bg-warm">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="eyebrow gold mb-6">
+                <i class="icon icon-gold" data-lucide="heart-handshake"></i>
+                Adhésion
             </div>
+            <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Rejoignez OREINA</h1>
+            <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+                Devenez membre et participez à la connaissance des Lépidoptères
+            </p>
         </div>
     </section>
 
@@ -31,30 +28,24 @@
 
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                        </svg>
+                    <div class="pub-card-icon sage mx-auto mb-6">
+                        <i class="icon icon-sage" data-lucide="book-open"></i>
                     </div>
                     <h3 class="text-lg font-bold text-oreina-dark mb-3">Revue scientifique</h3>
                     <p class="text-slate-600">Recevez la revue OREINA, publication de référence sur les Lépidoptères de France (4 numéros par an).</p>
                 </div>
 
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
+                    <div class="pub-card-icon coral mx-auto mb-6">
+                        <i class="icon icon-coral" data-lucide="binoculars"></i>
                     </div>
                     <h3 class="text-lg font-bold text-oreina-dark mb-3">Sorties terrain</h3>
                     <p class="text-slate-600">Participez aux sorties d'observation organisées par l'association dans toute la France.</p>
                 </div>
 
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-                        </svg>
+                    <div class="pub-card-icon gold mx-auto mb-6">
+                        <i class="icon icon-gold" data-lucide="badge-check"></i>
                     </div>
                     <h3 class="text-lg font-bold text-oreina-dark mb-3">Réseau d'experts</h3>
                     <p class="text-slate-600">Échangez avec des passionnés et des spécialistes des papillons de toute la France.</p>
@@ -96,9 +87,7 @@
                             @foreach($type->features as $feature)
                             <li class="flex items-start gap-3">
                                 <div class="w-5 h-5 bg-oreina-green/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <svg class="w-3 h-3 text-oreina-green" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                                        <path d="M5 13l4 4L19 7"/>
-                                    </svg>
+                                    <i data-lucide="check" style="width:12px;height:12px;color:var(--color-oreina-green)"></i>
                                 </div>
                                 <span class="text-slate-600 text-sm">{{ $feature }}</span>
                             </li>
@@ -115,9 +104,7 @@
             </div>
 
             <div class="flex items-center justify-center gap-2 mt-8 text-sm text-slate-500">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
+                <i data-lucide="lock" style="width:16px;height:16px"></i>
                 Paiement sécurisé via HelloAsso
             </div>
         </div>
@@ -136,9 +123,7 @@
                     <summary class="flex justify-between items-center cursor-pointer font-bold text-oreina-dark">
                         Comment adhérer à OREINA ?
                         <div class="w-8 h-8 bg-oreina-beige/50 rounded-full flex items-center justify-center group-open:bg-oreina-green group-open:text-white transition">
-                            <svg class="w-4 h-4 group-open:rotate-180 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M19 9l-7 7-7-7"/>
-                            </svg>
+                            <i data-lucide="chevron-down" class="group-open:rotate-180 transition" style="width:16px;height:16px"></i>
                         </div>
                     </summary>
                     <p class="mt-4 text-slate-600 leading-relaxed">
@@ -150,9 +135,7 @@
                     <summary class="flex justify-between items-center cursor-pointer font-bold text-oreina-dark">
                         Quand commence mon adhésion ?
                         <div class="w-8 h-8 bg-oreina-beige/50 rounded-full flex items-center justify-center group-open:bg-oreina-green group-open:text-white transition">
-                            <svg class="w-4 h-4 group-open:rotate-180 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M19 9l-7 7-7-7"/>
-                            </svg>
+                            <i data-lucide="chevron-down" class="group-open:rotate-180 transition" style="width:16px;height:16px"></i>
                         </div>
                     </summary>
                     <p class="mt-4 text-slate-600 leading-relaxed">
@@ -164,9 +147,7 @@
                     <summary class="flex justify-between items-center cursor-pointer font-bold text-oreina-dark">
                         Mon adhésion est-elle déductible des impôts ?
                         <div class="w-8 h-8 bg-oreina-beige/50 rounded-full flex items-center justify-center group-open:bg-oreina-green group-open:text-white transition">
-                            <svg class="w-4 h-4 group-open:rotate-180 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M19 9l-7 7-7-7"/>
-                            </svg>
+                            <i data-lucide="chevron-down" class="group-open:rotate-180 transition" style="width:16px;height:16px"></i>
                         </div>
                     </summary>
                     <p class="mt-4 text-slate-600 leading-relaxed">
@@ -178,9 +159,7 @@
                     <summary class="flex justify-between items-center cursor-pointer font-bold text-oreina-dark">
                         Puis-je faire un don sans adhérer ?
                         <div class="w-8 h-8 bg-oreina-beige/50 rounded-full flex items-center justify-center group-open:bg-oreina-green group-open:text-white transition">
-                            <svg class="w-4 h-4 group-open:rotate-180 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M19 9l-7 7-7-7"/>
-                            </svg>
+                            <i data-lucide="chevron-down" class="group-open:rotate-180 transition" style="width:16px;height:16px"></i>
                         </div>
                     </summary>
                     <p class="mt-4 text-slate-600 leading-relaxed">
@@ -194,19 +173,17 @@
     {{-- Contact CTA --}}
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="stats-banner text-center">
-                <h2 class="text-2xl font-bold mb-4">Une question sur l'adhésion ?</h2>
-                <p class="text-white/90 mb-8 max-w-2xl mx-auto">
-                    N'hésitez pas à nous contacter pour toute question concernant les formules d'adhésion ou la revue OREINA.
-                </p>
-                <a href="{{ route('hub.contact') }}" class="inline-flex items-center gap-2 bg-white text-oreina-teal px-8 py-4 rounded-2xl font-bold hover:shadow-lg transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <rect width="20" height="16" x="2" y="4" rx="2"/>
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                    </svg>
-                    Nous contacter
-                </a>
-            </div>
+            <article class="cta-panel">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="message-circle"></i>Une question ?</div>
+                <h2>Une question sur l'adhésion ?</h2>
+                <p>N'hésitez pas à nous contacter pour toute question concernant les formules d'adhésion ou la revue OREINA.</p>
+                <div class="content-actions">
+                    <a href="{{ route('hub.contact') }}" class="btn btn-primary">
+                        <i class="icon icon-sage" data-lucide="mail"></i>
+                        Nous contacter
+                    </a>
+                </div>
+            </article>
         </div>
     </section>
 @endsection
