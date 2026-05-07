@@ -5,21 +5,6 @@
 
 @push('styles')
 <style>
-    .lepis-hero {
-        background: linear-gradient(135deg, var(--color-oreina-green) 0%, #1a4a3a 100%);
-        position: relative;
-        overflow: hidden;
-    }
-    .lepis-hero::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 60%;
-        height: 200%;
-        background: radial-gradient(ellipse, rgba(255,255,255,0.05) 0%, transparent 70%);
-        pointer-events: none;
-    }
     .rubrique-card {
         background: white;
         border: 1px solid rgba(219, 203, 199, 0.5);
@@ -50,19 +35,17 @@
 @endpush
 
 @section('content')
-    {{-- Hero --}}
-    <section class="lepis-hero pt-28 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6">
-                    <i data-lucide="book-open" style="width:16px;height:16px"></i>
-                    Publication trimestrielle
-                </div>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">Lepis</h1>
-                <p class="text-xl sm:text-2xl text-white/90 max-w-2xl mx-auto">
-                    Le bulletin trimestriel des adhérents d'OREINA
-                </p>
-            </div>
+    {{-- Header --}}
+    <section class="pt-28 pb-16 bg-warm">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-oreina-green/10 text-oreina-green text-sm font-bold mb-6">
+                <i data-lucide="book-open" style="width:16px;height:16px"></i>
+                Publication trimestrielle
+            </span>
+            <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Lepis</h1>
+            <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+                Le bulletin trimestriel des adhérents d'OREINA
+            </p>
         </div>
     </section>
 
