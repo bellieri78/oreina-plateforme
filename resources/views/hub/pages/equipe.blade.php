@@ -280,26 +280,21 @@
             </div>
 
             {{-- Encart rejoindre --}}
-            <div class="mt-12 p-8 bg-white rounded-2xl border border-slate-200">
-                <div class="grid md:grid-cols-3 gap-6 items-center">
-                    <div class="md:col-span-2">
-                        <h3 class="text-xl font-bold text-oreina-dark mb-2">Vous souhaitez contribuer ?</h3>
-                        <p class="text-slate-600">
-                            Que vous soyez débutant ou expérimenté, plusieurs portes d'entrée existent : saisie de données sur <em>Artemisiae</em>, participation à un groupe de travail, contribution à un article, collecte de spécimens dans le cadre du barcoding. Toute contribution compte.
-                        </p>
-                    </div>
-                    <div class="content-actions md:flex-col md:items-stretch">
-                        <a href="{{ route('hub.contact') }}" class="btn btn-primary">
-                            <i class="icon icon-sage" data-lucide="mail"></i>
-                            Nous contacter
-                        </a>
-                        <a href="{{ route('hub.membership') }}" class="btn btn-secondary">
-                            <i class="icon icon-blue" data-lucide="heart-plus"></i>
-                            Adhérer
-                        </a>
-                    </div>
+            <article class="cta-panel mt-12">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="helping-hand"></i>Contribuer</div>
+                <h2>Vous souhaitez contribuer ?</h2>
+                <p>Que vous soyez débutant ou expérimenté, plusieurs portes d'entrée existent : saisie de données sur <em>Artemisiae</em>, participation à un groupe de travail, contribution à un article, collecte de spécimens dans le cadre du barcoding. Toute contribution compte.</p>
+                <div class="content-actions">
+                    <a href="{{ route('hub.contact') }}" class="btn btn-primary">
+                        <i class="icon icon-sage" data-lucide="mail"></i>
+                        Nous contacter
+                    </a>
+                    <a href="{{ route('hub.membership') }}" class="btn btn-ghost-light">
+                        <i class="icon icon-white" data-lucide="heart-plus"></i>
+                        Adhérer
+                    </a>
                 </div>
-            </div>
+            </article>
         </div>
     </section>
 
