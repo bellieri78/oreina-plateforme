@@ -26,7 +26,7 @@
                     oreina fonctionne comme une association loi 1901, animée par ses adhérents et administrée par un conseil d'administration élu en assemblée générale. Depuis 2024, une coordinatrice salariée vient appuyer la dynamique scientifique et l'animation du réseau, sans se substituer à l'engagement bénévole qui reste la colonne vertébrale de l'association.
                 </p>
                 <p>
-                    L'équipe d'oreina, ce sont trois cercles complémentaires : un bureau et un conseil d'administration qui assurent la gouvernance et la stratégie, une salariée qui coordonne le réseau scientifique, et plusieurs centaines d'adhérents qui font vivre les projets sur le terrain — en validation, en collecte, en rédaction et en formation.
+                    L'équipe d'oreina, ce sont trois cercles complémentaires : un bureau et un conseil d'administration qui assurent la gouvernance et la stratégie, une salariée qui coordonne le réseau scientifique, et des dizaines d'adhérents qui font vivre les projets sur le terrain : en validation, en collecte, en rédaction et en formation.
                 </p>
             </div>
         </div>
@@ -206,7 +206,7 @@
                 </div>
                 <h2 class="text-2xl font-bold text-oreina-dark">Les bénévoles, force vive de l'association</h2>
                 <p class="text-slate-500 mt-3 max-w-3xl mx-auto">
-                    Plusieurs centaines d'adhérents font vivre les projets scientifiques d'oreina, en validation de données, en collecte sur le terrain, en rédaction, en formation et en animation territoriale. Les projets ne reposent pas sur un état-major, mais sur un réseau distribué de naturalistes — amateurs aguerris, professionnels, enseignants-chercheurs — qui contribuent chacun à hauteur de leur disponibilité et de leur expertise.
+                    Des dizaines d'adhérents font vivre les projets scientifiques d'oreina, en validation de données, en collecte sur le terrain, en rédaction, en formation et en animation territoriale. Les projets ne reposent pas sur un état-major, mais sur un réseau distribué de naturalistes, amateurs aguerris, professionnels, enseignants-chercheurs, qui contribuent chacun à hauteur de leur disponibilité et de leur expertise.
                 </p>
             </div>
 
