@@ -36,12 +36,12 @@
 
 @section('content')
     {{-- Header --}}
-    <section class="pt-28 pb-16 bg-warm">
+    <section class="pt-16 pb-16 bg-warm">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-oreina-green/10 text-oreina-green text-sm font-bold mb-6">
-                <i data-lucide="book-open" style="width:16px;height:16px"></i>
+            <div class="eyebrow sage mb-6">
+                <i class="icon icon-sage" data-lucide="book-open"></i>
                 Publication trimestrielle
-            </span>
+            </div>
             <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Lepis</h1>
             <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
                 Le bulletin trimestriel des adhérents d'OREINA
@@ -370,12 +370,12 @@
                     Lepis est ouvert à toutes les contributions de ses adhérents.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="{{ route('member.lepis.suggest') }}" class="inline-flex items-center gap-2 bg-white text-oreina-teal px-8 py-4 rounded-2xl font-bold hover:shadow-lg transition">
-                        <i data-lucide="pen-line" style="width:20px;height:20px"></i>
+                    <a href="{{ route('member.lepis.suggest') }}" class="btn btn-primary">
+                        <i class="icon icon-sage" data-lucide="pen-line"></i>
                         Suggérer un article
                     </a>
-                    <a href="{{ route('hub.membership') }}" class="inline-flex items-center gap-2 bg-white/10 text-white border border-white/30 px-8 py-4 rounded-2xl font-bold hover:bg-white/20 transition">
-                        <i data-lucide="heart" style="width:20px;height:20px"></i>
+                    <a href="{{ route('hub.membership') }}" class="btn btn-ghost-light">
+                        <i class="icon icon-white" data-lucide="heart"></i>
                         Adhérer à OREINA
                     </a>
                 </div>
