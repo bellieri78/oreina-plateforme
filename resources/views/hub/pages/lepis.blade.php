@@ -16,16 +16,6 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0,0,0,0.06);
     }
-    .rubrique-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        background: linear-gradient(135deg, var(--color-oreina-green), #1a6b4a);
-    }
     .passerelle-block {
         background: var(--color-oreina-beige);
         border-radius: 1rem;
@@ -71,28 +61,36 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="card p-6">
                         <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="users" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
+                            <div class="pub-card-icon sage flex-shrink-0">
+                                <i class="icon icon-sage" data-lucide="users"></i>
+                            </div>
                             <h3 class="font-bold text-oreina-dark text-sm">Public</h3>
                         </div>
                         <p class="text-slate-600 text-sm">Adhérents d'OREINA, tous niveaux</p>
                     </div>
                     <div class="card p-6">
                         <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="file-text" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
+                            <div class="pub-card-icon coral flex-shrink-0">
+                                <i class="icon icon-coral" data-lucide="file-text"></i>
+                            </div>
                             <h3 class="font-bold text-oreina-dark text-sm">Format</h3>
                         </div>
                         <p class="text-slate-600 text-sm">Papier, 12-16 pages abondamment illustrées</p>
                     </div>
                     <div class="card p-6">
                         <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="calendar" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
+                            <div class="pub-card-icon gold flex-shrink-0">
+                                <i class="icon icon-gold" data-lucide="calendar"></i>
+                            </div>
                             <h3 class="font-bold text-oreina-dark text-sm">Périodicité</h3>
                         </div>
                         <p class="text-slate-600 text-sm">Trimestriel (4 numéros par an)</p>
                     </div>
                     <div class="card p-6">
                         <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--color-oreina-green)"></i>
+                            <div class="pub-card-icon blue flex-shrink-0">
+                                <i class="icon icon-blue" data-lucide="shield-check"></i>
+                            </div>
                             <h3 class="font-bold text-oreina-dark text-sm">Validation</h3>
                         </div>
                         <p class="text-slate-600 text-sm">Conseil d'administration et adhérents</p>
@@ -117,8 +115,8 @@
                 {{-- Avancements projets OREINA --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="rocket" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="rocket"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Avancements projets OREINA</h3>
@@ -134,8 +132,8 @@
                 {{-- Appel à contribution --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="megaphone" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="megaphone"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Appel à contribution</h3>
@@ -151,8 +149,8 @@
                 {{-- Fiches d'identification --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="search" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon gold flex-shrink-0">
+                            <i class="icon icon-gold" data-lucide="search"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Fiches d'identification</h3>
@@ -167,8 +165,8 @@
                 {{-- Notes de terrain / Observations remarquables --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="binoculars" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="binoculars"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Notes de terrain / Observations remarquables</h3>
@@ -184,8 +182,8 @@
                 {{-- Actualités membres et associations --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="heart" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="heart"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Actualités membres et associations</h3>
@@ -200,8 +198,8 @@
                 {{-- Conseils techniques --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="wrench" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="wrench"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Conseils techniques</h3>
@@ -217,8 +215,8 @@
                 {{-- Portfolio --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="image" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon gold flex-shrink-0">
+                            <i class="icon icon-gold" data-lucide="image"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Portfolio</h3>
@@ -233,8 +231,8 @@
                 {{-- Courrier des lecteurs --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="mail" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="mail"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Courrier des lecteurs</h3>
@@ -249,8 +247,8 @@
                 {{-- Infos partenaires --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="handshake" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="handshake"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Infos partenaires</h3>
@@ -265,8 +263,8 @@
                 {{-- Analyses d'ouvrages --}}
                 <div class="rubrique-card">
                     <div class="flex items-start gap-3">
-                        <div class="rubrique-icon">
-                            <i data-lucide="book-marked" style="width:18px;height:18px;color:white"></i>
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="book-marked"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-oreina-dark mb-2">Analyses d'ouvrages</h3>
@@ -295,8 +293,8 @@
             <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="passerelle-block">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-xl bg-oreina-green flex items-center justify-center">
-                            <i data-lucide="arrow-up-right" style="width:20px;height:20px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="arrow-up-right"></i>
                         </div>
                         <h3 class="font-bold text-oreina-dark">De Lepis vers Chersotis</h3>
                     </div>
@@ -318,8 +316,8 @@
 
                 <div class="passerelle-block">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-xl bg-oreina-turquoise flex items-center justify-center">
-                            <i data-lucide="arrow-down-left" style="width:20px;height:20px;color:white"></i>
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="arrow-down-left"></i>
                         </div>
                         <h3 class="font-bold text-oreina-dark">De Chersotis vers Lepis</h3>
                     </div>

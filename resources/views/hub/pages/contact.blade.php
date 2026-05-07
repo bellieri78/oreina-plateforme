@@ -27,8 +27,8 @@
                     {{-- Email Card --}}
                     <div class="card p-6">
                         <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-xl flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="mail" style="width:24px;height:24px;color:white"></i>
+                            <div class="pub-card-icon sage flex-shrink-0">
+                                <i class="icon icon-sage" data-lucide="mail"></i>
                             </div>
                             <div>
                                 <h3 class="font-bold text-oreina-dark mb-1">Email</h3>
@@ -42,8 +42,8 @@
                     {{-- Address Card --}}
                     <div class="card p-6">
                         <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-xl flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="map-pin" style="width:24px;height:24px;color:white"></i>
+                            <div class="pub-card-icon coral flex-shrink-0">
+                                <i class="icon icon-coral" data-lucide="map-pin"></i>
                             </div>
                             <div>
                                 <h3 class="font-bold text-oreina-dark mb-1">Adresse</h3>
@@ -58,8 +58,8 @@
                     {{-- Response Time Card --}}
                     <div class="card p-6">
                         <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-xl flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="clock" style="width:24px;height:24px;color:white"></i>
+                            <div class="pub-card-icon gold flex-shrink-0">
+                                <i class="icon icon-gold" data-lucide="clock"></i>
                             </div>
                             <div>
                                 <h3 class="font-bold text-oreina-dark mb-1">Délai de réponse</h3>
@@ -162,8 +162,8 @@
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="card p-8 lg:p-12 text-center bg-gradient-to-br from-oreina-beige/30 to-slate-50">
-                <div class="w-16 h-16 bg-oreina-green/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="help-circle" style="width:32px;height:32px;color:var(--color-oreina-green)"></i>
+                <div class="pub-card-icon sage mx-auto mb-6">
+                    <i class="icon icon-sage" data-lucide="help-circle"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-oreina-dark mb-4">Consultez notre FAQ</h2>
                 <p class="text-slate-600 mb-8 max-w-xl mx-auto">

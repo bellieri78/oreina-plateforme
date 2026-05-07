@@ -54,32 +54,32 @@
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="lightbulb" style="width:32px;height:32px;color:white"></i>
+                    <div class="pub-card-icon sage mx-auto mb-6">
+                        <i class="icon icon-sage" data-lucide="lightbulb"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Expertise scientifique</h3>
                     <p class="text-slate-600 text-sm">Rigueur taxonomique, données qualifiées, méthodes documentées et publications référencées.</p>
                 </div>
 
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="users" style="width:32px;height:32px;color:white"></i>
+                    <div class="pub-card-icon coral mx-auto mb-6">
+                        <i class="icon icon-coral" data-lucide="users"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Réseau et partage</h3>
                     <p class="text-slate-600 text-sm">Une communauté de naturalistes, amateurs et spécialistes, qui mettent en commun observations et savoir-faire.</p>
                 </div>
 
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="book-open" style="width:32px;height:32px;color:white"></i>
+                    <div class="pub-card-icon gold mx-auto mb-6">
+                        <i class="icon icon-gold" data-lucide="book-open"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Vulgarisation</h3>
                     <p class="text-slate-600 text-sm">Diffusion des connaissances par nos publications, en libre accès pour la revue scientifique <em>Chersotis</em>.</p>
                 </div>
 
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-beige to-slate-300 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="globe-2" style="width:32px;height:32px;color:var(--color-oreina-dark)"></i>
+                    <div class="pub-card-icon blue mx-auto mb-6">
+                        <i class="icon icon-blue" data-lucide="globe-2"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Conservation</h3>
                     <p class="text-slate-600 text-sm">Contribution à l'évaluation de l'état des populations et appui aux gestionnaires d'espaces naturels.</p>
@@ -100,8 +100,8 @@
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="card p-8">
                     <div class="flex items-start gap-4">
-                        <div class="w-14 h-14 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="microscope" style="width:28px;height:28px;color:white"></i>
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="microscope"></i>
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-oreina-dark mb-3">Une expertise sur les Lépidoptères</h3>
@@ -114,8 +114,8 @@
 
                 <div class="card p-8">
                     <div class="flex items-start gap-4">
-                        <div class="w-14 h-14 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="leaf" style="width:28px;height:28px;color:white"></i>
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="leaf"></i>
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-oreina-dark mb-3">Une expertise au service de la nature</h3>
@@ -128,8 +128,8 @@
 
                 <div class="card p-8">
                     <div class="flex items-start gap-4">
-                        <div class="w-14 h-14 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="graduation-cap" style="width:28px;height:28px;color:white"></i>
+                        <div class="pub-card-icon gold flex-shrink-0">
+                            <i class="icon icon-gold" data-lucide="graduation-cap"></i>
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-oreina-dark mb-3">Transmission des savoirs</h3>
@@ -142,8 +142,8 @@
 
                 <div class="card p-8">
                     <div class="flex items-start gap-4">
-                        <div class="w-14 h-14 bg-gradient-to-br from-oreina-beige to-slate-400 rounded-2xl flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="users-round" style="width:28px;height:28px;color:var(--color-oreina-dark)"></i>
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="users-round"></i>
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-oreina-dark mb-3">Une identité associative</h3>

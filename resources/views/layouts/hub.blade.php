@@ -310,6 +310,19 @@
         .eyebrow.gold { background: rgba(237,196,66,0.20); color: #8b6c05; }
         .eyebrow.blue { background: rgba(53,107,138,0.10); color: var(--blue); }
 
+        /* === PUB CARD ICON === */
+        .pub-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+        }
+        .pub-card-icon.sage { background: rgba(133,183,157,0.14); }
+        .pub-card-icon.coral { background: rgba(239,122,92,0.10); }
+        .pub-card-icon.gold { background: rgba(237,196,66,0.14); }
+        .pub-card-icon.blue { background: rgba(53,107,138,0.10); }
+
         /* === TEXT LINK === */
         .text-link {
             color: var(--blue);

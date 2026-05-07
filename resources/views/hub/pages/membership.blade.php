@@ -28,24 +28,24 @@
 
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="book-open" style="width:32px;height:32px;color:white"></i>
+                    <div class="pub-card-icon sage mx-auto mb-6">
+                        <i class="icon icon-sage" data-lucide="book-open"></i>
                     </div>
                     <h3 class="text-lg font-bold text-oreina-dark mb-3">Revue scientifique</h3>
                     <p class="text-slate-600">Recevez la revue OREINA, publication de référence sur les Lépidoptères de France (4 numéros par an).</p>
                 </div>
 
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="binoculars" style="width:32px;height:32px;color:white"></i>
+                    <div class="pub-card-icon coral mx-auto mb-6">
+                        <i class="icon icon-coral" data-lucide="binoculars"></i>
                     </div>
                     <h3 class="text-lg font-bold text-oreina-dark mb-3">Sorties terrain</h3>
                     <p class="text-slate-600">Participez aux sorties d'observation organisées par l'association dans toute la France.</p>
                 </div>
 
                 <div class="card p-8 text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="badge-check" style="width:32px;height:32px;color:white"></i>
+                    <div class="pub-card-icon gold mx-auto mb-6">
+                        <i class="icon icon-gold" data-lucide="badge-check"></i>
                     </div>
                     <h3 class="text-lg font-bold text-oreina-dark mb-3">Réseau d'experts</h3>
                     <p class="text-slate-600">Échangez avec des passionnés et des spécialistes des papillons de toute la France.</p>
