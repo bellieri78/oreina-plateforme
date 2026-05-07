@@ -5,20 +5,16 @@
 
 @section('content')
     {{-- Header --}}
-    <section class="pt-28 pb-12 bg-warm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="icon-box bg-oreina-blue text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <rect width="20" height="16" x="2" y="4" rx="2"/>
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-3xl sm:text-4xl font-bold text-oreina-dark">Contact</h1>
-                    <p class="text-slate-500 mt-1">Une question ? Nous sommes là pour vous aider</p>
-                </div>
-            </div>
+    <section class="pt-28 pb-16 bg-warm">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-oreina-blue/10 text-oreina-blue text-sm font-bold mb-6">
+                <i data-lucide="mail" style="width:16px;height:16px"></i>
+                Nous écrire
+            </span>
+            <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Contact</h1>
+            <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+                Une question ? Nous sommes là pour vous aider
+            </p>
         </div>
     </section>
 
@@ -32,10 +28,7 @@
                     <div class="card p-6">
                         <div class="flex items-start gap-4">
                             <div class="w-12 h-12 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-xl flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <rect width="20" height="16" x="2" y="4" rx="2"/>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                                </svg>
+                                <i data-lucide="mail" style="width:24px;height:24px;color:white"></i>
                             </div>
                             <div>
                                 <h3 class="font-bold text-oreina-dark mb-1">Email</h3>
@@ -50,10 +43,7 @@
                     <div class="card p-6">
                         <div class="flex items-start gap-4">
                             <div class="w-12 h-12 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-xl flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
+                                <i data-lucide="map-pin" style="width:24px;height:24px;color:white"></i>
                             </div>
                             <div>
                                 <h3 class="font-bold text-oreina-dark mb-1">Adresse</h3>
@@ -69,10 +59,7 @@
                     <div class="card p-6">
                         <div class="flex items-start gap-4">
                             <div class="w-12 h-12 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-xl flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <polyline points="12 6 12 12 16 14"/>
-                                </svg>
+                                <i data-lucide="clock" style="width:24px;height:24px;color:white"></i>
                             </div>
                             <div>
                                 <h3 class="font-bold text-oreina-dark mb-1">Délai de réponse</h3>
@@ -161,10 +148,7 @@
                             </div>
 
                             <button type="submit" class="btn-primary py-4 px-8">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="m22 2-7 20-4-9-9-4z"/>
-                                    <path d="M22 2 11 13"/>
-                                </svg>
+                                <i data-lucide="send" style="width:20px;height:20px"></i>
                                 Envoyer le message
                             </button>
                         </form>
@@ -179,11 +163,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="card p-8 lg:p-12 text-center bg-gradient-to-br from-oreina-beige/30 to-slate-50">
                 <div class="w-16 h-16 bg-oreina-green/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-8 h-8 text-oreina-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                        <path d="M12 17h.01"/>
-                    </svg>
+                        <i data-lucide="help-circle" style="width:32px;height:32px;color:var(--color-oreina-green)"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-oreina-dark mb-4">Consultez notre FAQ</h2>
                 <p class="text-slate-600 mb-8 max-w-xl mx-auto">
