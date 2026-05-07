@@ -5,25 +5,22 @@
 
 @section('content')
     {{-- Header --}}
-    <section class="pt-28 pb-12 bg-warm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="icon-box bg-oreina-green text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-3xl sm:text-4xl font-bold text-oreina-dark">
-                        @if(isset($currentCategory))
-                            {{ $currentCategory }}
-                        @else
-                            Actualités
-                        @endif
-                    </h1>
-                    <p class="text-slate-500 mt-1">Suivez l'actualité de l'association et des Lépidoptères de France</p>
-                </div>
+    <section class="pt-16 pb-16 bg-warm">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="eyebrow blue mb-6">
+                <i class="icon icon-blue" data-lucide="newspaper"></i>
+                Actualités
             </div>
+            <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">
+                @if(isset($currentCategory))
+                    {{ $currentCategory }}
+                @else
+                    Actualités
+                @endif
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+                Suivez l'actualité de l'association et des Lépidoptères de France
+            </p>
         </div>
     </section>
 
@@ -57,9 +54,7 @@
                                 <img src="{{ Storage::url($article->featured_image) }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500">
                             @else
                                 <div class="w-full h-full bg-oreina-green/10 flex items-center justify-center">
-                                    <svg class="w-12 h-12 text-oreina-green/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2"/>
-                                    </svg>
+                                    <i data-lucide="image" style="width:48px;height:48px;color:rgba(44,95,45,0.3)"></i>
                                 </div>
                             @endif
                         </div>
@@ -82,9 +77,7 @@
                             </p>
                             <a href="{{ route('hub.articles.show', $article) }}" class="inline-flex items-center gap-2 font-bold text-sm text-oreina-blue hover:gap-3 transition-all">
                                 Lire la suite
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="m9 18 6-6-6-6"/>
-                                </svg>
+                                <i data-lucide="chevron-right" style="width:16px;height:16px"></i>
                             </a>
                         </div>
                     </article>
@@ -97,9 +90,7 @@
                 </div>
             @else
                 <div class="text-center py-16 bg-white rounded-3xl border-2 border-oreina-beige/30">
-                    <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2"/>
-                    </svg>
+                    <i data-lucide="inbox" style="width:64px;height:64px;color:#cbd5e1" class="mx-auto mb-4"></i>
                     <h3 class="text-xl font-semibold text-slate-900">Aucun article</h3>
                     <p class="text-slate-500 mt-2">Il n'y a pas encore d'article dans cette catégorie.</p>
                 </div>
