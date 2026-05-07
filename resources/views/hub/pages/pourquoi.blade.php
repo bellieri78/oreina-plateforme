@@ -20,14 +20,17 @@
 
     {{-- Chapô --}}
     <section class="py-16 bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="prose prose-lg text-slate-600">
-                <p class="text-xl leading-relaxed">
-                    Une association porte toujours plus que sa définition statutaire. Derrière oreina, il y a une intuition de départ, un nom choisi avec soin, et une succession de paris éditoriaux et scientifiques qui dessinent, en presque vingt ans, une certaine idée de la lépidoptérologie française : exigeante, conviviale, ancrée dans le terrain, ouverte aux institutions.
-                </p>
-                <p>
-                    Cette page revient sur cette histoire : celle d'une association, celle d'un papillon, et celle de l'homme qui l'a décrit.
-                </p>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="prose prose-lg text-slate-600">
+                    <p class="text-xl leading-relaxed">
+                        Une association porte toujours plus que sa définition statutaire. Derrière oreina, il y a une intuition de départ, un nom choisi avec soin, et une succession de paris éditoriaux et scientifiques qui dessinent, en presque vingt ans, une certaine idée de la lépidoptérologie française : exigeante, conviviale, ancrée dans le terrain, ouverte aux institutions.
+                    </p>
+                    <p>
+                        Cette page revient sur cette histoire : celle d'une association, celle d'un papillon, et celle de l'homme qui l'a décrit.
+                    </p>
+                </div>
+                <div class="rounded-3xl overflow-hidden shadow-lg" style="min-height: 320px; background: url('/images/about-mission.jpg') center/cover no-repeat;"></div>
             </div>
         </div>
     </section>
@@ -41,6 +44,22 @@
                     2007 : un manque, un élan
                 </div>
                 <h2 class="text-3xl font-bold text-oreina-dark">Le contexte fondateur</h2>
+            </div>
+
+            {{-- 3 dates clés --}}
+            <div class="grid grid-cols-3 gap-4 mb-10">
+                <div class="text-center p-5 rounded-2xl bg-oreina-green/5 border border-oreina-green/15">
+                    <div class="text-2xl sm:text-3xl font-bold text-oreina-green">2007</div>
+                    <div class="text-xs text-slate-500 mt-1 leading-tight">Déclaration<br>(10 janvier)</div>
+                </div>
+                <div class="text-center p-5 rounded-2xl bg-oreina-yellow/10 border border-oreina-yellow/30">
+                    <div class="text-2xl sm:text-3xl font-bold" style="color: #8b6c05;">2008</div>
+                    <div class="text-xs text-slate-500 mt-1 leading-tight">Premier numéro<br>du magazine</div>
+                </div>
+                <div class="text-center p-5 rounded-2xl bg-oreina-blue/10 border border-oreina-blue/20">
+                    <div class="text-2xl sm:text-3xl font-bold" style="color: var(--blue);">~20 ans</div>
+                    <div class="text-xs text-slate-500 mt-1 leading-tight">D'engagement<br>associatif</div>
+                </div>
             </div>
 
             <div class="prose prose-lg text-slate-600 max-w-none">
@@ -127,7 +146,7 @@
 
     {{-- Du nom au logo --}}
     <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow gold mb-4 inline-flex">
                     <i class="icon icon-gold" data-lucide="palette"></i>
@@ -136,16 +155,21 @@
                 <h2 class="text-3xl font-bold text-oreina-dark">Le papillon dans le cercle</h2>
             </div>
 
-            <div class="prose prose-lg text-slate-600 max-w-none">
-                <p>
-                    Pendant près de vingt ans, <em>Chersotis oreina</em> est resté un nom, un référent savant que les adhérents partageaient sans qu'il soit nécessairement visible dans la communication de l'association.
-                </p>
-                <p>
-                    C'est en <strong>2025</strong>, dans le cadre de la refonte de l'identité visuelle conduite avec la graphiste Isabelle, que le choix a été fait d'<strong>assumer pleinement le nom et de lui donner forme</strong>. Le nouveau logo représente <em>Chersotis oreina</em>, posé dans un cercle ouvert. Le cercle, c'est la dimension associative : le partage, le réseau, l'horizon collectif. Son ouverture, c'est le geste vers l'extérieur : vers les partenaires, vers les communautés naturalistes voisines, vers les non-initiés qu'oreina entend accueillir.
-                </p>
-                <p>
-                    Le papillon n'est plus un symbole abstrait : c'est <em>Chersotis oreina</em>, identifiable, situé, vivant, comme l'ensemble des Lépidoptères que l'association s'attache à mieux faire connaître.
-                </p>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="rounded-3xl bg-gradient-to-br from-oreina-yellow/10 to-oreina-coral/10 p-12 flex items-center justify-center" style="min-height: 360px;">
+                    <img src="/images/logo-papillon.png" alt="Logo oreina, papillon Chersotis oreina dans un cercle ouvert" style="max-width: 280px; width: 100%; height: auto;">
+                </div>
+                <div class="prose prose-lg text-slate-600 max-w-none">
+                    <p>
+                        Pendant près de vingt ans, <em>Chersotis oreina</em> est resté un nom, un référent savant que les adhérents partageaient sans qu'il soit nécessairement visible dans la communication de l'association.
+                    </p>
+                    <p>
+                        C'est en <strong>2025</strong>, dans le cadre de la refonte de l'identité visuelle conduite avec la graphiste Isabelle, que le choix a été fait d'<strong>assumer pleinement le nom et de lui donner forme</strong>. Le nouveau logo représente <em>Chersotis oreina</em>, posé dans un cercle ouvert. Le cercle, c'est la dimension associative : le partage, le réseau, l'horizon collectif. Son ouverture, c'est le geste vers l'extérieur : vers les partenaires, vers les communautés naturalistes voisines, vers les non-initiés qu'oreina entend accueillir.
+                    </p>
+                    <p>
+                        Le papillon n'est plus un symbole abstrait : c'est <em>Chersotis oreina</em>, identifiable, situé, vivant, comme l'ensemble des Lépidoptères que l'association s'attache à mieux faire connaître.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -166,17 +190,26 @@
                     À mesure qu'oreina s'est dotée de nouveaux outils et de nouvelles publications, le nom de l'association a essaimé. Chaque grand chantier a reçu son propre nom, choisi dans le vocabulaire scientifique des Lépidoptères. Cette cohérence n'est pas anecdotique : elle signe l'identité naturaliste et savante de l'association.
                 </p>
 
-                <h3 class="text-2xl font-bold text-oreina-dark mt-8"><em>Artemisiae</em> (2018)</h3>
+                <h3 class="text-2xl font-bold text-oreina-dark mt-10 flex flex-wrap items-center gap-3">
+                    <em>Artemisiae</em>
+                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-oreina-green/10 text-oreina-green not-italic">2018</span>
+                </h3>
                 <p>
                     <em>Artemisiae</em> est la plateforme technique d'oreina, dédiée à la saisie, à l'archivage, à la qualification et à la visualisation des données d'observation. Le nom est emprunté à <em>Cucullia artemisiae</em> (Denis &amp; Schiffermüller, 1775), noctuelle dont la chenille se nourrit d'armoises (<em>Artemisia</em> spp.), plantes elles-mêmes nommées en hommage à la déesse grecque Artémis, divinité de la chasse, de la nature sauvage et de l'abondance. Une façon de placer la plateforme sous le signe de la richesse de la donnée naturaliste.
                 </p>
 
-                <h3 class="text-2xl font-bold text-oreina-dark mt-8"><em>Lepis</em> (2026)</h3>
+                <h3 class="text-2xl font-bold text-oreina-dark mt-10 flex flex-wrap items-center gap-3">
+                    <em>Lepis</em>
+                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-oreina-coral/10 text-oreina-coral not-italic">2026</span>
+                </h3>
                 <p>
                     <em>Lepis</em> est le bulletin trimestriel de la vie associative et naturaliste. Le nom vient du grec <em>λεπίς</em> (<em>lepís</em>), signifiant « écaille », racine éponyme des Lépidoptères, littéralement les « porteurs d'écailles ». Un nom volontairement bref, qui inscrit le bulletin dans la matérialité même du papillon.
                 </p>
 
-                <h3 class="text-2xl font-bold text-oreina-dark mt-8"><em>Chersotis</em> (2026)</h3>
+                <h3 class="text-2xl font-bold text-oreina-dark mt-10 flex flex-wrap items-center gap-3">
+                    <em>Chersotis</em>
+                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-oreina-blue/10 text-oreina-blue not-italic">2026</span>
+                </h3>
                 <p>
                     <em>Chersotis</em> est la revue scientifique en accès ouvert d'oreina, publiée en flux continu, à comité de lecture, avec attribution de DOI via Crossref. Le nom reprend celui du genre auquel appartient <em>Chersotis oreina</em> : boucle élégante avec le nom de l'association. Le genre <em>Chersotis</em> (Boisduval, 1840) regroupe une cinquantaine d'espèces de noctuelles principalement orophiles ou xérophiles, distribuées à travers l'Eurasie, dont l'épithète vient du grec <em>χερσότης</em> (<em>chersótēs</em>), désignant l'aridité des milieux qu'affectionnent ces papillons.
                 </p>
