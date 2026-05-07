@@ -192,16 +192,17 @@
     {{-- CTA --}}
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="stats-banner text-center">
-                <h2 class="text-2xl font-bold mb-4">Rejoindre oreina</h2>
-                <p class="text-white/90 mb-8 max-w-2xl mx-auto">
-                    Naturalistes débutants, amateurs aguerris, spécialistes ou structures partenaires : adhérer à oreina, c'est rejoindre un réseau actif de contributeurs à la connaissance des Lépidoptères de France.
-                </p>
-                <a href="{{ route('hub.membership') }}" class="btn btn-primary">
-                    <i class="icon icon-sage" data-lucide="heart-handshake"></i>
-                    Devenir membre
-                </a>
-            </div>
+            <article class="cta-panel">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="heart-handshake"></i>Adhésion</div>
+                <h2>Rejoindre oreina</h2>
+                <p>Naturalistes débutants, amateurs aguerris, spécialistes ou structures partenaires : adhérer à oreina, c'est rejoindre un réseau actif de contributeurs à la connaissance des Lépidoptères de France.</p>
+                <div class="content-actions">
+                    <a href="{{ route('hub.membership') }}" class="btn btn-primary">
+                        <i class="icon icon-sage" data-lucide="heart-plus"></i>
+                        Devenir membre
+                    </a>
+                </div>
+            </article>
         </div>
     </section>
 @endsection

@@ -173,16 +173,17 @@
     {{-- Contact CTA --}}
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="stats-banner text-center">
-                <h2 class="text-2xl font-bold mb-4">Une question sur l'adhésion ?</h2>
-                <p class="text-white/90 mb-8 max-w-2xl mx-auto">
-                    N'hésitez pas à nous contacter pour toute question concernant les formules d'adhésion ou la revue OREINA.
-                </p>
-                <a href="{{ route('hub.contact') }}" class="btn btn-primary">
-                    <i class="icon icon-sage" data-lucide="mail"></i>
-                    Nous contacter
-                </a>
-            </div>
+            <article class="cta-panel">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="message-circle"></i>Une question ?</div>
+                <h2>Une question sur l'adhésion ?</h2>
+                <p>N'hésitez pas à nous contacter pour toute question concernant les formules d'adhésion ou la revue OREINA.</p>
+                <div class="content-actions">
+                    <a href="{{ route('hub.contact') }}" class="btn btn-primary">
+                        <i class="icon icon-sage" data-lucide="mail"></i>
+                        Nous contacter
+                    </a>
+                </div>
+            </article>
         </div>
     </section>
 @endsection

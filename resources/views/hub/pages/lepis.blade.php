@@ -51,9 +51,9 @@
     {{-- Présentation --}}
     <section class="py-16 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-start">
-                <div>
-                    <span class="px-4 py-2 rounded-full bg-oreina-green/10 text-oreina-green text-sm font-bold">Présentation</span>
+            <div class="grid lg:grid-cols-2 gap-12 items-stretch">
+                <div class="flex flex-col justify-center">
+                    <span class="inline-flex self-start px-4 py-2 rounded-full bg-oreina-green/10 text-oreina-green text-sm font-bold">Présentation</span>
                     <h2 class="text-3xl font-bold text-oreina-dark mt-4 mb-6">La proximité associative</h2>
                     <div class="prose prose-lg text-slate-600">
                         <p>
@@ -67,46 +67,45 @@
                         </p>
                     </div>
                 </div>
-                <div class="space-y-4">
-                    <div class="lepis-visual" style="background-image: url('/images/lepis.png');"></div>
-                    <div class="grid grid-cols-2 gap-4">
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="pub-card-icon sage flex-shrink-0">
-                                <i class="icon icon-sage" data-lucide="users"></i>
-                            </div>
-                            <h3 class="font-bold text-oreina-dark text-sm">Public</h3>
+                <div class="lepis-visual" style="background-image: url('/images/lepis.png'); min-height: 400px;"></div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon sage flex-shrink-0">
+                            <i class="icon icon-sage" data-lucide="users"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Adhérents d'OREINA, tous niveaux</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Public</h3>
                     </div>
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="pub-card-icon coral flex-shrink-0">
-                                <i class="icon icon-coral" data-lucide="file-text"></i>
-                            </div>
-                            <h3 class="font-bold text-oreina-dark text-sm">Format</h3>
+                    <p class="text-slate-600 text-sm">Adhérents d'OREINA, tous niveaux</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon coral flex-shrink-0">
+                            <i class="icon icon-coral" data-lucide="file-text"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Papier, 12-16 pages abondamment illustrées</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Format</h3>
                     </div>
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="pub-card-icon gold flex-shrink-0">
-                                <i class="icon icon-gold" data-lucide="calendar"></i>
-                            </div>
-                            <h3 class="font-bold text-oreina-dark text-sm">Périodicité</h3>
+                    <p class="text-slate-600 text-sm">Papier, 12-16 pages abondamment illustrées</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon gold flex-shrink-0">
+                            <i class="icon icon-gold" data-lucide="calendar"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Trimestriel (4 numéros par an)</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Périodicité</h3>
                     </div>
-                    <div class="card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="pub-card-icon blue flex-shrink-0">
-                                <i class="icon icon-blue" data-lucide="shield-check"></i>
-                            </div>
-                            <h3 class="font-bold text-oreina-dark text-sm">Validation</h3>
+                    <p class="text-slate-600 text-sm">Trimestriel (4 numéros par an)</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="shield-check"></i>
                         </div>
-                        <p class="text-slate-600 text-sm">Conseil d'administration et adhérents</p>
+                        <h3 class="font-bold text-oreina-dark text-sm">Validation</h3>
                     </div>
-                    </div>
+                    <p class="text-slate-600 text-sm">Conseil d'administration et adhérents</p>
                 </div>
             </div>
         </div>
@@ -373,23 +372,21 @@
     {{-- CTA --}}
     <section class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="stats-banner text-center">
-                <h2 class="text-2xl font-bold mb-4">Contribuez à Lepis</h2>
-                <p class="text-white/90 mb-8 max-w-2xl mx-auto">
-                    Vous avez une observation à partager, une idée d'article ou un conseil technique ?
-                    Lepis est ouvert à toutes les contributions de ses adhérents.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <article class="cta-panel">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="pen-line"></i>Contribuer</div>
+                <h2>Contribuez à Lepis</h2>
+                <p>Vous avez une observation à partager, une idée d'article ou un conseil technique ? Lepis est ouvert à toutes les contributions de ses adhérents.</p>
+                <div class="content-actions">
                     <a href="{{ route('member.lepis.suggest') }}" class="btn btn-primary">
                         <i class="icon icon-sage" data-lucide="pen-line"></i>
                         Suggérer un article
                     </a>
                     <a href="{{ route('hub.membership') }}" class="btn btn-ghost-light">
-                        <i class="icon icon-white" data-lucide="heart"></i>
+                        <i class="icon icon-white" data-lucide="heart-plus"></i>
                         Adhérer à OREINA
                     </a>
                 </div>
-            </div>
+            </article>
         </div>
     </section>
 @endsection
