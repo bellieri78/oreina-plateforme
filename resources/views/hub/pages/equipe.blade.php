@@ -55,13 +55,13 @@
                     <p class="text-slate-600 text-sm">Lépidoptériste, président d'oreina depuis 2024. Représente l'association vis-à-vis des partenaires institutionnels et coordonne la stratégie scientifique.</p>
                 </div>
 
-                {{-- Président adjoint --}}
+                {{-- Vice-président --}}
                 <div class="card p-6 text-center">
                     <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-oreina-green/20 to-oreina-turquoise/20 flex items-center justify-center">
                         <img src="/images/team/francois-mathieu.jpg" alt="François Mathieu" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=\'text-3xl font-bold text-oreina-green/60\'>FM</span>'">
                     </div>
                     <h3 class="font-bold text-oreina-dark text-lg">François Mathieu</h3>
-                    <p class="text-oreina-green text-sm font-bold mb-3">Président adjoint</p>
+                    <p class="text-oreina-green text-sm font-bold mb-3">Vice-président</p>
                     <p class="text-slate-600 text-sm">Membre du conseil d'administration. Pilote l'évolution éditoriale du bulletin <em>Lepis</em> et participe aux groupes de travail thématiques.</p>
                 </div>
 
@@ -88,20 +88,20 @@
                 {{-- Secrétaire --}}
                 <div class="card p-6 text-center">
                     <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-oreina-yellow/20 to-oreina-coral/20 flex items-center justify-center">
-                        <img src="/images/team/nicolas-lemaire.jpg" alt="Nicolas Lemaire" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=\'text-3xl font-bold text-oreina-coral/70\'>NL</span>'">
+                        <img src="/images/team/philippe-hey.jpg" alt="Philippe Hey" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=\'text-3xl font-bold text-oreina-coral/70\'>PH</span>'">
                     </div>
-                    <h3 class="font-bold text-oreina-dark text-lg">Nicolas Lemaire</h3>
+                    <h3 class="font-bold text-oreina-dark text-lg">Philippe Hey</h3>
                     <p class="text-oreina-coral text-sm font-bold mb-3">Secrétaire</p>
                     <p class="text-slate-600 text-sm">Secrétariat de l'association, gestion des mailings et suivi administratif.</p>
                 </div>
 
-                {{-- Secrétaire adjoint --}}
+                {{-- Secrétaire adjointe --}}
                 <div class="card p-6 text-center">
                     <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-oreina-yellow/20 to-oreina-coral/20 flex items-center justify-center">
-                        <img src="/images/team/philippe-hey.jpg" alt="Philippe Hey" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=\'text-3xl font-bold text-oreina-coral/70\'>PH</span>'">
+                        <img src="/images/team/nathalie-chaumont-merlet.jpg" alt="Nathalie Chaumont-Merlet" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=\'text-3xl font-bold text-oreina-coral/70\'>NC</span>'">
                     </div>
-                    <h3 class="font-bold text-oreina-dark text-lg">Philippe Hey</h3>
-                    <p class="text-oreina-coral text-sm font-bold mb-3">Secrétaire adjoint</p>
+                    <h3 class="font-bold text-oreina-dark text-lg">Nathalie Chaumont-Merlet</h3>
+                    <p class="text-oreina-coral text-sm font-bold mb-3">Secrétaire adjointe</p>
                     <p class="text-slate-600 text-sm">Appui au secrétariat et au suivi administratif.</p>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                     Conseil d'administration
                 </div>
                 <h2 class="text-2xl font-bold text-oreina-dark">Le conseil d'administration</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">17 administrateurs élus pour 3 ans renouvelables, qui définissent les orientations de l'association, valident les conventions et arbitrent ses engagements. Le conseil se réunit mensuellement.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">16 administrateurs élus pour 3 ans renouvelables, qui définissent les orientations de l'association, valident les conventions et arbitrent ses engagements. Le conseil se réunit mensuellement.</p>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -129,17 +129,16 @@
                         ['nom' => 'Pascal Dupont', 'slug' => 'pascal-dupont', 'initiales' => 'PD', 'fonction' => 'Trésorier'],
                         ['nom' => 'Pierre-Yves Gourvil', 'slug' => 'pierre-yves-gourvil', 'initiales' => 'PG', 'fonction' => 'Administrateur'],
                         ['nom' => 'Stéphane Grenier', 'slug' => 'stephane-grenier', 'initiales' => 'SG', 'fonction' => 'Administrateur'],
-                        ['nom' => 'Philippe Hey', 'slug' => 'philippe-hey', 'initiales' => 'PH', 'fonction' => 'Secrétaire adjoint'],
+                        ['nom' => 'Philippe Hey', 'slug' => 'philippe-hey', 'initiales' => 'PH', 'fonction' => 'Secrétaire'],
                         ['nom' => 'Jean-Marc Iurettigh', 'slug' => 'jean-marc-iurettigh', 'initiales' => 'JI', 'fonction' => 'Administrateur'],
                         ['nom' => 'Adrien Jailloux', 'slug' => 'adrien-jailloux', 'initiales' => 'AJ', 'fonction' => 'Administrateur'],
-                        ['nom' => 'Nicolas Lemaire', 'slug' => 'nicolas-lemaire', 'initiales' => 'NL', 'fonction' => 'Secrétaire'],
-                        ['nom' => 'François Mathieu', 'slug' => 'francois-mathieu', 'initiales' => 'FM', 'fonction' => 'Président adjoint'],
-                        ['nom' => 'Nathalie Merlet', 'slug' => 'nathalie-merlet', 'initiales' => 'NM', 'fonction' => 'Administratrice'],
+                        ['nom' => 'François Mathieu', 'slug' => 'francois-mathieu', 'initiales' => 'FM', 'fonction' => 'Vice-président'],
+                        ['nom' => 'Nathalie Chaumont-Merlet', 'slug' => 'nathalie-chaumont-merlet', 'initiales' => 'NC', 'fonction' => 'Secrétaire adjointe'],
                         ['nom' => 'Alain Migeon', 'slug' => 'alain-migeon', 'initiales' => 'AM', 'fonction' => 'Administrateur'],
                         ['nom' => 'Marc Nicolle', 'slug' => 'marc-nicolle', 'initiales' => 'MN', 'fonction' => 'Administrateur'],
                         ['nom' => 'Huguette Robineau', 'slug' => 'huguette-robineau', 'initiales' => 'HR', 'fonction' => 'Trésorière adjointe'],
                         ['nom' => 'Roland Robineau', 'slug' => 'roland-robineau', 'initiales' => 'RR', 'fonction' => 'Administrateur'],
-                        ['nom' => 'Denis Vandromme', 'slug' => 'denis-vandromme', 'initiales' => 'DV', 'fonction' => 'Administrateur'],
+                        ['nom' => 'Olivier Vanucci', 'slug' => 'olivier-vanucci', 'initiales' => 'OV', 'fonction' => 'Administrateur'],
                     ];
                 @endphp
 
@@ -154,7 +153,7 @@
                 @endforeach
             </div>
 
-            <p class="text-center text-slate-400 text-xs mt-8">Composition du conseil d'administration issue de l'assemblée générale du 19 mai 2024.</p>
+            <p class="text-center text-slate-400 text-xs mt-8">Composition du conseil d'administration issue de l'assemblée générale du 8 mai 2025.</p>
         </div>
     </section>
 
@@ -184,9 +183,6 @@
                             <p>
                                 Recrutée en 2024 comme première salariée d'oreina, Pieternel anime les groupes de travail dédiés aux projets scientifiques (TAXREF, SEQREF, BDC, IDENT, QUALIF), assure l'interface avec les partenaires institutionnels et accompagne les contributeurs bénévoles. Basée à Strasbourg, elle travaille en télétravail.
                             </p>
-                            <p class="text-sm text-slate-500">
-                                Son poste, à 0,8 ETP, est cofinancé dans le cadre de la convention pluriannuelle 2026–2028 avec l'OFB. Le conseil d'administration a affiché, dès le recrutement, sa volonté de pérenniser ce premier emploi salarié.
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -194,7 +190,7 @@
 
             <div class="mt-8 p-6 bg-oreina-green/5 border-l-4 border-oreina-green rounded-r-xl">
                 <p class="text-sm text-slate-600">
-                    <strong class="text-oreina-dark">Une salariée en appui des bénévoles.</strong> L'embauche d'une coordinatrice ne marque pas un basculement vers un fonctionnement professionnel : oreina reste fondamentalement une association bénévole. Les statuts précisent d'ailleurs que les membres rétribués par l'association ne peuvent être ni électeurs ni éligibles au conseil d'administration. La salariée travaille en appui des bénévoles, jamais en remplacement.
+                    <strong class="text-oreina-dark">Une salariée en appui des bénévoles.</strong> L'embauche d'une coordinatrice ne marque pas un basculement vers un fonctionnement professionnel : oreina reste fondamentalement une association bénévole. La salariée travaille en appui des bénévoles, jamais en remplacement.
                 </p>
             </div>
         </div>
