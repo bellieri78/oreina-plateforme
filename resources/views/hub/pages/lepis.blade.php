@@ -21,6 +21,15 @@
         border-radius: 1rem;
         padding: 1.5rem;
     }
+    .lepis-visual {
+        min-height: 280px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 </style>
 @endpush
 
@@ -58,7 +67,9 @@
                         </p>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-4">
+                    <div class="lepis-visual" style="background-image: url('/images/lepis.png');"></div>
+                    <div class="grid grid-cols-2 gap-4">
                     <div class="card p-6">
                         <div class="flex items-center gap-3 mb-3">
                             <div class="pub-card-icon sage flex-shrink-0">
@@ -94,6 +105,7 @@
                             <h3 class="font-bold text-oreina-dark text-sm">Validation</h3>
                         </div>
                         <p class="text-slate-600 text-sm">Conseil d'administration et adhérents</p>
+                    </div>
                     </div>
                 </div>
             </div>
