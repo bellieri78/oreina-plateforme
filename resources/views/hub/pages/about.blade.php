@@ -11,7 +11,7 @@
                 <i class="icon icon-sage" data-lucide="info"></i>
                 L'association
             </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">À propos d'oreina</h1>
+            <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Nos missions et notre vision</h1>
             <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
                 Association loi 1901 fondée en 2007 — les papillons de France
             </p>
