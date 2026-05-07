@@ -129,14 +129,6 @@
                 </p>
             </div>
 
-            {{-- Encart filiation --}}
-            <div class="mt-10 p-6 bg-oreina-yellow/5 border-l-4 border-oreina-yellow rounded-r-xl">
-                <h3 class="font-bold text-oreina-dark mb-3">Une filiation assumée</h3>
-                <p class="text-slate-600">
-                    En 2010, dans le numéro 7 du magazine <em>oreina</em>, David Demergès consacrait une fiche technique au groupe des <em>Chersotis larixia / anatolica / elegans</em>, prolongement direct des travaux de Dufay sur ce genre complexe. Cette filiation intellectuelle, modeste mais explicite, dit l'esprit dans lequel l'association inscrit son nom : continuer, à hauteur d'amateurs avertis et de spécialistes, le travail entomologique français.
-                </p>
-            </div>
-
             {{-- Référence bibliographique --}}
             <div class="mt-6 text-xs text-slate-500 italic border-t border-slate-200 pt-4">
                 Référence : Dufay, C., 1984. <em>Chersotis oreina</em> n. sp., noctuelle méconnue des montagnes de l'Europe occidentale (Noctuidae, Noctuinae). <em>Nota lepidopterologica</em>, 7(1) : 8, 20.
