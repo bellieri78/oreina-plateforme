@@ -44,6 +44,7 @@ Route::prefix('evenements')->name('hub.events.')->group(function () {
 // Pages statiques
 Route::get('/adhesion', [PageController::class, 'membership'])->name('hub.membership');
 Route::get('/a-propos', [PageController::class, 'about'])->name('hub.about');
+Route::get('/equipe', [PageController::class, 'equipe'])->name('hub.equipe');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
 

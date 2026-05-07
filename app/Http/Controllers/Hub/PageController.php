@@ -18,6 +18,11 @@ class PageController extends Controller
         return view('hub.pages.contact');
     }
 
+    public function equipe()
+    {
+        return view('hub.pages.equipe');
+    }
+
     public function lepis()
     {
         $latestBulletins = LepisBulletin::visibleOnHub()
