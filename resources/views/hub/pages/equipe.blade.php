@@ -52,7 +52,7 @@
                     </div>
                     <h3 class="font-bold text-oreina-dark text-lg">David Demergès</h3>
                     <p class="text-oreina-green text-sm font-bold mb-3">Président</p>
-                    <p class="text-slate-600 text-sm">Lépidoptériste, président d'oreina depuis 2024. Représente l'association vis-à-vis des partenaires institutionnels et coordonne la stratégie scientifique.</p>
+                    <p class="text-slate-600 text-sm">Lépidoptériste, cofondateur de l'association et président depuis 2024. Représente l'association vis-à-vis des partenaires institutionnels et coordonne la stratégie scientifique.</p>
                 </div>
 
                 {{-- Vice-président --}}
@@ -62,7 +62,7 @@
                     </div>
                     <h3 class="font-bold text-oreina-dark text-lg">François Mathieu</h3>
                     <p class="text-oreina-green text-sm font-bold mb-3">Vice-président</p>
-                    <p class="text-slate-600 text-sm">Membre du conseil d'administration. Pilote l'évolution éditoriale du bulletin <em>Lepis</em> et participe aux groupes de travail thématiques.</p>
+                    <p class="text-slate-600 text-sm">A assuré ces dernières années la co-réalisation du magazine <em>oreina</em>. Pilote aujourd'hui l'évolution éditoriale du bulletin <em>Lepis</em> et participe aux groupes de travail thématiques.</p>
                 </div>
 
                 {{-- Trésorier --}}
@@ -82,7 +82,7 @@
                     </div>
                     <h3 class="font-bold text-oreina-dark text-lg">Huguette Robineau</h3>
                     <p class="text-oreina-turquoise text-sm font-bold mb-3">Trésorière adjointe</p>
-                    <p class="text-slate-600 text-sm">Cofondatrice de l'association. Appui à la gestion financière et continuité historique d'oreina.</p>
+                    <p class="text-slate-600 text-sm">Appui à la gestion financière et continuité historique d'oreina.</p>
                 </div>
 
                 {{-- Secrétaire --}}
@@ -137,7 +137,7 @@
                         ['nom' => 'Alain Migeon', 'slug' => 'alain-migeon', 'initiales' => 'AM', 'fonction' => 'Administrateur'],
                         ['nom' => 'Marc Nicolle', 'slug' => 'marc-nicolle', 'initiales' => 'MN', 'fonction' => 'Administrateur'],
                         ['nom' => 'Huguette Robineau', 'slug' => 'huguette-robineau', 'initiales' => 'HR', 'fonction' => 'Trésorière adjointe'],
-                        ['nom' => 'Roland Robineau', 'slug' => 'roland-robineau', 'initiales' => 'RR', 'fonction' => 'Administrateur'],
+                        ['nom' => 'Roland Robineau', 'slug' => 'roland-robineau', 'initiales' => 'RR', 'fonction' => 'Cofondateur'],
                         ['nom' => 'Olivier Vanucci', 'slug' => 'olivier-vanucci', 'initiales' => 'OV', 'fonction' => 'Administrateur'],
                     ];
                 @endphp
