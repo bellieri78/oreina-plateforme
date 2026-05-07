@@ -306,6 +306,9 @@
             font-size: 13px;
             font-weight: 800;
         }
+        .eyebrow.sage { background: rgba(133,183,157,0.16); color: #2f694e; }
+        .eyebrow.gold { background: rgba(237,196,66,0.20); color: #8b6c05; }
+        .eyebrow.blue { background: rgba(53,107,138,0.10); color: var(--blue); }
 
         /* === TEXT LINK === */
         .text-link {
