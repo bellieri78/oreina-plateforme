@@ -97,7 +97,7 @@
                         <img src="/images/pourquoi/chersotis-oreina.jpg" alt="Chersotis oreina, Dufay 1984, sur pelouse subalpine" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center\'><p class=\'text-slate-500 text-sm font-bold\'>Chersotis oreina</p><p class=\'text-slate-400 text-xs italic\'>(Dufay, 1984)</p></div>'">
                     </div>
                     <figcaption class="p-4 text-sm text-slate-500">
-                        <em>Chersotis oreina</em> (Dufay, 1984), Noctuidae, Noctuinae. Pelouses subalpines des Alpes, des Pyrénées et du sud du Jura.
+                        <em>Chersotis oreina</em> (Dufay, 1984), Noctuidae, Noctuinae. Pelouses subalpines des Alpes et des Pyrénées.
                     </figcaption>
                 </figure>
 
