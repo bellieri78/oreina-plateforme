@@ -5,12 +5,12 @@
 
 @section('content')
     {{-- Header --}}
-    <section class="pt-28 pb-16 bg-warm">
+    <section class="pt-16 pb-16 bg-warm">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-oreina-blue/10 text-oreina-blue text-sm font-bold mb-6">
-                <i data-lucide="mail" style="width:16px;height:16px"></i>
+            <div class="eyebrow blue mb-6">
+                <i class="icon icon-blue" data-lucide="mail"></i>
                 Nous écrire
-            </span>
+            </div>
             <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Contact</h1>
             <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
                 Une question ? Nous sommes là pour vous aider
