@@ -115,14 +115,14 @@
                     <i class="icon icon-coral" data-lucide="bar-chart-3"></i>
                     Chiffres-clés
                 </div>
-                <h2 class="text-3xl font-bold text-oreina-dark">TAXREF en chiffres</h2>
+                <h2 class="text-3xl font-bold text-oreina-dark">TAXREF en chiffres (Lépidoptères de France métropole)</h2>
                 <p class="text-slate-500 mt-3 max-w-2xl mx-auto">État du référentiel et bilan d'activité oreina, exercice 2024.</p>
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">44 649</p>
-                    <p class="text-sm text-slate-600 leading-tight">noms scientifiques recensés dans TAXREF (toutes Lépidoptères)</p>
+                    <p class="text-sm text-slate-600 leading-tight">noms scientifiques recensés dans TAXREF (tous Lépidoptères)</p>
                 </div>
                 <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">20 945</p>
