@@ -6,9 +6,27 @@
 @section('content')
     {{-- Header bandeau --}}
     <section class="pt-16 pb-12 bg-warm">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="eyebrow blue mb-6 inline-flex">
+                <i class="icon icon-blue" data-lucide="newspaper"></i>
+                {{ ucfirst($article->category) }}
+                <span class="text-slate-400">·</span>
+                {{ $article->published_at->translatedFormat('d F Y') }}
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-oreina-dark leading-tight max-w-3xl mx-auto">
+                {{ $article->title }}
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
+                {{ $article->summary }}
+            </p>
+        </div>
+    </section>
+
+    {{-- Article Content --}}
+    <article class="py-8 bg-slate-50">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             {{-- Breadcrumb --}}
-            <nav class="flex items-center text-sm text-slate-500 mb-8">
+            <nav class="flex items-center text-sm text-slate-500 mb-6">
                 <a href="{{ route('hub.home') }}" class="hover:text-oreina-green transition">Accueil</a>
                 <i data-lucide="chevron-right" style="width:14px;height:14px" class="mx-2"></i>
                 <a href="{{ route('hub.articles.index') }}" class="hover:text-oreina-green transition">Actualités</a>
@@ -16,27 +34,6 @@
                 <span class="text-oreina-dark font-medium truncate max-w-xs">{{ $article->title }}</span>
             </nav>
 
-            {{-- Hero --}}
-            <div class="text-center">
-                <div class="eyebrow blue mb-6 inline-flex">
-                    <i class="icon icon-blue" data-lucide="newspaper"></i>
-                    {{ ucfirst($article->category) }}
-                    <span class="text-slate-400">·</span>
-                    {{ $article->published_at->translatedFormat('d F Y') }}
-                </div>
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-oreina-dark leading-tight max-w-3xl mx-auto">
-                    {{ $article->title }}
-                </h1>
-                <p class="text-lg sm:text-xl text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
-                    {{ $article->summary }}
-                </p>
-            </div>
-        </div>
-    </section>
-
-    {{-- Article Content --}}
-    <article class="py-8 bg-slate-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-3xl border-2 border-oreina-beige/30 overflow-hidden">
                 {{-- Featured Image --}}
                 @if($article->featured_image)
