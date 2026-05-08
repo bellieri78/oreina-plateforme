@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Hub;
 
 use App\Http\Controllers\Controller;
+use App\Models\FaqQuestion;
 use App\Models\LepisBulletin;
 use App\Models\MembershipType;
 
@@ -30,7 +31,13 @@ class PageController extends Controller
 
     public function faq()
     {
-        return view('hub.pages.faq');
+        $sections = config('faq.sections');
+        $questionsBySection = FaqQuestion::visible()
+            ->orderBy('sort_order')->orderBy('id')
+            ->get()
+            ->groupBy('section');
+
+        return view('hub.pages.faq', compact('sections', 'questionsBySection'));
     }
 
     public function lepis()
