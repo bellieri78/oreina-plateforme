@@ -196,7 +196,7 @@
                 <div class="card p-5">
                     <div class="w-10 h-10 rounded-full bg-oreina-blue text-white flex items-center justify-center font-bold mb-3">5</div>
                     <h3 class="font-bold text-oreina-dark mb-2">Diffusion</h3>
-                    <p class="text-sm text-slate-600">Intégration dans la version annuelle suivante de TAXREF, relais dans <em>Lepis</em> et publication d'un article de synthèse dans <em>Chersotis</em>.</p>
+                    <p class="text-sm text-slate-600">Répercussion immédiate sur <em>Artemisiae</em> via Systema, intégration dans la version annuelle suivante de TAXREF, relais dans <em>Lepis</em> et article de synthèse annuel dans <em>Chersotis</em>.</p>
                 </div>
             </div>
         </div>
@@ -210,33 +210,41 @@
                     <i class="icon icon-gold" data-lucide="book-marked"></i>
                     Outil associé
                 </div>
-                <h2 class="text-3xl font-bold text-oreina-dark">Systema : le référentiel rendu accessible</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl">Le référentiel TAXREF, dans sa forme officielle, est un fichier informatique destiné à être intégré dans des systèmes d'information. Il n'est pas immédiatement consultable par un naturaliste qui souhaite vérifier le nom valide d'une espèce, lire ses synonymes ou comprendre une révision récente.</p>
+                <h2 class="text-3xl font-bold text-oreina-dark">Systema : la gestion du référentiel en continu</h2>
+                <p class="text-slate-500 mt-3 max-w-3xl">TAXREF est publié en versions stabilisées annuelles. Or l'expertise taxonomique, elle, ne s'arrête pas à un calendrier de versionnage : une publication scientifique paraît, une révision s'impose, et il faut pouvoir en tirer les conséquences sans attendre douze mois. C'est précisément ce que permet <strong>Systema</strong>, le module de gestion taxonomique développé par oreina sur la plateforme <em>Artemisiae</em>.</p>
             </div>
 
-            <div class="grid lg:grid-cols-5 gap-8 items-center">
+            <div class="grid lg:grid-cols-5 gap-8 items-start">
                 <div class="lg:col-span-3">
-                    <h3 class="text-xl font-bold text-oreina-dark mb-4">Une interface de consultation taxonomique sur Artemisiae</h3>
-                    <p class="text-slate-600 mb-4">Pour combler ce besoin, oreina propose <strong>Systema</strong>, l'interface de consultation taxonomique intégrée à la plateforme <em>Artemisiae</em>. Systema offre :</p>
-                    <ul class="space-y-4 text-slate-600 leading-relaxed">
-                        <li class="flex gap-3">
-                            <i data-lucide="check-circle-2" class="flex-shrink-0 mt-0.5" style="width:20px;height:20px;color:#8b6c05"></i>
-                            <span>la <strong>liste systématique complète</strong> des Lépidoptères de France, organisée en familles, sous-familles, tribus et genres ;</span>
-                        </li>
-                        <li class="flex gap-3">
-                            <i data-lucide="check-circle-2" class="flex-shrink-0 mt-0.5" style="width:20px;height:20px;color:#8b6c05"></i>
-                            <span>pour chaque taxon, une <strong>fiche</strong> indiquant le nom valide, l'auteur et l'année de description, les synonymes, l'historique nomenclatural ;</span>
-                        </li>
-                        <li class="flex gap-3">
-                            <i data-lucide="check-circle-2" class="flex-shrink-0 mt-0.5" style="width:20px;height:20px;color:#8b6c05"></i>
-                            <span>les <strong>commentaires d'oreina</strong> sur les changements récents : pourquoi une révision a été acceptée, quelles publications la fondent, quel impact pour les données existantes ;</span>
-                        </li>
-                        <li class="flex gap-3">
-                            <i data-lucide="check-circle-2" class="flex-shrink-0 mt-0.5" style="width:20px;height:20px;color:#8b6c05"></i>
-                            <span>un <strong>lien direct vers l'INPN</strong> pour croiser avec les autres référentiels.</span>
-                        </li>
-                    </ul>
-                    <p class="text-slate-600 mt-4">Systema est mis à jour à chaque versionnage de TAXREF, et reflète l'état le plus récent du référentiel pour les Lépidoptères. L'outil est librement consultable, sans inscription préalable.</p>
+                    <h3 class="text-xl font-bold text-oreina-dark mb-4">Une connexion temps réel à TAXREF-Web</h3>
+                    <p class="text-slate-600 mb-4">Systema repose sur une <strong>API qui se connecte en temps réel à TAXREF-Web</strong>, l'outil applicatif de PatriNat. Cette architecture permet à oreina de gérer le référentiel des Lépidoptères de France <strong>en continu</strong>, sans dépendre du rythme des versions stabilisées annuelles. Une décision taxonomique prise par l'équipe d'experts est immédiatement répercutée dans Systema, et donc visible par les utilisateurs d'<em>Artemisiae</em>, qu'il s'agisse de saisie de données ou de consultation des fiches taxons.</p>
+                    <p class="text-slate-600 mb-4">Cette gestion en continu se traduit par trois fonctionnalités structurantes.</p>
+
+                    <div class="space-y-5 mt-6">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-oreina-yellow text-oreina-dark flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                            <div>
+                                <h4 class="font-bold text-oreina-dark mb-1">Suivi nomenclatural en temps réel</h4>
+                                <p class="text-sm text-slate-600">Liste systématique complète des Lépidoptères de France, organisée en familles, sous-familles, tribus et genres. Pour chaque taxon, une fiche indique le nom valide, l'auteur et l'année de description, les synonymes et l'historique nomenclatural, immédiatement à jour.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-oreina-yellow text-oreina-dark flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                            <div>
+                                <h4 class="font-bold text-oreina-dark mb-1">Gestion de l'ordination des taxons</h4>
+                                <p class="text-sm text-slate-600">L'ordre dans lequel les taxons sont présentés (au sein d'un genre, d'une tribu, d'une famille) reflète la classification scientifique du moment. Avec l'avancée des travaux phylogénétiques, cet ordre évolue. Systema permet de <strong>réordonner les taxons selon les usages scientifiques actuels</strong>, en suivant les publications de référence, sans attendre que ces évolutions soient reprises dans la version officielle suivante de TAXREF.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-oreina-yellow text-oreina-dark flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                            <div>
+                                <h4 class="font-bold text-oreina-dark mb-1">Notes taxonomiques sourcées</h4>
+                                <p class="text-sm text-slate-600">Chaque prise de position de l'équipe (acceptation d'une révision, refus d'une synonymie proposée, choix entre plusieurs combinaisons concurrentes) fait l'objet d'une <strong>note taxonomique</strong> argumentée. Ces notes sont rattachées aux <strong>références scientifiques de l'index bibliographique d'<em>Artemisiae</em></strong>, garantissant la traçabilité de chaque décision et permettant à l'utilisateur de remonter à la publication source.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-600 mt-6">L'ensemble de ces informations est consultable à la fois sur la <strong>liste systématique générale</strong> et directement sur les <strong>fiches taxons</strong> d'<em>Artemisiae</em>. Systema est librement accessible, sans inscription préalable.</p>
 
                     <a href="https://oreina.org/artemisiae/index.php?module=systema&action=liste" target="_blank" rel="noopener" class="btn btn-primary mt-6">
                         <i class="icon icon-sage" data-lucide="external-link"></i>
