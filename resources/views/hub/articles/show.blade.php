@@ -4,20 +4,33 @@
 @section('meta_description', $article->summary)
 
 @section('content')
-    {{-- Breadcrumb --}}
-    <section class="pt-24 pb-4 bg-slate-50">
+    {{-- Header bandeau --}}
+    <section class="pt-16 pb-12 bg-warm">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex items-center text-sm text-slate-500">
+            {{-- Breadcrumb --}}
+            <nav class="flex items-center text-sm text-slate-500 mb-8">
                 <a href="{{ route('hub.home') }}" class="hover:text-oreina-green transition">Accueil</a>
-                <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="m9 18 6-6-6-6"/>
-                </svg>
+                <i data-lucide="chevron-right" style="width:14px;height:14px" class="mx-2"></i>
                 <a href="{{ route('hub.articles.index') }}" class="hover:text-oreina-green transition">Actualités</a>
-                <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="m9 18 6-6-6-6"/>
-                </svg>
+                <i data-lucide="chevron-right" style="width:14px;height:14px" class="mx-2"></i>
                 <span class="text-oreina-dark font-medium truncate max-w-xs">{{ $article->title }}</span>
             </nav>
+
+            {{-- Hero --}}
+            <div class="text-center">
+                <div class="eyebrow blue mb-6 inline-flex">
+                    <i class="icon icon-blue" data-lucide="newspaper"></i>
+                    {{ ucfirst($article->category) }}
+                    <span class="text-slate-400">·</span>
+                    {{ $article->published_at->translatedFormat('d F Y') }}
+                </div>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-oreina-dark leading-tight max-w-3xl mx-auto">
+                    {{ $article->title }}
+                </h1>
+                <p class="text-lg sm:text-xl text-slate-600 mt-6 max-w-2xl mx-auto leading-relaxed">
+                    {{ $article->summary }}
+                </p>
+            </div>
         </div>
     </section>
 
@@ -33,51 +46,22 @@
                 @endif
 
                 <div class="p-8 lg:p-12">
-                    {{-- Header --}}
-                    <header class="mb-8">
-                        <div class="flex flex-wrap items-center gap-3 mb-6">
-                            <span class="px-3 py-1.5 text-xs font-bold rounded-lg bg-oreina-green/10 text-oreina-green">
-                                {{ ucfirst($article->category) }}
-                            </span>
-                            <div class="flex items-center gap-2 text-sm text-slate-500">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
-                                    <line x1="16" x2="16" y1="2" y2="6"/>
-                                    <line x1="8" x2="8" y1="2" y2="6"/>
-                                    <line x1="3" x2="21" y1="10" y2="10"/>
-                                </svg>
-                                <span>{{ $article->published_at->translatedFormat('d F Y') }}</span>
+                    {{-- Author & Meta --}}
+                    <header class="flex items-center justify-between mb-8 pb-8 border-b border-oreina-beige/30">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-oreina-green/10 rounded-full flex items-center justify-center">
+                                <span class="text-oreina-green font-bold text-lg">
+                                    {{ substr($article->author->name ?? 'O', 0, 1) }}
+                                </span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-oreina-dark">{{ $article->author->name ?? 'OREINA' }}</p>
+                                <p class="text-sm text-slate-500">Auteur</p>
                             </div>
                         </div>
-
-                        <h1 class="text-3xl lg:text-4xl font-bold text-oreina-dark mb-6 leading-tight">
-                            {{ $article->title }}
-                        </h1>
-
-                        <p class="text-xl text-slate-600 leading-relaxed">
-                            {{ $article->summary }}
-                        </p>
-
-                        {{-- Author & Meta --}}
-                        <div class="flex items-center justify-between mt-8 pt-8 border-t border-oreina-beige/30">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-oreina-green/10 rounded-full flex items-center justify-center">
-                                    <span class="text-oreina-green font-bold text-lg">
-                                        {{ substr($article->author->name ?? 'O', 0, 1) }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <p class="font-semibold text-oreina-dark">{{ $article->author->name ?? 'OREINA' }}</p>
-                                    <p class="text-sm text-slate-500">Auteur</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2 text-sm text-slate-500">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                                {{ $article->views_count }} vues
-                            </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-500">
+                            <i data-lucide="eye" style="width:16px;height:16px"></i>
+                            {{ $article->views_count }} vues
                         </div>
                     </header>
 
