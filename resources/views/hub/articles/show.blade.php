@@ -86,6 +86,23 @@
                         {!! $article->content !!}
                     </div>
 
+                    {{-- Document joint --}}
+                    @if($article->document_path)
+                    <div class="mt-10 p-6 rounded-2xl bg-slate-50 border border-oreina-beige/40 flex flex-wrap items-center gap-4">
+                        <div class="pub-card-icon blue flex-shrink-0">
+                            <i class="icon icon-blue" data-lucide="file-text"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Document joint</p>
+                            <p class="font-bold text-oreina-dark truncate">{{ $article->document_name ?? basename($article->document_path) }}</p>
+                        </div>
+                        <a href="{{ Storage::url($article->document_path) }}" target="_blank" rel="noopener" class="btn btn-secondary">
+                            <i class="icon icon-blue" data-lucide="download"></i>
+                            Télécharger
+                        </a>
+                    </div>
+                    @endif
+
                     {{-- Share --}}
                     <div class="mt-12 pt-8 border-t border-oreina-beige/30">
                         <p class="text-sm font-semibold text-oreina-dark mb-4">Partager cet article</p>
