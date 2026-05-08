@@ -42,14 +42,24 @@
 
     {{-- Chapô --}}
     <section class="py-16 bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="prose prose-lg text-slate-600">
-                <p class="text-xl leading-relaxed">
-                    Toute donnée d'observation a besoin d'un nom. Et pour que ce nom ait un sens pour tous, il doit être partagé, validé, mis à jour. C'est précisément le rôle d'un <strong>référentiel taxonomique</strong> : fournir à l'ensemble des acteurs (chercheurs, gestionnaires, naturalistes, institutions) une liste structurée, à jour, des noms scientifiques utilisés en France.
-                </p>
-                <p>
-                    Pour les Lépidoptères de France métropolitaine, c'est oreina qui assure ce travail, en partenariat avec PatriNat (MNHN, OFB, CNRS), dans le cadre du référentiel national <strong>TAXREF</strong>.
-                </p>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-5 gap-12 items-center">
+                <div class="lg:col-span-2">
+                    <div class="rounded-3xl shadow-lg flex items-center justify-center bg-gradient-to-br from-oreina-blue/10 to-oreina-green/10 relative overflow-hidden" style="min-height: 340px;">
+                        <i data-lucide="layers" style="width:140px;height:140px;color:var(--blue);opacity:0.85"></i>
+                        <i data-lucide="tag" style="width:36px;height:36px;color:#2f694e;opacity:0.55;position:absolute;top:24px;right:32px"></i>
+                        <i data-lucide="book-marked" style="width:36px;height:36px;color:#8b6c05;opacity:0.55;position:absolute;bottom:32px;left:28px"></i>
+                        <i data-lucide="dna" style="width:32px;height:32px;color:var(--coral);opacity:0.55;position:absolute;bottom:36px;right:36px"></i>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 prose prose-lg text-slate-600">
+                    <p class="text-xl leading-relaxed">
+                        Toute donnée d'observation a besoin d'un nom. Et pour que ce nom ait un sens pour tous, il doit être partagé, validé, mis à jour. C'est précisément le rôle d'un <strong>référentiel taxonomique</strong> : fournir à l'ensemble des acteurs (chercheurs, gestionnaires, naturalistes, institutions) une liste structurée, à jour, des noms scientifiques utilisés en France.
+                    </p>
+                    <p>
+                        Pour les Lépidoptères de France métropolitaine, c'est oreina qui assure ce travail, en partenariat avec PatriNat (MNHN, OFB, CNRS), dans le cadre du référentiel national <strong>TAXREF</strong>.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
