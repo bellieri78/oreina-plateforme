@@ -35,7 +35,7 @@
                     'vie-asso'  => request()->routeIs('admin.members.*', 'admin.structures.*', 'admin.map.*', 'admin.memberships.*', 'admin.member-cards.*', 'admin.lepis.*', 'admin.lepis-suggestions.*', 'admin.journal.lepis-queue'),
                     'finances'  => request()->routeIs('admin.donations.*', 'admin.products.*', 'admin.purchases.*'),
                     'benevolat' => request()->routeIs('admin.volunteer.*'),
-                    'contenu'   => request()->routeIs('admin.articles.*', 'admin.events.*', 'admin.brevo.*', 'admin.import-export.*'),
+                    'contenu'   => request()->routeIs('admin.articles.*', 'admin.events.*', 'admin.menus.*', 'admin.faq.*', 'admin.brevo.*', 'admin.import-export.*'),
                     'revue'     => request()->routeIs('admin.journal-issues.*', 'admin.submissions.*', 'admin.reviews.*', 'admin.journal.queue.*', 'admin.journal.mine', 'admin.journal.submissions.*'),
                     'admin'     => request()->routeIs('admin.users.*', 'admin.settings.*', 'admin.rgpd.*', 'admin.reports.*', 'admin.documentation'),
                 ];
@@ -166,6 +166,10 @@
                         <a href="{{ route('admin.menus.index') }}" class="nav-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}">
                             <i data-lucide="menu"></i>
                             <span>Menus</span>
+                        </a>
+                        <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.*') ? 'active' : '' }}">
+                            <i data-lucide="help-circle"></i>
+                            <span>FAQ</span>
                         </a>
                         <a href="{{ route('admin.brevo.index') }}" class="nav-link {{ request()->routeIs('admin.brevo.*') ? 'active' : '' }}">
                             <i data-lucide="mail"></i>
