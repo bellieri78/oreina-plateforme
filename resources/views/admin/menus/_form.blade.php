@@ -4,6 +4,7 @@
         '/a-propos' => 'Association',
         '/equipe' => 'L\'équipe',
         '/pourquoi-oreina' => 'Pourquoi oreina',
+        '/projets/taxref' => 'Projet TAXREF',
         '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',

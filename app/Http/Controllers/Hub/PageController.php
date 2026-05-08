@@ -29,6 +29,11 @@ class PageController extends Controller
         return view('hub.pages.pourquoi');
     }
 
+    public function projetTaxref()
+    {
+        return view('hub.pages.projet-taxref');
+    }
+
     public function faq()
     {
         $sections = config('faq.sections');
