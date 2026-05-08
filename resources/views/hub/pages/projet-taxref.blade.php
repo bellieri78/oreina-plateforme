@@ -42,7 +42,7 @@
 
     {{-- Chapô --}}
     <section class="py-16 bg-slate-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="lg:col-span-2">
                     <div class="rounded-3xl shadow-lg flex items-center justify-center bg-gradient-to-br from-oreina-blue/10 to-oreina-green/10 relative overflow-hidden" style="min-height: 340px;">
@@ -66,7 +66,7 @@
 
     {{-- Pourquoi --}}
     <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow blue mb-4 inline-flex">
                     <i class="icon icon-blue" data-lucide="lightbulb"></i>
@@ -91,7 +91,7 @@
 
     {{-- Le rôle d'oreina --}}
     <section class="py-16 bg-slate-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow sage mb-4 inline-flex">
                     <i class="icon icon-sage" data-lucide="handshake"></i>
@@ -119,7 +119,7 @@
 
     {{-- Chiffres-clés --}}
     <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-10">
                 <div class="eyebrow coral mb-4 inline-flex">
                     <i class="icon icon-coral" data-lucide="bar-chart-3"></i>
@@ -204,7 +204,7 @@
 
     {{-- Systema --}}
     <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow gold mb-4 inline-flex">
                     <i class="icon icon-gold" data-lucide="book-marked"></i>
@@ -222,21 +222,27 @@
 
                     <div class="space-y-5 mt-6">
                         <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-oreina-yellow text-oreina-dark flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                            <div class="pub-card-icon gold flex-shrink-0">
+                                <i class="icon icon-gold" data-lucide="refresh-cw"></i>
+                            </div>
                             <div>
                                 <h4 class="font-bold text-oreina-dark mb-1">Suivi nomenclatural en temps réel</h4>
                                 <p class="text-sm text-slate-600">Liste systématique complète des Lépidoptères de France, organisée en familles, sous-familles, tribus et genres. Pour chaque taxon, une fiche indique le nom valide, l'auteur et l'année de description, les synonymes et l'historique nomenclatural, immédiatement à jour.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-oreina-yellow text-oreina-dark flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                            <div class="pub-card-icon coral flex-shrink-0">
+                                <i class="icon icon-coral" data-lucide="list-ordered"></i>
+                            </div>
                             <div>
                                 <h4 class="font-bold text-oreina-dark mb-1">Gestion de l'ordination des taxons</h4>
                                 <p class="text-sm text-slate-600">L'ordre dans lequel les taxons sont présentés (au sein d'un genre, d'une tribu, d'une famille) reflète la classification scientifique du moment. Avec l'avancée des travaux phylogénétiques, cet ordre évolue. Systema permet de <strong>réordonner les taxons selon les usages scientifiques actuels</strong>, en suivant les publications de référence, sans attendre que ces évolutions soient reprises dans la version officielle suivante de TAXREF.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-oreina-yellow text-oreina-dark flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                            <div class="pub-card-icon sage flex-shrink-0">
+                                <i class="icon icon-sage" data-lucide="sticky-note"></i>
+                            </div>
                             <div>
                                 <h4 class="font-bold text-oreina-dark mb-1">Notes taxonomiques sourcées</h4>
                                 <p class="text-sm text-slate-600">Chaque prise de position de l'équipe (acceptation d'une révision, refus d'une synonymie proposée, choix entre plusieurs combinaisons concurrentes) fait l'objet d'une <strong>note taxonomique</strong> argumentée. Ces notes sont rattachées aux <strong>références scientifiques de l'index bibliographique d'<em>Artemisiae</em></strong>, garantissant la traçabilité de chaque décision et permettant à l'utilisateur de remonter à la publication source.</p>
@@ -303,7 +309,7 @@
 
     {{-- Trois voies de contribution --}}
     <section class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow sage mb-4 inline-flex">
                     <i class="icon icon-sage" data-lucide="helping-hand"></i>
@@ -368,7 +374,7 @@
 
     {{-- Autres projets --}}
     <section class="py-16 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-2xl font-bold text-oreina-dark">Découvrir les autres projets</h2>
                 <p class="text-slate-500 mt-3 max-w-3xl mx-auto">oreina conduit cinq projets scientifiques structurants dans le cadre de sa convention 2026-2028 avec l'OFB. TAXREF est l'un d'entre eux. Les quatre autres lui sont étroitement articulés.</p>
