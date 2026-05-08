@@ -283,48 +283,68 @@
         </div>
     </section>
 
-    {{-- Contribuer --}}
+    {{-- Trois voies de contribution --}}
     <section class="py-16 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="card p-8 bg-oreina-green/5 border-l-4 border-oreina-green rounded-r-xl">
-                <h2 class="text-2xl font-bold text-oreina-dark mb-4">Vous pouvez contribuer</h2>
-                <p class="text-slate-600 mb-6">Le travail taxonomique d'oreina repose entièrement sur l'expertise bénévole. Plusieurs voies de contribution sont possibles, selon votre niveau de spécialisation.</p>
+            <div class="mb-10">
+                <div class="eyebrow sage mb-4 inline-flex">
+                    <i class="icon icon-sage" data-lucide="helping-hand"></i>
+                    Contribuer
+                </div>
+                <h2 class="text-3xl font-bold text-oreina-dark">Vous pouvez contribuer</h2>
+                <p class="text-slate-500 mt-3 max-w-2xl">Le travail taxonomique d'oreina repose entièrement sur l'expertise bénévole. Plusieurs voies de contribution sont possibles, selon votre niveau de spécialisation.</p>
+            </div>
 
-                <div class="space-y-4">
-                    <div class="flex gap-4">
-                        <div class="pub-card-icon sage flex-shrink-0">
-                            <i class="icon icon-sage" data-lucide="book-open"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-oreina-dark mb-1">Vous êtes lépidoptériste expérimenté ?</h3>
-                            <p class="text-slate-600 text-sm">Si vous suivez régulièrement une famille ou un groupe (Microlépidoptères, Géomètres, Noctuelles…) et que vous lisez la littérature scientifique récente, votre contribution à la veille bibliographique nous serait précieuse.</p>
-                        </div>
+            <div class="space-y-4">
+                <div class="card p-6 flex gap-4">
+                    <div class="pub-card-icon sage flex-shrink-0">
+                        <i class="icon icon-sage" data-lucide="book-open"></i>
                     </div>
-                    <div class="flex gap-4">
-                        <div class="pub-card-icon sage flex-shrink-0">
-                            <i class="icon icon-sage" data-lucide="message-square"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-oreina-dark mb-1">Vous avez identifié une publication récente importante ?</h3>
-                            <p class="text-slate-600 text-sm">Signalez-nous l'article via la page Contact, en précisant les taxons concernés. Nous l'intégrerons à notre veille.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="pub-card-icon sage flex-shrink-0">
-                            <i class="icon icon-sage" data-lucide="alert-circle"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-oreina-dark mb-1">Vous avez détecté une incohérence dans Systema ?</h3>
-                            <p class="text-slate-600 text-sm">Toutes les remontées d'utilisateurs sont précieuses : elles permettent d'améliorer la qualité du référentiel.</p>
-                        </div>
+                    <div>
+                        <h3 class="font-bold text-oreina-dark mb-1">Vous êtes lépidoptériste expérimenté ?</h3>
+                        <p class="text-slate-600 text-sm">Si vous suivez régulièrement une famille ou un groupe (Microlépidoptères, Géomètres, Noctuelles…) et que vous lisez la littérature scientifique récente, votre contribution à la veille bibliographique nous serait précieuse.</p>
                     </div>
                 </div>
-
-                <a href="{{ route('hub.contact') }}" class="btn btn-primary mt-6">
-                    <i class="icon icon-sage" data-lucide="mail"></i>
-                    Nous contacter
-                </a>
+                <div class="card p-6 flex gap-4">
+                    <div class="pub-card-icon coral flex-shrink-0">
+                        <i class="icon icon-coral" data-lucide="message-square"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-oreina-dark mb-1">Vous avez identifié une publication récente importante ?</h3>
+                        <p class="text-slate-600 text-sm">Signalez-nous l'article via la page Contact, en précisant les taxons concernés. Nous l'intégrerons à notre veille.</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex gap-4">
+                    <div class="pub-card-icon gold flex-shrink-0">
+                        <i class="icon icon-gold" data-lucide="alert-circle"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-oreina-dark mb-1">Vous avez détecté une incohérence dans Systema ?</h3>
+                        <p class="text-slate-600 text-sm">Toutes les remontées d'utilisateurs sont précieuses : elles permettent d'améliorer la qualité du référentiel.</p>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+
+    {{-- CTA bandeau --}}
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <article class="cta-panel">
+                <div class="eyebrow"><i class="icon icon-white" data-lucide="message-circle"></i>Une question ou une idée ?</div>
+                <h2>Participer à TAXREF</h2>
+                <p>Que vous souhaitiez signaler une publication, contribuer à la veille bibliographique ou rejoindre l'association, nous sommes à votre écoute.</p>
+                <div class="content-actions">
+                    <a href="{{ route('hub.contact') }}" class="btn btn-primary">
+                        <i class="icon icon-sage" data-lucide="mail"></i>
+                        Nous contacter
+                    </a>
+                    <a href="{{ route('hub.membership') }}" class="btn btn-ghost-light">
+                        <i class="icon icon-white" data-lucide="heart-plus"></i>
+                        Adhérer à OREINA
+                    </a>
+                </div>
+            </article>
         </div>
     </section>
 
