@@ -56,7 +56,7 @@
                     <p class="text-xl leading-relaxed">
                         Toute donnée d'observation a besoin d'un nom. Et pour que ce nom ait un sens pour tous, il doit être partagé, validé, mis à jour. C'est précisément le rôle d'un <strong>référentiel taxonomique</strong> : fournir à l'ensemble des acteurs (chercheurs, gestionnaires, naturalistes, institutions) une liste structurée, à jour, des noms scientifiques utilisés en France.
                     </p>
-                    <p class="text-lg leading-relaxed">
+                    <p class="leading-relaxed">
                         Pour les Lépidoptères de France métropolitaine, c'est oreina qui assure ce travail, en partenariat avec PatriNat (MNHN, OFB, CNRS), dans le cadre du référentiel national <strong>TAXREF</strong>.
                     </p>
                 </div>
@@ -75,7 +75,7 @@
                 <h2 class="text-3xl font-bold text-oreina-dark">Pourquoi un référentiel taxonomique ?</h2>
             </div>
 
-            <div class="text-slate-600 text-lg leading-relaxed space-y-6">
+            <div class="text-slate-600 leading-relaxed space-y-6">
                 <p>
                     Une espèce de papillon, ce n'est pas qu'un nom : c'est un nom <strong>et</strong> une définition scientifique. Cette définition évolue continuellement, avec l'avancée des connaissances. Une espèce peut être divisée en plusieurs (lorsqu'on découvre que ce qu'on prenait pour une seule espèce regroupe en réalité des entités distinctes), regroupée avec une autre, déplacée d'un genre à un autre, ou simplement renommée pour des raisons de priorité nomenclaturale. Avec l'avènement des <strong>outils moléculaires</strong>, ces évolutions s'accélèrent : le barcoding et les analyses phylogénétiques révèlent fréquemment des espèces cryptiques, des hybrides ou des erreurs de circonscription.
                 </p>
@@ -100,7 +100,7 @@
                 <h2 class="text-3xl font-bold text-oreina-dark">Partenaire référent de PatriNat sur les Lépidoptères</h2>
             </div>
 
-            <div class="text-slate-600 text-lg leading-relaxed space-y-6">
+            <div class="text-slate-600 leading-relaxed space-y-6">
                 <p>
                     Depuis plusieurs années, oreina est partenaire référent de PatriNat pour la mise à jour de TAXREF concernant les Lépidoptères de métropole. Concrètement, cela signifie qu'une <strong>équipe de quatre experts bénévoles</strong>, spécialistes de différents groupes (Rhopalocères, Géométridés, Noctuoidés, Microlépidoptères), assure :
                 </p>
