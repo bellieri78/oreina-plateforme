@@ -235,7 +235,7 @@
                 </div>
                 <div class="lg:col-span-2">
                     <div class="card p-0 overflow-hidden bg-gradient-to-br from-oreina-yellow/10 to-oreina-coral/10 aspect-[4/5] flex items-center justify-center">
-                        <img src="/images/projets/systema-screenshot.jpg" alt="Capture d'écran de l'interface Systema sur Artemisiae" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center\'><p class=\'text-slate-500 text-sm font-bold\'>Aperçu Systema</p><p class=\'text-slate-400 text-xs mt-1\'>Liste systématique des Lépidoptères de France</p></div>'">
+                        <img src="/images/systema.png" alt="Capture d'écran de l'interface Systema sur Artemisiae" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center\'><p class=\'text-slate-500 text-sm font-bold\'>Aperçu Systema</p><p class=\'text-slate-400 text-xs mt-1\'>Liste systématique des Lépidoptères de France</p></div>'">
                     </div>
                 </div>
             </div>
