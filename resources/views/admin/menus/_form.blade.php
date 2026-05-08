@@ -5,6 +5,7 @@
         '/equipe' => 'L\'équipe',
         '/pourquoi-oreina' => 'Pourquoi oreina',
         '/projets/taxref' => 'Projet TAXREF',
+        '/projets/seqref' => 'Projet SEQREF (Barcoding)',
         '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',

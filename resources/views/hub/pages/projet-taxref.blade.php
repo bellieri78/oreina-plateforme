@@ -381,7 +381,7 @@
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="#" class="card p-6 hover:shadow-lg transition group">
+                <a href="{{ route('hub.projets.seqref') }}" class="card p-6 hover:shadow-lg transition group">
                     <div class="pub-card-icon blue mb-4">
                         <i class="icon icon-blue" data-lucide="dna"></i>
                     </div>

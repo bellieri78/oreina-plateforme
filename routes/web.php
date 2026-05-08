@@ -47,6 +47,7 @@ Route::get('/a-propos', [PageController::class, 'about'])->name('hub.about');
 Route::get('/equipe', [PageController::class, 'equipe'])->name('hub.equipe');
 Route::get('/pourquoi-oreina', [PageController::class, 'pourquoi'])->name('hub.pourquoi');
 Route::get('/projets/taxref', [PageController::class, 'projetTaxref'])->name('hub.projets.taxref');
+Route::get('/projets/seqref', [PageController::class, 'projetSeqref'])->name('hub.projets.seqref');
 Route::get('/faq', [PageController::class, 'faq'])->name('hub.faq');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
