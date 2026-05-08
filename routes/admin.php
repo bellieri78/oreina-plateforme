@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\WorkGroupController;
 use App\Http\Controllers\Admin\LepisBulletinController;
 use App\Http\Controllers\Admin\LepisSuggestionController;
+use App\Http\Controllers\Admin\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +112,13 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
         ->whereIn('direction', ['up', 'down'])
         ->name('menus.reorder');
     Route::resource('menus', \App\Http\Controllers\Admin\MenuItemController::class);
+
+    // FAQ
+    Route::post('faq/{faq}/reorder/{direction}', [FaqController::class, 'reorder'])
+        ->whereIn('direction', ['up', 'down'])
+        ->name('faq.reorder');
+    Route::post('faq/{faq}/toggle-visible', [FaqController::class, 'toggleVisible'])->name('faq.toggle-visible');
+    Route::resource('faq', FaqController::class)->except(['show']);
 
     // Journal Issues
     Route::get('journal-issues/export', [JournalIssueController::class, 'export'])->name('journal-issues.export');
