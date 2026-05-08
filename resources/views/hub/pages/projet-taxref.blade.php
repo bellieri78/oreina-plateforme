@@ -52,7 +52,7 @@
                         <i data-lucide="dna" style="width:32px;height:32px;color:var(--coral);opacity:0.55;position:absolute;bottom:36px;right:36px"></i>
                     </div>
                 </div>
-                <div class="lg:col-span-3 prose prose-lg text-slate-600">
+                <div class="lg:col-span-3 prose prose-lg text-slate-600 prose-p:leading-relaxed prose-p:my-6">
                     <p class="text-xl leading-relaxed">
                         Toute donnée d'observation a besoin d'un nom. Et pour que ce nom ait un sens pour tous, il doit être partagé, validé, mis à jour. C'est précisément le rôle d'un <strong>référentiel taxonomique</strong> : fournir à l'ensemble des acteurs (chercheurs, gestionnaires, naturalistes, institutions) une liste structurée, à jour, des noms scientifiques utilisés en France.
                     </p>
@@ -75,7 +75,7 @@
                 <h2 class="text-3xl font-bold text-oreina-dark">Pourquoi un référentiel taxonomique ?</h2>
             </div>
 
-            <div class="prose prose-lg text-slate-600 max-w-none">
+            <div class="prose prose-lg text-slate-600 max-w-none prose-p:leading-relaxed prose-p:my-6 prose-li:my-3 prose-li:leading-relaxed prose-ul:my-6 prose-ul:pl-6 prose-li:marker:text-oreina-green">
                 <p>
                     Une espèce de papillon, ce n'est pas qu'un nom : c'est un nom <strong>et</strong> une définition scientifique. Cette définition évolue continuellement, avec l'avancée des connaissances. Une espèce peut être divisée en plusieurs (lorsqu'on découvre que ce qu'on prenait pour une seule espèce regroupe en réalité des entités distinctes), regroupée avec une autre, déplacée d'un genre à un autre, ou simplement renommée pour des raisons de priorité nomenclaturale. Avec l'avènement des <strong>outils moléculaires</strong>, ces évolutions s'accélèrent : le barcoding et les analyses phylogénétiques révèlent fréquemment des espèces cryptiques, des hybrides ou des erreurs de circonscription.
                 </p>
@@ -100,7 +100,7 @@
                 <h2 class="text-3xl font-bold text-oreina-dark">Partenaire référent de PatriNat sur les Lépidoptères</h2>
             </div>
 
-            <div class="prose prose-lg text-slate-600 max-w-none">
+            <div class="prose prose-lg text-slate-600 max-w-none prose-p:leading-relaxed prose-p:my-6 prose-li:my-3 prose-li:leading-relaxed prose-ul:my-6 prose-ul:pl-6 prose-li:marker:text-oreina-green">
                 <p>
                     Depuis plusieurs années, oreina est partenaire référent de PatriNat pour la mise à jour de TAXREF concernant les Lépidoptères de métropole. Concrètement, cela signifie qu'une <strong>équipe de quatre experts bénévoles</strong>, spécialistes de différents groupes (Rhopalocères, Géométridés, Noctuoidés, Microlépidoptères), assure :
                 </p>
@@ -218,7 +218,7 @@
                 <div class="lg:col-span-3">
                     <h3 class="text-xl font-bold text-oreina-dark mb-4">Une interface de consultation taxonomique sur Artemisiae</h3>
                     <p class="text-slate-600 mb-4">Pour combler ce besoin, oreina propose <strong>Systema</strong>, l'interface de consultation taxonomique intégrée à la plateforme <em>Artemisiae</em>. Systema offre :</p>
-                    <ul class="space-y-3 text-slate-600">
+                    <ul class="space-y-4 text-slate-600 leading-relaxed">
                         <li class="flex gap-3">
                             <i data-lucide="check-circle-2" class="flex-shrink-0 mt-0.5" style="width:20px;height:20px;color:#8b6c05"></i>
                             <span>la <strong>liste systématique complète</strong> des Lépidoptères de France, organisée en familles, sous-familles, tribus et genres ;</span>
