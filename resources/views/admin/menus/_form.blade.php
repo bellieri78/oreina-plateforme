@@ -4,6 +4,7 @@
         '/a-propos' => 'Association',
         '/equipe' => 'L\'équipe',
         '/pourquoi-oreina' => 'Pourquoi oreina',
+        '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',
         '/lepis' => 'Lepis',

@@ -28,6 +28,11 @@ class PageController extends Controller
         return view('hub.pages.pourquoi');
     }
 
+    public function faq()
+    {
+        return view('hub.pages.faq');
+    }
+
     public function lepis()
     {
         $latestBulletins = LepisBulletin::visibleOnHub()
