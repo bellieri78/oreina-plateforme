@@ -4,6 +4,7 @@
 @section('meta_description', 'Toutes les questions fréquentes sur oreina, sur les papillons de France et sur la pratique de la lépidoptérologie : adhésion, identification, données, éthique, conservation.')
 
 @push('scripts')
+@verbatim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -18,6 +19,7 @@
   ]
 }
 </script>
+@endverbatim
 @endpush
 
 @section('content')
