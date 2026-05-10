@@ -50,6 +50,7 @@ Route::get('/projets/taxref', [PageController::class, 'projetTaxref'])->name('hu
 Route::get('/projets/seqref', [PageController::class, 'projetSeqref'])->name('hub.projets.seqref');
 Route::get('/projets/bdc', [PageController::class, 'projetBdc'])->name('hub.projets.bdc');
 Route::get('/projets/ident', [PageController::class, 'projetIdent'])->name('hub.projets.ident');
+Route::get('/projets/qualif', [PageController::class, 'projetQualif'])->name('hub.projets.qualif');
 Route::get('/faq', [PageController::class, 'faq'])->name('hub.faq');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');

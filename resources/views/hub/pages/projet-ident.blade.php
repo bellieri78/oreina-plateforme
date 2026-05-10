@@ -499,11 +499,11 @@
                     <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-coral transition">BDC</h3>
                     <p class="text-xs text-slate-500">Base de données de traits de vie des Lépidoptères.</p>
                 </a>
-                <a href="#" class="card p-6 hover:shadow-lg transition group">
-                    <div class="pub-card-icon gold mb-4">
-                        <i class="icon icon-gold" data-lucide="badge-check"></i>
+                <a href="{{ route('hub.projets.qualif') }}" class="card p-6 hover:shadow-lg transition group">
+                    <div class="pub-card-icon sage mb-4">
+                        <i class="icon icon-sage" data-lucide="badge-check"></i>
                     </div>
-                    <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-yellow transition">QUALIF</h3>
+                    <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-green transition">QUALIF</h3>
                     <p class="text-xs text-slate-500">Qualification et validation des données d'observation.</p>
                 </a>
             </div>

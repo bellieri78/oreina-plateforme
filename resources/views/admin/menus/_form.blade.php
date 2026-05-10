@@ -8,6 +8,7 @@
         '/projets/seqref' => 'Projet SEQREF (Barcoding)',
         '/projets/bdc' => 'Projet BDC (Traits de vie)',
         '/projets/ident' => 'Projet IDENT (Identification)',
+        '/projets/qualif' => 'Projet QUALIF (Qualification)',
         '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',
