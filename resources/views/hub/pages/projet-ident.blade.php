@@ -105,46 +105,46 @@
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div class="card p-6 bg-gradient-to-br from-oreina-green/10 to-white border-t-4 border-oreina-green">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-3xl font-bold text-oreina-green">T1</span>
-                        <span class="text-xs font-bold text-oreina-green uppercase">Inconfondable</span>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-green/15 text-oreina-green font-bold text-lg">T1</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-green">Inconfondable</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Aucune investigation</h3>
                     <p class="text-xs text-slate-600">L'espèce est évaluée comme inconfondable après expertise. Singleton.</p>
                 </div>
 
-                <div class="card p-6 bg-gradient-to-br from-oreina-turquoise/10 to-white border-t-4 border-oreina-turquoise">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-3xl font-bold text-oreina-turquoise">T2</span>
-                        <span class="text-xs font-bold text-oreina-turquoise uppercase">Facile</span>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-turquoise/15 text-oreina-turquoise font-bold text-lg">T2</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-turquoise">Facile</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Investigation à vue, sans manipulation</h3>
                     <p class="text-xs text-slate-600">Distinction possible sur photo ou observation directe, sans capture.</p>
                 </div>
 
-                <div class="card p-6 bg-gradient-to-br from-oreina-yellow/15 to-white border-t-4 border-oreina-yellow">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-3xl font-bold" style="color:#8b6c05">T3</span>
-                        <span class="text-xs font-bold uppercase" style="color:#8b6c05">Modérée</span>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-yellow/20 font-bold text-lg" style="color:#8b6c05">T3</span>
+                        <span class="text-xs font-bold uppercase tracking-wider" style="color:#8b6c05">Modérée</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Investigation à vue, avec manipulation</h3>
                     <p class="text-xs text-slate-600">Capture nécessaire pour observer certains critères (face ventrale, dessous des ailes, etc.).</p>
                 </div>
 
-                <div class="card p-6 bg-gradient-to-br from-oreina-coral/10 to-white border-t-4 border-oreina-coral">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-3xl font-bold text-oreina-coral">T4</span>
-                        <span class="text-xs font-bold text-oreina-coral uppercase">Difficile</span>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-coral/15 text-oreina-coral font-bold text-lg">T4</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-coral">Difficile</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Examen de la morphologie interne</h3>
                     <p class="text-xs text-slate-600">Examen des armures génitales nécessaire (dissection). Exige une expertise spécialisée.</p>
                 </div>
 
-                <div class="card p-6 bg-gradient-to-br from-oreina-blue/10 to-white border-t-4 border-oreina-blue">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-3xl font-bold text-oreina-blue">T5</span>
-                        <span class="text-xs font-bold text-oreina-blue uppercase">Moléculaire</span>
+                <div class="card p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-blue/15 text-oreina-blue font-bold text-lg">T5</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-blue">Moléculaire</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Séquençage génétique</h3>
                     <p class="text-xs text-slate-600">Identification par barcoding moléculaire (CO1) ou marqueurs nucléaires complémentaires.</p>
@@ -228,27 +228,27 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">14</p>
                     <p class="text-sm text-slate-600 leading-tight">bénévoles experts mobilisés au sein du comité technique IDENT</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">5</p>
                     <p class="text-sm text-slate-600 leading-tight">niveaux de difficulté dans la typologie PatriNat (T1 à T5)</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~10</p>
                     <p class="text-sm text-slate-600 leading-tight">guides et fiches d'identification à produire d'ici 2028</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">839</p>
                     <p class="text-sm text-slate-600 leading-tight">cartes ABDSM de répartition départementale déjà réalisées pour les Lépidoptères</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">115</p>
                     <p class="text-sm text-slate-600 leading-tight">cartes ABDSM mises à jour en 2024 (Rhopalocères et Zygènes principalement)</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">100 %</p>
                     <p class="text-sm text-slate-600 leading-tight">des agrégats d'espèces liés au suivi EU-PoMS à saisir d'ici 2028</p>
                 </div>
@@ -297,28 +297,28 @@
                 <h3 class="text-lg font-bold text-oreina-dark mb-6 text-center">Le cycle vertueux entre identification, apprentissage et qualité de la donnée</h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-teal rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="map" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">1. Cartographie</h4>
                         <p class="text-xs text-slate-500">Recensement des agrégats et typologie de la difficulté par les experts du COTECH.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center">
-                            <i data-lucide="book-open" style="width:30px;height:30px;color:#fff"></i>
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-yellow rounded-2xl flex items-center justify-center shadow-md">
+                            <i data-lucide="book-open" style="width:30px;height:30px;color:#16302B"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">2. Production des guides</h4>
                         <p class="text-xs text-slate-500">Rédaction des fiches, clés et guides de dissection. Diffusion via <em>Artemisiae</em>.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-coral to-oreina-yellow rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-coral rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="wand-sparkles" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">3. Aide à la saisie</h4>
                         <p class="text-xs text-slate-500">Signalement automatique des risques de confusion lors de la saisie sur <em>Artemisiae</em>.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-blue rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="badge-check" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">4. Donnée qualifiée</h4>
@@ -329,8 +329,72 @@
         </div>
     </section>
 
-    {{-- IDENT et l'intelligence artificielle --}}
+    {{-- Labo Lépidos : transmettre l'expertise --}}
     <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-5 gap-10 items-start">
+                <div class="lg:col-span-2">
+                    <div class="eyebrow coral mb-4 inline-flex">
+                        <i class="icon icon-coral" data-lucide="flask-conical"></i>
+                        Outil phare
+                    </div>
+                    <h2 class="text-3xl font-bold text-oreina-dark mb-4">Les Labo Lépidos</h2>
+                    <p class="text-slate-600 leading-relaxed mb-4">
+                        Documenter un complexe d'espèces ne suffit pas : encore faut-il que les critères, les pièges et les cas-limites soient transmis aux observateurs et aux validateurs. Les <strong>Labo Lépidos</strong> sont le format pédagogique d'oreina pour cela : des sessions courtes, animées par un spécialiste, qui prennent un agrégat précis et le décortiquent pas à pas.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Chaque Labo Lépido associe un webinaire en direct (avec questions du public) et un support téléchargeable réutilisable, pensé comme un véritable outil de travail pour la saisie sur <em>Artemisiae</em>.
+                    </p>
+                    <div class="content-actions">
+                        <a href="/outils/labo-lepidos" class="btn btn-primary">
+                            <i class="icon icon-sage" data-lucide="flask-conical"></i>
+                            Découvrir les Labo Lépidos
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
+                    <div class="card p-6">
+                        <div class="pub-card-icon coral mb-3">
+                            <i class="icon icon-coral" data-lucide="presentation"></i>
+                        </div>
+                        <h3 class="font-bold text-oreina-dark mb-2 text-sm">Webinaires courts</h3>
+                        <p class="text-xs text-slate-600">30 à 40 minutes pour traiter un agrégat ou un complexe d'espèces, animé par un référent du COTECH.</p>
+                    </div>
+                    <div class="card p-6">
+                        <div class="pub-card-icon gold mb-3">
+                            <i class="icon icon-gold" data-lucide="download"></i>
+                        </div>
+                        <h3 class="font-bold text-oreina-dark mb-2 text-sm">Supports téléchargeables</h3>
+                        <p class="text-xs text-slate-600">Diaporama et synthèse PDF, librement réutilisables pour la formation et la validation des données.</p>
+                    </div>
+                    <div class="card p-6">
+                        <div class="pub-card-icon blue mb-3">
+                            <i class="icon icon-blue" data-lucide="users"></i>
+                        </div>
+                        <h3 class="font-bold text-oreina-dark mb-2 text-sm">Ouverts à tous</h3>
+                        <p class="text-xs text-slate-600">Adhérents et non-adhérents bienvenus. Les replays restent accessibles en libre accès après la session.</p>
+                    </div>
+                    <div class="card p-6">
+                        <div class="pub-card-icon sage mb-3">
+                            <i class="icon icon-sage" data-lucide="lightbulb"></i>
+                        </div>
+                        <h3 class="font-bold text-oreina-dark mb-2 text-sm">Vous proposez le sujet</h3>
+                        <p class="text-xs text-slate-600">Spécialistes ou observateurs : la communauté propose les agrégats à traiter et peut animer ses propres sessions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                <p class="text-sm text-slate-600">
+                    <strong class="text-oreina-dark">Premier Labo Lépido en ligne : le complexe <em>Hoplodrina</em>.</strong> Sept espèces en France, dont une redécouverte en 2020, un taux d'erreur d'identification estimé supérieur à 30 % sur <em>Artemisiae</em> : un cas d'école pour ouvrir la série. Diaporama, replay et clés pratiques sont disponibles sur la <a href="/outils/labo-lepidos" class="text-oreina-coral font-bold hover:underline">page dédiée</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    {{-- IDENT et l'intelligence artificielle --}}
+    <section class="py-16 bg-slate-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow blue mb-4 inline-flex">
@@ -355,14 +419,21 @@
     </section>
 
     {{-- Pour aller plus loin --}}
-    <section class="py-16 bg-slate-50">
+    <section class="py-16 bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <h2 class="text-2xl font-bold text-oreina-dark">Pour aller plus loin</h2>
-                <p class="text-slate-500 mt-2">Ressources externes, programmes connexes et publications associées au projet IDENT.</p>
+                <p class="text-slate-500 mt-2">Ressources externes, outils dérivés et publications associées au projet IDENT.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="/outils/labo-lepidos" class="card p-5 hover:shadow-lg transition group">
+                    <div class="pub-card-icon coral mb-3">
+                        <i class="icon icon-coral" data-lucide="flask-conical"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-coral transition">Labo Lépidos</h3>
+                    <p class="text-xs text-slate-500">Webinaires courts dédiés aux complexes d'espèces. Replays et supports en libre accès.</p>
+                </a>
                 <a href="https://oreina.org/artemisiae/" target="_blank" rel="noopener" class="card p-5 hover:shadow-lg transition group">
                     <div class="pub-card-icon gold mb-3">
                         <i class="icon icon-gold" data-lucide="external-link"></i>
@@ -377,13 +448,6 @@
                     <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-green transition">Programme ABDSM</h3>
                     <p class="text-xs text-slate-500">Atlas de la Biodiversité Départementale et des Secteurs Marins (PatriNat).</p>
                 </a>
-                <a href="{{ route('journal.home') }}" class="card p-5 hover:shadow-lg transition group">
-                    <div class="pub-card-icon coral mb-3">
-                        <i class="icon icon-coral" data-lucide="book-open"></i>
-                    </div>
-                    <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-coral transition">Articles d'identification</h3>
-                    <p class="text-xs text-slate-500">Articles techniques publiés dans la revue scientifique <em>Chersotis</em>.</p>
-                </a>
                 <a href="/documents/rapport-activite-2024.pdf" class="card p-5 hover:shadow-lg transition group">
                     <div class="pub-card-icon blue mb-3">
                         <i class="icon icon-blue" data-lucide="file-bar-chart"></i>
@@ -396,7 +460,7 @@
     </section>
 
     {{-- Vous pouvez contribuer --}}
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-slate-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow gold mb-4 inline-flex">
@@ -437,11 +501,11 @@
                 </div>
                 <div class="card p-6 flex gap-4">
                     <div class="pub-card-icon blue flex-shrink-0">
-                        <i class="icon icon-blue" data-lucide="graduation-cap"></i>
+                        <i class="icon icon-blue" data-lucide="flask-conical"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-oreina-dark mb-1">Participer aux ateliers de formation</h3>
-                        <p class="text-slate-600 text-sm">À partir de 2026, oreina organisera des ateliers et webinaires pour présenter les nouveaux outils d'identification. Adhérents et non-adhérents bienvenus.</p>
+                        <h3 class="font-bold text-oreina-dark mb-1">Animer un Labo Lépido ou proposer un sujet</h3>
+                        <p class="text-slate-600 text-sm">Vous souhaitez animer une session sur un agrégat que vous maîtrisez, ou suggérer un complexe d'espèces qui mériterait d'être traité ? Tout est centralisé sur la <a href="/outils/labo-lepidos" class="text-oreina-coral font-bold hover:underline">page Labo Lépidos</a>, où vous pouvez consulter les sessions disponibles et déposer votre proposition.</p>
                     </div>
                 </div>
             </div>

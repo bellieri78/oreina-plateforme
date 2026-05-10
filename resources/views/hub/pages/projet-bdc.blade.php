@@ -232,27 +232,27 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">5</p>
                     <p class="text-sm text-slate-600 leading-tight">grands traits prioritaires en cours de renseignement (phase 1)</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">54</p>
                     <p class="text-sm text-slate-600 leading-tight">traits prévus à terme, organisés en 9 grandes catégories</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">3</p>
                     <p class="text-sm text-slate-600 leading-tight">familles de traits dans l'ontologie PatriNat (intrinsèques, interactions biotiques, espèce-habitat)</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">100 %</p>
                     <p class="text-sm text-slate-600 leading-tight">des espèces suivies par EU-PoMS à renseigner d'ici 2028</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">2</p>
                     <p class="text-sm text-slate-600 leading-tight">bases jumelles dans la sphère pollinisateurs : BDC (papillons) et BeeFunc (abeilles)</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">980</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces d'abeilles sauvages dans BeeFunc (Arthropologia), avec définitions alignées sur BDC</p>
                 </div>
@@ -444,29 +444,29 @@
                 <h3 class="text-lg font-bold text-oreina-dark mb-6 text-center">Le cycle vertueux entre observations, traits et terrain</h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-teal rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="camera" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">1. Observation terrain</h4>
                         <p class="text-xs text-slate-500">Saisie sur <em>Artemisiae</em> avec contexte (plante, date, altitude, milieu).</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-coral to-oreina-yellow rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-coral rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="badge-check" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">2. Trait validé</h4>
                         <p class="text-xs text-slate-500">Validation par le réseau d'experts, intégration dans la base BDC sourcée.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-blue rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="file-text" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">3. Fiche taxon enrichie</h4>
                         <p class="text-xs text-slate-500">Affichage dans l'onglet « traits de vie » de la fiche espèce d'<em>Artemisiae</em>.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center">
-                            <i data-lucide="search" style="width:30px;height:30px;color:#fff"></i>
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-yellow rounded-2xl flex items-center justify-center shadow-md">
+                            <i data-lucide="search" style="width:30px;height:30px;color:#16302B"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">4. Prospection ciblée</h4>
                         <p class="text-xs text-slate-500">Recherche orientée et chorologie : nouvelles observations, et le cycle recommence.</p>

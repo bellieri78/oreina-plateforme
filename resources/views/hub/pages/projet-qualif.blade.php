@@ -170,27 +170,27 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">~30</p>
                     <p class="text-sm text-slate-600 leading-tight">experts validateurs bénévoles spécialisés par groupe taxonomique</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">5</p>
                     <p class="text-sm text-slate-600 leading-tight">bénévoles du groupe projet pilotant la coordination scientifique</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">~2</p>
                     <p class="text-sm text-slate-600 leading-tight">ETP bénévoles par an, soit ~50 000 € de bénévolat valorisé</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~5</p>
                     <p class="text-sm text-slate-600 leading-tight">rapports d'analyse de qualité à transmettre aux producteurs de données</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">1</p>
                     <p class="text-sm text-slate-600 leading-tight">jeu de données de référence Macrohétérocères, format SINP/INPN, livré à l'horizon 2028</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~3 000</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces de Macrohétérocères concernées par le travail de qualification</p>
                 </div>
@@ -363,21 +363,21 @@
 
             <div class="mt-10 grid md:grid-cols-3 gap-6">
                 <div class="card p-6 bg-white">
-                    <div class="w-12 h-12 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-xl flex items-center justify-center mb-4">
+                    <div class="w-12 h-12 bg-oreina-teal rounded-xl flex items-center justify-center mb-4 shadow-md">
                         <i data-lucide="bookmark" style="width:24px;height:24px;color:#fff"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Format SINP / INPN</h3>
                     <p class="text-sm text-slate-600">Le jeu de données est produit dans les formats standards interopérables du Système d'Information sur la Biodiversité, garantissant son intégration dans les écosystèmes de données existants.</p>
                 </div>
                 <div class="card p-6 bg-white">
-                    <div class="w-12 h-12 bg-gradient-to-br from-oreina-coral to-oreina-yellow rounded-xl flex items-center justify-center mb-4">
+                    <div class="w-12 h-12 bg-oreina-coral rounded-xl flex items-center justify-center mb-4 shadow-md">
                         <i data-lucide="file-text" style="width:24px;height:24px;color:#fff"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Méthodologie transparente</h3>
                     <p class="text-sm text-slate-600">Une note méthodologique accompagne le jeu de données et précise les choix de qualification, les biais identifiés, les régions et groupes problématiques. Chaque utilisateur peut juger de la pertinence pour son usage propre.</p>
                 </div>
                 <div class="card p-6 bg-white">
-                    <div class="w-12 h-12 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-xl flex items-center justify-center mb-4">
+                    <div class="w-12 h-12 bg-oreina-blue rounded-xl flex items-center justify-center mb-4 shadow-md">
                         <i data-lucide="refresh-cw" style="width:24px;height:24px;color:#fff"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Mises à jour régulières</h3>

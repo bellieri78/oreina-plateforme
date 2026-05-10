@@ -130,27 +130,27 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">44 649</p>
                     <p class="text-sm text-slate-600 leading-tight">noms scientifiques recensés dans TAXREF (tous Lépidoptères)</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">20 945</p>
                     <p class="text-sm text-slate-600 leading-tight">noms recensés pour la France métropolitaine</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-green mb-2">5 683</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces valides documentées en métropole</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">286</p>
                     <p class="text-sm text-slate-600 leading-tight">nouveaux noms intégrés en 2024 (dont 228 à l'échelle spécifique)</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">15</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces nouvelles signalées en France en 2024</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~400</p>
                     <p class="text-sm text-slate-600 leading-tight">nouveaux noms prévus sur 2026, 2028 (cible convention OFB)</p>
                 </div>

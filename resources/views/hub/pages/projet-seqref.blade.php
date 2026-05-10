@@ -226,27 +226,27 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-turquoise/5 to-oreina-blue/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-turquoise mb-2">5 615</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces de Lépidoptères recensées en France métropolitaine</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-turquoise/5 to-oreina-blue/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-turquoise mb-2">3 620</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces classées comme prioritaires pour la collecte</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-turquoise/5 to-oreina-blue/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-turquoise mb-2">594</p>
                     <p class="text-sm text-slate-600 leading-tight">taxons d'importance moyenne pour la complétion de la base</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">17</p>
                     <p class="text-sm text-slate-600 leading-tight">référents régionaux pour organiser la collecte dans les territoires</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">1 000</p>
                     <p class="text-sm text-slate-600 leading-tight">spécimens à transmettre au MNHN par an : c'est l'objectif</p>
                 </div>
-                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                <div class="card p-6 text-center">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~70 %</p>
                     <p class="text-sm text-slate-600 leading-tight">de couverture cible des espèces françaises à l'horizon 2028</p>
                 </div>
@@ -309,7 +309,7 @@
                     <p class="text-sm text-slate-600">Articulation entre SEQREF et les autres référentiels d'oreina, notamment TAXREF (les changements taxonomiques détectés par barcoding alimentent la mise à jour du référentiel).</p>
                 </div>
 
-                <div class="card p-6 bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5 border-2 border-oreina-green/20">
+                <div class="card p-6 border-2 border-oreina-green/30">
                     <div class="pub-card-icon coral mb-4">
                         <i class="icon icon-coral" data-lucide="globe-2"></i>
                     </div>
