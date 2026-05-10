@@ -51,6 +51,10 @@ Route::get('/projets/seqref', [PageController::class, 'projetSeqref'])->name('hu
 Route::get('/projets/bdc', [PageController::class, 'projetBdc'])->name('hub.projets.bdc');
 Route::get('/projets/ident', [PageController::class, 'projetIdent'])->name('hub.projets.ident');
 Route::get('/projets/qualif', [PageController::class, 'projetQualif'])->name('hub.projets.qualif');
+Route::get('/outils/labo-lepidos', [PageController::class, 'outilLaboLepidos'])->name('hub.outils.labo-lepidos');
+Route::post('/outils/labo-lepidos/proposer', [PageController::class, 'proposerLaboLepidos'])
+    ->middleware('throttle:5,1')
+    ->name('hub.outils.labo-lepidos.proposer');
 Route::get('/faq', [PageController::class, 'faq'])->name('hub.faq');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');

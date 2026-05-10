@@ -346,7 +346,7 @@
                         Chaque Labo Lépido associe un webinaire en direct (avec questions du public) et un support téléchargeable réutilisable, pensé comme un véritable outil de travail pour la saisie sur <em>Artemisiae</em>.
                     </p>
                     <div class="content-actions">
-                        <a href="/outils/labo-lepidos" class="btn btn-primary">
+                        <a href="{{ route('hub.outils.labo-lepidos') }}" class="btn btn-primary">
                             <i class="icon icon-sage" data-lucide="flask-conical"></i>
                             Découvrir les Labo Lépidos
                         </a>
@@ -387,7 +387,7 @@
 
             <div class="mt-10 p-6 bg-slate-50 rounded-2xl border border-slate-200">
                 <p class="text-sm text-slate-600">
-                    <strong class="text-oreina-dark">Premier Labo Lépido en ligne : le complexe <em>Hoplodrina</em>.</strong> Sept espèces en France, dont une redécouverte en 2020, un taux d'erreur d'identification estimé supérieur à 30 % sur <em>Artemisiae</em> : un cas d'école pour ouvrir la série. Diaporama, replay et clés pratiques sont disponibles sur la <a href="/outils/labo-lepidos" class="text-oreina-coral font-bold hover:underline">page dédiée</a>.
+                    <strong class="text-oreina-dark">Premier Labo Lépido en ligne : le complexe <em>Hoplodrina</em>.</strong> Sept espèces en France, dont une redécouverte en 2020, un taux d'erreur d'identification estimé supérieur à 30 % sur <em>Artemisiae</em> : un cas d'école pour ouvrir la série. Diaporama, replay et clés pratiques sont disponibles sur la <a href="{{ route('hub.outils.labo-lepidos') }}" class="text-oreina-coral font-bold hover:underline">page dédiée</a>.
                 </p>
             </div>
         </div>
@@ -427,7 +427,7 @@
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="/outils/labo-lepidos" class="card p-5 hover:shadow-lg transition group">
+                <a href="{{ route('hub.outils.labo-lepidos') }}" class="card p-5 hover:shadow-lg transition group">
                     <div class="pub-card-icon coral mb-3">
                         <i class="icon icon-coral" data-lucide="flask-conical"></i>
                     </div>
@@ -505,7 +505,7 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-oreina-dark mb-1">Animer un Labo Lépido ou proposer un sujet</h3>
-                        <p class="text-slate-600 text-sm">Vous souhaitez animer une session sur un agrégat que vous maîtrisez, ou suggérer un complexe d'espèces qui mériterait d'être traité ? Tout est centralisé sur la <a href="/outils/labo-lepidos" class="text-oreina-coral font-bold hover:underline">page Labo Lépidos</a>, où vous pouvez consulter les sessions disponibles et déposer votre proposition.</p>
+                        <p class="text-slate-600 text-sm">Vous souhaitez animer une session sur un agrégat que vous maîtrisez, ou suggérer un complexe d'espèces qui mériterait d'être traité ? Tout est centralisé sur la <a href="{{ route('hub.outils.labo-lepidos') }}" class="text-oreina-coral font-bold hover:underline">page Labo Lépidos</a>, où vous pouvez consulter les sessions disponibles et déposer votre proposition.</p>
                     </div>
                 </div>
             </div>

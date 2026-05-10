@@ -9,6 +9,7 @@
         '/projets/bdc' => 'Projet BDC (Traits de vie)',
         '/projets/ident' => 'Projet IDENT (Identification)',
         '/projets/qualif' => 'Projet QUALIF (Qualification)',
+        '/outils/labo-lepidos' => 'Outil Labo Lépidos',
         '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',

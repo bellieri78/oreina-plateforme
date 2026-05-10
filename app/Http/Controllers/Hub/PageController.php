@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Hub;
 
 use App\Http\Controllers\Controller;
+use App\Mail\LaboLepidoProposition;
 use App\Models\FaqQuestion;
 use App\Models\LepisBulletin;
 use App\Models\MembershipType;
+use App\Rules\TurnstileCaptcha;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
 {
@@ -52,6 +57,42 @@ class PageController extends Controller
     public function projetQualif()
     {
         return view('hub.pages.projet-qualif');
+    }
+
+    public function outilLaboLepidos()
+    {
+        return view('hub.pages.outil-labo-lepidos');
+    }
+
+    public function proposerLaboLepidos(Request $request)
+    {
+        $data = $request->validate([
+            'nom' => 'required|string|max:200',
+            'email' => 'required|email|max:200',
+            'type_proposition' => 'required|in:animer,suggerer',
+            'sujet' => 'required|string|max:300',
+            'motivation' => 'required|string|max:5000',
+            'ressources' => 'nullable|string|max:5000',
+            'rgpd' => 'accepted',
+            'cf-turnstile-response' => ['nullable', new TurnstileCaptcha()],
+        ]);
+
+        // Trace dans les logs au cas où l'envoi mail échoue (rien ne se perd).
+        Log::info('Proposition Labo Lépido reçue', $data);
+
+        try {
+            Mail::to('communication@oreina.org')->send(new LaboLepidoProposition($data));
+        } catch (\Throwable $e) {
+            Log::error('Envoi mail proposition Labo Lépido échoué', [
+                'message' => $e->getMessage(),
+                'data' => $data,
+            ]);
+        }
+
+        return redirect()
+            ->route('hub.outils.labo-lepidos')
+            ->with('labo_success', 'Votre proposition a bien été transmise au COTECH IDENT. Nous revenons vers vous dans les meilleurs délais.')
+            ->withFragment('proposer');
     }
 
     public function faq()
