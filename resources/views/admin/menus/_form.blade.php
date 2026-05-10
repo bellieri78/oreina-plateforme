@@ -6,6 +6,7 @@
         '/pourquoi-oreina' => 'Pourquoi oreina',
         '/projets/taxref' => 'Projet TAXREF',
         '/projets/seqref' => 'Projet SEQREF (Barcoding)',
+        '/projets/bdc' => 'Projet BDC (Traits de vie)',
         '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',

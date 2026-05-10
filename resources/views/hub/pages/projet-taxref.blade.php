@@ -388,9 +388,9 @@
                     <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-blue transition">SEQREF</h3>
                     <p class="text-xs text-slate-500">Bibliothèque de séquences moléculaires de référence.</p>
                 </a>
-                <a href="#" class="card p-6 hover:shadow-lg transition group">
-                    <div class="pub-card-icon gold mb-4">
-                        <i class="icon icon-gold" data-lucide="list-checks"></i>
+                <a href="{{ route('hub.projets.bdc') }}" class="card p-6 hover:shadow-lg transition group">
+                    <div class="pub-card-icon coral mb-4">
+                        <i class="icon icon-coral" data-lucide="list-checks"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-coral transition">BDC</h3>
                     <p class="text-xs text-slate-500">Base de données de traits de vie des Lépidoptères.</p>
