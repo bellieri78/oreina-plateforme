@@ -148,7 +148,7 @@
                         <h3 class="text-2xl font-bold text-oreina-dark mb-2">Le complexe <em>Hoplodrina</em> en France</h3>
                         <p class="text-sm text-slate-500 mb-4">Détermination et validation des données sur Artemisiae</p>
                         <p class="text-slate-600 leading-relaxed mb-4">
-                            Sept espèces du genre <em>Hoplodrina</em> sont aujourd'hui reconnues en France, dont une — <em>H. alsinides</em> — n'a été restaurée comme bonne espèce qu'en 2020 après près d'un siècle de synonymie. Le taux d'erreur d'identification estimé sur <em>Artemisiae</em> dépasse 30 %, ce qui en fait un complexe prioritaire pour la qualification des données nocturnes, et notamment pour le suivi EU-PoMS.
+                            Sept espèces du genre <em>Hoplodrina</em> sont aujourd'hui reconnues en France, dont une — <em>H. alsinides</em> — n'a été restaurée comme bonne espèce qu'en 2020 après près d'un siècle de synonymie. Le taux d'erreur d'identification estimé sur <em>Artemisiae</em> dépasse 30 %, ce qui en fait un complexe prioritaire pour la qualification des données nocturnes.
                         </p>
                         <p class="text-slate-600 leading-relaxed mb-6">
                             Cette session passe en revue les sept espèces, les caractères externes utilisables, les cas où la dissection est indispensable, et l'apport du barcoding pour les cas-limites. Une synthèse opérationnelle clôt la séance avec les bons réflexes à avoir au moment de la saisie.
@@ -175,7 +175,7 @@
                         <dl class="space-y-3 text-sm">
                             <div>
                                 <dt class="text-slate-400 text-xs">Animation</dt>
-                                <dd class="font-bold text-oreina-dark">Référent du COTECH IDENT</dd>
+                                <dd class="font-bold text-oreina-dark">David DEMERGES</dd>
                             </div>
                             <div>
                                 <dt class="text-slate-400 text-xs">Durée</dt>
@@ -205,7 +205,7 @@
                         <span class="text-xs font-bold uppercase tracking-wide bg-oreina-yellow/30 px-2 py-1 rounded-full" style="color:#8b6c05">En préparation</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Sujets candidats</h3>
-                    <p class="text-xs text-slate-600">Plusieurs complexes prioritaires sont identifiés par le COTECH IDENT : Hespéries du genre <em>Pyrgus</em>, Mélitées, <em>Mythimna</em> spp., Géomètres des bois… Le calendrier 2026-2028 se construit en lien avec les besoins EU-PoMS.</p>
+                    <p class="text-xs text-slate-600">Plusieurs complexes prioritaires sont identifiés : Le genre <em>Eupithecia</em>, les <em>Euxoa</em>, les <em>Cucullia</em> «&nbsp;jaunes&nbsp;»…</p>
                 </div>
                 <div class="card p-6 bg-white/60 border border-dashed border-slate-300">
                     <div class="flex items-center gap-2 mb-3">
