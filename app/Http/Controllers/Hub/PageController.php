@@ -64,6 +64,11 @@ class PageController extends Controller
         return view('hub.pages.outil-labo-lepidos');
     }
 
+    public function outilArtemisiae()
+    {
+        return view('hub.pages.outil-artemisiae');
+    }
+
     public function proposerLaboLepidos(Request $request)
     {
         $data = $request->validate([

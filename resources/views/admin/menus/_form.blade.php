@@ -10,6 +10,7 @@
         '/projets/ident' => 'Projet IDENT (Identification)',
         '/projets/qualif' => 'Projet QUALIF (Qualification)',
         '/outils/labo-lepidos' => 'Outil Labo Lépidos',
+        '/outils/artemisiae' => 'Outil Artemisiae',
         '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',
