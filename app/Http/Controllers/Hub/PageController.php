@@ -44,6 +44,11 @@ class PageController extends Controller
         return view('hub.pages.projet-bdc');
     }
 
+    public function projetIdent()
+    {
+        return view('hub.pages.projet-ident');
+    }
+
     public function faq()
     {
         $sections = config('faq.sections');

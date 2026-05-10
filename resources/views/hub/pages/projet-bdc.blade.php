@@ -607,11 +607,11 @@
                     <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-blue transition">SEQREF</h3>
                     <p class="text-xs text-slate-500">Bibliothèque de séquences moléculaires de référence.</p>
                 </a>
-                <a href="#" class="card p-6 hover:shadow-lg transition group">
-                    <div class="pub-card-icon coral mb-4">
-                        <i class="icon icon-coral" data-lucide="search"></i>
+                <a href="{{ route('hub.projets.ident') }}" class="card p-6 hover:shadow-lg transition group">
+                    <div class="pub-card-icon gold mb-4">
+                        <i class="icon icon-gold" data-lucide="search"></i>
                     </div>
-                    <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-coral transition">IDENT</h3>
+                    <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-yellow transition">IDENT</h3>
                     <p class="text-xs text-slate-500">Critères d'identification et typologie de difficulté.</p>
                 </a>
                 <a href="#" class="card p-6 hover:shadow-lg transition group">
