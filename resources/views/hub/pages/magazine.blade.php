@@ -76,6 +76,21 @@
         margin-top: 0.75rem;
         opacity: 0.92;
     }
+    .mag-hero-figure {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+    .mag-hero-figure .mag-hero-visual {
+        flex: 1;
+    }
+    .mag-hero-figure figcaption {
+        font-size: 0.85rem;
+        line-height: 1.45;
+        color: var(--color-slate-600, #475569);
+        font-style: italic;
+        padding-top: 0.75rem;
+    }
     .timeline-step {
         position: relative;
         padding-left: 2.25rem;
@@ -179,7 +194,12 @@
                     </div>
                 </div>
                 @if($heroMosaic)
-                    <div class="mag-hero-visual" style="background-image: url('{{ $heroMosaic }}');"></div>
+                    <figure class="mag-hero-figure">
+                        <div class="mag-hero-visual" style="background-image: url('{{ $heroMosaic }}');" role="img" aria-label="Les fondateurs d'oreina avec le premier numéro du magazine, rencontres de Vesc, 2008"></div>
+                        <figcaption>
+                            Les fondateurs d'oreina, premier numéro en main &mdash; rencontres de Vesc, 2008. Photo J.-P. Favretto.
+                        </figcaption>
+                    </figure>
                 @else
                     <div class="mag-hero-visual placeholder">
                         <div>
