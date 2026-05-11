@@ -34,15 +34,22 @@
         'green'  => 'from-oreina-green/10 to-oreina-yellow/10',
     ];
     $gradient = $rampMap[$ramp] ?? $rampMap['blue'];
+
+    // Le <picture> avec <source srcset=".webp"> ne retombe PAS automatiquement
+    // sur le <img src=".jpg"> si le WebP renvoie 404. On verifie donc cote PHP
+    // que chaque fichier existe avant d'emettre la balise correspondante.
+    $webpExists = isset($image)    && is_file(public_path(ltrim($image, '/')));
+    $jpegExists = isset($fallback) && is_file(public_path(ltrim($fallback, '/')));
+    $imgSrc = $jpegExists ? $fallback : ($webpExists ? $image : ($fallback ?? $image));
 @endphp
 
 <figure class="rounded-3xl shadow-lg overflow-hidden relative bg-gradient-to-br {{ $gradient }}"
         style="aspect-ratio: 4/5; min-height: 340px;">
     <picture>
-        @isset($image)
+        @if($webpExists)
             <source srcset="{{ $image }}" type="image/webp">
-        @endisset
-        <img src="{{ $fallback ?? $image }}"
+        @endif
+        <img src="{{ $imgSrc }}"
              alt="{{ $alt }}"
              class="w-full h-full object-cover"
              loading="lazy"
