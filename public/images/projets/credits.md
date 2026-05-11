@@ -6,7 +6,7 @@ Photos utilisées dans les chapôs des pages projets du hub (`/projets/*`).
 |---|---|---|---|---|
 | TAXREF | *Chersotis oreina* (Dufay, 1984) | `taxref/chersotis-oreina.{webp,jpg}` | Alpes du Sud, VII.2023 | D. Demergès |
 | SEQREF | *Saturnia pavonia* (Linnaeus, 1758) | `seqref/saturnia-pavonia.{webp,jpg}` | Pyrénées-Atlantiques, V.2024 | D. Demergès |
-| IDENT  | *Mesapamea secalis* (Linnaeus, 1758) | `ident/mesapamea-secalis.{webp,jpg}` | gr. T5 — armures génitales nécessaires | D. Demergès |
+| IDENT  | *Pyrgus malvoides* (Elwes & Edwards, 1897) | `ident/pyrgus-malvoides.{webp,jpg}` | Ariège, gr. T5 — armures génitales nécessaires | D. Demergès |
 | QUALIF | *Catocala fraxini* (Linnaeus, 1758) | `qualif/catocala-fraxini.{webp,jpg}` | Massif central, VIII.2024 | D. Demergès |
 
 ## Spécifications techniques

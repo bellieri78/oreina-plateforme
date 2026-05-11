@@ -46,12 +46,12 @@
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="lg:col-span-2">
                     @include('hub.partials._hero_visual', [
-                        'image'    => '/images/projets/ident/mesapamea-secalis.webp',
-                        'fallback' => '/images/projets/ident/mesapamea-secalis.jpg',
-                        'alt'      => 'Mesapamea secalis (Linnaeus, 1758), exemple d\'espèce d\'un agrégat critique nécessitant l\'examen des armures génitales',
-                        'species'  => 'Mesapamea secalis',
-                        'author'   => '(Linnaeus, 1758)',
-                        'caption'  => 'gr. T5 — armures génitales nécessaires',
+                        'image'    => '/images/projets/ident/pyrgus-malvoides.webp',
+                        'fallback' => '/images/projets/ident/pyrgus-malvoides.jpg',
+                        'alt'      => 'Pyrgus malvoides (Elwes & Edwards, 1897), Ariège — Hespérie d\'un complexe critique du genre Pyrgus, l\'identification certaine repose sur l\'examen des armures génitales',
+                        'species'  => 'Pyrgus malvoides',
+                        'author'   => '(Elwes & Edwards, 1897)',
+                        'caption'  => 'Ariège, gr. T5 — armures génitales nécessaires',
                         'credit'   => 'D. Demergès',
                         'ramp'     => 'gold',
                     ])
