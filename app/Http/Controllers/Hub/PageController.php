@@ -34,6 +34,11 @@ class PageController extends Controller
         return view('hub.pages.pourquoi');
     }
 
+    public function magazine()
+    {
+        return view('hub.pages.magazine');
+    }
+
     public function projetTaxref()
     {
         return view('hub.pages.projet-taxref');

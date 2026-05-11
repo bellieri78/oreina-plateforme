@@ -59,6 +59,7 @@ Route::post('/outils/labo-lepidos/proposer', [PageController::class, 'proposerLa
 Route::get('/faq', [PageController::class, 'faq'])->name('hub.faq');
 Route::get('/contact', [PageController::class, 'contact'])->name('hub.contact');
 Route::get('/lepis', [PageController::class, 'lepis'])->name('hub.lepis');
+Route::get('/oreina-magazine', [PageController::class, 'magazine'])->name('hub.magazine');
 
 // Newsletter (inscription publique depuis le hub)
 Route::post('/newsletter/subscribe', [\App\Http\Controllers\Hub\NewsletterController::class, 'subscribe'])

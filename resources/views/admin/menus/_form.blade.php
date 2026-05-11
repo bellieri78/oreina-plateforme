@@ -17,6 +17,7 @@
         '/lepis' => 'Lepis',
         '/lepis/bulletins' => 'Lepis — bulletins',
         '/revue' => 'Chersotis (revue)',
+        '/oreina-magazine' => 'Magazine oreina (historique)',
         '/adhesion' => 'Adhésion',
         '/contact' => 'Contact',
         '/connexion' => 'Connexion',
