@@ -31,3 +31,6 @@ CLAUDE.md
 # Production env files
 .env.staging
 *.pem
+
+# Original local non commité (plus gros que lepis.png en prod)
+/public/images/lepis - Copie.png
