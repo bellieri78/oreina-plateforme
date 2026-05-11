@@ -45,12 +45,16 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="lg:col-span-2">
-                    <div class="rounded-3xl shadow-lg flex items-center justify-center bg-gradient-to-br from-oreina-blue/10 to-oreina-green/10 relative overflow-hidden" style="min-height: 340px;">
-                        <i data-lucide="layers" style="width:140px;height:140px;color:var(--blue);opacity:0.85"></i>
-                        <i data-lucide="tag" style="width:36px;height:36px;color:#2f694e;opacity:0.55;position:absolute;top:24px;right:32px"></i>
-                        <i data-lucide="book-marked" style="width:36px;height:36px;color:#8b6c05;opacity:0.55;position:absolute;bottom:32px;left:28px"></i>
-                        <i data-lucide="dna" style="width:32px;height:32px;color:var(--coral);opacity:0.55;position:absolute;bottom:36px;right:36px"></i>
-                    </div>
+                    @include('hub.partials._hero_visual', [
+                        'image'    => '/images/projets/taxref/chersotis-oreina.webp',
+                        'fallback' => '/images/projets/taxref/chersotis-oreina.jpg',
+                        'alt'      => 'Chersotis oreina (Dufay, 1984), Noctuidae, sur pelouse subalpine — espèce éponyme de l\'association',
+                        'species'  => 'Chersotis oreina',
+                        'author'   => '(Dufay, 1984)',
+                        'caption'  => 'Alpes du Sud, VII.2023',
+                        'credit'   => 'D. Demergès',
+                        'ramp'     => 'blue',
+                    ])
                 </div>
                 <div class="lg:col-span-3 text-slate-600 space-y-6">
                     <p class="text-xl leading-relaxed">

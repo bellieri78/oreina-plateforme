@@ -45,12 +45,16 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="lg:col-span-2">
-                    <div class="rounded-3xl shadow-lg flex items-center justify-center bg-gradient-to-br from-oreina-blue/10 to-oreina-turquoise/10 relative overflow-hidden" style="min-height: 340px;">
-                        <i data-lucide="dna" style="width:140px;height:140px;color:var(--blue);opacity:0.85"></i>
-                        <i data-lucide="microscope" style="width:36px;height:36px;color:#2f694e;opacity:0.55;position:absolute;top:24px;right:32px"></i>
-                        <i data-lucide="database" style="width:36px;height:36px;color:var(--coral);opacity:0.55;position:absolute;bottom:32px;left:28px"></i>
-                        <i data-lucide="flask-conical" style="width:32px;height:32px;color:#8b6c05;opacity:0.55;position:absolute;bottom:36px;right:36px"></i>
-                    </div>
+                    @include('hub.partials._hero_visual', [
+                        'image'    => '/images/projets/seqref/saturnia-pavonia.webp',
+                        'fallback' => '/images/projets/seqref/saturnia-pavonia.jpg',
+                        'alt'      => 'Saturnia pavonia (Linnaeus, 1758), mâle au repos sur écorce, antennes pectinées caractéristiques',
+                        'species'  => 'Saturnia pavonia',
+                        'author'   => '(Linnaeus, 1758)',
+                        'caption'  => 'Pyrénées-Atlantiques, V.2024',
+                        'credit'   => 'D. Demergès',
+                        'ramp'     => 'blue',
+                    ])
                 </div>
                 <div class="lg:col-span-3 text-slate-600 space-y-6">
                     <p class="text-xl leading-relaxed">

@@ -45,12 +45,16 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="lg:col-span-2">
-                    <div class="rounded-3xl shadow-lg flex items-center justify-center bg-gradient-to-br from-oreina-yellow/15 to-oreina-coral/10 relative overflow-hidden" style="min-height: 340px;">
-                        <i data-lucide="search" style="width:140px;height:140px;color:#8b6c05;opacity:0.85"></i>
-                        <i data-lucide="scan-eye" style="width:36px;height:36px;color:var(--blue);opacity:0.55;position:absolute;top:24px;right:32px"></i>
-                        <i data-lucide="dna" style="width:36px;height:36px;color:var(--coral);opacity:0.55;position:absolute;bottom:32px;left:28px"></i>
-                        <i data-lucide="map" style="width:32px;height:32px;color:#2f694e;opacity:0.55;position:absolute;bottom:36px;right:36px"></i>
-                    </div>
+                    @include('hub.partials._hero_visual', [
+                        'image'    => '/images/projets/ident/mesapamea-secalis.webp',
+                        'fallback' => '/images/projets/ident/mesapamea-secalis.jpg',
+                        'alt'      => 'Mesapamea secalis (Linnaeus, 1758), exemple d\'espèce d\'un agrégat critique nécessitant l\'examen des armures génitales',
+                        'species'  => 'Mesapamea secalis',
+                        'author'   => '(Linnaeus, 1758)',
+                        'caption'  => 'gr. T5 — armures génitales nécessaires',
+                        'credit'   => 'D. Demergès',
+                        'ramp'     => 'gold',
+                    ])
                 </div>
                 <div class="lg:col-span-3 text-slate-600 space-y-6">
                     <p class="text-xl leading-relaxed">
