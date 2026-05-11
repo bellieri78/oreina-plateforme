@@ -1,7 +1,7 @@
 @extends('layouts.hub')
 
 @section('title', 'Identification (IDENT)')
-@section('meta_description', 'oreina structure une base de connaissance sur la difficulté d\'identification des Lépidoptères de France, en lien avec PatriNat et le dispositif européen EU-PoMS.')
+@section('meta_description', 'IDENT est le projet d\'oreina dédié à la difficulté d\'identification des Lépidoptères de France : typologie T1-T5, agrégats critiques, guides et Labo Lépidos pour la communauté naturaliste.')
 
 @section('content')
     {{-- Header --}}
@@ -28,8 +28,8 @@
                         <p class="font-bold text-oreina-dark">PatriNat (MNHN)</p>
                     </div>
                     <div>
-                        <p class="text-slate-400 text-xs uppercase tracking-wide">Convention</p>
-                        <p class="font-bold text-oreina-dark">OFB 2026, 2028</p>
+                        <p class="text-slate-400 text-xs uppercase tracking-wide">Approche</p>
+                        <p class="font-bold text-oreina-dark">5 axes de travail</p>
                     </div>
                     <div>
                         <p class="text-slate-400 text-xs uppercase tracking-wide">Coordination</p>
@@ -83,7 +83,7 @@
                     Un <strong>singleton</strong> est une espèce considérée comme inconfondable en France métropolitaine : aucune autre espèce ne lui ressemble suffisamment pour qu'il y ait risque de confusion. Le Machaon, le Citron, le Vulcain, le Sphinx tête-de-mort sont des exemples typiques. Pour ces espèces, l'identification est immédiate, accessible aux débutants, et ne nécessite aucune investigation particulière.
                 </p>
                 <p>
-                    Un <strong>agrégat</strong>, à l'inverse, est un ensemble d'espèces susceptibles d'être confondues entre elles. Les Hespéries du genre <em>Pyrgus</em>, plusieurs Mélitées, de nombreuses Noctuelles du genre <em>Mythimna</em>, certains Géomètres des bois sont autant d'exemples d'agrégats où la distinction demande un examen attentif, voire la dissection des armures génitales ou le séquençage moléculaire.
+                    Un <strong>agrégat</strong>, à l'inverse, est un ensemble d'espèces susceptibles d'être confondues entre elles. Les Hespéries du genre <em>Pyrgus</em>, plusieurs Mélitées, de nombreuses Noctuelles du genre <em>Euxoa</em>, des géomètres du genre <em>Eupithecia</em> sont autant d'exemples d'agrégats où la distinction demande un examen attentif, voire la dissection des armures génitales ou le séquençage moléculaire.
                 </p>
                 <p>
                     Mais ce qui rend la question vraiment intéressante, c'est que <strong>la difficulté d'identification varie dans l'espace</strong>. Une espèce peut être inconfondable dans un département où elle est seule, et devenir difficile à distinguer dès qu'on entre dans la zone de sympatrie d'une espèce-sœur. C'est pourquoi le projet IDENT articule en permanence la documentation des agrégats avec les <strong>cartes de répartition départementales</strong>, mises à jour dans le cadre du programme ABDSM (Atlas de la Biodiversité Départementale et des Secteurs Marins) de PatriNat.
@@ -105,46 +105,46 @@
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-green/15 text-oreina-green font-bold text-lg">T1</span>
-                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-green">Inconfondable</span>
+                <div class="card p-6 bg-gradient-to-br from-oreina-green/10 to-white border-t-4 border-oreina-green">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold text-oreina-green">T1</span>
+                        <span class="text-xs font-bold text-oreina-green uppercase">Inconfondable</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Aucune investigation</h3>
                     <p class="text-xs text-slate-600">L'espèce est évaluée comme inconfondable après expertise. Singleton.</p>
                 </div>
 
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-turquoise/15 text-oreina-turquoise font-bold text-lg">T2</span>
-                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-turquoise">Facile</span>
+                <div class="card p-6 bg-gradient-to-br from-oreina-turquoise/10 to-white border-t-4 border-oreina-turquoise">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold text-oreina-turquoise">T2</span>
+                        <span class="text-xs font-bold text-oreina-turquoise uppercase">Facile</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Investigation à vue, sans manipulation</h3>
                     <p class="text-xs text-slate-600">Distinction possible sur photo ou observation directe, sans capture.</p>
                 </div>
 
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-yellow/20 font-bold text-lg" style="color:#8b6c05">T3</span>
-                        <span class="text-xs font-bold uppercase tracking-wider" style="color:#8b6c05">Modérée</span>
+                <div class="card p-6 bg-gradient-to-br from-oreina-yellow/15 to-white border-t-4 border-oreina-yellow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold" style="color:#8b6c05">T3</span>
+                        <span class="text-xs font-bold uppercase" style="color:#8b6c05">Modérée</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Investigation à vue, avec manipulation</h3>
                     <p class="text-xs text-slate-600">Capture nécessaire pour observer certains critères (face ventrale, dessous des ailes, etc.).</p>
                 </div>
 
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-coral/15 text-oreina-coral font-bold text-lg">T4</span>
-                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-coral">Difficile</span>
+                <div class="card p-6 bg-gradient-to-br from-oreina-coral/10 to-white border-t-4 border-oreina-coral">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold text-oreina-coral">T4</span>
+                        <span class="text-xs font-bold text-oreina-coral uppercase">Difficile</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Examen de la morphologie interne</h3>
                     <p class="text-xs text-slate-600">Examen des armures génitales nécessaire (dissection). Exige une expertise spécialisée.</p>
                 </div>
 
-                <div class="card p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-blue/15 text-oreina-blue font-bold text-lg">T5</span>
-                        <span class="text-xs font-bold uppercase tracking-wider text-oreina-blue">Moléculaire</span>
+                <div class="card p-6 bg-gradient-to-br from-oreina-blue/10 to-white border-t-4 border-oreina-blue">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold text-oreina-blue">T5</span>
+                        <span class="text-xs font-bold text-oreina-blue uppercase">Moléculaire</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Séquençage génétique</h3>
                     <p class="text-xs text-slate-600">Identification par barcoding moléculaire (CO1) ou marqueurs nucléaires complémentaires.</p>
@@ -175,10 +175,10 @@
                     La qualité d'une donnée naturaliste se joue dès la phase d'identification. Une espèce mal identifiée à la saisie est, dans le meilleur des cas, signalée par les validateurs et corrigée. Dans le pire, elle reste dans la base et fausse les analyses ultérieures : cartes de répartition, suivis temporels, modèles de distribution. Structurer la connaissance sur la difficulté d'identification permet d'agir <strong>au moment de l'acquisition</strong>, pas seulement en aval.
                 </p>
                 <p>
-                    Cet enjeu prend une importance particulière dans le cadre du dispositif <strong>EU-PoMS</strong> (European Pollinator Monitoring Scheme), lié au Règlement européen sur la Restauration de la Nature, qui intègre désormais les Lépidoptères nocturnes au suivi standardisé des pollinisateurs. Pour que les suivis s'appuient sur des données fiables, encore faut-il fournir aux observateurs les outils permettant une identification rigoureuse, contextualisée localement. C'est précisément l'objet du projet IDENT.
+                    L'enjeu est aussi <strong>pédagogique</strong>. Distinguer clairement les espèces faciles (singletons, T1-T2) des complexes nécessitant une expertise permet d'orienter les programmes de science participative et les nouveaux bénévoles vers des espèces accessibles, sans les décourager par des identifications trop ardues. C'est un levier essentiel pour élargir et fidéliser le réseau d'observateurs.
                 </p>
                 <p>
-                    L'enjeu est aussi <strong>pédagogique</strong>. Distinguer clairement les espèces faciles (singletons, T1-T2) des complexes nécessitant une expertise permet d'orienter les programmes de science participative et les nouveaux bénévoles vers des espèces accessibles, sans les décourager par des identifications trop ardues. C'est un levier essentiel pour élargir et fidéliser le réseau d'observateurs.
+                    Au-delà de l'usage interne à oreina, ce travail bénéficie à l'ensemble des dispositifs de suivi naturaliste. Le dispositif européen <strong>EU-PoMS</strong> (European Pollinator Monitoring Scheme), qui intègre désormais les Lépidoptères nocturnes au suivi standardisé des pollinisateurs, repose lui aussi sur la fiabilité des identifications de terrain — et oreina, en tant que structure de référence désignée pour les Lépidoptères nocturnes, y apporte le socle qu'IDENT construit.
                 </p>
             </div>
         </div>
@@ -215,6 +215,76 @@
         </div>
     </section>
 
+    {{-- Un bien commun pour la communauté naturaliste --}}
+    <section class="py-16 bg-gradient-to-br from-oreina-blue/8 via-white to-oreina-coral/8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="eyebrow coral mb-4 inline-flex">
+                    <i class="icon icon-coral" data-lucide="share-2"></i>
+                    Un bien commun
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-oreina-dark max-w-3xl mx-auto leading-tight">
+                    Une démarche qui transcende l'humain et profite à toute la communauté naturaliste
+                </h2>
+                <p class="text-slate-600 mt-6 max-w-3xl mx-auto leading-relaxed text-lg">
+                    Le travail conduit dans le projet IDENT n'a de sens que s'il dépasse les murs d'oreina. Typologie de la difficulté, agrégats identifiés, cartes de répartition, fiches diagnostiques&nbsp;: tout ce qui sort de ce travail d'expertise est pensé comme un <strong>bien commun</strong>, librement réutilisable par les bases de données naturalistes, les bureaux d'étude, les gestionnaires d'espaces, les chercheurs, les programmes de science participative et les enseignants.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon blue mb-4">
+                        <i class="icon icon-blue" data-lucide="database"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour les bases naturalistes</h3>
+                    <p class="text-xs text-slate-600">Faune-France, GBIF, SINP régional, INPN… La typologie IDENT et les cartes ABDSM sont mobilisables par toutes les plateformes pour fiabiliser leur validation, sans avoir à reconstruire le travail.</p>
+                </div>
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon sage mb-4">
+                        <i class="icon icon-sage" data-lucide="briefcase"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour les bureaux d'étude et gestionnaires</h3>
+                    <p class="text-xs text-slate-600">Diagnostics ZNIEFF, études d'impact, plans de gestion d'espaces protégés&nbsp;: les agrégats et niveaux de difficulté éclairent l'effort d'inventaire nécessaire et le degré de confiance attribué aux observations de terrain.</p>
+                </div>
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon coral mb-4">
+                        <i class="icon icon-coral" data-lucide="microscope"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour la recherche</h3>
+                    <p class="text-xs text-slate-600">Les jeux de données <em>qualifiés</em> grâce à IDENT constituent des références pour la modélisation de distribution, les études phénologiques, l'analyse des dynamiques de populations.</p>
+                </div>
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon gold mb-4">
+                        <i class="icon icon-gold" data-lucide="graduation-cap"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour la formation et la science participative</h3>
+                    <p class="text-xs text-slate-600">Programmes de sciences participatives, formations de naturalistes, ateliers de détermination&nbsp;: orienter les apprentis vers des espèces accessibles avant les complexes ardus, c'est le levier qui fidélise les nouveaux observateurs.</p>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-white rounded-2xl border-l-4 border-oreina-coral">
+                <p class="text-slate-700 leading-relaxed">
+                    <strong class="text-oreina-dark">Une validation qui peut servir partout.</strong> Une donnée qualifiée selon les référentiels IDENT — bon stade, bon niveau de difficulté, bonne sympatrie, bons critères mobilisés — est une donnée <strong>universellement défendable</strong>. Que cette donnée vienne d'Artemisiae, d'une autre plateforme nationale ou régionale, d'un inventaire conventionné&nbsp;: la même grille s'applique. C'est ce qui fait que le travail d'oreina, conduit pour qualifier ses propres données, se traduit aussi par un référentiel partagé pour <em>tous ceux qui validateront, demain, n'importe quelle observation de Lépidoptère en France</em>.
+                </p>
+            </div>
+
+            <div class="mt-10 grid sm:grid-cols-3 gap-4 text-center">
+                <div class="p-4">
+                    <p class="text-3xl font-bold text-oreina-coral mb-2">Libre</p>
+                    <p class="text-sm text-slate-600">Diffusion en accès libre, sans inscription préalable.</p>
+                </div>
+                <div class="p-4">
+                    <p class="text-3xl font-bold text-oreina-green mb-2">Citable</p>
+                    <p class="text-sm text-slate-600">Référentiels et fiches référencés, citables dans les publications et rapports d'étude.</p>
+                </div>
+                <div class="p-4">
+                    <p class="text-3xl font-bold text-oreina-blue mb-2">Évolutif</p>
+                    <p class="text-sm text-slate-600">Mise à jour continue par le COTECH IDENT au fil des connaissances acquises par le réseau.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- Chiffres-clés --}}
     <section class="py-16 bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -224,37 +294,37 @@
                     Chiffres-clés
                 </div>
                 <h2 class="text-3xl font-bold text-oreina-dark">IDENT en chiffres</h2>
-                <p class="text-slate-500 mt-3 max-w-2xl mx-auto">État du chantier en cours et objectifs de la convention 2026, 2028.</p>
+                <p class="text-slate-500 mt-3 max-w-2xl mx-auto">État du chantier en cours et objectifs à l'horizon 2028.</p>
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">14</p>
                     <p class="text-sm text-slate-600 leading-tight">bénévoles experts mobilisés au sein du comité technique IDENT</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">5</p>
                     <p class="text-sm text-slate-600 leading-tight">niveaux de difficulté dans la typologie PatriNat (T1 à T5)</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~10</p>
                     <p class="text-sm text-slate-600 leading-tight">guides et fiches d'identification à produire d'ici 2028</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">839</p>
                     <p class="text-sm text-slate-600 leading-tight">cartes ABDSM de répartition départementale déjà réalisées pour les Lépidoptères</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">115</p>
                     <p class="text-sm text-slate-600 leading-tight">cartes ABDSM mises à jour en 2024 (Rhopalocères et Zygènes principalement)</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">100 %</p>
-                    <p class="text-sm text-slate-600 leading-tight">des agrégats d'espèces liés au suivi EU-PoMS à saisir d'ici 2028</p>
+                    <p class="text-sm text-slate-600 leading-tight">des agrégats d'espèces du suivi européen EU-PoMS pris en charge d'ici 2028</p>
                 </div>
             </div>
 
-            <p class="text-center text-xs text-slate-400 mt-6">Sources : fiche projet IDENT 2026, 2028 et rapport d'activité OFB 2024 d'oreina.</p>
+            <p class="text-center text-xs text-slate-400 mt-6">Sources : documents projet IDENT et bilan d'activité 2024 d'oreina.</p>
         </div>
     </section>
 
@@ -297,28 +367,28 @@
                 <h3 class="text-lg font-bold text-oreina-dark mb-6 text-center">Le cycle vertueux entre identification, apprentissage et qualité de la donnée</h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-teal rounded-2xl flex items-center justify-center shadow-md">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center">
                             <i data-lucide="map" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">1. Cartographie</h4>
                         <p class="text-xs text-slate-500">Recensement des agrégats et typologie de la difficulté par les experts du COTECH.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-yellow rounded-2xl flex items-center justify-center shadow-md">
-                            <i data-lucide="book-open" style="width:30px;height:30px;color:#16302B"></i>
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center">
+                            <i data-lucide="book-open" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">2. Production des guides</h4>
                         <p class="text-xs text-slate-500">Rédaction des fiches, clés et guides de dissection. Diffusion via <em>Artemisiae</em>.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-coral rounded-2xl flex items-center justify-center shadow-md">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-coral to-oreina-yellow rounded-2xl flex items-center justify-center">
                             <i data-lucide="wand-sparkles" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">3. Aide à la saisie</h4>
                         <p class="text-xs text-slate-500">Signalement automatique des risques de confusion lors de la saisie sur <em>Artemisiae</em>.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-blue rounded-2xl flex items-center justify-center shadow-md">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center">
                             <i data-lucide="badge-check" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">4. Donnée qualifiée</h4>
@@ -354,28 +424,28 @@
                 </div>
 
                 <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
-                    <div class="card p-6">
+                    <div class="card p-6 bg-gradient-to-br from-oreina-coral/5 to-white border-t-4 border-oreina-coral">
                         <div class="pub-card-icon coral mb-3">
                             <i class="icon icon-coral" data-lucide="presentation"></i>
                         </div>
                         <h3 class="font-bold text-oreina-dark mb-2 text-sm">Webinaires courts</h3>
                         <p class="text-xs text-slate-600">30 à 40 minutes pour traiter un agrégat ou un complexe d'espèces, animé par un référent du COTECH.</p>
                     </div>
-                    <div class="card p-6">
+                    <div class="card p-6 bg-gradient-to-br from-oreina-yellow/10 to-white border-t-4 border-oreina-yellow">
                         <div class="pub-card-icon gold mb-3">
                             <i class="icon icon-gold" data-lucide="download"></i>
                         </div>
                         <h3 class="font-bold text-oreina-dark mb-2 text-sm">Supports téléchargeables</h3>
                         <p class="text-xs text-slate-600">Diaporama et synthèse PDF, librement réutilisables pour la formation et la validation des données.</p>
                     </div>
-                    <div class="card p-6">
+                    <div class="card p-6 bg-gradient-to-br from-oreina-blue/5 to-white border-t-4 border-oreina-blue">
                         <div class="pub-card-icon blue mb-3">
                             <i class="icon icon-blue" data-lucide="users"></i>
                         </div>
                         <h3 class="font-bold text-oreina-dark mb-2 text-sm">Ouverts à tous</h3>
                         <p class="text-xs text-slate-600">Adhérents et non-adhérents bienvenus. Les replays restent accessibles en libre accès après la session.</p>
                     </div>
-                    <div class="card p-6">
+                    <div class="card p-6 bg-gradient-to-br from-oreina-green/5 to-white border-t-4 border-oreina-green">
                         <div class="pub-card-icon sage mb-3">
                             <i class="icon icon-sage" data-lucide="lightbulb"></i>
                         </div>
@@ -453,7 +523,7 @@
                         <i class="icon icon-blue" data-lucide="file-bar-chart"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-blue transition">Rapport d'activité</h3>
-                    <p class="text-xs text-slate-500">Rapport IDENT 2024 d'oreina à l'OFB.</p>
+                    <p class="text-xs text-slate-500">Bilan d'activité IDENT 2024 d'oreina.</p>
                 </a>
             </div>
         </div>
@@ -538,7 +608,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-2xl font-bold text-oreina-dark">Découvrir les autres projets</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">IDENT s'inscrit dans la convention pluriannuelle 2026, 2028 d'oreina avec l'OFB. Il est étroitement articulé avec le projet QUALIF, dont il est l'ingrédient méthodologique central.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">IDENT est l'un des cinq projets scientifiques que conduit oreina pour la connaissance des Lépidoptères de France. Il est étroitement articulé avec le projet QUALIF, dont il est l'ingrédient méthodologique central.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

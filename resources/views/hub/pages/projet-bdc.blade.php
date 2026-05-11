@@ -32,8 +32,8 @@
                         <p class="font-bold text-oreina-dark">PatriNat (MNHN)</p>
                     </div>
                     <div>
-                        <p class="text-slate-400 text-xs uppercase tracking-wide">Convention</p>
-                        <p class="font-bold text-oreina-dark">OFB 2026, 2028</p>
+                        <p class="text-slate-400 text-xs uppercase tracking-wide">Couverture</p>
+                        <p class="font-bold text-oreina-dark">Lépidoptères de France</p>
                     </div>
                     <div>
                         <p class="text-slate-400 text-xs uppercase tracking-wide">Coordination</p>
@@ -180,7 +180,7 @@
                     <strong>Pour les politiques publiques</strong>, c'est ce qui permet de répondre à des questions précises : combien de papillons diurnes liés aux prairies sèches ont plusieurs générations par an ? Quelles espèces de papillons nocturnes pollinisent les orchidées ? Quels papillons de jour sont univoltins, et donc plus vulnérables aux aléas saisonniers ? Toutes ces questions trouvent leur réponse dans une base structurée. Aucune n'est accessible si l'information reste éparpillée dans des dizaines de publications.
                 </p>
                 <p>
-                    Le projet BDC répond directement aux besoins du <strong>Plan National d'Action Pollinisateurs</strong> et du dispositif européen <strong>EU-PoMS</strong>, qui nécessitent de caractériser précisément les espèces suivies.
+                    Cette structuration profite à de nombreux dispositifs : le <strong>Plan National d'Action Pollinisateurs</strong>, le suivi européen <strong>EU-PoMS</strong>, les listes rouges, les diagnostics territoriaux — tous ont besoin d'une caractérisation fiable des espèces suivies, et tous trouvent dans BDC une réponse cohérente.
                 </p>
             </div>
         </div>
@@ -219,6 +219,76 @@
         </div>
     </section>
 
+    {{-- Un bien commun pour la communauté naturaliste --}}
+    <section class="py-16 bg-gradient-to-br from-oreina-green/8 via-white to-oreina-yellow/8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="eyebrow coral mb-4 inline-flex">
+                    <i class="icon icon-coral" data-lucide="share-2"></i>
+                    Un bien commun
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-oreina-dark max-w-3xl mx-auto leading-tight">
+                    Des traits de vie au service de toute la communauté naturaliste et scientifique
+                </h2>
+                <p class="text-slate-600 mt-6 max-w-3xl mx-auto leading-relaxed text-lg">
+                    Le travail conduit dans le projet BDC n'a de sens que s'il dépasse les murs d'oreina. Plantes-hôtes sourcées, phénologie, voltinisme, écologie, statuts de protection&nbsp;: tout ce qui sort de ce travail d'expertise est pensé comme un <strong>bien commun</strong>, librement réutilisable par les chercheurs, les bureaux d'étude, les gestionnaires d'espaces, les rédacteurs d'atlas, les programmes de science participative et les enseignants.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon blue mb-4">
+                        <i class="icon icon-blue" data-lucide="line-chart"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour la recherche</h3>
+                    <p class="text-xs text-slate-600">Modèles de distribution d'espèces (SDM), études phénologiques, analyses de réponse au changement climatique&nbsp;: les traits de vie BDC sont la matière première de ces approches, jusqu'ici dispersée dans la littérature et donc difficile à mobiliser.</p>
+                </div>
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon sage mb-4">
+                        <i class="icon icon-sage" data-lucide="leaf"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour la conservation</h3>
+                    <p class="text-xs text-slate-600">PNAP, plans nationaux d'action, listes rouges, plans de gestion d'espaces protégés&nbsp;: les traits permettent d'identifier les espèces vulnérables (univoltines, monophages, à plantes-hôtes rares) et d'orienter les actions de préservation.</p>
+                </div>
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon coral mb-4">
+                        <i class="icon icon-coral" data-lucide="book-marked"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour les atlas et synthèses</h3>
+                    <p class="text-xs text-slate-600">Atlas régionaux et départementaux, monographies, faunes locales&nbsp;: une fiche espèce homogène est désormais accessible à tous les rédacteurs, avec sourçage bibliographique systématique pour citation.</p>
+                </div>
+                <div class="card p-6 bg-white">
+                    <div class="pub-card-icon gold mb-4">
+                        <i class="icon icon-gold" data-lucide="graduation-cap"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Pour la formation et la science participative</h3>
+                    <p class="text-xs text-slate-600">Programmes de sciences participatives, enseignement, ateliers naturalistes&nbsp;: connaître la plante-hôte ou la période de vol d'une espèce, c'est le préalable à toute observation orientée — et le levier de fidélisation des nouveaux observateurs.</p>
+                </div>
+            </div>
+
+            <div class="mt-10 p-6 bg-white rounded-2xl border-l-4 border-oreina-green">
+                <p class="text-slate-700 leading-relaxed">
+                    <strong class="text-oreina-dark">Une information traçable, donc réutilisable partout.</strong> Chaque valeur de trait dans BDC est <strong>obligatoirement reliée à sa source bibliographique</strong> et assortie d'un niveau de confiance. C'est cette traçabilité, couplée à l'alignement avec l'<strong>ontologie PatriNat</strong> et à la <strong>cohérence avec BeeFunc</strong> (abeilles sauvages, Arthropologia), qui fait qu'un trait BDC est citable dans une publication scientifique, dans un rapport d'étude réglementaire ou dans un atlas régional avec la même rigueur. Le travail conduit pour qualifier les données d'<em>Artemisiae</em> devient ainsi un référentiel partagé pour <em>tous ceux qui auront besoin, demain, d'informations fiables sur l'écologie d'un Lépidoptère de France</em>.
+                </p>
+            </div>
+
+            <div class="mt-10 grid sm:grid-cols-3 gap-4 text-center">
+                <div class="p-4">
+                    <p class="text-3xl font-bold text-oreina-coral mb-2">Sourcé</p>
+                    <p class="text-sm text-slate-600">Chaque trait est rattaché à sa référence bibliographique d'origine.</p>
+                </div>
+                <div class="p-4">
+                    <p class="text-3xl font-bold text-oreina-green mb-2">Interopérable</p>
+                    <p class="text-sm text-slate-600">Définitions alignées avec PatriNat (ontologie) et avec BeeFunc (pollinisateurs).</p>
+                </div>
+                <div class="p-4">
+                    <p class="text-3xl font-bold text-oreina-blue mb-2">Évolutif</p>
+                    <p class="text-sm text-slate-600">Mise à jour continue par le groupe BDC au fil des publications nouvelles et des observations consolidées sur <em>Artemisiae</em>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- Chiffres-clés --}}
     <section class="py-16 bg-slate-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -232,27 +302,27 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">5</p>
                     <p class="text-sm text-slate-600 leading-tight">grands traits prioritaires en cours de renseignement (phase 1)</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">54</p>
                     <p class="text-sm text-slate-600 leading-tight">traits prévus à terme, organisés en 9 grandes catégories</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">3</p>
                     <p class="text-sm text-slate-600 leading-tight">familles de traits dans l'ontologie PatriNat (intrinsèques, interactions biotiques, espèce-habitat)</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">100 %</p>
-                    <p class="text-sm text-slate-600 leading-tight">des espèces suivies par EU-PoMS à renseigner d'ici 2028</p>
+                    <p class="text-sm text-slate-600 leading-tight">des espèces du suivi européen EU-PoMS à renseigner d'ici 2028</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">2</p>
                     <p class="text-sm text-slate-600 leading-tight">bases jumelles dans la sphère pollinisateurs : BDC (papillons) et BeeFunc (abeilles)</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">980</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces d'abeilles sauvages dans BeeFunc (Arthropologia), avec définitions alignées sur BDC</p>
                 </div>
@@ -335,7 +405,7 @@
                     Phase actuelle
                 </div>
                 <h2 class="text-3xl font-bold text-oreina-dark">Cinq traits prioritaires</h2>
-                <p class="text-slate-500 mt-3 max-w-2xl">La priorité de la phase 2026, 2028 porte sur cinq domaines fondamentaux, choisis pour leur valeur immédiate dans le cadre du Plan National d'Action Pollinisateurs et d'EU-PoMS.</p>
+                <p class="text-slate-500 mt-3 max-w-2xl">La priorité de la phase 2026-2028 porte sur cinq domaines fondamentaux, choisis pour leur valeur immédiate à la fois pour la communauté naturaliste et pour les dispositifs nationaux et européens de suivi des pollinisateurs.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -444,29 +514,29 @@
                 <h3 class="text-lg font-bold text-oreina-dark mb-6 text-center">Le cycle vertueux entre observations, traits et terrain</h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-teal rounded-2xl flex items-center justify-center shadow-md">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center">
                             <i data-lucide="camera" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">1. Observation terrain</h4>
                         <p class="text-xs text-slate-500">Saisie sur <em>Artemisiae</em> avec contexte (plante, date, altitude, milieu).</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-coral rounded-2xl flex items-center justify-center shadow-md">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-coral to-oreina-yellow rounded-2xl flex items-center justify-center">
                             <i data-lucide="badge-check" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">2. Trait validé</h4>
                         <p class="text-xs text-slate-500">Validation par le réseau d'experts, intégration dans la base BDC sourcée.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-blue rounded-2xl flex items-center justify-center shadow-md">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center">
                             <i data-lucide="file-text" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">3. Fiche taxon enrichie</h4>
                         <p class="text-xs text-slate-500">Affichage dans l'onglet « traits de vie » de la fiche espèce d'<em>Artemisiae</em>.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-yellow rounded-2xl flex items-center justify-center shadow-md">
-                            <i data-lucide="search" style="width:30px;height:30px;color:#16302B"></i>
+                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center">
+                            <i data-lucide="search" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">4. Prospection ciblée</h4>
                         <p class="text-xs text-slate-500">Recherche orientée et chorologie : nouvelles observations, et le cycle recommence.</p>
@@ -511,7 +581,7 @@
                         <i class="icon icon-blue" data-lucide="file-bar-chart"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-blue transition">Rapport d'activité</h3>
-                    <p class="text-xs text-slate-500">Rapport BDC 2024 d'oreina à l'OFB.</p>
+                    <p class="text-xs text-slate-500">Bilan d'activité BDC 2024 d'oreina.</p>
                 </a>
             </div>
         </div>
@@ -589,7 +659,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-2xl font-bold text-oreina-dark">Découvrir les autres projets</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">BDC s'inscrit dans la convention pluriannuelle 2026, 2028 d'oreina avec l'OFB, qui structure cinq projets scientifiques complémentaires.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">BDC est l'un des cinq projets scientifiques que conduit oreina pour la connaissance des Lépidoptères de France. Les quatre autres lui sont étroitement articulés.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

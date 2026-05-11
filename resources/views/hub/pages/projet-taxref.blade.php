@@ -28,8 +28,8 @@
                         <p class="font-bold text-oreina-dark">PatriNat (MNHN)</p>
                     </div>
                     <div>
-                        <p class="text-slate-400 text-xs uppercase tracking-wide">Convention</p>
-                        <p class="font-bold text-oreina-dark">OFB 2026, 2028</p>
+                        <p class="text-slate-400 text-xs uppercase tracking-wide">Couverture</p>
+                        <p class="font-bold text-oreina-dark">Lépidoptères de France</p>
                     </div>
                     <div>
                         <p class="text-slate-400 text-xs uppercase tracking-wide">Coordination</p>
@@ -130,33 +130,33 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">44 649</p>
                     <p class="text-sm text-slate-600 leading-tight">noms scientifiques recensés dans TAXREF (tous Lépidoptères)</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">20 945</p>
                     <p class="text-sm text-slate-600 leading-tight">noms recensés pour la France métropolitaine</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">5 683</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces valides documentées en métropole</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">286</p>
                     <p class="text-sm text-slate-600 leading-tight">nouveaux noms intégrés en 2024 (dont 228 à l'échelle spécifique)</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">15</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces nouvelles signalées en France en 2024</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~400</p>
-                    <p class="text-sm text-slate-600 leading-tight">nouveaux noms prévus sur 2026, 2028 (cible convention OFB)</p>
+                    <p class="text-sm text-slate-600 leading-tight">nouveaux noms prévus à l'horizon 2028</p>
                 </div>
             </div>
 
-            <p class="text-center text-xs text-slate-400 mt-6">Source : Rapport d'activité OFB 2024 d'oreina.</p>
+            <p class="text-center text-xs text-slate-400 mt-6">Sources : documents projet TAXREF et bilan d'activité 2024 d'oreina.</p>
         </div>
     </section>
 
@@ -301,7 +301,7 @@
                         <i class="icon icon-gold" data-lucide="file-text"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-blue transition">Rapport d'activité</h3>
-                    <p class="text-xs text-slate-500">Rapport TAXREF 2024 d'oreina à l'OFB.</p>
+                    <p class="text-xs text-slate-500">Bilan d'activité TAXREF 2024 d'oreina.</p>
                 </a>
             </div>
         </div>
@@ -377,7 +377,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-2xl font-bold text-oreina-dark">Découvrir les autres projets</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">oreina conduit cinq projets scientifiques structurants dans le cadre de sa convention 2026-2028 avec l'OFB. TAXREF est l'un d'entre eux. Les quatre autres lui sont étroitement articulés.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">oreina structure son action scientifique autour de cinq projets complémentaires. TAXREF est l'un d'entre eux ; les quatre autres lui sont étroitement articulés.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

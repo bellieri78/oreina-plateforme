@@ -83,34 +83,34 @@
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="card p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-coral/15 text-oreina-coral font-bold text-lg">1</span>
-                        <i data-lucide="target" style="width:24px;height:24px;color:var(--coral);opacity:0.55"></i>
+                <div class="card p-6 bg-gradient-to-br from-oreina-coral/5 to-white border-t-4 border-oreina-coral">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold text-oreina-coral">1</span>
+                        <i data-lucide="target" style="width:24px;height:24px;color:var(--coral);opacity:0.6"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Cadrer le complexe</h3>
                     <p class="text-xs text-slate-600">Vue d'ensemble des espèces, statut de fréquence, contexte taxonomique, révisions récentes.</p>
                 </div>
-                <div class="card p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-yellow/20 font-bold text-lg" style="color:#8b6c05">2</span>
-                        <i data-lucide="scan-eye" style="width:24px;height:24px;color:#8b6c05;opacity:0.55"></i>
+                <div class="card p-6 bg-gradient-to-br from-oreina-yellow/10 to-white border-t-4 border-oreina-yellow">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold" style="color:#8b6c05">2</span>
+                        <i data-lucide="scan-eye" style="width:24px;height:24px;color:#8b6c05;opacity:0.6"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Critères externes</h3>
                     <p class="text-xs text-slate-600">Habitus, dessins, dimorphisme, variations géographiques. Ce qui se voit sans manipulation.</p>
                 </div>
-                <div class="card p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-blue/15 text-oreina-blue font-bold text-lg">3</span>
-                        <i data-lucide="microscope" style="width:24px;height:24px;color:var(--blue);opacity:0.55"></i>
+                <div class="card p-6 bg-gradient-to-br from-oreina-blue/5 to-white border-t-4 border-oreina-blue">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold text-oreina-blue">3</span>
+                        <i data-lucide="microscope" style="width:24px;height:24px;color:var(--blue);opacity:0.6"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Examens internes</h3>
                     <p class="text-xs text-slate-600">Quand et comment passer aux genitalia. Apport du barcoding ADN sur les cas-limites.</p>
                 </div>
-                <div class="card p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-oreina-green/15 text-oreina-green font-bold text-lg">4</span>
-                        <i data-lucide="wand-sparkles" style="width:24px;height:24px;color:var(--sage);opacity:0.55"></i>
+                <div class="card p-6 bg-gradient-to-br from-oreina-green/5 to-white border-t-4 border-oreina-green">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-3xl font-bold text-oreina-green">4</span>
+                        <i data-lucide="wand-sparkles" style="width:24px;height:24px;color:var(--sage);opacity:0.6"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 text-sm">Clés pour Artemisiae</h3>
                     <p class="text-xs text-slate-600">Synthèse opérationnelle pour la saisie et la validation : ce qu'il faut renseigner, ce qu'il faut vérifier.</p>
@@ -148,7 +148,7 @@
                         <h3 class="text-2xl font-bold text-oreina-dark mb-2">Le complexe <em>Hoplodrina</em> en France</h3>
                         <p class="text-sm text-slate-500 mb-4">Détermination et validation des données sur Artemisiae</p>
                         <p class="text-slate-600 leading-relaxed mb-4">
-                            Sept espèces du genre <em>Hoplodrina</em> sont aujourd'hui reconnues en France, dont une — <em>H. alsinides</em> — n'a été restaurée comme bonne espèce qu'en 2020 après près d'un siècle de synonymie. Le taux d'erreur d'identification estimé sur <em>Artemisiae</em> dépasse 30 %, ce qui en fait un complexe prioritaire pour la qualification des données nocturnes.
+                            Sept espèces du genre <em>Hoplodrina</em> sont aujourd'hui reconnues en France, dont une — <em>H. alsinides</em> — n'a été restaurée comme bonne espèce qu'en 2020 après près d'un siècle de synonymie. Le taux d'erreur d'identification estimé sur <em>Artemisiae</em> dépasse 30 %, ce qui en fait un complexe prioritaire pour la qualification des données nocturnes, et notamment pour le suivi EU-PoMS.
                         </p>
                         <p class="text-slate-600 leading-relaxed mb-6">
                             Cette session passe en revue les sept espèces, les caractères externes utilisables, les cas où la dissection est indispensable, et l'apport du barcoding pour les cas-limites. Une synthèse opérationnelle clôt la séance avec les bons réflexes à avoir au moment de la saisie.
@@ -175,7 +175,7 @@
                         <dl class="space-y-3 text-sm">
                             <div>
                                 <dt class="text-slate-400 text-xs">Animation</dt>
-                                <dd class="font-bold text-oreina-dark">David DEMERGES</dd>
+                                <dd class="font-bold text-oreina-dark">Référent du COTECH IDENT</dd>
                             </div>
                             <div>
                                 <dt class="text-slate-400 text-xs">Durée</dt>
@@ -205,7 +205,7 @@
                         <span class="text-xs font-bold uppercase tracking-wide bg-oreina-yellow/30 px-2 py-1 rounded-full" style="color:#8b6c05">En préparation</span>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Sujets candidats</h3>
-                    <p class="text-xs text-slate-600">Plusieurs complexes prioritaires sont identifiés : Le genre <em>Eupithecia</em>, les <em>Euxoa</em>, les <em>Cucullia</em> «&nbsp;jaunes&nbsp;»…</p>
+                    <p class="text-xs text-slate-600">Plusieurs complexes prioritaires sont identifiés par le COTECH IDENT : Hespéries du genre <em>Pyrgus</em>, Mélitées, <em>Euxoa</em> spp., géomètres du genre <em>Eupithecia</em>… Le calendrier 2026-2028 se construit au fil des disponibilités d'expertise au sein du réseau.</p>
                 </div>
                 <div class="card p-6 bg-white/60 border border-dashed border-slate-300">
                     <div class="flex items-center gap-2 mb-3">
@@ -342,7 +342,7 @@
 
                     <div>
                         <label for="sujet" class="block text-sm font-bold text-oreina-dark mb-2">Complexe ou agrégat concerné <span class="text-oreina-coral">*</span></label>
-                        <input type="text" id="sujet" name="sujet" required value="{{ old('sujet') }}" placeholder="Ex. : Hespéries du genre Pyrgus, Mythimna spp., Mélitées du complexe athalia…" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-oreina-coral focus:border-oreina-coral outline-none transition">
+                        <input type="text" id="sujet" name="sujet" required value="{{ old('sujet') }}" placeholder="Ex. : Hespéries du genre Pyrgus, Euxoa spp., Mélitées du complexe athalia…" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-oreina-coral focus:border-oreina-coral outline-none transition">
                         @error('sujet')<p class="mt-1 text-xs text-oreina-coral">{{ $message }}</p>@enderror
                     </div>
 
@@ -456,7 +456,7 @@
         </div>
     </section>
 
-    {{-- Articulation avec les autres outils --}}
+    {{-- Pour aller plus loin --}}
     <section class="py-16 bg-slate-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">

@@ -28,8 +28,8 @@
                         <p class="font-bold text-oreina-dark">ISYEB (MNHN)</p>
                     </div>
                     <div>
-                        <p class="text-slate-400 text-xs uppercase tracking-wide">Convention</p>
-                        <p class="font-bold text-oreina-dark">OFB 2026, 2028</p>
+                        <p class="text-slate-400 text-xs uppercase tracking-wide">Cible prioritaire</p>
+                        <p class="font-bold text-oreina-dark">Macrohétérocères</p>
                     </div>
                     <div>
                         <p class="text-slate-400 text-xs uppercase tracking-wide">Coordination</p>
@@ -178,7 +178,7 @@
                     Elle alimente aussi la <strong>taxonomie elle-même</strong>. La confrontation de spécimens issus de toute l'aire de répartition d'une espèce révèle souvent des <strong>lignées phylogénétiques distinctes</strong>, parfois associées à des caractéristiques biogéographiques particulières. L'analyse des distances génétiques entre ces lignées peut conduire à la description de nouvelles espèces, ou à la confirmation de séparations longtemps suspectées sur des bases morphologiques.
                 </p>
                 <p>
-                    Elle servira enfin, à terme, le <strong>dispositif européen EU-PoMS</strong> (European Pollinator Monitoring Scheme), dans lequel oreina est désignée comme structure de référence pour les Lépidoptères nocturnes. Le schéma central d'EU-PoMS s'appuie aujourd'hui sur des relevés visuels, mais des modules génétiques complémentaires sont envisagés pour le futur, et nécessiteront une couverture de référence aussi exhaustive que possible.
+                    À l'échelle européenne enfin, des modules génétiques complémentaires sont envisagés pour le dispositif <strong>EU-PoMS</strong> (European Pollinator Monitoring Scheme), pour lequel oreina est désignée structure de référence pour les Lépidoptères nocturnes. La couverture moléculaire bâtie par SEQREF anticipe ces besoins.
                 </p>
             </div>
         </div>
@@ -222,37 +222,37 @@
                     Chiffres-clés
                 </div>
                 <h2 class="text-3xl font-bold text-oreina-dark">SEQREF en chiffres</h2>
-                <p class="text-slate-500 mt-3 max-w-2xl mx-auto">État de la couverture moléculaire des Lépidoptères de France et objectifs de la convention 2026, 2028.</p>
+                <p class="text-slate-500 mt-3 max-w-2xl mx-auto">État de la couverture moléculaire des Lépidoptères de France et objectifs à l'horizon 2028.</p>
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-turquoise/5 to-oreina-blue/5">
                     <p class="text-4xl font-bold text-oreina-turquoise mb-2">5 615</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces de Lépidoptères recensées en France métropolitaine</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-turquoise/5 to-oreina-blue/5">
                     <p class="text-4xl font-bold text-oreina-turquoise mb-2">3 620</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces classées comme prioritaires pour la collecte</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-turquoise/5 to-oreina-blue/5">
                     <p class="text-4xl font-bold text-oreina-turquoise mb-2">594</p>
                     <p class="text-sm text-slate-600 leading-tight">taxons d'importance moyenne pour la complétion de la base</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">17</p>
                     <p class="text-sm text-slate-600 leading-tight">référents régionaux pour organiser la collecte dans les territoires</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">1 000</p>
                     <p class="text-sm text-slate-600 leading-tight">spécimens à transmettre au MNHN par an : c'est l'objectif</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~70 %</p>
                     <p class="text-sm text-slate-600 leading-tight">de couverture cible des espèces françaises à l'horizon 2028</p>
                 </div>
             </div>
 
-            <p class="text-center text-xs text-slate-400 mt-6">Sources : fiche projet SEQREF 2026, 2028 et rapport d'activité OFB 2024 d'oreina.</p>
+            <p class="text-center text-xs text-slate-400 mt-6">Sources : documents projet SEQREF et bilan d'activité 2024 d'oreina.</p>
         </div>
     </section>
 
@@ -274,7 +274,7 @@
                         <i class="icon icon-sage" data-lucide="list-checks"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Suivi dynamique des priorités</h3>
-                    <p class="text-sm text-slate-600">Maintien à jour de la liste des espèces prioritaires, en fonction des séquences déjà obtenues, des publications scientifiques nouvelles et des besoins du dispositif EU-PoMS.</p>
+                    <p class="text-sm text-slate-600">Maintien à jour de la liste des espèces prioritaires, en fonction des séquences déjà obtenues, des publications scientifiques nouvelles et des évolutions taxonomiques.</p>
                 </div>
 
                 <div class="card p-6">
@@ -307,14 +307,6 @@
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Intégration des données</h3>
                     <p class="text-sm text-slate-600">Articulation entre SEQREF et les autres référentiels d'oreina, notamment TAXREF (les changements taxonomiques détectés par barcoding alimentent la mise à jour du référentiel).</p>
-                </div>
-
-                <div class="card p-6 border-2 border-oreina-green/30">
-                    <div class="pub-card-icon coral mb-4">
-                        <i class="icon icon-coral" data-lucide="globe-2"></i>
-                    </div>
-                    <h3 class="font-bold text-oreina-dark mb-2">Articulation avec EU-PoMS</h3>
-                    <p class="text-sm text-slate-600">Priorisation des espèces relevant d'EU-PoMS dans les efforts de séquençage, pour anticiper les besoins futurs en modules génétiques du dispositif européen.</p>
                 </div>
             </div>
         </div>
@@ -403,7 +395,7 @@
                         <i class="icon icon-gold" data-lucide="file-bar-chart"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-blue transition">Rapport d'activité</h3>
-                    <p class="text-xs text-slate-500">Rapport SEQREF 2024 d'oreina à l'OFB.</p>
+                    <p class="text-xs text-slate-500">Bilan d'activité SEQREF 2024 d'oreina.</p>
                 </a>
             </div>
         </div>
@@ -479,7 +471,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-2xl font-bold text-oreina-dark">Découvrir les autres projets</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">SEQREF s'inscrit dans la convention pluriannuelle 2026, 2028 d'oreina avec l'OFB, qui structure cinq projets scientifiques complémentaires.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">SEQREF est l'un des cinq projets scientifiques que conduit oreina pour la connaissance des Lépidoptères de France. Les quatre autres lui sont étroitement articulés.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -28,8 +28,8 @@
                         <p class="font-bold text-oreina-dark">Macrohétérocères</p>
                     </div>
                     <div>
-                        <p class="text-slate-400 text-xs uppercase tracking-wide">Convention</p>
-                        <p class="font-bold text-oreina-dark">OFB 2026, 2028</p>
+                        <p class="text-slate-400 text-xs uppercase tracking-wide">Périmètre</p>
+                        <p class="font-bold text-oreina-dark">Données Artemisiae</p>
                     </div>
                     <div>
                         <p class="text-slate-400 text-xs uppercase tracking-wide">Coordination</p>
@@ -133,7 +133,7 @@
 
             <div class="text-slate-600 leading-relaxed space-y-6">
                 <p>
-                    QUALIF occupe une place particulière dans la convention 2026, 2028 d'oreina avec l'OFB. Là où les quatre autres projets relèvent de l'<strong>axe 1</strong> (mise à jour et structuration des référentiels techniques), QUALIF relève de l'<strong>axe 2</strong> (acquisition, gestion et diffusion des données d'observation). Il en est l'aboutissement opérationnel : c'est dans QUALIF que se concrétise l'utilité des autres projets pour la conservation.
+                    QUALIF occupe une place particulière dans le dispositif scientifique d'oreina. Là où les quatre autres projets — TAXREF, SEQREF, BDC, IDENT — produisent et structurent des <strong>référentiels techniques</strong>, QUALIF mobilise ces référentiels au service de la <strong>donnée d'observation</strong>. Il en est l'aboutissement opérationnel : c'est dans QUALIF que se concrétise l'utilité des autres projets pour la conservation.
                 </p>
                 <p>
                     Au cœur du dispositif se trouve le <strong>réseau de validateurs d'<em>Artemisiae</em></strong>, qui est probablement l'une des forces les plus singulières d'oreina dans le paysage naturaliste français. Une trentaine d'experts bénévoles, chacun spécialisé sur un groupe taxonomique précis (Géomètres, Noctuelles, Microlépidoptères, Sphinx, Saturnies, Hespéries, Lycènes, etc.), examinent au quotidien les observations saisies sur la plateforme. Cette validation ne se limite pas à un simple contrôle de plausibilité : elle s'appuie sur la confrontation à un faisceau de référentiels (taxonomie, difficulté d'identification, traits de vie, séquences de référence) et permet d'aboutir à une donnée qualifiée, sourcée, réutilisable.
@@ -142,7 +142,7 @@
                     Ce réseau, animé en continu, est le dispositif technique et humain qui rend possible le projet QUALIF. Sans lui, aucune qualification systématique à l'échelle nationale ne serait envisageable.
                 </p>
                 <p>
-                    Le projet QUALIF mobilise simultanément les ressources des quatre projets de l'axe 1 :
+                    Le projet QUALIF mobilise simultanément les ressources des quatre autres projets :
                 </p>
                 <ul class="list-disc pl-8 space-y-3 marker:text-oreina-green">
                     <li><span class="pl-2 inline-block">le référentiel <strong>TAXREF</strong> et son interface Systema, pour s'assurer que chaque donnée est rattachée au taxon valide actuel ;</span></li>
@@ -170,27 +170,27 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">~30</p>
                     <p class="text-sm text-slate-600 leading-tight">experts validateurs bénévoles spécialisés par groupe taxonomique</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">5</p>
                     <p class="text-sm text-slate-600 leading-tight">bénévoles du groupe projet pilotant la coordination scientifique</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-green/5 to-oreina-turquoise/5">
                     <p class="text-4xl font-bold text-oreina-green mb-2">~2</p>
                     <p class="text-sm text-slate-600 leading-tight">ETP bénévoles par an, soit ~50 000 € de bénévolat valorisé</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~5</p>
                     <p class="text-sm text-slate-600 leading-tight">rapports d'analyse de qualité à transmettre aux producteurs de données</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">1</p>
                     <p class="text-sm text-slate-600 leading-tight">jeu de données de référence Macrohétérocères, format SINP/INPN, livré à l'horizon 2028</p>
                 </div>
-                <div class="card p-6 text-center">
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">~3 000</p>
                     <p class="text-sm text-slate-600 leading-tight">espèces de Macrohétérocères concernées par le travail de qualification</p>
                 </div>
@@ -250,7 +250,7 @@
                     Articulation
                 </div>
                 <h2 class="text-3xl font-bold text-oreina-dark">QUALIF orchestre les autres projets</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl">Chaque projet de la convention 2026, 2028 alimente QUALIF avec un type de référentiel ou de connaissance. C'est ce qui fait la cohérence d'ensemble du dispositif.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl">Chacun des projets scientifiques d'oreina alimente QUALIF avec un type de référentiel ou de connaissance. C'est ce qui fait la cohérence d'ensemble du dispositif.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -290,7 +290,7 @@
 
             <div class="mt-10 p-6 bg-white rounded-xl border-l-4 border-oreina-green">
                 <p class="text-slate-600">
-                    <strong class="text-oreina-dark">Une cohérence d'ensemble.</strong> Chacun des cinq projets de la convention pris isolément constitue une contribution scientifique en soi. Mais c'est leur articulation, et la capacité d'oreina à les mobiliser conjointement au service de la qualification de la donnée, qui fait la valeur stratégique du dispositif. QUALIF est le projet où cette cohérence devient visible et opérationnelle.
+                    <strong class="text-oreina-dark">Une cohérence d'ensemble.</strong> Chacun des cinq projets pris isolément constitue une contribution scientifique en soi. Mais c'est leur articulation, et la capacité d'oreina à les mobiliser conjointement au service de la qualification de la donnée, qui fait la valeur stratégique du dispositif. QUALIF est le projet où cette cohérence devient visible et opérationnelle.
                 </p>
             </div>
         </div>
@@ -363,21 +363,21 @@
 
             <div class="mt-10 grid md:grid-cols-3 gap-6">
                 <div class="card p-6 bg-white">
-                    <div class="w-12 h-12 bg-oreina-teal rounded-xl flex items-center justify-center mb-4 shadow-md">
+                    <div class="w-12 h-12 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-xl flex items-center justify-center mb-4">
                         <i data-lucide="bookmark" style="width:24px;height:24px;color:#fff"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Format SINP / INPN</h3>
                     <p class="text-sm text-slate-600">Le jeu de données est produit dans les formats standards interopérables du Système d'Information sur la Biodiversité, garantissant son intégration dans les écosystèmes de données existants.</p>
                 </div>
                 <div class="card p-6 bg-white">
-                    <div class="w-12 h-12 bg-oreina-coral rounded-xl flex items-center justify-center mb-4 shadow-md">
+                    <div class="w-12 h-12 bg-gradient-to-br from-oreina-coral to-oreina-yellow rounded-xl flex items-center justify-center mb-4">
                         <i data-lucide="file-text" style="width:24px;height:24px;color:#fff"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Méthodologie transparente</h3>
                     <p class="text-sm text-slate-600">Une note méthodologique accompagne le jeu de données et précise les choix de qualification, les biais identifiés, les régions et groupes problématiques. Chaque utilisateur peut juger de la pertinence pour son usage propre.</p>
                 </div>
                 <div class="card p-6 bg-white">
-                    <div class="w-12 h-12 bg-oreina-blue rounded-xl flex items-center justify-center mb-4 shadow-md">
+                    <div class="w-12 h-12 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-xl flex items-center justify-center mb-4">
                         <i data-lucide="refresh-cw" style="width:24px;height:24px;color:#fff"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Mises à jour régulières</h3>
@@ -428,7 +428,7 @@
                         <i class="icon icon-gold" data-lucide="file-bar-chart"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-yellow transition">Rapport d'activité</h3>
-                    <p class="text-xs text-slate-500">Bilan d'activité 2024 d'oreina à l'OFB.</p>
+                    <p class="text-xs text-slate-500">Bilan d'activité QUALIF 2024 d'oreina.</p>
                 </a>
             </div>
         </div>
@@ -507,7 +507,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-2xl font-bold text-oreina-dark">Découvrir les autres projets</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">QUALIF mobilise les quatre projets de l'axe 1 de la convention 2026, 2028 d'oreina avec l'OFB.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl mx-auto">QUALIF est l'aboutissement opérationnel du dispositif scientifique d'oreina : il mobilise les quatre projets de référence (TAXREF, SEQREF, BDC, IDENT) pour qualifier les données d'observation.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
