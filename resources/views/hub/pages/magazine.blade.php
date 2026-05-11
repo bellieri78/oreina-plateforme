@@ -116,6 +116,37 @@
 </style>
 @endpush
 
+@php
+    // Auto-detection des couvertures : depose un fichier dans public/images/magazine/
+    // sous l'un des noms ci-dessous (.jpg, .jpeg, .png ou .webp), il sera affiche
+    // automatiquement a la place du placeholder gradient.
+    $magazineDir = public_path('images/magazine');
+    $resolveCover = function (string $basename) use ($magazineDir): ?string {
+        foreach (['jpg', 'jpeg', 'png', 'webp'] as $ext) {
+            $path = $magazineDir . DIRECTORY_SEPARATOR . $basename . '.' . $ext;
+            if (is_file($path)) {
+                return '/images/magazine/' . $basename . '.' . $ext;
+            }
+        }
+        return null;
+    };
+    $covers = [
+        ['issue' => 'n° 1',     'year' => '2008', 'subtitle' => null,                              'file' => 'oreina-n01'],
+        ['issue' => 'n° 10',    'year' => '2010', 'subtitle' => null,                              'file' => 'oreina-n10'],
+        ['issue' => 'n° 25',    'year' => '2014', 'subtitle' => null,                              'file' => 'oreina-n25'],
+        ['issue' => 'n° 40',    'year' => '2017', 'subtitle' => null,                              'file' => 'oreina-n40'],
+        ['issue' => 'n° 55',    'year' => '2021', 'subtitle' => null,                              'file' => 'oreina-n55'],
+        ['issue' => 'n° 63-64', 'year' => '2023', 'subtitle' => 'Zygènes',                         'file' => 'oreina-n63-64'],
+        ['issue' => 'n° 65',    'year' => '2024', 'subtitle' => null,                              'file' => 'oreina-n65'],
+        ['issue' => 'n° 66',    'year' => '2024', 'subtitle' => '<em>Omia albertlegraini</em>',    'file' => 'oreina-n66'],
+        ['issue' => 'n° 67',    'year' => '2024', 'subtitle' => '<em>Lycia isabellae</em>',        'file' => 'oreina-n67'],
+        ['issue' => 'n° 68',    'year' => '2024', 'subtitle' => 'Rencontres',                      'file' => 'oreina-n68'],
+        ['issue' => 'n° 69',    'year' => '2025', 'subtitle' => 'Migrations',                      'file' => 'oreina-n69'],
+        ['issue' => 'n° 72',    'year' => '2026', 'subtitle' => null,                              'file' => 'oreina-n72'],
+    ];
+    $heroMosaic = $resolveCover('oreina-couvertures-mosaique');
+@endphp
+
 @section('content')
     {{-- Header --}}
     <section class="pt-16 pb-16 bg-warm">
@@ -147,12 +178,16 @@
                         </p>
                     </div>
                 </div>
-                <div class="mag-hero-visual placeholder">
-                    <div>
-                        <div class="hero-label">oreina</div>
-                        <div class="hero-sublabel">2008 — 2026</div>
+                @if($heroMosaic)
+                    <div class="mag-hero-visual" style="background-image: url('{{ $heroMosaic }}');"></div>
+                @else
+                    <div class="mag-hero-visual placeholder">
+                        <div>
+                            <div class="hero-label">oreina</div>
+                            <div class="hero-sublabel">2008 — 2026</div>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
 
             {{-- Chiffres clés --}}
@@ -214,57 +249,19 @@
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {{-- Placeholders gradient OREINA. Remplacer chaque cover-image par
-                     style="background-image: url('/images/magazine/oreina-nXX.jpg');"
-                     (et retirer la classe `placeholder`) au fur et à mesure du dépôt des couvertures. --}}
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 1"></div>
-                    <figcaption class="cover-caption"><strong>n° 1</strong> · 2008</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 10"></div>
-                    <figcaption class="cover-caption"><strong>n° 10</strong> · 2010</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 25"></div>
-                    <figcaption class="cover-caption"><strong>n° 25</strong> · 2014</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 40"></div>
-                    <figcaption class="cover-caption"><strong>n° 40</strong> · 2017</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 55"></div>
-                    <figcaption class="cover-caption"><strong>n° 55</strong> · 2021</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 63-64"></div>
-                    <figcaption class="cover-caption"><strong>n° 63-64</strong> · 2023 · Zygènes</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 65"></div>
-                    <figcaption class="cover-caption"><strong>n° 65</strong> · 2024</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 66"></div>
-                    <figcaption class="cover-caption"><strong>n° 66</strong> · 2024 · <em>Omia albertlegraini</em></figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 67"></div>
-                    <figcaption class="cover-caption"><strong>n° 67</strong> · 2024 · <em>Lycia isabellae</em></figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 68"></div>
-                    <figcaption class="cover-caption"><strong>n° 68</strong> · 2024 · Rencontres</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 69"></div>
-                    <figcaption class="cover-caption"><strong>n° 69</strong> · 2025 · Migrations</figcaption>
-                </figure>
-                <figure class="mag-cover-card">
-                    <div class="cover-image placeholder" data-issue="n° 72"></div>
-                    <figcaption class="cover-caption"><strong>n° 72</strong> · 2026</figcaption>
-                </figure>
+                @foreach($covers as $cover)
+                    @php $coverUrl = $resolveCover($cover['file']); @endphp
+                    <figure class="mag-cover-card">
+                        @if($coverUrl)
+                            <div class="cover-image" style="background-image: url('{{ $coverUrl }}');"></div>
+                        @else
+                            <div class="cover-image placeholder" data-issue="{{ $cover['issue'] }}"></div>
+                        @endif
+                        <figcaption class="cover-caption">
+                            <strong>{{ $cover['issue'] }}</strong> · {{ $cover['year'] }}@if($cover['subtitle']) · {!! $cover['subtitle'] !!}@endif
+                        </figcaption>
+                    </figure>
+                @endforeach
             </div>
         </div>
     </section>
