@@ -3,15 +3,25 @@
     --------------------------------------------------
     Usage :
     @include('hub.partials._hero_visual', [
-        'image'   => '/images/projets/seqref/saturnia-pavonia.webp',
-        'fallback'=> '/images/projets/seqref/saturnia-pavonia.jpg',
-        'alt'     => 'Saturnia pavonia (Linnaeus, 1758), mâle au repos sur écorce',
-        'species' => 'Saturnia pavonia',     {{-- nom binominal en italique --}}
-        'author'  => '(Linnaeus, 1758)',     {{-- auteur de l'espèce --}}
-        'caption' => 'Pyrénées, V.2024',     {{-- contexte géographique et temporel --}}
-        'credit'  => 'D. Demergès',          {{-- crédit photographique --}}
-        'ramp'    => 'blue',                 {{-- couleur d'accent : blue, sage, coral, gold, green --}}
+        'image'    => '/images/projets/seqref/saturnia-pavonia.webp',
+        'fallback' => '/images/projets/seqref/saturnia-pavonia.jpg',
+        'alt'      => 'Saturnia pavonia (Linnaeus, 1758), mâle au repos sur écorce',
+        'species'  => 'Saturnia pavonia',
+        'author'   => '(Linnaeus, 1758)',
+        'caption'  => 'Pyrénées, V.2024',
+        'credit'   => 'D. Demergès',
+        'ramp'     => 'blue',
     ])
+
+    Paramètres :
+    - image    : URL absolue du fichier WebP (préféré)
+    - fallback : URL absolue du fichier JPEG de secours
+    - alt      : texte alternatif (accessibilité)
+    - species  : nom binominal, affiché en italique
+    - author   : auteur de l'espèce — ex. "(Linnaeus, 1758)"
+    - caption  : contexte géographique et temporel
+    - credit   : crédit photographique
+    - ramp     : couleur d'accent — blue | sage | coral | gold | green
 --}}
 
 @php
