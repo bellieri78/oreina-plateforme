@@ -48,11 +48,11 @@
                     @include('hub.partials._hero_visual', [
                         'image'    => '/images/projets/taxref/chersotis-oreina.webp',
                         'fallback' => '/images/projets/taxref/chersotis-oreina.jpg',
-                        'alt'      => 'Chersotis oreina (Dufay, 1984), Noctuidae, sur pelouse subalpine — espèce éponyme de l\'association',
+                        'alt'      => 'Chersotis oreina (Dufay, 1984), Noctuidae, Hautes-Alpes — espèce éponyme de l\'association',
                         'species'  => 'Chersotis oreina',
                         'author'   => '(Dufay, 1984)',
-                        'caption'  => 'Alpes du Sud, VII.2023',
-                        'credit'   => 'D. Demergès',
+                        'caption'  => 'Hautes-Alpes',
+                        'credit'   => 'R. Balestra',
                         'ramp'     => 'blue',
                     ])
                 </div>

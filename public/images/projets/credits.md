@@ -4,7 +4,7 @@ Photos utilisées dans les chapôs des pages projets du hub (`/projets/*`).
 
 | Page | Espèce | Fichier | Lieu / Date | Photographe |
 |---|---|---|---|---|
-| TAXREF | *Chersotis oreina* (Dufay, 1984) | `taxref/chersotis-oreina.{webp,jpg}` | Alpes du Sud, VII.2023 | D. Demergès |
+| TAXREF | *Chersotis oreina* (Dufay, 1984) | `taxref/chersotis-oreina.{webp,jpg}` | Hautes-Alpes | R. Balestra |
 | SEQREF | *Saturnia pavonia* (Linnaeus, 1758) | `seqref/saturnia-pavonia.{webp,jpg}` | Pyrénées-Atlantiques, V.2024 | D. Demergès |
 | IDENT  | *Pyrgus malvoides* (Elwes & Edwards, 1897) | `ident/pyrgus-malvoides.{webp,jpg}` | Ariège, gr. T5 — armures génitales nécessaires | D. Demergès |
 | QUALIF | *Catocala fraxini* (Linnaeus, 1758) | `qualif/catocala-fraxini.{webp,jpg}` | Massif central, VIII.2024 | D. Demergès |
