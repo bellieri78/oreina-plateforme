@@ -46,13 +46,13 @@
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="lg:col-span-2">
                     @include('hub.partials._hero_visual', [
-                        'image'    => '/images/projets/qualif/catocala-fraxini.webp',
-                        'fallback' => '/images/projets/qualif/catocala-fraxini.jpg',
-                        'alt'      => 'Catocala fraxini (Linnaeus, 1758), au repos sur drap de chasse nocturne — une donnée d\'observation à qualifier',
-                        'species'  => 'Catocala fraxini',
-                        'author'   => '(Linnaeus, 1758)',
-                        'caption'  => 'Massif central, VIII.2024',
-                        'credit'   => 'D. Demergès',
+                        'image'    => '/images/projets/qualif/stigmella-hemargyrella.webp',
+                        'fallback' => '/images/projets/qualif/stigmella-hemargyrella.jpg',
+                        'alt'      => 'Stigmella hemargyrella (Kollar, 1832), Nepticulidae, Vosges — microlépidoptère emblématique de la difficulté à qualifier une donnée d\'observation sans expertise spécialisée',
+                        'species'  => 'Stigmella hemargyrella',
+                        'author'   => '(Kollar, 1832)',
+                        'caption'  => 'Vosges',
+                        'credit'   => 'R. Balestra',
                         'ramp'     => 'sage',
                     ])
                 </div>
