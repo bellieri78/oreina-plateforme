@@ -46,13 +46,13 @@
             <div class="grid lg:grid-cols-5 gap-12 items-center">
                 <div class="lg:col-span-2">
                     @include('hub.partials._hero_visual', [
-                        'image'    => '/images/projets/seqref/saturnia-pavonia.webp',
-                        'fallback' => '/images/projets/seqref/saturnia-pavonia.jpg',
-                        'alt'      => 'Saturnia pavonia (Linnaeus, 1758), mâle au repos sur écorce, antennes pectinées caractéristiques',
-                        'species'  => 'Saturnia pavonia',
-                        'author'   => '(Linnaeus, 1758)',
-                        'caption'  => 'Pyrénées-Atlantiques, V.2024',
-                        'credit'   => 'D. Demergès',
+                        'image'    => '/images/projets/seqref/omia-cymbalariae.webp',
+                        'fallback' => '/images/projets/seqref/omia-cymbalariae.jpg',
+                        'alt'      => 'Omia cymbalariae (Hübner, 1809) ?, Noctuidae, Hautes-Alpes — détermination à confirmer, cas typique où le barcoding apporte une réponse',
+                        'species'  => 'Omia cymbalariae',
+                        'author'   => '(Hübner, 1809) ?',
+                        'caption'  => 'Hautes-Alpes',
+                        'credit'   => 'D. Morel',
                         'ramp'     => 'blue',
                     ])
                 </div>

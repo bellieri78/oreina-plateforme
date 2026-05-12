@@ -5,7 +5,7 @@ Photos utilisées dans les chapôs des pages projets du hub (`/projets/*`).
 | Page | Espèce | Fichier | Lieu / Date | Photographe |
 |---|---|---|---|---|
 | TAXREF | *Chersotis oreina* (Dufay, 1984) | `taxref/chersotis-oreina.{webp,jpg}` | Hautes-Alpes | R. Balestra |
-| SEQREF | *Saturnia pavonia* (Linnaeus, 1758) | `seqref/saturnia-pavonia.{webp,jpg}` | Pyrénées-Atlantiques, V.2024 | D. Demergès |
+| SEQREF | *Omia cymbalariae* (Hübner, 1809) ? | `seqref/omia-cymbalariae.{webp,jpg}` | Hautes-Alpes — détermination à confirmer | D. Morel |
 | IDENT  | *Pyrgus malvoides* (Elwes & Edwards, 1897) | `ident/pyrgus-malvoides.{webp,jpg}` | Ariège, gr. T5 — armures génitales nécessaires | D. Demergès |
 | QUALIF | *Stigmella hemargyrella* (Kollar, 1832) | `qualif/stigmella-hemargyrella.{webp,jpg}` | Vosges | D. Demergès |
 
