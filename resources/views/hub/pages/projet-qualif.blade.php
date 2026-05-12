@@ -52,7 +52,7 @@
                         'species'  => 'Stigmella hemargyrella',
                         'author'   => '(Kollar, 1832)',
                         'caption'  => 'Vosges',
-                        'credit'   => 'R. Balestra',
+                        'credit'   => 'D. Demergès',
                         'ramp'     => 'sage',
                     ])
                 </div>
