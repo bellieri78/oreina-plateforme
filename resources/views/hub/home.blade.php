@@ -381,10 +381,10 @@
         gap: 18px;
     }
 
-    .project-grid-4 {
+    .project-grid-5 {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
     }
 
     .project-card {
@@ -738,7 +738,7 @@
         }
 
         .project-grid,
-        .project-grid-4 {
+        .project-grid-5 {
             grid-template-columns: repeat(2, 1fr);
         }
 
@@ -748,7 +748,7 @@
     }
 
     @media (max-width: 760px) {
-        .project-grid-4 {
+        .project-grid-5 {
             grid-template-columns: 1fr;
         }
 
@@ -802,7 +802,7 @@
 
                 <div class="hero-actions">
                     <a href="{{ route('hub.about') }}" class="btn btn-primary"><i class="icon icon-sage" data-lucide="sparkles"></i>Découvrir OREINA</a>
-                    <a href="#" class="btn btn-ghost-light"><i class="icon icon-white" data-lucide="database"></i>Explorer Artemisiae</a>
+                    <a href="{{ route('hub.outils.artemisiae') }}" class="btn btn-ghost-light"><i class="icon icon-white" data-lucide="database"></i>Explorer Artemisiae</a>
                 </div>
 
                 <div class="hero-bottom">
@@ -943,23 +943,14 @@
                 <p>Des projets concrets, du plus accessible au plus spécialisé.</p>
             </div>
 
-            <div class="project-grid-4">
+            <div class="project-grid-5">
                 <article class="pub-card">
-                    <div class="pub-card-icon" style="background: rgba(237,196,66,0.14);">
-                        <i class="icon icon-gold" data-lucide="search"></i>
+                    <div class="pub-card-icon" style="background: rgba(53,107,138,0.10);">
+                        <i class="icon icon-blue" data-lucide="binary"></i>
                     </div>
-                    <h4>IDENT</h4>
-                    <p>Apprendre à reconnaître les espèces, accéder aux guides et aux formations.</p>
-                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
-                </article>
-
-                <article class="pub-card">
-                    <div class="pub-card-icon" style="background: rgba(239,122,92,0.10);">
-                        <i class="icon icon-coral" data-lucide="badge-check"></i>
-                    </div>
-                    <h4>QUALIF</h4>
-                    <p>Valider, vérifier et garantir la fiabilité des observations partagées.</p>
-                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                    <h4>TAXREF</h4>
+                    <p>Nommer, classer et harmoniser les connaissances taxonomiques.</p>
+                    <a href="{{ route('hub.projets.taxref') }}" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
                 </article>
 
                 <article class="pub-card">
@@ -968,16 +959,34 @@
                     </div>
                     <h4>SEQREF</h4>
                     <p>Construire une bibliothèque moléculaire de référence pour les Lépidoptères.</p>
-                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                    <a href="{{ route('hub.projets.seqref') }}" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
                 </article>
 
                 <article class="pub-card">
-                    <div class="pub-card-icon" style="background: rgba(53,107,138,0.10);">
-                        <i class="icon icon-blue" data-lucide="binary"></i>
+                    <div class="pub-card-icon" style="background: rgba(20,184,166,0.10);">
+                        <i class="icon" style="color:#0d9488;" data-lucide="clipboard-list"></i>
                     </div>
-                    <h4>TAXREF</h4>
-                    <p>Nommer, classer et harmoniser les connaissances taxonomiques.</p>
-                    <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                    <h4>BDC</h4>
+                    <p>Documenter les traits de vie : phénologie, plantes-hôtes, écologie.</p>
+                    <a href="{{ route('hub.projets.bdc') }}" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                </article>
+
+                <article class="pub-card">
+                    <div class="pub-card-icon" style="background: rgba(237,196,66,0.14);">
+                        <i class="icon icon-gold" data-lucide="search"></i>
+                    </div>
+                    <h4>IDENT</h4>
+                    <p>Apprendre à reconnaître les espèces, accéder aux guides et aux formations.</p>
+                    <a href="{{ route('hub.projets.ident') }}" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                </article>
+
+                <article class="pub-card">
+                    <div class="pub-card-icon" style="background: rgba(239,122,92,0.10);">
+                        <i class="icon icon-coral" data-lucide="badge-check"></i>
+                    </div>
+                    <h4>QUALIF</h4>
+                    <p>Valider, vérifier et garantir la fiabilité des observations partagées.</p>
+                    <a href="{{ route('hub.projets.qualif') }}" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
                 </article>
             </div>
         </div>
@@ -1011,7 +1020,7 @@
                         </div>
                         <h4>Lepis</h4>
                         <p>Bulletin trimestriel des adhérents.</p>
-                        <a href="#" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
+                        <a href="{{ route('hub.lepis') }}" class="text-link"><i data-lucide="arrow-right"></i>En savoir plus</a>
                     </article>
                 </div>
             </div>
@@ -1068,7 +1077,7 @@
                 <p>Rejoignez une communauté engagée. Adhérez à l'association pour soutenir nos projets, accéder aux outils et contribuer à la science participative.</p>
                 <div class="content-actions">
                     <a href="{{ route('hub.membership') }}" class="btn btn-primary"><i class="icon icon-sage" data-lucide="heart-plus"></i>Adhérer à l'association</a>
-                    <a href="#" class="btn btn-ghost-light"><i class="icon icon-white" data-lucide="user-round-plus"></i>Créer un compte</a>
+                    <a href="{{ route('hub.register') }}" class="btn btn-ghost-light"><i class="icon icon-white" data-lucide="user-round-plus"></i>Créer un compte</a>
                 </div>
             </article>
         </div>
