@@ -11,6 +11,7 @@
         '/projets/qualif' => 'Projet QUALIF (Qualification)',
         '/outils/labo-lepidos' => 'Outil Labo Lépidos',
         '/outils/artemisiae' => 'Outil Artemisiae',
+        '/outils/niveaux-determination' => 'Outil Niveaux de détermination',
         '/faq' => 'FAQ',
         '/actualites' => 'Actualités',
         '/evenements' => 'Événements',

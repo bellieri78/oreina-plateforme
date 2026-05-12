@@ -1,7 +1,7 @@
 @extends('layouts.hub')
 
 @section('title', 'Identification (IDENT)')
-@section('meta_description', 'IDENT est le projet d\'oreina dédié à la difficulté d\'identification des Lépidoptères de France : typologie T1-T5, agrégats critiques, guides et Labo Lépidos pour la communauté naturaliste.')
+@section('meta_description', 'IDENT est le projet d\'oreina dédié à la difficulté d\'identification des Lépidoptères de France : typologie T1-T5, agrégats critiques, référentiel des niveaux de détermination, guides et Labo Lépidos pour la communauté naturaliste.')
 
 @section('content')
     {{-- Header --}}
@@ -157,7 +157,7 @@
 
             <div class="mt-8 p-6 bg-white rounded-xl border border-slate-200">
                 <p class="text-sm text-slate-600">
-                    <strong class="text-oreina-dark">Une typologie appliquée à chaque stade biologique.</strong> La difficulté d'identification n'est pas la même selon que l'on observe un imago, une chenille, une chrysalide ou une mine foliaire. Le projet IDENT documente la difficulté pour chaque stade pertinent. À ce jour, les <strong>mines foliaires</strong> de 11 espèces de Lépidoptères sont par exemple considérées par expertise comme des singletons : elles permettent une identification certaine sans avoir besoin d'observer le papillon adulte.
+                    <strong class="text-oreina-dark">Une typologie appliquée à chaque stade biologique.</strong> La difficulté d'identification n'est pas la même selon que l'on observe un imago, une chenille, une chrysalide ou une mine foliaire. Le projet IDENT documente la difficulté pour chaque stade pertinent. À ce jour, les <strong>mines foliaires</strong> de 11 espèces de Lépidoptères sont par exemple considérées par expertise comme des singletons : elles permettent une identification certaine sans avoir besoin d'observer le papillon adulte. Pour la déclinaison opérationnelle de cette typologie dans <em>Artemisiae</em>, voir le <a href="{{ route('hub.outils.niveaux-determination') }}" class="text-oreina-coral font-bold hover:underline">référentiel des niveaux de détermination</a>.
                 </p>
             </div>
         </div>
@@ -211,6 +211,7 @@
                     <li><span class="pl-2 inline-block">la <strong>typologie de la difficulté</strong> : classement de chaque espèce, à chacun de ses stades biologiques, dans les cinq niveaux de la typologie PatriNat ;</span></li>
                     <li><span class="pl-2 inline-block">la <strong>production de guides et tutoriels</strong> : rédaction de fiches descriptives, clés d'identification illustrées, guides de dissection pour les groupes nécessitant un examen morphologique interne ;</span></li>
                     <li><span class="pl-2 inline-block">la <strong>mise à jour des cartes de répartition</strong> : actualisation des cartes départementales dans le cadre du programme ABDSM, pour identifier précisément les zones de sympatrie qui génèrent les vraies difficultés d'identification.</span></li>
+                    <li><span class="pl-2 inline-block">l'<strong>opérationnalisation pour la saisie sur <em>Artemisiae</em></strong> : déclinaison de la typologie en une grille d'exigences documentaires concrètes — le <a href="{{ route('hub.outils.niveaux-determination') }}" class="text-oreina-coral font-bold hover:underline">référentiel des niveaux de détermination</a>, qui définit, taxon par taxon et stade par stade, la nature de la preuve à fournir et le niveau de validité atteignable ;</span></li>
                 </ul>
                 <p>
                     Toutes ces ressources sont diffusées en libre accès via le portail <em>Artemisiae</em>, qui est conçu comme le vecteur principal de ce corpus documentaire.
@@ -305,6 +306,10 @@
                 <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">14</p>
                     <p class="text-sm text-slate-600 leading-tight">bénévoles experts mobilisés au sein du comité technique IDENT</p>
+                </div>
+                <div class="card p-6 text-center bg-gradient-to-br from-oreina-coral/5 to-oreina-yellow/5">
+                    <p class="text-4xl font-bold text-oreina-coral mb-2">6 141</p>
+                    <p class="text-sm text-slate-600 leading-tight">taxons attribués dans le référentiel des niveaux de détermination d'<em>Artemisiae</em></p>
                 </div>
                 <div class="card p-6 text-center bg-gradient-to-br from-oreina-yellow/5 to-oreina-coral/5">
                     <p class="text-4xl font-bold text-oreina-coral mb-2">5</p>
@@ -500,7 +505,14 @@
                 <p class="text-slate-500 mt-2">Ressources externes, outils dérivés et publications associées au projet IDENT.</p>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <a href="{{ route('hub.outils.niveaux-determination') }}" class="card p-5 hover:shadow-lg transition group">
+                    <div class="pub-card-icon gold mb-3">
+                        <i class="icon icon-gold" data-lucide="list-tree"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-1 group-hover:text-oreina-coral transition">Niveaux de détermination</h3>
+                    <p class="text-xs text-slate-500">Référentiel à 7 niveaux + catégories mines/fourreaux. Fichier en accès libre, versionné, citable.</p>
+                </a>
                 <a href="{{ route('hub.outils.labo-lepidos') }}" class="card p-5 hover:shadow-lg transition group">
                     <div class="pub-card-icon coral mb-3">
                         <i class="icon icon-coral" data-lucide="flask-conical"></i>

@@ -53,6 +53,7 @@ Route::get('/projets/ident', [PageController::class, 'projetIdent'])->name('hub.
 Route::get('/projets/qualif', [PageController::class, 'projetQualif'])->name('hub.projets.qualif');
 Route::get('/outils/labo-lepidos', [PageController::class, 'outilLaboLepidos'])->name('hub.outils.labo-lepidos');
 Route::get('/outils/artemisiae', [PageController::class, 'outilArtemisiae'])->name('hub.outils.artemisiae');
+Route::get('/outils/niveaux-determination', [PageController::class, 'outilNiveauxDetermination'])->name('hub.outils.niveaux-determination');
 Route::post('/outils/labo-lepidos/proposer', [PageController::class, 'proposerLaboLepidos'])
     ->middleware('throttle:5,1')
     ->name('hub.outils.labo-lepidos.proposer');

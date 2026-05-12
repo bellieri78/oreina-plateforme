@@ -74,6 +74,11 @@ class PageController extends Controller
         return view('hub.pages.outil-artemisiae');
     }
 
+    public function outilNiveauxDetermination()
+    {
+        return view('hub.pages.outil-niveaux-determination');
+    }
+
     public function proposerLaboLepidos(Request $request)
     {
         $data = $request->validate([
