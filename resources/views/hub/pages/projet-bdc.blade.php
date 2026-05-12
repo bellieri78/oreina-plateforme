@@ -514,29 +514,29 @@
                 <h3 class="text-lg font-bold text-oreina-dark mb-6 text-center">Le cycle vertueux entre observations, traits et terrain</h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-green to-oreina-teal rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-teal rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="camera" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">1. Observation terrain</h4>
                         <p class="text-xs text-slate-500">Saisie sur <em>Artemisiae</em> avec contexte (plante, date, altitude, milieu).</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-coral to-oreina-yellow rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-coral rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="badge-check" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">2. Trait validé</h4>
                         <p class="text-xs text-slate-500">Validation par le réseau d'experts, intégration dans la base BDC sourcée.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-turquoise to-oreina-blue rounded-2xl flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-blue rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="file-text" style="width:30px;height:30px;color:#fff"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">3. Fiche taxon enrichie</h4>
                         <p class="text-xs text-slate-500">Affichage dans l'onglet « traits de vie » de la fiche espèce d'<em>Artemisiae</em>.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-oreina-yellow to-oreina-coral rounded-2xl flex items-center justify-center">
-                            <i data-lucide="search" style="width:30px;height:30px;color:#fff"></i>
+                        <div class="w-16 h-16 mx-auto mb-3 bg-oreina-yellow rounded-2xl flex items-center justify-center shadow-md">
+                            <i data-lucide="search" style="width:30px;height:30px;color:#16302B"></i>
                         </div>
                         <h4 class="font-bold text-oreina-dark text-sm mb-1">4. Prospection ciblée</h4>
                         <p class="text-xs text-slate-500">Recherche orientée et chorologie : nouvelles observations, et le cycle recommence.</p>
