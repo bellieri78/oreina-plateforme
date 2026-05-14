@@ -97,23 +97,13 @@
             </div>
 
             <div class="todo-list">
-                @if(!$member || !$member->biography)
+                @if(!$member->biography)
                 <article class="todo-item">
                     <div>
                         <strong>Compléter votre présentation membre</strong>
                         <p>Ajoutez une courte biographie et vos centres d'intérêt pour mieux apparaître dans le réseau.</p>
                     </div>
                     <span class="status gold">Prioritaire</span>
-                </article>
-                @endif
-
-                @if(!$isCurrentMember)
-                <article class="todo-item">
-                    <div>
-                        <strong>Mettre à jour votre adhésion</strong>
-                        <p>Votre cotisation a expiré. Renouvelez pour continuer à accéder à tous les services.</p>
-                    </div>
-                    <span class="status blue">À traiter</span>
                 </article>
                 @endif
 
