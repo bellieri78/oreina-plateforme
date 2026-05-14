@@ -534,19 +534,28 @@
 
         /* === DASHBOARD COMPONENTS (Design System V4) === */
 
-        /* Welcome section */
+        /* Welcome section — refonte v5 (texte + photo papillon) */
         .welcome {
             display: grid;
-            grid-template-columns: 1.35fr 0.95fr;
+            grid-template-columns: 1.3fr 1fr;
             gap: 18px;
             align-items: stretch;
         }
         .welcome-main {
             padding: 30px;
-            background: var(--surface);
-            border: 1px solid var(--border);
             border-radius: 28px;
             box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .welcome-main.is-member {
+            background: var(--surface-sage);
+            border: 1px solid rgba(133,183,157,0.30);
+        }
+        .welcome-main.is-visitor {
+            background: #FBF6DF;
+            border: 1px solid rgba(237,196,66,0.30);
         }
         .eyebrow {
             display: inline-flex;
@@ -554,11 +563,18 @@
             gap: 8px;
             padding: 9px 12px;
             border-radius: 999px;
-            background: rgba(133,183,157,0.16);
-            color: #2f694e;
             font-size: 12px;
             font-weight: 800;
             margin-bottom: 14px;
+            width: fit-content;
+        }
+        .eyebrow.eyebrow-member {
+            background: rgba(133,183,157,0.20);
+            color: #2f694e;
+        }
+        .eyebrow.eyebrow-visitor {
+            background: rgba(237,196,66,0.20);
+            color: #8b6c05;
         }
         .welcome-main h1 {
             margin: 0;
@@ -581,34 +597,17 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .welcome-side {
-            display: grid;
-            gap: 14px;
+        .welcome-photo {
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--surface-soft);
+            min-height: 280px;
         }
-        .mini-card {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 132px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow);
-        }
-        .mini-card.blue { background: var(--surface-blue); }
-        .mini-card.sage { background: var(--surface-sage); }
-        .mini-card strong {
+        .welcome-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
-            font-size: 24px;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-        }
-        .mini-card p {
-            margin: 8px 0 0;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.55;
         }
 
         /* Grid & Stack */
@@ -927,12 +926,16 @@
             .grid {
                 grid-template-columns: 1fr;
             }
+            .welcome-photo {
+                min-height: 240px;
+            }
             .contrib-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
         @media (max-width: 760px) {
+            .welcome-photo { display: none; }
             .topbar-inner {
                 padding: 14px 16px;
                 align-items: flex-start;

@@ -12,89 +12,50 @@
 @section('content')
 
     {{-- ═══════════════════════════════════════════════════
-         WELCOME SECTION  (1.35fr + 0.95fr)
+         HERO — 2 colonnes (texte + photo papillon)
     ═══════════════════════════════════════════════════ --}}
     <section class="welcome">
 
-        {{-- Left: welcome-main --}}
-        <article class="welcome-main">
-            <div class="eyebrow">
-                <i data-lucide="leaf"></i>
-                @if($isCurrentMember)
-                    Bienvenue sur votre espace OREINA
-                @elseif($member)
-                    Votre adhésion a expiré
-                @else
-                    Bienvenue sur OREINA
-                @endif
+        @if($isCurrentMember)
+        <article class="welcome-main is-member">
+            <div class="eyebrow eyebrow-member">
+                <i data-lucide="check-circle"></i>
+                Adhérent actif · {{ now()->year }}
             </div>
-
             <h1>Bonjour {{ $member?->first_name ?? $user->name }}&nbsp;!</h1>
-
-            @if($member)
-                <p>
-                    Cet espace est pensé comme un outil d'action : suivre vos contributions,
-                    retrouver vos dernières activités et rester connecté à la vie du réseau.
-                </p>
-                <div class="quick-actions">
-                    <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
-                    <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
-                    <a href="{{ route('hub.lepis.bulletins.index') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
-                </div>
-            @else
-                <p>
-                    Vous avez un compte OREINA. Depuis cet espace, vous pouvez soumettre des articles
-                    à Chersotis, notre revue scientifique. Pour accéder à toutes les fonctionnalités
-                    (Lepis, groupes de travail, carte des membres, chat), rejoignez l'association.
-                </p>
-                <div class="quick-actions">
-                    <a href="{{ route('journal.submissions.create') }}" class="btn btn-primary"><i data-lucide="file-plus"></i>Soumettre un article</a>
-                    <a href="{{ route('hub.membership') }}" class="btn btn-secondary"><i data-lucide="heart-plus"></i>Adhérer à OREINA</a>
-                </div>
-            @endif
+            <p>
+                Cet espace est pensé comme un outil d'action : suivre vos contributions,
+                retrouver vos dernières activités et rester connecté à la vie du réseau.
+            </p>
+            <div class="quick-actions">
+                <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
+                <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
+                <a href="{{ route('hub.lepis.bulletins.index') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
+            </div>
         </article>
+        @else
+        <article class="welcome-main is-visitor">
+            <div class="eyebrow eyebrow-visitor">
+                <i data-lucide="sparkles"></i>
+                Compte visiteur
+            </div>
+            <h1>Bonjour {{ $member?->first_name ?? $user->name }}&nbsp;!</h1>
+            <p>
+                Vous avez un compte OREINA. Depuis cet espace, vous pouvez soumettre des articles
+                à Chersotis, notre revue scientifique. Pour accéder à toutes les fonctionnalités
+                (Lepis, groupes de travail, annuaire, chat), rejoignez l'association.
+            </p>
+            <div class="quick-actions">
+                <a href="{{ route('journal.submissions.create') }}" class="btn btn-primary"><i data-lucide="file-plus"></i>Soumettre un article</a>
+                <a href="{{ route('hub.membership') }}" class="btn btn-secondary"><i data-lucide="heart-plus"></i>Adhérer à OREINA</a>
+            </div>
+        </article>
+        @endif
 
-        {{-- Right: welcome-side (mini-cards) --}}
-        <div class="welcome-side">
-            {{-- Latest journal issue --}}
-            {{-- Chersotis (revue scientifique) --}}
-            <article class="mini-card blue">
-                <div>
-                    <strong>Chersotis</strong>
-                    @if($isCurrentMember && $latestIssues->count() > 0)
-                        <p>Dernier numéro disponible : Vol.&nbsp;{{ $latestIssues->first()->volume_number }} — N°{{ $latestIssues->first()->issue_number }}</p>
-                    @else
-                        <p>La revue scientifique d'OREINA. Articles, publications et soumissions.</p>
-                    @endif
-                </div>
-                <a href="{{ route('member.journal') }}" class="text-link"><i data-lucide="book-open"></i>Consulter Chersotis</a>
-            </article>
-
-            @if($member)
-            {{-- Lepis (bulletin adhérents) --}}
-            <article class="mini-card sage">
-                <div>
-                    <strong>Lepis</strong>
-                    <p>Le bulletin trimestriel des adhérents. Actualités, synthèses et contributions.</p>
-                </div>
-                <a href="{{ route('hub.lepis.bulletins.index') }}" class="text-link"><i data-lucide="newspaper"></i>Consulter Lepis</a>
-            </article>
-            @endif
-
-            {{-- Soumettre --}}
-            <article class="mini-card" style="background:var(--blue); color:white;">
-                <div>
-                    <strong style="color:white;">Soumettre un article</strong>
-                    <p style="color:rgba(255,255,255,0.85);">Proposer un article pour Chersotis{{ $member ? ' ou une contribution pour Lepis' : '' }}.</p>
-                </div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <a href="{{ route('journal.submissions.create') }}" class="text-link" style="color:white;"><i data-lucide="file-plus"></i>Soumettre à Chersotis</a>
-                    @if($member)
-                    <a href="{{ route('member.lepis.suggest') }}" class="text-link" style="color:rgba(255,255,255,0.7);"><i data-lucide="newspaper"></i>Lepis</a>
-                    @endif
-                </div>
-            </article>
+        <div class="welcome-photo">
+            <img src="{{ asset('images/espace-membre/papillon-hero.jpg') }}" alt="Papillon — espace OREINA" loading="eager">
         </div>
+
     </section>
 
     @if($member)
