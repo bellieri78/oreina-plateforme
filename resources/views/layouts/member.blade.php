@@ -610,6 +610,29 @@
             display: block;
         }
 
+        /* KPI bar — bandeau stats sous le hero */
+        .kpi-bar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            align-items: end;
+            padding: 20px 24px;
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+        }
+        .kpi-bar-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+        .kpi-bar .stat {
+            padding: 0;
+            background: transparent;
+            border: 0;
+        }
+
         /* Grid & Stack */
         .grid {
             display: grid;
@@ -936,6 +959,8 @@
 
         @media (max-width: 760px) {
             .welcome-photo { display: none; }
+            .kpi-bar { grid-template-columns: 1fr; }
+            .kpi-bar-stats { grid-template-columns: 1fr; gap: 12px; }
             .topbar-inner {
                 padding: 14px 16px;
                 align-items: flex-start;
