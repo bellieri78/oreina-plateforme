@@ -251,6 +251,28 @@
             opacity: 0.35;
             pointer-events: none;
         }
+        .nav-item.nav-item-locked {
+            color: rgba(255,255,255,0.55);
+            border: 1px dashed rgba(237,196,66,0.35);
+        }
+        .nav-item.nav-item-locked:hover {
+            background: rgba(237,196,66,0.08);
+            border-color: rgba(237,196,66,0.50);
+            color: rgba(255,255,255,0.75);
+        }
+        .nav-item.nav-item-locked .icon {
+            color: rgba(255,255,255,0.55);
+        }
+        .nav-badge-lock {
+            margin-left: auto;
+            background: var(--gold);
+            color: var(--forest);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 7px;
+            border-radius: 999px;
+            letter-spacing: 0.04em;
+        }
         .nav-item.nav-item-danger {
             color: rgba(239,68,68,0.8);
         }
@@ -826,6 +848,7 @@
             .sidebar .sidebar-gt-list,
             .sidebar .nav-title,
             .sidebar .nav-label,
+            .sidebar .nav-badge-lock,
             .sidebar .sidebar-footer .nav-label {
                 display: none;
             }
