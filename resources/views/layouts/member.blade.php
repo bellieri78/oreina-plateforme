@@ -963,6 +963,7 @@
     @php
         $authUser = auth()->user();
         $authMember = $authUser ? \App\Models\Member::where('user_id', $authUser->id)->first() : null;
+        $isAuthCurrentMember = $authMember?->isCurrentMember() ?? false;
         $initials = strtoupper(substr($authMember?->first_name ?? $authUser?->name ?? 'U', 0, 1) . substr($authMember?->last_name ?? '', 0, 1));
         $department = $authMember?->postal_code ? substr($authMember->postal_code, 0, 2) : null;
         $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
@@ -1048,7 +1049,8 @@
                     <i data-lucide="file-check" class="icon"></i>
                     <span class="nav-label">Mes soumissions</span>
                 </a>
-                @if($authMember)
+
+                @if($isAuthCurrentMember)
                 <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') ? 'active' : '' }}">
                     <i data-lucide="folder-open" class="icon"></i>
                     <span class="nav-label">Mes contributions</span>
@@ -1069,6 +1071,32 @@
                     <i data-lucide="users" class="icon"></i>
                     <span class="nav-label">Groupes de travail</span>
                 </a>
+                @else
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="folder-open" class="icon"></i>
+                    <span class="nav-label">Mes contributions</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="file-text" class="icon"></i>
+                    <span class="nav-label">Mes documents</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="users-round" class="icon"></i>
+                    <span class="nav-label">Annuaire</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="message-circle" class="icon"></i>
+                    <span class="nav-label">Chat</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="users" class="icon"></i>
+                    <span class="nav-label">Groupes de travail</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
                 @endif
             </nav>
 
@@ -1079,10 +1107,16 @@
                     <i data-lucide="book-open" class="icon"></i>
                     <span class="nav-label">Chersotis</span>
                 </a>
-                @if($authMember)
+                @if($isAuthCurrentMember)
                 <a href="{{ route('hub.lepis.bulletins.index') }}" class="nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
                     <i data-lucide="newspaper" class="icon"></i>
                     <span class="nav-label">Lepis</span>
+                </a>
+                @else
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="newspaper" class="icon"></i>
+                    <span class="nav-label">Lepis</span>
+                    <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 @endif
             </nav>
