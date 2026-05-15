@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\WorkGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class WorkGroupController extends Controller
 {
@@ -64,12 +65,19 @@ class WorkGroupController extends Controller
             'has_collaborative_space' => 'boolean',
             'has_forum' => 'boolean',
             'collaborative_space_url' => 'nullable|url|max:255',
+            'cover_image' => 'nullable|image|max:5120',
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
         $validated['has_resources'] = $request->boolean('has_resources');
         $validated['has_collaborative_space'] = $request->boolean('has_collaborative_space');
         $validated['has_forum'] = $request->boolean('has_forum');
+
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = $request->file('cover_image')->store('work-groups/covers', 'public');
+        } else {
+            unset($validated['cover_image']);
+        }
 
         $workGroup = WorkGroup::create($validated);
 
@@ -105,12 +113,22 @@ class WorkGroupController extends Controller
             'has_collaborative_space' => 'boolean',
             'has_forum' => 'boolean',
             'collaborative_space_url' => 'nullable|url|max:255',
+            'cover_image' => 'nullable|image|max:5120',
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
         $validated['has_resources'] = $request->boolean('has_resources');
         $validated['has_collaborative_space'] = $request->boolean('has_collaborative_space');
         $validated['has_forum'] = $request->boolean('has_forum');
+
+        if ($request->hasFile('cover_image')) {
+            if ($workGroup->cover_image) {
+                Storage::disk('public')->delete($workGroup->cover_image);
+            }
+            $validated['cover_image'] = $request->file('cover_image')->store('work-groups/covers', 'public');
+        } else {
+            unset($validated['cover_image']);
+        }
 
         $workGroup->update($validated);
 

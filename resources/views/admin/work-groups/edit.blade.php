@@ -12,7 +12,7 @@
             <h3 class="card-title">Modifier le groupe de travail</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.work-groups.update', $workGroup) }}" method="POST">
+            <form action="{{ route('admin.work-groups.update', $workGroup) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @include('admin.work-groups._form', ['workGroup' => $workGroup])

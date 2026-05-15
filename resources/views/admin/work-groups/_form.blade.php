@@ -34,6 +34,16 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label" for="cover_image">Photo de couverture</label>
+            @if(isset($workGroup) && $workGroup->cover_image)
+                <img src="{{ \Storage::url($workGroup->cover_image) }}" alt="" style="max-height:110px;border-radius:8px;display:block;margin-bottom:8px;">
+            @endif
+            <input type="file" name="cover_image" id="cover_image" accept="image/*">
+            <p style="color:#6b7280;font-size:0.75rem;margin-top:0.25rem;">JPG/PNG/WebP. Max 5 Mo. Laisser vide pour conserver l'actuelle.</p>
+            @error('cover_image')<p style="color:#dc2626;font-size:0.875rem;margin-top:0.25rem;">{{ $message }}</p>@enderror
+        </div>
+
+        <div class="form-group">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                 <input type="checkbox" name="is_active" value="1" {{ old('is_active', $workGroup->is_active ?? true) ? 'checked' : '' }} style="width: auto;">
                 <span>Groupe actif</span>
