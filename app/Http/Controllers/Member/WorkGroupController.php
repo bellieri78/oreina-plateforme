@@ -11,7 +11,7 @@ class WorkGroupController extends Controller
     public function index()
     {
         $workGroups = WorkGroup::active()
-            ->withCount(['members as active_members_count' => fn ($q) => $q->wherePivot('status', 'active')])
+            ->withCount(['members as active_members_count' => fn ($q) => $q->where('work_group_member.status', 'active')])
             ->orderBy('name')
             ->get();
 
@@ -41,7 +41,7 @@ class WorkGroupController extends Controller
         // Un adhérent en aperçu (non-membre / demande en attente) ne voit pas le contenu.
         $canViewResources = $workGroup->has_resources && ($status === 'active' || $canManage);
 
-        $workGroup->loadCount(['members as active_members_count' => fn ($q) => $q->wherePivot('status', 'active')]);
+        $workGroup->loadCount(['members as active_members_count' => fn ($q) => $q->where('work_group_member.status', 'active')]);
         $coordinators = $workGroup->coordinators()->get();
         $resources = $canViewResources
             ? $workGroup->resources()->orderBy('category')->orderBy('title')->get()->groupBy('category')
