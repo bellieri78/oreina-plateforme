@@ -27,4 +27,14 @@ class WorkGroupPolicy
 
         return $workGroup->isCoordinator($this->memberOf($user));
     }
+
+    public function participate(User $user, WorkGroup $workGroup): bool
+    {
+        $member = $this->memberOf($user);
+        if (! $member) {
+            return false;
+        }
+
+        return $workGroup->membershipStatusFor($member) === 'active';
+    }
 }
