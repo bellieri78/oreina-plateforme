@@ -1656,6 +1656,8 @@
         $initials = strtoupper(substr($authMember?->first_name ?? $authUser?->name ?? 'U', 0, 1) . substr($authMember?->last_name ?? '', 0, 1));
         $department = $authMember?->postal_code ? substr($authMember->postal_code, 0, 2) : null;
         $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
+        $authProfileCompletion = $authMember?->profileCompletionPercent() ?? 0;
+        $authMemberSince = $authMember?->created_at?->year;
     @endphp
 
     @include('partials.email-verification-notice')
@@ -1673,38 +1675,11 @@
                 </div>
             </a>
 
-            {{-- User card --}}
-            <div class="user-card">
-                <div class="avatar">
-                    @if($authMember?->photo_path)
-                        <img src="{{ Storage::url($authMember->photo_path) }}" alt="">
-                    @else
-                        {{ $initials }}
-                    @endif
-                </div>
-                <div class="user-details">
-                    <strong>{{ $authMember?->full_name ?? $authUser->name }}</strong>
-                    <span>
-                        @if($department)Dept. {{ $department }}@endif
-                    </span>
-                    @if($authMember?->isCurrentMember())
-                        <div class="user-badge">Adhérent actif</div>
-                    @endif
-                </div>
-            </div>
+            @include('member.partials._sidebar_user_card')
 
-            {{-- Member's GT --}}
-            @if($authMemberGroups->count() > 0)
-            <div class="sidebar-gt-list">
-                <div class="nav-title">Mes GT</div>
-                @foreach($authMemberGroups as $gt)
-                <div style="display:flex; align-items:center; gap:8px; padding:4px 12px;">
-                    <div style="width:8px; height:8px; border-radius:50%; background:{{ $gt->color }}; flex-shrink:0;"></div>
-                    <span class="nav-label" style="color:rgba(255,255,255,0.6); font-size:13px;">{{ $gt->name }}</span>
-                </div>
-                @endforeach
-            </div>
-            @endif
+            @include('member.partials._sidebar_progress')
+
+            @include('member.partials._sidebar_roles')
 
             {{-- Navigation — Mon espace --}}
             <nav class="nav-group">
@@ -1748,18 +1723,6 @@
                     <i data-lucide="file-text" class="icon"></i>
                     <span class="nav-label">Mes documents</span>
                 </a>
-                <a href="{{ route('member.directory.index') }}" class="nav-item {{ request()->routeIs('member.directory*') ? 'active' : '' }}">
-                    <i data-lucide="users-round" class="icon"></i>
-                    <span class="nav-label">Annuaire</span>
-                </a>
-                <a href="{{ route('member.chat') }}" class="nav-item {{ request()->routeIs('member.chat*') ? 'active' : '' }}">
-                    <i data-lucide="message-circle" class="icon"></i>
-                    <span class="nav-label">Chat</span>
-                </a>
-                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') ? 'active' : '' }}">
-                    <i data-lucide="users" class="icon"></i>
-                    <span class="nav-label">Groupes de travail</span>
-                </a>
                 @else
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
                     <i data-lucide="folder-open" class="icon"></i>
@@ -1771,19 +1734,39 @@
                     <span class="nav-label">Mes documents</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
+                @endif
+            </nav>
+
+            {{-- Navigation — Réseau --}}
+            <nav class="nav-group">
+                <div class="nav-title">Réseau</div>
+                @if($isAuthCurrentMember)
+                <a href="{{ route('member.directory.index') }}" class="nav-item {{ request()->routeIs('member.directory*') ? 'active' : '' }}">
+                    <i data-lucide="users-round" class="icon"></i>
+                    <span class="nav-label">Annuaire des adhérents</span>
+                </a>
+                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') ? 'active' : '' }}">
+                    <i data-lucide="users" class="icon"></i>
+                    <span class="nav-label">Mes groupes</span>
+                </a>
+                <a href="{{ route('member.chat') }}" class="nav-item {{ request()->routeIs('member.chat*') ? 'active' : '' }}">
+                    <i data-lucide="message-circle" class="icon"></i>
+                    <span class="nav-label">Chat</span>
+                </a>
+                @else
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
                     <i data-lucide="users-round" class="icon"></i>
-                    <span class="nav-label">Annuaire</span>
+                    <span class="nav-label">Annuaire des adhérents</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="users" class="icon"></i>
+                    <span class="nav-label">Mes groupes</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
                     <i data-lucide="message-circle" class="icon"></i>
                     <span class="nav-label">Chat</span>
-                    <span class="nav-badge-lock">Adhérent</span>
-                </a>
-                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
-                    <i data-lucide="users" class="icon"></i>
-                    <span class="nav-label">Groupes de travail</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 @endif
@@ -1808,10 +1791,39 @@
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 @endif
+                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Publications bientôt disponibles');">
+                    <i data-lucide="book-marked" class="icon"></i>
+                    <span class="nav-label">Publications</span>
+                </a>
+                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Documents bientôt disponibles');">
+                    <i data-lucide="folder" class="icon"></i>
+                    <span class="nav-label">Documents</span>
+                </a>
+                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Webinaires & replays bientôt disponibles');">
+                    <i data-lucide="video" class="icon"></i>
+                    <span class="nav-label">Webinaires & replays</span>
+                </a>
             </nav>
 
-            {{-- Footer: return + logout --}}
+            {{-- Navigation — Aide --}}
+            <nav class="nav-group">
+                <div class="nav-title">Aide</div>
+                <a href="{{ route('hub.faq') }}" class="nav-item">
+                    <i data-lucide="circle-help" class="icon"></i>
+                    <span class="nav-label">FAQ</span>
+                </a>
+                <a href="mailto:contact@oreina.org" class="nav-item">
+                    <i data-lucide="mail" class="icon"></i>
+                    <span class="nav-label">Nous contacter</span>
+                </a>
+            </nav>
+
+            {{-- Footer: Artemisiae CTA + return + logout --}}
             <div class="sidebar-footer">
+                <a href="#" class="sidebar-cta" onclick="event.preventDefault(); alert('Lien Artemisiae à configurer');">
+                    <i data-lucide="external-link" class="icon"></i>
+                    <span class="nav-label">Explorer Artemisiae</span>
+                </a>
                 @if($authUser?->isAdmin() || $authUser?->isEditor())
                 <a href="{{ route('admin.dashboard') }}" class="nav-item">
                     <i data-lucide="shield" class="icon"></i>
