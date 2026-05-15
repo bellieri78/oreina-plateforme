@@ -168,6 +168,14 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         Route::get('/annuaire', [\App\Http\Controllers\Member\DirectoryController::class, 'index'])->name('directory.index');
         Route::get('/annuaire/data', [\App\Http\Controllers\Member\DirectoryController::class, 'data'])->name('directory.data');
         Route::get('/annuaire/{member}', [\App\Http\Controllers\Member\DirectoryController::class, 'show'])->name('directory.show');
+
+        // Work Groups — adhésion / gestion membership (réservé aux adhérents à jour)
+        Route::post('/groupes-de-travail/{workGroup:slug}/rejoindre', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'join'])->name('work-groups.join');
+        Route::delete('/groupes-de-travail/{workGroup:slug}/quitter', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'leave'])->name('work-groups.leave');
+        Route::post('/groupes-de-travail/{workGroup:slug}/membres', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'addMember'])->name('work-groups.members.add');
+        Route::delete('/groupes-de-travail/{workGroup:slug}/membres/{member}', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'removeMember'])->name('work-groups.members.remove');
+        Route::post('/groupes-de-travail/{workGroup:slug}/demandes/{member}/accepter', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'approve'])->name('work-groups.requests.approve');
+        Route::delete('/groupes-de-travail/{workGroup:slug}/demandes/{member}/refuser', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'reject'])->name('work-groups.requests.reject');
     });
 
     // Legacy redirects (map → annuaire)
