@@ -1869,9 +1869,7 @@
                             <span>@yield('page-subtitle')</span>
                         @endif
                     </div>
-                    <div class="topbar-actions">
-                        @yield('topbar-actions')
-                    </div>
+                    @include('member.partials._topbar_tools')
                 </div>
             </div>
 
