@@ -13,7 +13,7 @@ class WorkGroup extends Model
     protected $fillable = [
         'name', 'slug', 'description', 'color', 'icon', 'website_url', 'is_active',
         'has_resources', 'has_collaborative_space', 'collaborative_space_url',
-        'has_forum', 'join_policy',
+        'has_forum', 'join_policy', 'cover_image',
     ];
 
     protected $casts = [
@@ -69,6 +69,11 @@ class WorkGroup extends Model
     public function forumThreads(): HasManyThrough
     {
         return $this->hasManyThrough(WorkGroupForumThread::class, WorkGroupForumCategory::class);
+    }
+
+    public function coverUrl(): ?string
+    {
+        return $this->cover_image ? \Storage::url($this->cover_image) : null;
     }
 
     public function scopeActive($query)
