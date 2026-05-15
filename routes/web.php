@@ -185,6 +185,14 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         Route::post('/groupes-de-travail/{workGroup:slug}/forum/categories', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'store'])->name('work-groups.forum.categories.store');
         Route::put('/groupes-de-travail/{workGroup:slug}/forum/categories/{category}', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'update'])->name('work-groups.forum.categories.update');
         Route::delete('/groupes-de-travail/{workGroup:slug}/forum/categories/{category}', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'destroy'])->name('work-groups.forum.categories.destroy');
+
+        // Work Groups — forum : fils (threads)
+        Route::get('/groupes-de-travail/{workGroup:slug}/forum', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'index'])->name('work-groups.forum.index');
+        Route::get('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'showThread'])->name('work-groups.forum.threads.show');
+        Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'storeThread'])->name('work-groups.forum.threads.store');
+        Route::delete('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'destroyThread'])->name('work-groups.forum.threads.destroy');
+        Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/epingler', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'pinThread'])->name('work-groups.forum.threads.pin');
+        Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/verrouiller', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'lockThread'])->name('work-groups.forum.threads.lock');
     });
 
     // Legacy redirects (map → annuaire)
