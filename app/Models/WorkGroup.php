@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
 
 class WorkGroup extends Model
@@ -63,6 +64,11 @@ class WorkGroup extends Model
     public function forumCategories(): HasMany
     {
         return $this->hasMany(WorkGroupForumCategory::class);
+    }
+
+    public function forumThreads(): HasManyThrough
+    {
+        return $this->hasManyThrough(WorkGroupForumThread::class, WorkGroupForumCategory::class);
     }
 
     public function scopeActive($query)

@@ -18,7 +18,7 @@
     @else
         <div class="groups-carousel">
             @foreach($myWorkGroups as $gt)
-            <article class="group-card">
+            <a href="{{ route('member.work-groups.show', $gt) }}" class="group-card" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;">
                 <div class="group-card-cover" style="background: {{ $gt->color ?? '#85B79D' }};">
                     <i data-lucide="{{ $gt->icon ?? 'leaf' }}"></i>
                     <div class="group-card-avatar" style="background: {{ $gt->color ?? '#85B79D' }};">
@@ -29,11 +29,11 @@
                     <h3>{{ $gt->name }}</h3>
                     <span class="subtitle">{{ \Str::limit($gt->description ?? 'Groupe thématique', 80) }}</span>
                     <div class="group-card-chips">
-                        <span><i data-lucide="message-circle"></i>0 nouveaux échanges</span>
-                        <span><i data-lucide="file-text"></i>0 documents</span>
+                        <span><i data-lucide="message-circle"></i>{{ $gt->forum_threads_count }} discussion{{ $gt->forum_threads_count > 1 ? 's' : '' }}</span>
+                        <span><i data-lucide="file-text"></i>{{ $gt->resources_count }} ressource{{ $gt->resources_count > 1 ? 's' : '' }}</span>
                     </div>
                 </div>
-            </article>
+            </a>
             @endforeach
         </div>
     @endif

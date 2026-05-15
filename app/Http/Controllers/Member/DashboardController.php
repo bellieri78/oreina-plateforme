@@ -40,7 +40,9 @@ class DashboardController extends Controller
         $myGroupIds = $member?->workGroups()->pluck('work_groups.id')->toArray() ?? [];
 
         // Mes groupes & projets (cards) — groupes dont l'adhérent est membre
-        $myWorkGroups = $member?->workGroups()->active()->limit(8)->get() ?? collect();
+        $myWorkGroups = $member?->workGroups()->active()
+            ->withCount(['forumThreads', 'resources'])
+            ->limit(8)->get() ?? collect();
 
         $upcomingEvents = Event::where('status', 'published')
             ->where('start_date', '>=', now())
