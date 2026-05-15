@@ -62,12 +62,14 @@ class WorkGroupController extends Controller
             'join_policy' => 'required|in:open,request',
             'has_resources' => 'boolean',
             'has_collaborative_space' => 'boolean',
+            'has_forum' => 'boolean',
             'collaborative_space_url' => 'nullable|url|max:255',
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
         $validated['has_resources'] = $request->boolean('has_resources');
         $validated['has_collaborative_space'] = $request->boolean('has_collaborative_space');
+        $validated['has_forum'] = $request->boolean('has_forum');
 
         $workGroup = WorkGroup::create($validated);
 
@@ -101,12 +103,14 @@ class WorkGroupController extends Controller
             'join_policy' => 'required|in:open,request',
             'has_resources' => 'boolean',
             'has_collaborative_space' => 'boolean',
+            'has_forum' => 'boolean',
             'collaborative_space_url' => 'nullable|url|max:255',
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
         $validated['has_resources'] = $request->boolean('has_resources');
         $validated['has_collaborative_space'] = $request->boolean('has_collaborative_space');
+        $validated['has_forum'] = $request->boolean('has_forum');
 
         $workGroup->update($validated);
 

@@ -67,9 +67,9 @@
         </div>
 
         <div class="form-group">
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: not-allowed; opacity: 0.6;">
-                <input type="checkbox" disabled style="width: auto;">
-                <span>Forum / discussions <em>(Phase 2 — bientôt)</em></span>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" name="has_forum" value="1" {{ old('has_forum', $workGroup->has_forum ?? false) ? 'checked' : '' }} style="width: auto;">
+                <span>Forum / discussions activé</span>
             </label>
         </div>
     </div>
