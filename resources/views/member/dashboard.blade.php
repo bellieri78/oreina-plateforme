@@ -75,6 +75,8 @@
     </section>
     @endif
 
+    @include('member.partials._suggestions')
+
     @if($isCurrentMember)
     {{-- ═══════════════════════════════════════════════════
          ZONE B — Priorité immédiate (À faire + Mes soumissions)
