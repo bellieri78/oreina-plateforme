@@ -19,9 +19,9 @@
         <div class="groups-carousel">
             @foreach($myWorkGroups as $gt)
             <a href="{{ route('member.work-groups.show', $gt) }}" class="group-card" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;">
-                <div class="group-card-cover" style="background: {{ $gt->color ?? '#85B79D' }};{{ $gt->coverUrl() ? 'padding:0;' : '' }}">
+                <div class="group-card-cover" style="background: {{ $gt->color ?? '#85B79D' }};">
                     @if($gt->coverUrl())
-                        <img src="{{ $gt->coverUrl() }}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                        <img src="{{ $gt->coverUrl() }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                     @else
                         <i data-lucide="{{ $gt->icon ?? 'leaf' }}"></i>
                     @endif
