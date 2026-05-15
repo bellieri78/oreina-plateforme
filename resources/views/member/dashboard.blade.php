@@ -61,6 +61,13 @@
     @include('member.partials._groups_carousel')
 
     @if($isCurrentMember)
+    <section class="grid" style="grid-template-columns: 1.5fr 1fr;">
+        @include('member.partials._actualites_demo')
+        @include('member.partials._ressources_recentes')
+    </section>
+    @endif
+
+    @if($isCurrentMember)
     {{-- ═══════════════════════════════════════════════════
          ZONE B — Priorité immédiate (À faire + Mes soumissions)
     ═══════════════════════════════════════════════════ --}}
