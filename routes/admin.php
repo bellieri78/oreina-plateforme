@@ -120,6 +120,11 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     Route::post('faq/{faq}/toggle-visible', [FaqController::class, 'toggleVisible'])->name('faq.toggle-visible');
     Route::resource('faq', FaqController::class)->except(['show']);
 
+    // Espèce du mois (carousel dashboard membre)
+    Route::resource('espece-du-mois', \App\Http\Controllers\Admin\LepidopteraOfMonthController::class)
+        ->parameters(['espece-du-mois' => 'espece_du_mois'])
+        ->except(['show']);
+
     // Journal Issues
     Route::get('journal-issues/export', [JournalIssueController::class, 'export'])->name('journal-issues.export');
     Route::post('journal-issues/bulk-delete', [JournalIssueController::class, 'bulkDelete'])->name('journal-issues.bulk-delete');
