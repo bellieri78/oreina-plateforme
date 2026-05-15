@@ -22,7 +22,7 @@ class WorkGroupSeeder extends Seeder
             'has_resources' => true,
             'has_collaborative_space' => true,
             'collaborative_space_url' => 'https://framadrive.org/',
-            'has_forum' => false,
+            'has_forum' => true,
             'join_policy' => 'request',
         ]);
 
@@ -49,5 +49,26 @@ class WorkGroupSeeder extends Seeder
             'has_forum' => false,
             'join_policy' => 'open',
         ]);
+
+        $valid = \App\Models\WorkGroup::where('slug', 'groupe-de-travail-validateurs')->first();
+        if ($valid && $valid->forumCategories()->count() === 0) {
+            $cat = \App\Models\WorkGroupForumCategory::create([
+                'work_group_id' => $valid->id,
+                'name' => 'Détermination',
+                'description' => 'Questions et entraide sur la détermination des Lépidoptères.',
+                'position' => 0,
+            ]);
+            $thread = \App\Models\WorkGroupForumThread::create([
+                'work_group_forum_category_id' => $cat->id,
+                'member_id' => null,
+                'title' => 'Bienvenue dans le forum du groupe',
+                'last_posted_at' => now(),
+            ]);
+            \App\Models\WorkGroupForumPost::create([
+                'work_group_forum_thread_id' => $thread->id,
+                'member_id' => null,
+                'content' => "Ce forum est l'espace d'échange du groupe. Créez un fil par sujet. Plus d'infos : https://oreina.org",
+            ]);
+        }
     }
 }
