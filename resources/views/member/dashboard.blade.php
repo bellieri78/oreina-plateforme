@@ -56,30 +56,7 @@
 
     </section>
 
-    @if($isCurrentMember)
-    {{-- ═══════════════════════════════════════════════════
-         KPI BAR — stats adhérent (bandeau plein largeur)
-    ═══════════════════════════════════════════════════ --}}
-    <section class="kpi-bar">
-        <div class="kpi-bar-stats">
-            <div class="stat">
-                <strong>{{ $stats['membership_years'] }}</strong>
-                <span>année(s) d'adhésion</span>
-            </div>
-            <div class="stat">
-                <strong>{{ number_format($stats['total_donations'], 0, ',', ' ') }}&nbsp;€</strong>
-                <span>total des dons</span>
-            </div>
-            <div class="stat">
-                <strong>{{ $stats['donation_count'] }}</strong>
-                <span>don(s) enregistré(s)</span>
-            </div>
-        </div>
-        <a href="{{ route('member.contributions') }}" class="text-link">
-            <i data-lucide="arrow-right"></i>Mes contributions
-        </a>
-    </section>
-    @endif
+    @include('member.partials._kpi_bar')
 
     @if($isCurrentMember)
     {{-- ═══════════════════════════════════════════════════
