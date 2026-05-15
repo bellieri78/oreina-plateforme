@@ -14,7 +14,7 @@ class LepidopteraOfMonthSeeder extends Seeder
         }
 
         LepidopteraOfMonth::create([
-            'scientific_name' => 'Zygaena lavandulae',
+            'scientific_name' => 'Enterpia laudeti',
             'photographer' => 'David Demerges',
             'photo_path' => 'images/espace-membre/papillon-hero.jpg',
             'display_order' => 1,
