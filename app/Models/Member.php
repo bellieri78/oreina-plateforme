@@ -720,6 +720,35 @@ class Member extends Model
         });
     }
 
+    // ===== PROFILE COMPLETION =====
+
+    /**
+     * Pourcentage de complétion du profil pour la barre sidebar.
+     * 7 champs comptent, chacun 1/7 (~14.3%).
+     */
+    public function profileCompletionPercent(): int
+    {
+        $fields = [
+            'photo_path',
+            'birth_date',
+            'postal_code',
+            'city',
+            'mobile',
+            'interests',
+            'profession',
+        ];
+
+        $filled = 0;
+        foreach ($fields as $field) {
+            $value = $this->{$field};
+            if ($value !== null && $value !== '') {
+                $filled++;
+            }
+        }
+
+        return (int) round(($filled / count($fields)) * 100);
+    }
+
     // ===== STATIC METHODS =====
 
     public static function getContactTypes(): array
