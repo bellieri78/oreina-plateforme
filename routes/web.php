@@ -194,6 +194,8 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         Route::delete('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'destroyThread'])->name('work-groups.forum.threads.destroy');
         Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/epingler', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'pinThread'])->name('work-groups.forum.threads.pin');
         Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/verrouiller', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'lockThread'])->name('work-groups.forum.threads.lock');
+        Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/suivre', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'subscribe'])->name('work-groups.forum.threads.subscribe');
+        Route::delete('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/suivre', [\App\Http\Controllers\Member\WorkGroupForumController::class, 'unsubscribe'])->name('work-groups.forum.threads.unsubscribe');
 
         // Work Groups — forum : réponses (posts)
         Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/reponses', [\App\Http\Controllers\Member\WorkGroupForumPostController::class, 'store'])->name('work-groups.forum.posts.store');

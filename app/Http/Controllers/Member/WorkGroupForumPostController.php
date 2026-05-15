@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WorkGroupForumReplyNotification;
 use App\Models\Member;
 use App\Models\WorkGroup;
 use App\Models\WorkGroupForumPost;
 use App\Models\WorkGroupForumThread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class WorkGroupForumPostController extends Controller
 {
@@ -26,13 +28,23 @@ class WorkGroupForumPostController extends Controller
         $data = $request->validate(['content' => 'required|string']);
         $member = Member::where('user_id', $user->id)->first();
 
-        WorkGroupForumPost::create([
+        $post = WorkGroupForumPost::create([
             'work_group_forum_thread_id' => $thread->id,
             'member_id' => $member?->id,
             'content' => $data['content'],
         ]);
 
         $thread->update(['last_posted_at' => now()]);
+
+        if ($member) {
+            $thread->subscribers()->syncWithoutDetaching([$member->id]);
+        }
+
+        $thread->subscribers()
+            ->when($member, fn ($q) => $q->where('members.id', '!=', $member->id))
+            ->whereNotNull('email')
+            ->get()
+            ->each(fn ($sub) => Mail::to($sub->email)->send(new WorkGroupForumReplyNotification($thread, $post)));
 
         return back()->with('success', 'Réponse publiée.');
     }

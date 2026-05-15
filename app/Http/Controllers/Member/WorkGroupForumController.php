@@ -38,8 +38,10 @@ class WorkGroupForumController extends Controller
         $thread->load('author', 'category');
         $posts = $thread->posts()->with('author')->oldest()->paginate(30);
 
+        $isSubscribed = $thread->isSubscribed($member);
+
         return view('member.work-groups.forum.thread', compact(
-            'workGroup', 'thread', 'posts', 'member', 'status', 'canManage', 'canParticipate'
+            'workGroup', 'thread', 'posts', 'member', 'status', 'canManage', 'canParticipate', 'isSubscribed'
         ));
     }
 
@@ -74,6 +76,10 @@ class WorkGroupForumController extends Controller
             ]);
             return $thread;
         });
+
+        if ($member) {
+            $thread->subscribers()->syncWithoutDetaching([$member->id]);
+        }
 
         return redirect()
             ->route('member.work-groups.forum.threads.show', [$workGroup, $thread])
@@ -113,5 +119,33 @@ class WorkGroupForumController extends Controller
         $thread->update(['is_locked' => ! $thread->is_locked]);
 
         return back()->with('success', $thread->is_locked ? 'Fil verrouillé.' : 'Fil déverrouillé.');
+    }
+
+    public function subscribe(Request $request, WorkGroup $workGroup, WorkGroupForumThread $thread)
+    {
+        abort_unless($workGroup->has_forum, 404);
+        abort_unless($thread->category->work_group_id === $workGroup->id, 404);
+        abort_unless($request->user()->can('participate', $workGroup), 403);
+
+        $member = Member::where('user_id', $request->user()->id)->first();
+        if ($member) {
+            $thread->subscribers()->syncWithoutDetaching([$member->id]);
+        }
+
+        return back()->with('success', 'Vous suivez ce fil.');
+    }
+
+    public function unsubscribe(Request $request, WorkGroup $workGroup, WorkGroupForumThread $thread)
+    {
+        abort_unless($workGroup->has_forum, 404);
+        abort_unless($thread->category->work_group_id === $workGroup->id, 404);
+        abort_unless($request->user()->can('participate', $workGroup), 403);
+
+        $member = Member::where('user_id', $request->user()->id)->first();
+        if ($member) {
+            $thread->subscribers()->detach($member->id);
+        }
+
+        return back()->with('success', 'Vous ne suivez plus ce fil.');
     }
 }
