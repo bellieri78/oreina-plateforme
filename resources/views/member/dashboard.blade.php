@@ -58,6 +58,8 @@
 
     @include('member.partials._kpi_bar')
 
+    @include('member.partials._groups_carousel')
+
     @if($isCurrentMember)
     {{-- ═══════════════════════════════════════════════════
          ZONE B — Priorité immédiate (À faire + Mes soumissions)
