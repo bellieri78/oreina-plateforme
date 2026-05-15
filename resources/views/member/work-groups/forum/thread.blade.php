@@ -24,8 +24,9 @@
                     @if($thread->is_locked)· <span class="badge gold">Verrouillé</span>@endif
                 </small>
             </div>
-            @if($canManage)
+            @if($canManage || $canParticipate)
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                @if($canManage)
                 <form method="POST" action="{{ route('member.work-groups.forum.threads.pin', [$workGroup, $thread]) }}">@csrf
                     <button class="btn btn-secondary" style="height:32px;padding:0 10px;font-size:12px;"><i data-lucide="pin"></i>{{ $thread->is_pinned ? 'Désépingler' : 'Épingler' }}</button>
                 </form>
@@ -35,6 +36,16 @@
                 <form method="POST" action="{{ route('member.work-groups.forum.threads.destroy', [$workGroup, $thread]) }}" onsubmit="return confirm('Supprimer ce fil et tous ses messages ?');">@csrf @method('DELETE')
                     <button class="btn btn-secondary" style="height:32px;padding:0 10px;font-size:12px;color:#dc2626;"><i data-lucide="trash-2"></i>Supprimer</button>
                 </form>
+                @endif
+                @if($canParticipate)
+                <form method="POST" action="{{ route($isSubscribed ? 'member.work-groups.forum.threads.unsubscribe' : 'member.work-groups.forum.threads.subscribe', [$workGroup, $thread]) }}" style="display:inline;">
+                    @csrf
+                    @if($isSubscribed) @method('DELETE') @endif
+                    <button class="btn btn-secondary" style="height:32px;padding:0 10px;font-size:12px;">
+                        <i data-lucide="{{ $isSubscribed ? 'bell-off' : 'bell' }}"></i>{{ $isSubscribed ? 'Ne plus suivre' : 'Suivre ce fil' }}
+                    </button>
+                </form>
+                @endif
             </div>
             @endif
         </div>
