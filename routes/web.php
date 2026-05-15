@@ -172,6 +172,7 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         // Work Groups — adhésion / gestion membership (réservé aux adhérents à jour)
         Route::post('/groupes-de-travail/{workGroup:slug}/rejoindre', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'join'])->name('work-groups.join');
         Route::delete('/groupes-de-travail/{workGroup:slug}/quitter', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'leave'])->name('work-groups.leave');
+        Route::get('/groupes-de-travail/{workGroup:slug}/membres/recherche', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'searchMembers'])->name('work-groups.members.search');
         Route::post('/groupes-de-travail/{workGroup:slug}/membres', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'addMember'])->name('work-groups.members.add');
         Route::delete('/groupes-de-travail/{workGroup:slug}/membres/{member}', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'removeMember'])->name('work-groups.members.remove');
         Route::post('/groupes-de-travail/{workGroup:slug}/demandes/{member}/accepter', [\App\Http\Controllers\Member\WorkGroupMembershipController::class, 'approve'])->name('work-groups.requests.approve');

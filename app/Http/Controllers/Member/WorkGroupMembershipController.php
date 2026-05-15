@@ -118,6 +118,34 @@ class WorkGroupMembershipController extends Controller
         return back()->with('success', 'Demande refusée.');
     }
 
+    public function searchMembers(Request $request, WorkGroup $workGroup)
+    {
+        abort_unless($request->user()->can('manage', $workGroup), 403);
+
+        $q = $request->validate(['q' => 'required|string|min:2'])['q'];
+
+        $existingIds = $workGroup->members()->pluck('members.id')->all();
+
+        $results = Member::where('is_active', true)
+            ->whereNotIn('id', $existingIds)
+            ->where(function ($w) use ($q) {
+                $w->where('first_name', 'ilike', "%{$q}%")
+                  ->orWhere('last_name', 'ilike', "%{$q}%")
+                  ->orWhere('email', 'ilike', "%{$q}%");
+            })
+            ->orderBy('last_name')
+            ->limit(10)
+            ->get()
+            ->map(fn ($m) => [
+                'id' => $m->id,
+                'label' => trim(($m->full_name ?? ($m->first_name . ' ' . $m->last_name))
+                    . ($m->city ? " — {$m->city}" : '')
+                    . ($m->postal_code ? ' (' . substr($m->postal_code, 0, 2) . ')' : '')),
+            ]);
+
+        return response()->json($results);
+    }
+
     private function guardLastCoordinator(WorkGroup $workGroup, Member $member): void
     {
         $isCoord = $workGroup->members()

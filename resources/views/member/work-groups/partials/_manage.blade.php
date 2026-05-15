@@ -38,17 +38,26 @@
         @endforeach
     </div>
 
-    <details style="margin-top:18px;">
+    <details style="margin-top:18px;" x-data="{ q:'', results:[], picked:null, async search(){ if(this.q.length<2){this.results=[];return;} let r=await fetch('{{ route('member.work-groups.members.search', $workGroup) }}?q='+encodeURIComponent(this.q)); this.results=await r.json(); }, choose(m){ this.picked=m; this.results=[]; this.q=m.label; } }">
         <summary style="cursor:pointer;font-weight:800;color:var(--blue);">+ Ajouter un membre</summary>
-        <form method="POST" action="{{ route('member.work-groups.members.add', $workGroup) }}" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+        <form method="POST" action="{{ route('member.work-groups.members.add', $workGroup) }}" style="margin-top:12px;">
             @csrf
-            <input type="number" name="member_id" placeholder="ID adhérent" required class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;max-width:160px;">
-            <select name="role" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
-                <option value="member">Membre</option>
-                <option value="coordinator">Coordinateur</option>
-            </select>
-            <button class="btn btn-primary"><i data-lucide="user-plus"></i>Ajouter</button>
+            <div style="position:relative;max-width:360px;">
+                <input type="text" x-model="q" @input.debounce.300ms="search()" placeholder="Rechercher un adhérent (nom, email)…" autocomplete="off" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;width:100%;">
+                <input type="hidden" name="member_id" :value="picked ? picked.id : ''" required>
+                <div x-show="results.length" x-cloak style="position:absolute;z-index:10;background:white;border:1px solid var(--border);border-radius:10px;width:100%;margin-top:4px;box-shadow:0 8px 20px rgba(0,0,0,0.08);max-height:240px;overflow:auto;">
+                    <template x-for="m in results" :key="m.id">
+                        <div @click="choose(m)" style="padding:10px;cursor:pointer;font-size:14px;" x-text="m.label"></div>
+                    </template>
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+                <select name="role" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
+                    <option value="member">Membre</option>
+                    <option value="coordinator">Coordinateur</option>
+                </select>
+                <button class="btn btn-primary" :disabled="!picked"><i data-lucide="user-plus"></i>Ajouter</button>
+            </div>
         </form>
-        <small style="color:var(--muted);display:block;margin-top:6px;">Astuce : l'ID adhérent est visible dans l'annuaire / l'extranet.</small>
     </details>
 </div>
