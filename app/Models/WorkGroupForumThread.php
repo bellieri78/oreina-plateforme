@@ -43,4 +43,21 @@ class WorkGroupForumThread extends Model
     {
         return $query->orderByDesc('is_pinned')->orderByDesc('last_posted_at');
     }
+
+    public function subscribers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(
+            Member::class,
+            'work_group_forum_thread_subscriptions',
+            'work_group_forum_thread_id',
+            'member_id'
+        )->withTimestamps();
+    }
+
+    public function isSubscribed(?Member $member): bool
+    {
+        return $member
+            ? $this->subscribers()->where('members.id', $member->id)->exists()
+            : false;
+    }
 }
