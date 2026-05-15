@@ -11,15 +11,21 @@ class WorkGroupController extends Controller
     public function index()
     {
         $workGroups = WorkGroup::active()
-            ->withCount('members')
+            ->withCount(['members as active_members_count' => fn ($q) => $q->wherePivot('status', 'active')])
             ->orderBy('name')
             ->get();
 
         $user = auth()->user();
         $member = Member::where('user_id', $user->id)->first();
-        $myGroupIds = $member?->workGroups()->pluck('work_groups.id')->toArray() ?? [];
 
-        return view('member.work-groups.index', compact('workGroups', 'myGroupIds'));
+        $myStatuses = [];
+        if ($member) {
+            foreach ($member->workGroups()->withPivot('status')->get() as $g) {
+                $myStatuses[$g->id] = $g->pivot->status;
+            }
+        }
+
+        return view('member.work-groups.index', compact('workGroups', 'member', 'myStatuses'));
     }
 
     public function show(WorkGroup $workGroup)
