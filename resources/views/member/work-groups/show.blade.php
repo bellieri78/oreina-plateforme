@@ -38,8 +38,12 @@
                 @endif
             </div>
         </article>
-        <div class="welcome-photo" style="background: {{ $workGroup->color ?? '#85B79D' }};display:grid;place-items:center;">
-            <i data-lucide="{{ $workGroup->icon ?? 'users' }}" style="width:72px;height:72px;color:white;opacity:0.85;"></i>
+        <div class="welcome-photo" style="{{ $workGroup->coverUrl() ? '' : 'background: '.($workGroup->color ?? '#85B79D').';display:grid;place-items:center;' }}">
+            @if($workGroup->coverUrl())
+                <img src="{{ $workGroup->coverUrl() }}" alt="{{ $workGroup->name }}" style="width:100%;height:100%;object-fit:cover;">
+            @else
+                <i data-lucide="{{ $workGroup->icon ?? 'users' }}" style="width:72px;height:72px;color:white;opacity:0.85;"></i>
+            @endif
         </div>
     </section>
 

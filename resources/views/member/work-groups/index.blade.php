@@ -12,8 +12,12 @@
         @forelse($workGroups as $g)
         @php($status = $myStatuses[$g->id] ?? null)
         <article class="group-card">
-            <div class="group-card-cover" style="background: {{ $g->color ?? '#85B79D' }};">
-                <i data-lucide="{{ $g->icon ?? 'users' }}"></i>
+            <div class="group-card-cover" style="background: {{ $g->color ?? '#85B79D' }};{{ $g->coverUrl() ? 'padding:0;overflow:hidden;' : '' }}">
+                @if($g->coverUrl())
+                    <img src="{{ $g->coverUrl() }}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                @else
+                    <i data-lucide="{{ $g->icon ?? 'users' }}"></i>
+                @endif
             </div>
             <div class="group-card-body">
                 <h3>{{ $g->name }}</h3>
