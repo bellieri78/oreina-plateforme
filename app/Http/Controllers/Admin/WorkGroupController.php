@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WorkGroupJoinApproved;
+use App\Mail\WorkGroupJoinRejected;
 use App\Models\Member;
 use App\Models\WorkGroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class WorkGroupController extends Controller
 {
@@ -146,5 +149,30 @@ class WorkGroupController extends Controller
         $workGroup->members()->detach($member->id);
 
         return back()->with('success', 'Membre retire du groupe de travail.');
+    }
+
+    public function approveRequest(WorkGroup $workGroup, Member $member)
+    {
+        $workGroup->members()->updateExistingPivot($member->id, [
+            'status' => 'active',
+            'joined_at' => now()->toDateString(),
+        ]);
+
+        if ($member->email) {
+            Mail::to($member->email)->send(new WorkGroupJoinApproved($workGroup));
+        }
+
+        return back()->with('success', 'Demande acceptee.');
+    }
+
+    public function rejectRequest(WorkGroup $workGroup, Member $member)
+    {
+        $workGroup->members()->detach($member->id);
+
+        if ($member->email) {
+            Mail::to($member->email)->send(new WorkGroupJoinRejected($workGroup));
+        }
+
+        return back()->with('success', 'Demande refusee.');
     }
 }

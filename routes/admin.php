@@ -296,6 +296,8 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     Route::resource('work-groups', WorkGroupController::class)->except(['show'])->names('work-groups');
     Route::post('work-groups/{workGroup}/members', [WorkGroupController::class, 'addMember'])->name('work-groups.add-member');
     Route::delete('work-groups/{workGroup}/members/{member}', [WorkGroupController::class, 'removeMember'])->name('work-groups.remove-member');
+    Route::post('work-groups/{workGroup}/requests/{member}/approve', [\App\Http\Controllers\Admin\WorkGroupController::class, 'approveRequest'])->name('work-groups.requests.approve');
+    Route::delete('work-groups/{workGroup}/requests/{member}/reject', [\App\Http\Controllers\Admin\WorkGroupController::class, 'rejectRequest'])->name('work-groups.requests.reject');
 
     // Lepis Bulletins
     Route::resource('lepis', LepisBulletinController::class)->except(['show'])->names('lepis');

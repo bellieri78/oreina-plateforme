@@ -24,6 +24,36 @@
         </div>
     </div>
 
+    <!-- Pending Join Requests -->
+    @php($pending = $workGroup->pendingRequests()->get())
+    @if($pending->count() > 0)
+        <div class="card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+                <h3 class="card-title">Demandes en attente ({{ $pending->count() }})</h3>
+            </div>
+            <div class="card-body">
+                @foreach($pending as $p)
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                        <span>
+                            <strong>{{ $p->last_name }} {{ $p->first_name }}</strong>
+                            <small class="text-muted">&mdash; demandé le {{ optional($p->pivot->requested_at)->format('d/m/Y') }}</small>
+                        </span>
+                        <span style="display: flex; gap: 0.5rem;">
+                            <form action="{{ route('admin.work-groups.requests.approve', [$workGroup, $p]) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-sm">Accepter</button>
+                            </form>
+                            <form action="{{ route('admin.work-groups.requests.reject', [$workGroup, $p]) }}" method="POST" style="display: inline;" onsubmit="return confirm('Refuser cette demande ?');">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn btn-secondary btn-sm text-danger">Refuser</button>
+                            </form>
+                        </span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     <!-- Member Management Section -->
     <div class="card" style="margin-top: 1.5rem;">
         <div class="card-header">
@@ -46,7 +76,7 @@
                     <label class="form-label" for="role">Role</label>
                     <select name="role" id="role" class="form-input">
                         <option value="member">Membre</option>
-                        <option value="leader">Responsable</option>
+                        <option value="coordinator">Coordinateur</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -71,7 +101,9 @@
                                     <td><strong>{{ $member->last_name }} {{ $member->first_name }}</strong></td>
                                     <td><span class="text-muted">{{ $member->email ?: '-' }}</span></td>
                                     <td>
-                                        @if($member->pivot->role === 'leader')
+                                        @if($member->pivot->role === 'coordinator')
+                                            <span class="badge badge-warning">Coordinateur</span>
+                                        @elseif($member->pivot->role === 'leader')
                                             <span class="badge badge-warning">Responsable</span>
                                         @else
                                             <span class="badge badge-outline">Membre</span>
