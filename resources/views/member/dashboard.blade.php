@@ -68,6 +68,14 @@
     @endif
 
     @if($isCurrentMember)
+    <section class="grid-3">
+        @include('member.partials._contributions_list')
+        @include('member.partials._reseau_map')
+        @include('member.partials._agenda')
+    </section>
+    @endif
+
+    @if($isCurrentMember)
     {{-- ═══════════════════════════════════════════════════
          ZONE B — Priorité immédiate (À faire + Mes soumissions)
     ═══════════════════════════════════════════════════ --}}
