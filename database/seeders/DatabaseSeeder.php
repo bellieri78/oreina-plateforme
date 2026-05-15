@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             SubmissionSeeder::class,
             MenuItemsSeeder::class,
             LepidopteraOfMonthSeeder::class,
+            WorkGroupSeeder::class,
         ]);
     }
 }
