@@ -39,7 +39,7 @@ class WorkGroupController extends Controller
         $stats = [
             'total' => WorkGroup::count(),
             'active' => WorkGroup::where('is_active', true)->count(),
-            'total_members' => \DB::table('member_work_group')->count(),
+            'total_members' => \DB::table('work_group_member')->count(),
         ];
 
         return view('admin.work-groups.index', compact('workGroups', 'stats'));
