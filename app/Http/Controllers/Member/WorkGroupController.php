@@ -30,16 +30,27 @@ class WorkGroupController extends Controller
 
     public function show(WorkGroup $workGroup)
     {
-        $workGroup->loadCount('members');
-        $workGroup->load(['members' => function ($q) {
-            $q->orderByPivot('role', 'desc')->limit(10);
-        }]);
-
         $user = auth()->user();
-        $member = Member::where('user_id', $user->id)->first();
-        $isMember = $member ? $workGroup->members->contains($member->id) : false;
+        abort_unless($user->can('view', $workGroup), 403);
 
-        return view('member.work-groups.show', compact('workGroup', 'member', 'isMember'));
+        $member = Member::where('user_id', $user->id)->first();
+        $status = $workGroup->membershipStatusFor($member);
+        $canManage = $user->can('manage', $workGroup);
+
+        $workGroup->loadCount(['members as active_members_count' => fn ($q) => $q->wherePivot('status', 'active')]);
+        $coordinators = $workGroup->coordinators()->get();
+        $resources = $workGroup->has_resources
+            ? $workGroup->resources()->orderBy('category')->orderBy('title')->get()->groupBy('category')
+            : collect();
+        $pending = $canManage && $workGroup->join_policy === 'request'
+            ? $workGroup->pendingRequests()->get()
+            : collect();
+        $activeMembers = $canManage ? $workGroup->activeMembers()->get() : collect();
+
+        return view('member.work-groups.show', compact(
+            'workGroup', 'member', 'status', 'canManage',
+            'coordinators', 'resources', 'pending', 'activeMembers'
+        ));
     }
 
     public function contributions()
