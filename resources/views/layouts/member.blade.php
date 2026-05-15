@@ -42,6 +42,7 @@
         }
 
         * { box-sizing: border-box; }
+        [x-cloak] { display: none !important; }
         body {
             font-family: 'Inter', sans-serif;
             color: var(--text);

@@ -31,7 +31,10 @@ class WorkGroupController extends Controller
     public function show(WorkGroup $workGroup)
     {
         $user = auth()->user();
-        abort_unless($user->can('view', $workGroup), 403);
+        if (! $user->can('view', $workGroup)) {
+            return redirect()->route('hub.membership')
+                ->with('error', "Les groupes de travail sont réservés aux adhérents à jour de cotisation.");
+        }
 
         $member = Member::where('user_id', $user->id)->first();
         $status = $workGroup->membershipStatusFor($member);
