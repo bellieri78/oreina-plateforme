@@ -52,9 +52,7 @@
         </article>
         @endif
 
-        <div class="welcome-photo">
-            <img src="{{ asset('images/espace-membre/papillon-hero.jpg') }}" alt="Papillon — espace OREINA" loading="eager">
-        </div>
+        @include('member.partials._hero_carousel')
 
     </section>
 
