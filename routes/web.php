@@ -180,6 +180,11 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         // Work Groups — ressources (ajout / suppression par membre)
         Route::post('/groupes-de-travail/{workGroup:slug}/ressources', [\App\Http\Controllers\Member\WorkGroupResourceController::class, 'store'])->name('work-groups.resources.store');
         Route::delete('/groupes-de-travail/{workGroup:slug}/ressources/{resource}', [\App\Http\Controllers\Member\WorkGroupResourceController::class, 'destroy'])->name('work-groups.resources.destroy');
+
+        // Work Groups — forum : catégories (gestion par coordinateur)
+        Route::post('/groupes-de-travail/{workGroup:slug}/forum/categories', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'store'])->name('work-groups.forum.categories.store');
+        Route::put('/groupes-de-travail/{workGroup:slug}/forum/categories/{category}', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'update'])->name('work-groups.forum.categories.update');
+        Route::delete('/groupes-de-travail/{workGroup:slug}/forum/categories/{category}', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'destroy'])->name('work-groups.forum.categories.destroy');
     });
 
     // Legacy redirects (map → annuaire)
