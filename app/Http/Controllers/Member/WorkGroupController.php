@@ -37,9 +37,13 @@ class WorkGroupController extends Controller
         $status = $workGroup->membershipStatusFor($member);
         $canManage = $user->can('manage', $workGroup);
 
+        // Ressources réservées aux membres actifs du groupe (ou aux gestionnaires).
+        // Un adhérent en aperçu (non-membre / demande en attente) ne voit pas le contenu.
+        $canViewResources = $workGroup->has_resources && ($status === 'active' || $canManage);
+
         $workGroup->loadCount(['members as active_members_count' => fn ($q) => $q->wherePivot('status', 'active')]);
         $coordinators = $workGroup->coordinators()->get();
-        $resources = $workGroup->has_resources
+        $resources = $canViewResources
             ? $workGroup->resources()->orderBy('category')->orderBy('title')->get()->groupBy('category')
             : collect();
         $pending = $canManage && $workGroup->join_policy === 'request'
@@ -48,7 +52,7 @@ class WorkGroupController extends Controller
         $activeMembers = $canManage ? $workGroup->activeMembers()->get() : collect();
 
         return view('member.work-groups.show', compact(
-            'workGroup', 'member', 'status', 'canManage',
+            'workGroup', 'member', 'status', 'canManage', 'canViewResources',
             'coordinators', 'resources', 'pending', 'activeMembers'
         ));
     }

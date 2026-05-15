@@ -58,7 +58,7 @@
 
     <div style="display:flex;gap:8px;margin:22px 0 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;">
         <button @click="tab='accueil'" style="background:none;border:none;padding:10px 4px;cursor:pointer;font-weight:800;border-bottom:2px solid transparent;" :style="tab==='accueil' && 'border-bottom-color:var(--blue);'">Accueil</button>
-        @if($workGroup->has_resources)
+        @if($canViewResources)
         <button @click="tab='ressources'" style="background:none;border:none;padding:10px 4px;cursor:pointer;font-weight:800;border-bottom:2px solid transparent;" :style="tab==='ressources' && 'border-bottom-color:var(--blue);'">Ressources</button>
         @endif
         @if($canManage)
@@ -70,7 +70,7 @@
         @include('member.work-groups.partials._about')
     </div>
 
-    @if($workGroup->has_resources)
+    @if($canViewResources)
     <div x-show="tab==='ressources'" x-cloak>
         @includeIf('member.work-groups.partials._resources')
     </div>
