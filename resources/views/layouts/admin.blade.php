@@ -34,7 +34,7 @@
                 $sectionActive = [
                     'vie-asso'  => request()->routeIs('admin.members.*', 'admin.structures.*', 'admin.map.*', 'admin.memberships.*', 'admin.member-cards.*', 'admin.lepis.*', 'admin.lepis-suggestions.*', 'admin.journal.lepis-queue'),
                     'finances'  => request()->routeIs('admin.donations.*', 'admin.products.*', 'admin.purchases.*'),
-                    'benevolat' => request()->routeIs('admin.volunteer.*'),
+                    'benevolat' => request()->routeIs('admin.volunteer.*') || request()->routeIs('admin.work-groups.*'),
                     'contenu'   => request()->routeIs('admin.articles.*', 'admin.events.*', 'admin.menus.*', 'admin.faq.*', 'admin.brevo.*', 'admin.import-export.*'),
                     'revue'     => request()->routeIs('admin.journal-issues.*', 'admin.submissions.*', 'admin.reviews.*', 'admin.journal.queue.*', 'admin.journal.mine', 'admin.journal.submissions.*'),
                     'admin'     => request()->routeIs('admin.users.*', 'admin.settings.*', 'admin.rgpd.*', 'admin.reports.*', 'admin.documentation'),
@@ -142,6 +142,10 @@
                         <a href="{{ route('admin.volunteer.activities') }}" class="nav-link {{ request()->routeIs('admin.volunteer.activities') || request()->routeIs('admin.volunteer.show') || request()->routeIs('admin.volunteer.edit') || request()->routeIs('admin.volunteer.create') ? 'active' : '' }}">
                             <i data-lucide="calendar-days"></i>
                             <span>Activités</span>
+                        </a>
+                        <a href="{{ route('admin.work-groups.index') }}" class="nav-link {{ request()->routeIs('admin.work-groups.*') ? 'active' : '' }}">
+                            <i data-lucide="users"></i>
+                            <span>Groupes de travail</span>
                         </a>
                     </div>
                 </div>
