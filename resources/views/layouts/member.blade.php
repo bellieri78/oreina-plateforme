@@ -633,6 +633,667 @@
             border: 0;
         }
 
+        /* ═══ TOPBAR enrichie (refonte mockup mature) ═══ */
+        .topbar-search {
+            flex: 1;
+            max-width: 480px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+        }
+        .topbar-search input {
+            flex: 1;
+            border: 0;
+            background: transparent;
+            outline: none;
+            font: inherit;
+            font-size: 14px;
+            color: var(--text);
+        }
+        .topbar-search kbd {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(22,48,43,0.06);
+            color: var(--muted);
+            font-family: inherit;
+        }
+        .topbar-tools {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .topbar-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        .topbar-icon:hover {
+            background: var(--surface-soft);
+            color: var(--text);
+        }
+        .topbar-popover {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 240px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 14px;
+            font-size: 13px;
+            z-index: 20;
+        }
+
+        /* ═══ SIDEBAR — Profil complété ═══ */
+        .sidebar-progress {
+            padding: 0 4px;
+        }
+        .sidebar-progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255,255,255,0.44);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .sidebar-progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.10);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .sidebar-progress-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        /* ═══ SIDEBAR — Mes rôles ═══ */
+        .sidebar-roles {
+            padding: 0 4px;
+            display: grid;
+            gap: 8px;
+        }
+        .role-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .role-chip-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        .role-chip-avatar svg {
+            width: 14px;
+            height: 14px;
+        }
+        .role-chip-body strong {
+            display: block;
+            color: white;
+            font-size: 13px;
+            line-height: 1.2;
+        }
+        .role-chip-body span {
+            display: block;
+            margin-top: 2px;
+            color: rgba(255,255,255,0.55);
+            font-size: 11px;
+        }
+
+        /* ═══ SIDEBAR CTA Artemisiae (footer) ═══ */
+        .sidebar-cta {
+            margin: 4px 4px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: var(--gold);
+            color: var(--forest);
+            font-weight: 800;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+        .sidebar-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(237,196,66,0.30);
+        }
+
+        /* ═══ Membre depuis (user-card) ═══ */
+        .user-card .member-since {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+        }
+
+        /* ═══ KPI bar 5 stats (extension) ═══ */
+        .kpi-bar-stats {
+            grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        }
+        @media (max-width: 1100px) {
+            .kpi-bar-stats {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            }
+        }
+        @media (max-width: 760px) {
+            .kpi-bar-stats {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        .kpi-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .kpi-item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+        .kpi-item-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        .kpi-item strong {
+            display: block;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+        .kpi-item span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        /* ═══ Hero carousel ═══ */
+        .hero-carousel {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--surface-soft);
+            min-height: 280px;
+        }
+        .hero-carousel-slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            transition: opacity 0.5s ease;
+        }
+        .hero-carousel-slide img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-carousel-caption {
+            position: relative;
+            padding: 20px;
+            color: white;
+            background: linear-gradient(transparent, rgba(0,0,0,0.55));
+            width: 100%;
+        }
+        .hero-carousel-caption .eyebrow {
+            background: rgba(255,255,255,0.18);
+            color: white;
+            margin-bottom: 8px;
+        }
+        .hero-carousel-caption strong {
+            display: block;
+            font-size: 22px;
+            font-style: italic;
+            font-weight: 600;
+        }
+        .hero-carousel-caption small {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .hero-carousel-dots {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+        }
+        .hero-carousel-dot {
+            width: 24px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .hero-carousel-dot.active {
+            background: var(--gold);
+        }
+
+        /* ═══ Mes groupes & projets — carousel cards ═══ */
+        .groups-carousel {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 280px;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 8px;
+        }
+        .group-card {
+            scroll-snap-align: start;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .group-card-cover {
+            height: 120px;
+            display: grid;
+            place-items: center;
+            color: white;
+            position: relative;
+        }
+        .group-card-cover svg {
+            width: 40px;
+            height: 40px;
+        }
+        .group-card-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -24px;
+            left: 16px;
+            background: white;
+            border: 3px solid white;
+            display: grid;
+            place-items: center;
+        }
+        .group-card-avatar svg {
+            width: 22px;
+            height: 22px;
+        }
+        .group-card-body {
+            padding: 36px 16px 16px;
+        }
+        .group-card-body h3 {
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.15;
+        }
+        .group-card-body .subtitle {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .group-card-chips {
+            margin-top: 12px;
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .group-card-chips span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .group-card-chips svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ═══ Actualités du réseau ═══ */
+        .news-feed {
+            display: grid;
+            gap: 8px;
+        }
+        .news-feed-item {
+            display: grid;
+            grid-template-columns: 64px 1fr;
+            gap: 14px;
+            padding: 10px;
+            border-radius: 14px;
+            transition: background 0.2s;
+        }
+        .news-feed-item:hover {
+            background: var(--surface-soft);
+        }
+        .news-feed-thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: var(--surface-soft);
+        }
+        .news-feed-type {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+        }
+        .news-feed-type.blue { background: rgba(53,107,138,0.10); color: var(--blue); }
+        .news-feed-type.sage { background: rgba(133,183,157,0.18); color: #2f694e; }
+        .news-feed-type.gold { background: rgba(237,196,66,0.20); color: #8b6c05; }
+        .news-feed-type.coral { background: rgba(239,122,92,0.16); color: var(--coral); }
+        .news-feed-item strong {
+            display: block;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+        .news-feed-item p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ═══ Ressources récentes ═══ */
+        .resource-featured {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 14px;
+            padding: 14px;
+            background: var(--surface-soft);
+            border-radius: 18px;
+            margin-bottom: 14px;
+        }
+        .resource-featured img {
+            width: 110px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .resource-list {
+            display: grid;
+            gap: 8px;
+        }
+        .resource-item {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        .resource-item:hover {
+            background: var(--surface-soft);
+        }
+        .resource-item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+        }
+        .resource-item strong {
+            display: block;
+            font-size: 14px;
+        }
+        .resource-item small {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* ═══ Mes contributions — barres ═══ */
+        .contrib-row {
+            margin-bottom: 14px;
+        }
+        .contrib-row-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .contrib-row-head .label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .contrib-row-head .label svg {
+            width: 16px;
+            height: 16px;
+            color: var(--blue);
+        }
+        .contrib-row-head .value {
+            font-weight: 800;
+            font-size: 16px;
+        }
+        .contrib-bar {
+            height: 4px;
+            background: rgba(22,48,43,0.06);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .contrib-bar-fill {
+            height: 100%;
+            background: var(--sage);
+            border-radius: 2px;
+        }
+
+        /* ═══ Réseau adhérents — carte ═══ */
+        .reseau-map-wrap {
+            position: relative;
+            display: grid;
+            place-items: center;
+        }
+        .reseau-map-svg {
+            width: 240px;
+            height: 240px;
+        }
+        .reseau-map-cluster {
+            cursor: default;
+        }
+        .reseau-map-cluster circle {
+            fill: rgba(133,183,157,0.85);
+            stroke: white;
+            stroke-width: 1.5;
+        }
+        .reseau-map-cluster text {
+            fill: var(--forest);
+            font-size: 11px;
+            font-weight: 800;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+        .reseau-avatars {
+            display: flex;
+            margin-top: 12px;
+            justify-content: center;
+        }
+        .reseau-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--sage);
+            color: var(--forest);
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 13px;
+            border: 2px solid white;
+            margin-left: -8px;
+            overflow: hidden;
+        }
+        .reseau-avatar:first-child {
+            margin-left: 0;
+        }
+        .reseau-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .reseau-search {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: var(--surface-soft);
+            border-radius: 999px;
+            border: 1px solid var(--border);
+        }
+        .reseau-search input {
+            flex: 1;
+            border: 0;
+            background: transparent;
+            outline: none;
+            font: inherit;
+            font-size: 13px;
+        }
+
+        /* ═══ Agenda — date blocks ═══ */
+        .agenda-list {
+            display: grid;
+            gap: 10px;
+        }
+        .agenda-item {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 12px;
+            align-items: center;
+        }
+        .agenda-date {
+            width: 56px;
+            text-align: center;
+            background: var(--surface-sage);
+            border-radius: 12px;
+            padding: 8px 0;
+        }
+        .agenda-date small {
+            display: block;
+            font-size: 10px;
+            font-weight: 800;
+            color: #8b6c05;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .agenda-date strong {
+            display: block;
+            font-size: 22px;
+            line-height: 1;
+            margin-top: 2px;
+            color: var(--text);
+        }
+        .agenda-item-body strong {
+            display: block;
+            font-size: 14px;
+            line-height: 1.25;
+        }
+        .agenda-item-body small {
+            color: var(--muted);
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        /* ═══ Suggestions pour vous ═══ */
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 22px;
+        }
+        @media (max-width: 1240px) {
+            .suggestions-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 760px) {
+            .suggestions-grid { grid-template-columns: 1fr; }
+        }
+        .suggestion-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+        .suggestion-card .eyebrow {
+            font-size: 10px;
+            color: var(--muted);
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            letter-spacing: 0.1em;
+        }
+        .suggestion-card strong {
+            display: block;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+        .suggestion-card p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .suggestion-card .btn {
+            align-self: flex-end;
+            height: 32px;
+            padding: 0 12px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* ═══ Layout grille à 3 colonnes (contributions / map / agenda) ═══ */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 18px;
+            align-items: start;
+        }
+        @media (max-width: 1240px) {
+            .grid-3 { grid-template-columns: 1fr; }
+        }
+
         /* Grid & Stack */
         .grid {
             display: grid;
