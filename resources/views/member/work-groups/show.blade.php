@@ -61,6 +61,9 @@
         @if($canViewResources)
         <button @click="tab='ressources'" style="background:none;border:none;padding:10px 4px;cursor:pointer;font-weight:800;border-bottom:2px solid transparent;" :style="tab==='ressources' && 'border-bottom-color:var(--blue);'">Ressources</button>
         @endif
+        @if($workGroup->has_forum)
+        <button @click="tab='discussions'" style="background:none;border:none;padding:10px 4px;cursor:pointer;font-weight:800;border-bottom:2px solid transparent;" :style="tab==='discussions' && 'border-bottom-color:var(--blue);'">Discussions</button>
+        @endif
         @if($canManage)
         <button @click="tab='manage'" style="background:none;border:none;padding:10px 4px;cursor:pointer;font-weight:800;border-bottom:2px solid transparent;" :style="tab==='manage' && 'border-bottom-color:var(--blue);'">Gérer @if($pending->count() > 0)<span class="badge gold" style="margin-left:6px;">{{ $pending->count() }}</span>@endif</button>
         @endif
@@ -73,6 +76,12 @@
     @if($canViewResources)
     <div x-show="tab==='ressources'" x-cloak>
         @includeIf('member.work-groups.partials._resources')
+    </div>
+    @endif
+
+    @if($workGroup->has_forum)
+    <div x-show="tab==='discussions'" x-cloak>
+        @includeIf('member.work-groups.partials._forum')
     </div>
     @endif
 

@@ -39,6 +39,7 @@ class WorkGroupController extends Controller
         $member = Member::where('user_id', $user->id)->first();
         $status = $workGroup->membershipStatusFor($member);
         $canManage = $user->can('manage', $workGroup);
+        $canParticipate = $user->can('participate', $workGroup);
 
         // Ressources réservées aux membres actifs du groupe (ou aux gestionnaires).
         // Un adhérent en aperçu (non-membre / demande en attente) ne voit pas le contenu.
@@ -54,9 +55,17 @@ class WorkGroupController extends Controller
             : collect();
         $activeMembers = $canManage ? $workGroup->activeMembers()->get() : collect();
 
+        $forumCategories = $workGroup->has_forum
+            ? $workGroup->forumCategories()
+                ->ordered()
+                ->with(['threads' => fn ($q) => $q->ordered()->withCount('posts')->with('author')])
+                ->get()
+            : collect();
+
         return view('member.work-groups.show', compact(
             'workGroup', 'member', 'status', 'canManage', 'canViewResources',
-            'coordinators', 'resources', 'pending', 'activeMembers'
+            'coordinators', 'resources', 'pending', 'activeMembers',
+            'canParticipate', 'forumCategories'
         ));
     }
 
