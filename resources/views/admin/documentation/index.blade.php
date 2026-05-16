@@ -54,6 +54,15 @@
             </div>
 
             <div class="doc-nav-section">
+                <div class="doc-nav-title">Espace membre</div>
+                <a href="#espace-membre" class="doc-nav-link">Présentation &amp; accès</a>
+                <a href="#em-dashboard" class="doc-nav-link">Tableau de bord</a>
+                <a href="#em-profil" class="doc-nav-link">Profil &amp; adhésion</a>
+                <a href="#em-documents" class="doc-nav-link">Documents &amp; revue</a>
+                <a href="#em-reseau" class="doc-nav-link">Réseau &amp; chat</a>
+            </div>
+
+            <div class="doc-nav-section">
                 <div class="doc-nav-title">Groupes de travail</div>
                 <a href="#groupes-travail" class="doc-nav-link">Présentation &amp; accès</a>
                 <a href="#gt-configuration" class="doc-nav-link">Configuration &amp; couverture</a>
@@ -1323,6 +1332,101 @@
                     <li><strong>Description</strong> : details de l'evenement</li>
                     <li><strong>Type</strong> : sortie terrain, conference, AG, etc.</li>
                 </ul>
+            </section>
+
+            {{-- Espace membre : presentation & acces --}}
+            <section id="espace-membre" class="doc-section">
+                <h2>Espace membre (côté adhérent)</h2>
+                <p>L'espace membre (<code>/espace-membre</code>) est le portail personnel de l'adhérent, distinct de l'extranet d'administration. On y accède via la connexion unifiée (<code>/connexion</code>) avec n'importe quel compte OREINA. Cette section documente ce que <strong>voit et fait l'adhérent</strong> ; elle est utile au support pour guider un membre par téléphone ou par email.</p>
+
+                <h3>Adhérent à jour vs visiteur connecté</h3>
+                <p>Tout titulaire d'un compte peut se connecter à l'espace membre, mais le contenu réservé dépend du statut de cotisation (<code>isCurrentMember</code> : adhésion active non expirée) :</p>
+                <ul>
+                    <li><strong>Adhérent à jour</strong> : accès complet (annuaire, groupes de travail, chat, Lepis, téléchargement des numéros de la revue, documents fiscaux).</li>
+                    <li><strong>Compte non à jour</strong> (ancien adhérent, compte éditeur sans adhésion…) : les entrées réservées restent <strong>visibles dans le menu mais verrouillées</strong> (cadenas + badge « Adhérent ») et renvoient vers la page d'adhésion. Le choix est volontaire : montrer la valeur de l'adhésion plutôt que masquer.</li>
+                </ul>
+                <div class="doc-info">
+                    Les administrateurs et éditeurs voient en plus, en bas de la barre latérale, un raccourci <strong>Extranet</strong> vers <code>/extranet</code>. Le pied de barre propose aussi « Explorer Artemisiae » (lien à configurer), « Retour au site » et la déconnexion.
+                </div>
+
+                <h3>Structure de la barre latérale</h3>
+                <p>La navigation est regroupée par familles :</p>
+                <ul>
+                    <li><strong>Mon espace</strong> : Tableau de bord, Mon profil, Mon adhésion, Préférences.</li>
+                    <li><strong>Contribuer</strong> : Soumettre un article, Mes soumissions, Mes contributions ⛔, Mes documents ⛔.</li>
+                    <li><strong>Réseau</strong> : Annuaire des adhérents ⛔, Mes groupes ⛔, Chat ⛔.</li>
+                    <li><strong>Ressources</strong> : Chersotis (la revue), Lepis ⛔, et trois entrées « bientôt disponible » (Publications, Documents, Webinaires &amp; replays).</li>
+                    <li><strong>Aide</strong> : FAQ, Nous contacter.</li>
+                </ul>
+                <p>⛔ = réservé aux adhérents à jour (verrouillé sinon). En haut de la barre : carte utilisateur, jauge de complétude du profil et rappel des rôles.</p>
+            </section>
+
+            {{-- Espace membre : tableau de bord --}}
+            <section id="em-dashboard" class="doc-section">
+                <h2>EM — Tableau de bord</h2>
+                <p>Page d'accueil de l'espace membre. Elle agrège plusieurs blocs ; certains s'appuient sur des données réelles, d'autres sont des espaces préparés pour de futures intégrations :</p>
+                <ul>
+                    <li><strong>Carrousel « Espèce du mois »</strong> : alimenté par la table dédiée, gérée en extranet.</li>
+                    <li><strong>Barre KPI</strong> : dons cumulés, nombre de dons, années d'adhésion, articles soumis/publiés (réels). En revanche <strong>observations transmises</strong>, <strong>validations</strong> et <strong>documents partagés</strong> sont affichés à 0 — placeholders en attente de l'intégration Artemisiae.</li>
+                    <li><strong>Mes groupes</strong> : carrousel des groupes de travail dont l'adhérent est membre, avec compteurs fils/ressources.</li>
+                    <li><strong>Actualités</strong> : bloc de <strong>démonstration</strong> (contenu fictif) tant que la source d'actualités n'est pas branchée.</li>
+                    <li><strong>Ressources récentes</strong> : dernier bulletin Lepis visible.</li>
+                    <li><strong>Mes contributions</strong>, <strong>Carte du réseau des adhérents</strong> (clusters par région, calculés depuis les codes postaux), <strong>Agenda</strong> (prochains événements publiés), <strong>Suggestions</strong> (un groupe / un article / un événement à découvrir).</li>
+                </ul>
+                <div class="doc-warning">
+                    Si un adhérent s'étonne d'un compteur « 0 observation », c'est normal : l'espace membre n'est pas encore relié à Artemisiae. Ce n'est pas un bug de données.
+                </div>
+            </section>
+
+            {{-- Espace membre : profil, adhesion, preferences --}}
+            <section id="em-profil" class="doc-section">
+                <h2>EM — Profil, adhésion &amp; préférences</h2>
+
+                <h3>Mon profil</h3>
+                <p>L'adhérent édite lui-même : civilité, nom, prénom, email, mobile, téléphone fixe, adresse complète, profession, centres d'intérêt, et une <strong>photo</strong> (image, 2 Mo max). Si l'email est modifié, le compte de connexion est mis à jour en conséquence.</p>
+
+                <h3>Mon adhésion</h3>
+                <p>Affiche l'adhésion en cours, l'historique des adhésions et le format Lepis associé (papier / numérique). Deux PDF téléchargeables si une adhésion est active :</p>
+                <ul>
+                    <li><strong>Carte d'adhérent</strong> (format carte de crédit) ;</li>
+                    <li><strong>Attestation d'adhésion</strong>.</li>
+                </ul>
+                <p>Sans adhésion active, ces téléchargements renvoient un message d'erreur explicite.</p>
+
+                <h3>Préférences (RGPD)</h3>
+                <p>L'adhérent gère ses consentements, tous <strong>historisés</strong> (traçabilité RGPD, source « member_portal ») :</p>
+                <ul>
+                    <li><strong>Newsletter</strong>, <strong>communication</strong>, <strong>droit à l'image</strong> : consentements simples on/off.</li>
+                    <li><strong>Annuaire des adhérents</strong> : opt-in explicite. S'il s'inscrit, il choisit au moins un groupe d'affichage et décide si son téléphone mobile est visible. En cas d'opt-out, les choix de groupes/téléphone sont conservés pour une éventuelle réactivation.</li>
+                </ul>
+            </section>
+
+            {{-- Espace membre : documents & revue --}}
+            <section id="em-documents" class="doc-section">
+                <h2>EM — Documents &amp; revue</h2>
+
+                <h3>Mes documents</h3>
+                <p>Regroupe les justificatifs téléchargeables en PDF : <strong>reçus fiscaux Cerfa</strong> (un par don) et <strong>reçus d'adhésion</strong>. Chaque téléchargement vérifie que le document appartient bien à l'adhérent connecté (un don d'un autre membre → 403).</p>
+
+                <h3>Revue Chersotis</h3>
+                <p>Liste paginée des numéros publiés. Le <strong>téléchargement du PDF est réservé aux adhérents à jour</strong> ; un compte non à jour voit la liste mais reçoit un message l'invitant à cotiser. Si le PDF d'un numéro n'est pas encore déposé, message explicite.</p>
+
+                <h3>Lepis</h3>
+                <p>L'entrée Lepis redirige vers les bulletins côté hub (la diffusion Lepis est documentée dans la section Lepis). L'adhérent peut aussi <strong>suggérer un contenu</strong> pour un prochain bulletin (titre, texte, pièce jointe optionnelle jusqu'à 10 Mo) ; la suggestion est enregistrée pour le rédac-chef.</p>
+            </section>
+
+            {{-- Espace membre : reseau (annuaire, groupes, chat) --}}
+            <section id="em-reseau" class="doc-section">
+                <h2>EM — Réseau : annuaire, groupes, chat</h2>
+
+                <h3>Annuaire des adhérents</h3>
+                <p>Réservé aux adhérents à jour <strong>et</strong> sur opt-in (voir Préférences) : seul un adhérent inscrit à l'annuaire peut le consulter, et n'y voit que les autres inscrits. Recherche par nom, filtres par département et par groupe d'affichage. Une fiche s'ouvre en modale ; le téléphone n'apparaît que si l'adhérent l'a explicitement autorisé. L'adhérent ne se voit jamais lui-même dans la liste (sa fiche renvoie 404).</p>
+
+                <h3>Mes groupes</h3>
+                <p>Point d'entrée vers les groupes de travail de l'adhérent (détaillés dans la section <em>Groupes de travail</em> de cette documentation). « Mes contributions » récapitule par ailleurs les groupes rejoints.</p>
+
+                <h3>Chat &amp; à venir</h3>
+                <p>L'entrée <strong>Chat</strong> est une page préparée mais non encore fonctionnelle (les échanges se font aujourd'hui via le forum de chaque groupe de travail). De même, <strong>Publications</strong>, <strong>Documents</strong> et <strong>Webinaires &amp; replays</strong> de la rubrique Ressources, ainsi que le lien <strong>Artemisiae</strong>, sont des emplacements réservés affichant « bientôt disponible ». À communiquer tel quel à un adhérent qui pose la question.</p>
             </section>
 
             {{-- Groupes de travail : presentation & acces --}}
