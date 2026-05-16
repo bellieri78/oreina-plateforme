@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class WorkGroup extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'description', 'color', 'icon', 'website_url', 'is_active',
+        'name', 'slug', 'description', 'usage_help', 'color', 'icon', 'website_url', 'is_active',
         'has_resources', 'has_collaborative_space', 'collaborative_space_url',
         'has_forum', 'join_policy', 'cover_image',
     ];

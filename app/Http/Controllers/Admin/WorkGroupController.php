@@ -56,6 +56,7 @@ class WorkGroupController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'usage_help' => 'nullable|string',
             'color' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
             'icon' => 'nullable|string|max:255',
             'website_url' => 'nullable|url|max:255',
@@ -104,6 +105,7 @@ class WorkGroupController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'usage_help' => 'nullable|string',
             'color' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
             'icon' => 'nullable|string|max:255',
             'website_url' => 'nullable|url|max:255',

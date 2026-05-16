@@ -12,6 +12,11 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label" for="usage_help">Comment utiliser cet espace ?</label>
+            <textarea name="usage_help" id="usage_help" class="form-input" rows="5" placeholder="Mode d'emploi affiche en tete de l'onglet Accueil du groupe (optionnel)">{{ old('usage_help', $workGroup->usage_help ?? '') }}</textarea>
+        </div>
+
+        <div class="form-group">
             <label class="form-label" for="website_url">Site web</label>
             <input type="url" name="website_url" id="website_url" class="form-input" value="{{ old('website_url', $workGroup->website_url ?? '') }}" placeholder="https://...">
             @error('website_url')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
