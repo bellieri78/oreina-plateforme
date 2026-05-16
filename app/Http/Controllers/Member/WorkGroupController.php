@@ -47,9 +47,6 @@ class WorkGroupController extends Controller
 
         $workGroup->loadCount(['members as active_members_count' => fn ($q) => $q->where('work_group_member.status', 'active')]);
         $coordinators = $workGroup->coordinators()->get();
-        $resources = $canViewResources
-            ? $workGroup->resources()->orderBy('category')->orderBy('title')->get()->groupBy('category')
-            : collect();
         $pending = $canManage && $workGroup->join_policy === 'request'
             ? $workGroup->pendingRequests()->get()
             : collect();
@@ -108,20 +105,36 @@ class WorkGroupController extends Controller
 
         $projects = $workGroup->projects()->ordered()->get();
 
+        $members = $workGroup->activeMembers()->get();
+
+        $documentsCount = $canViewResources ? $workGroup->resources()->where('type', 'file')->count() : 0;
+        $threadsCount = $workGroup->has_forum ? $workGroup->forumThreads()->count() : 0;
+
+        $recentDocuments = $canViewResources
+            ? $workGroup->resources()->where('type', 'file')->latest()->limit(5)->get()
+            : collect();
+        $recentLinks = $canViewResources
+            ? $workGroup->resources()->where('type', 'link')->latest()->limit(5)->get()
+            : collect();
+
+        $documents = $canViewResources
+            ? $workGroup->resources()->where('type', 'file')->orderBy('category')->orderBy('title')->get()->groupBy('category')
+            : collect();
+        $links = $canViewResources
+            ? $workGroup->resources()->where('type', 'link')->orderBy('category')->orderBy('title')->get()->groupBy('category')
+            : collect();
+
         $recentThreads = $workGroup->has_forum
             ? \App\Models\WorkGroupForumThread::whereHas('category', fn ($q) => $q->where('work_group_id', $workGroup->id))
                 ->with('author')->withCount('posts')->ordered()->limit(5)->get()
             : collect();
 
-        $recentResources = $canViewResources
-            ? $workGroup->resources()->latest()->limit(5)->get()
-            : collect();
-
         return view('member.work-groups.show', compact(
             'workGroup', 'member', 'status', 'canManage', 'canViewResources',
-            'coordinators', 'resources', 'pending', 'activeMembers',
-            'canParticipate', 'forumCategories', 'activity', 'projects',
-            'recentThreads', 'recentResources'
+            'coordinators', 'pending', 'activeMembers', 'canParticipate',
+            'forumCategories', 'activity', 'projects', 'recentThreads',
+            'members', 'documentsCount', 'threadsCount',
+            'recentDocuments', 'recentLinks', 'documents', 'links'
         ));
     }
 
