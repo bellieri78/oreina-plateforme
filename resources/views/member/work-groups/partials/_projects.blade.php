@@ -15,6 +15,10 @@
             <strong>{{ $project->title }}</strong>
             <span class="badge {{ $badge }}" style="white-space:nowrap;">{{ $project->statusLabel() }}</span>
         </div>
+        <div style="margin-top:8px;">
+            <div style="height:8px;border-radius:999px;background:rgba(0,0,0,0.07);overflow:hidden;"><span style="display:block;height:100%;background:var(--sage);border-radius:999px;width:{{ $project->progressClamped() }}%;"></span></div>
+            <small style="color:var(--muted);">{{ $project->progressClamped() }} %</small>
+        </div>
         @if($project->description)
         <p style="margin:6px 0 0;color:var(--muted);font-size:14px;">{{ $project->description }}</p>
         @endif
