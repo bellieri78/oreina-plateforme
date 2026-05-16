@@ -274,6 +274,17 @@
             border-radius: 999px;
             letter-spacing: 0.04em;
         }
+        .nav-badge-count {
+            margin-left: auto;
+            background: var(--blue);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 7px;
+            border-radius: 999px;
+            min-width: 18px;
+            text-align: center;
+        }
         .nav-item.nav-item-danger {
             color: rgba(239,68,68,0.8);
         }
@@ -1659,6 +1670,9 @@
         $authMemberGroups = $authMember?->workGroups()->active()->get() ?? collect();
         $authProfileCompletion = $authMember?->profileCompletionPercent() ?? 0;
         $authMemberSince = $authMember?->created_at?->year;
+        $chatUnreadCount = ($authMember && $isAuthCurrentMember)
+            ? app(\App\Services\ChatService::class)->unreadConversationCount($authMember)
+            : 0;
     @endphp
 
     @include('partials.email-verification-notice')
@@ -1753,6 +1767,7 @@
                 <a href="{{ route('member.chat') }}" class="nav-item {{ request()->routeIs('member.chat*') ? 'active' : '' }}">
                     <i data-lucide="message-circle" class="icon"></i>
                     <span class="nav-label">Chat</span>
+                    @if($chatUnreadCount > 0)<span class="nav-badge-count">{{ $chatUnreadCount }}</span>@endif
                 </a>
                 @else
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
