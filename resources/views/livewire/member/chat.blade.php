@@ -16,12 +16,12 @@
                         @if($cUnread)<span style="background:var(--gold);color:var(--forest);font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;">nouveau</span>@endif
                     </span>
                     <span style="display:block;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                        {{ \Illuminate\Support\Str::limit(optional($conv->messages()->whereNull('deleted_at')->latest()->first())->content ?? 'Message supprime', 38) }}
+                        {{ \Illuminate\Support\Str::limit(optional($conv->messages()->whereNull('deleted_at')->latest()->first())->content ?? 'Message supprimé', 38) }}
                     </span>
                 </span>
             </button>
         @empty
-            <p style="padding:18px 16px;color:var(--muted);font-size:13px;">Aucune conversation. Trouvez un adherent dans l'annuaire et cliquez « Envoyer un message ».</p>
+            <p style="padding:18px 16px;color:var(--muted);font-size:13px;">Aucune conversation. Trouvez un adhérent dans l'annuaire et cliquez « Envoyer un message ».</p>
         @endforelse
     </div>
 
@@ -32,9 +32,9 @@
                 <strong>{{ $other?->first_name }} {{ $other?->last_name }}</strong>
                 @if($active)
                     @if($iBlocked)
-                        <button type="button" wire:click="unblockOther" class="btn btn-secondary" style="font-size:12px;">Debloquer</button>
+                        <button type="button" wire:click="unblockOther" class="btn btn-secondary" style="font-size:12px;">Débloquer</button>
                     @elseif(!$blocked)
-                        <button type="button" wire:click="blockOther" wire:confirm="Bloquer cet adherent ? Il ne pourra plus vous ecrire."
+                        <button type="button" wire:click="blockOther" wire:confirm="Bloquer cet adhérent ? Il ne pourra plus vous écrire."
                             class="btn btn-secondary" style="font-size:12px;">Bloquer</button>
                     @endif
                 @endif
@@ -55,13 +55,13 @@
                         </div>
                     </div>
                 @empty
-                    <p style="color:var(--muted);font-size:13px;text-align:center;margin:auto;">Demarrez la conversation.</p>
+                    <p style="color:var(--muted);font-size:13px;text-align:center;margin:auto;">Démarrez la conversation.</p>
                 @endforelse
             </div>
 
             @if($blocked)
                 <div style="padding:14px 18px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;">
-                    {{ $iBlocked ? 'Vous avez bloque cet adherent.' : 'Vous ne pouvez plus ecrire a cet adherent.' }}
+                    {{ $iBlocked ? 'Vous avez bloqué cet adhérent.' : 'Vous ne pouvez plus écrire à cet adhérent.' }}
                 </div>
             @else
                 <form wire:submit="sendMessage" style="border-top:1px solid var(--border);padding:12px 14px;display:flex;gap:10px;">
@@ -76,7 +76,7 @@
         @else
             <div style="margin:auto;text-align:center;color:var(--muted);padding:40px;">
                 <i data-lucide="messages-square" style="width:34px;height:34px;"></i>
-                <p style="margin-top:10px;font-size:14px;">Selectionnez une conversation, ou contactez un adherent depuis l'annuaire.</p>
+                <p style="margin-top:10px;font-size:14px;">Sélectionnez une conversation, ou contactez un adhérent depuis l'annuaire.</p>
             </div>
         @endif
     </div>
