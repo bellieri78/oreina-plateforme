@@ -1320,20 +1320,114 @@
             {{-- Groupes de travail --}}
             <section id="groupes-travail" class="doc-section">
                 <h2>Groupes de travail</h2>
-                <p>Gérez les espaces collaboratifs du réseau OREINA. Les GT sont visibles par les adhérents dans leur espace membre.</p>
+                <p>Les groupes de travail (GT) sont les espaces collaboratifs thématiques du réseau OREINA (taxonomie, séquençage, etc.). Chaque GT dispose d'une page dédiée dans l'<strong>espace membre</strong> (section <em>Bénévolat</em> de la barre latérale) organisée en onglets : <strong>Accueil</strong>, <strong>Ressources</strong>, <strong>Discussions</strong> et <strong>Gérer</strong>. La configuration d'un GT se fait depuis l'extranet (<code>/extranet/work-groups</code>) ; l'animation au quotidien (membres, forum, projets) se fait côté espace membre par les coordinateurs.</p>
 
-                <h3>Créer un groupe</h3>
-                <p>Accédez à <strong>Groupes de travail > Nouveau groupe</strong> et renseignez :</p>
+                <h3>Qui voit quoi : les 3 niveaux d'accès</h3>
+                <p>L'accès à un GT s'articule autour de trois niveaux de permission cumulatifs :</p>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Niveau</th>
+                                <th>Qui</th>
+                                <th>Ce qu'il permet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Consulter (aperçu)</strong></td>
+                                <td>Tout adhérent à jour de cotisation, même non-membre du GT</td>
+                                <td>Voir la page du GT : description, coordinateurs, feed d'activité, projets en cours, et <strong>lire</strong> le forum. Permet de découvrir le groupe avant de le rejoindre.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Participer</strong></td>
+                                <td>Membre actif du GT (<code>status = active</code>)</td>
+                                <td>Accéder aux ressources, créer des fils et répondre dans le forum, s'abonner aux fils.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Gérer</strong></td>
+                                <td>Coordinateur du GT, ou admin / éditeur de la plateforme</td>
+                                <td>Onglet <em>Gérer</em> : valider/refuser les demandes, ajouter/retirer des membres, modérer le forum, gérer les projets en cours.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="doc-info">
+                    Un adhérent dont la cotisation a expiré perd l'accès aux GT (redirection vers la page d'adhésion). Les admins et éditeurs ont automatiquement le niveau <em>Gérer</em> sur <strong>tous</strong> les GT, sans avoir à en être coordinateur.
+                </div>
+
+                <h3>Créer et configurer un groupe</h3>
+                <p>Depuis <strong>Groupes de travail &gt; Nouveau groupe</strong> (ou la page d'édition d'un GT existant) :</p>
                 <ul>
-                    <li><strong>Nom</strong> : nom du GT (ex: Taxonomie, SeqRef)</li>
-                    <li><strong>Description</strong> : objectifs et périmètre du groupe</li>
-                    <li><strong>Couleur</strong> : couleur d'affichage sur le dashboard membre</li>
-                    <li><strong>URL site web</strong> : lien vers une page de présentation (optionnel)</li>
-                    <li><strong>Actif</strong> : cocher pour rendre visible dans l'espace membre</li>
+                    <li><strong>Nom</strong> (obligatoire) : nom du GT. Le <code>slug</code> (utilisé dans l'URL) est généré automatiquement à partir du nom.</li>
+                    <li><strong>Description</strong> : objectifs et périmètre, affichés dans l'onglet Accueil.</li>
+                    <li><strong>Couleur</strong> (obligatoire, format hexadécimal <code>#RRGGBB</code>) : couleur d'identité du groupe sur le tableau de bord membre.</li>
+                    <li><strong>Icône</strong> : nom d'icône Lucide (optionnel).</li>
+                    <li><strong>URL site web</strong> : lien externe de présentation (optionnel).</li>
+                    <li><strong>Photo de couverture</strong> : image d'en-tête de la page du GT (voir ci-dessous).</li>
+                    <li><strong>Actif</strong> : un GT inactif n'apparaît pas dans l'espace membre. Décocher pour préparer un GT sans le publier.</li>
+                    <li><strong>Politique d'adhésion</strong> : <code>Ouverte</code> (l'adhérent rejoint immédiatement) ou <code>Sur demande</code> (validation par un coordinateur). Voir « Adhésion ».</li>
+                    <li><strong>Espace ressources</strong> (<code>has_resources</code>) : active l'onglet Ressources (liens documentaires classés par catégorie).</li>
+                    <li><strong>Forum</strong> (<code>has_forum</code>) : active l'onglet Discussions.</li>
+                    <li><strong>Espace collaboratif externe</strong> (<code>has_collaborative_space</code> + URL) : affiche un lien vers un outil tiers (Drive, etc.) plutôt que d'en réimplémenter un.</li>
                 </ul>
 
-                <h3>Gérer les membres d'un GT</h3>
-                <p>Depuis la page d'édition d'un GT, vous pouvez ajouter ou retirer des membres. Chaque membre peut avoir le rôle <code>member</code> ou <code>leader</code>.</p>
+                <h3>Photo de couverture</h3>
+                <p>Champ <strong>Photo de couverture</strong> du formulaire : image JPG/PNG, <strong>5 Mo maximum</strong>. Elle s'affiche en bandeau en haut de la page du GT (espace membre) et derrière l'avatar du groupe. Remplacer l'image supprime automatiquement l'ancienne du stockage. Sans photo, un fond de couleur (la couleur du GT) est utilisé.</p>
+                <div class="doc-warning">
+                    L'upload est plafonné côté application à 5 Mo, mais aussi par la configuration PHP du serveur (<code>upload_max_filesize</code> / <code>post_max_size</code> dans <code>php.ini</code>). Si un upload échoue silencieusement avec une image valide &lt; 5 Mo, vérifier ces deux directives.
+                </div>
+
+                <h3>Membres et rôles</h3>
+                <p>Le lien adhérent ↔ GT (table pivot <code>work_group_member</code>) porte un <strong>rôle</strong> et un <strong>statut</strong> :</p>
+                <ul>
+                    <li><strong>Rôle</strong> : <code>member</code> (membre standard) ou <code>coordinator</code> (anime le groupe, accès à l'onglet Gérer).</li>
+                    <li><strong>Statut</strong> : <code>active</code> (membre à part entière) ou <code>pending</code> (demande d'adhésion en attente de validation, sur les GT « Sur demande »).</li>
+                </ul>
+                <p>Côté extranet, la page d'édition d'un GT permet d'ajouter/retirer des membres. Côté espace membre, un coordinateur dispose dans l'onglet <em>Gérer</em> d'une <strong>recherche d'adhérents en direct</strong> (par nom, prénom ou email) pour ajouter un membre, et peut le promouvoir coordinateur.</p>
+                <div class="doc-warning">
+                    <strong>Dernier coordinateur</strong> : la plateforme empêche le retrait ou le départ du seul coordinateur d'un GT (erreur 422). Il faut d'abord désigner un autre coordinateur, ou faire intervenir un administrateur.
+                </div>
+
+                <h3>Adhésion : ouverte ou sur demande</h3>
+                <ul>
+                    <li><strong>Ouverte</strong> : l'adhérent clique « Rejoindre » → il devient immédiatement membre actif.</li>
+                    <li><strong>Sur demande</strong> : l'adhérent envoie une demande (statut <code>pending</code>). Tous les <strong>coordinateurs</strong> du GT reçoivent un email de notification. Dans l'onglet <em>Gérer</em>, ils voient les demandes en attente et peuvent <strong>accepter</strong> (le membre passe <code>active</code>, il reçoit un email de bienvenue) ou <strong>refuser</strong> (le lien est supprimé, l'adhérent reçoit un email de refus).</li>
+                </ul>
+                <p>Quatre emails transactionnels encadrent ce flux : demande reçue (aux coordinateurs), demande acceptée, demande refusée, et notification de réponse forum (voir « Abonnements »).</p>
+
+                <h3>Ressources</h3>
+                <p>Si l'<strong>espace ressources</strong> est activé, l'onglet Ressources liste des liens documentaires classés par catégorie. Ils sont <strong>réservés aux membres actifs</strong> du GT (et aux gestionnaires) : un adhérent en simple aperçu ou en demande d'adhésion ne les voit pas. Les coordinateurs ajoutent/suppriment les ressources depuis cet onglet.</p>
+
+                <h3>Discussions (forum / chat)</h3>
+                <p>Si le <strong>forum</strong> est activé, l'onglet Discussions propose des <strong>catégories</strong> contenant des <strong>fils</strong>, eux-mêmes composés de <strong>messages</strong> (le premier message d'un fil est le message d'origine). Règles d'accès :</p>
+                <ul>
+                    <li><strong>Lecture</strong> : ouverte en aperçu à tout adhérent à jour, même non-membre (incite à rejoindre le groupe).</li>
+                    <li><strong>Écriture</strong> (créer un fil, répondre) : réservée aux <strong>membres actifs</strong> du GT.</li>
+                    <li><strong>Modération</strong> : les coordinateurs gèrent les catégories, peuvent épingler / verrouiller un fil et supprimer n'importe quel fil ou message. L'auteur d'un message peut le modifier/supprimer tant que le fil n'est pas verrouillé.</li>
+                </ul>
+
+                <h3>Abonnements et notifications</h3>
+                <p>Un membre peut <strong>suivre un fil</strong> (« Suivre ce fil » sur la page du fil). L'auteur d'un fil et toute personne qui y répond sont <strong>abonnés automatiquement</strong>. À chaque nouvelle réponse, un email est envoyé à tous les abonnés du fil <strong>sauf l'auteur de la réponse</strong>. Il n'y a pas (encore) de digest, d'abonnement au niveau catégorie/groupe, ni de cloche de notification dans l'interface.</p>
+
+                <h3>Activité récente (feed)</h3>
+                <p>L'onglet Accueil affiche un bloc <strong>« Activité récente »</strong> : les 10 derniers événements du groupe, triés du plus récent au plus ancien. Trois types d'événements sont agrégés :</p>
+                <ul>
+                    <li>un adhérent a <strong>rejoint</strong> le groupe ;</li>
+                    <li>un <strong>nouveau fil</strong> de discussion a été créé (cliquable) ;</li>
+                    <li>une <strong>nouvelle ressource</strong> a été ajoutée.</li>
+                </ul>
+                <p>Le feed est en lecture seule, visible en aperçu (comme le forum), et n'inclut <strong>pas</strong> les réponses aux fils (volontairement, pour éviter le bruit). Il est calculé à la volée, sans configuration.</p>
+
+                <h3>Projets en cours</h3>
+                <p>Chaque GT peut suivre ses <strong>productions collectives</strong> via des projets. Un projet porte un <strong>titre</strong>, une <strong>description</strong> (optionnelle), un <strong>statut</strong> et un <strong>lien vers le livrable</strong> (optionnel, ex. l'œuvre diffusée). Les statuts disponibles :</p>
+                <ul>
+                    <li><strong>À lancer</strong> — projet identifié, pas encore démarré ;</li>
+                    <li><strong>En cours</strong> — production active ;</li>
+                    <li><strong>Diffusé</strong> — livrable publié (renseigner le lien) ;</li>
+                    <li><strong>Archivé</strong> — clos / historique.</li>
+                </ul>
+                <p><strong>Gestion</strong> : dans l'onglet <em>Gérer</em>, un coordinateur crée un projet, modifie son statut en ligne et le supprime. <strong>Affichage</strong> : le bloc « Projets en cours » apparaît dans l'onglet Accueil, en lecture, <strong>visible en aperçu</strong> (un adhérent non-membre voit donc ce que produit le groupe). Les projets sont triés par statut (À lancer et En cours en tête) puis par date de création décroissante.</p>
             </section>
 
             {{-- Lepis --}}
