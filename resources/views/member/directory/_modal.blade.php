@@ -42,4 +42,10 @@
             </p>
         @endif
     </div>
+
+    <div class="directory-modal-actions" style="margin-top:18px;">
+        <a href="{{ route('member.chat', ['with' => $member->id]) }}" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+            <i data-lucide="message-circle" aria-hidden="true"></i> Envoyer un message
+        </a>
+    </div>
 </div>
