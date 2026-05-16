@@ -50,8 +50,16 @@
                 <div class="doc-nav-title">Contenu</div>
                 <a href="#articles" class="doc-nav-link">Articles</a>
                 <a href="#evenements" class="doc-nav-link">Evenements</a>
-                <a href="#groupes-travail" class="doc-nav-link">Groupes de travail</a>
                 <a href="#lepis" class="doc-nav-link">Lepis (bulletins)</a>
+            </div>
+
+            <div class="doc-nav-section">
+                <div class="doc-nav-title">Groupes de travail</div>
+                <a href="#groupes-travail" class="doc-nav-link">Présentation &amp; accès</a>
+                <a href="#gt-configuration" class="doc-nav-link">Configuration &amp; couverture</a>
+                <a href="#gt-membres" class="doc-nav-link">Membres &amp; adhésion</a>
+                <a href="#gt-forum" class="doc-nav-link">Ressources &amp; forum</a>
+                <a href="#gt-projets" class="doc-nav-link">Feed &amp; projets</a>
             </div>
 
             <div class="doc-nav-section">
@@ -91,9 +99,9 @@
                 </ul>
 
                 <div class="doc-info">
-                    <strong>Version actuelle :</strong> 1.3<br>
+                    <strong>Version actuelle :</strong> 1.4<br>
                     <strong>Dernière mise à jour :</strong> Mai 2026<br>
-                    <strong>Évolutions récentes :</strong> diffusion progressive Lepis (3 états + format papier/numérique par adhérent), refonte fiche contact admin (KPI bar synthétique + carte Engagement OREINA), formulaire édition contact en 5 cartes thématiques avec tous les champs métier.
+                    <strong>Évolutions récentes :</strong> groupes de travail Phase 2 complète (forum de discussions, abonnements &amp; notifications email aux fils, feed d'activité récente, suivi des projets en cours), photo de couverture par groupe ; diffusion progressive Lepis (3 états + format papier/numérique par adhérent) ; refonte fiche contact admin (KPI bar synthétique + carte Engagement OREINA) ; formulaire édition contact en 5 cartes thématiques.
                 </div>
             </section>
 
@@ -1317,7 +1325,7 @@
                 </ul>
             </section>
 
-            {{-- Groupes de travail --}}
+            {{-- Groupes de travail : presentation & acces --}}
             <section id="groupes-travail" class="doc-section">
                 <h2>Groupes de travail</h2>
                 <p>Les groupes de travail (GT) sont les espaces collaboratifs thématiques du réseau OREINA (taxonomie, séquençage, etc.). Chaque GT dispose d'une page dédiée dans l'<strong>espace membre</strong> (section <em>Bénévolat</em> de la barre latérale) organisée en onglets : <strong>Accueil</strong>, <strong>Ressources</strong>, <strong>Discussions</strong> et <strong>Gérer</strong>. La configuration d'un GT se fait depuis l'extranet (<code>/extranet/work-groups</code>) ; l'animation au quotidien (membres, forum, projets) se fait côté espace membre par les coordinateurs.</p>
@@ -1355,6 +1363,11 @@
                 <div class="doc-info">
                     Un adhérent dont la cotisation a expiré perd l'accès aux GT (redirection vers la page d'adhésion). Les admins et éditeurs ont automatiquement le niveau <em>Gérer</em> sur <strong>tous</strong> les GT, sans avoir à en être coordinateur.
                 </div>
+            </section>
+
+            {{-- Groupes de travail : configuration & couverture --}}
+            <section id="gt-configuration" class="doc-section">
+                <h2>GT — Configuration &amp; couverture</h2>
 
                 <h3>Créer et configurer un groupe</h3>
                 <p>Depuis <strong>Groupes de travail &gt; Nouveau groupe</strong> (ou la page d'édition d'un GT existant) :</p>
@@ -1377,6 +1390,11 @@
                 <div class="doc-warning">
                     L'upload est plafonné côté application à 5 Mo, mais aussi par la configuration PHP du serveur (<code>upload_max_filesize</code> / <code>post_max_size</code> dans <code>php.ini</code>). Si un upload échoue silencieusement avec une image valide &lt; 5 Mo, vérifier ces deux directives.
                 </div>
+            </section>
+
+            {{-- Groupes de travail : membres & adhesion --}}
+            <section id="gt-membres" class="doc-section">
+                <h2>GT — Membres &amp; adhésion</h2>
 
                 <h3>Membres et rôles</h3>
                 <p>Le lien adhérent ↔ GT (table pivot <code>work_group_member</code>) porte un <strong>rôle</strong> et un <strong>statut</strong> :</p>
@@ -1395,6 +1413,11 @@
                     <li><strong>Sur demande</strong> : l'adhérent envoie une demande (statut <code>pending</code>). Tous les <strong>coordinateurs</strong> du GT reçoivent un email de notification. Dans l'onglet <em>Gérer</em>, ils voient les demandes en attente et peuvent <strong>accepter</strong> (le membre passe <code>active</code>, il reçoit un email de bienvenue) ou <strong>refuser</strong> (le lien est supprimé, l'adhérent reçoit un email de refus).</li>
                 </ul>
                 <p>Quatre emails transactionnels encadrent ce flux : demande reçue (aux coordinateurs), demande acceptée, demande refusée, et notification de réponse forum (voir « Abonnements »).</p>
+            </section>
+
+            {{-- Groupes de travail : ressources & forum --}}
+            <section id="gt-forum" class="doc-section">
+                <h2>GT — Ressources &amp; forum</h2>
 
                 <h3>Ressources</h3>
                 <p>Si l'<strong>espace ressources</strong> est activé, l'onglet Ressources liste des liens documentaires classés par catégorie. Ils sont <strong>réservés aux membres actifs</strong> du GT (et aux gestionnaires) : un adhérent en simple aperçu ou en demande d'adhésion ne les voit pas. Les coordinateurs ajoutent/suppriment les ressources depuis cet onglet.</p>
@@ -1409,6 +1432,11 @@
 
                 <h3>Abonnements et notifications</h3>
                 <p>Un membre peut <strong>suivre un fil</strong> (« Suivre ce fil » sur la page du fil). L'auteur d'un fil et toute personne qui y répond sont <strong>abonnés automatiquement</strong>. À chaque nouvelle réponse, un email est envoyé à tous les abonnés du fil <strong>sauf l'auteur de la réponse</strong>. Il n'y a pas (encore) de digest, d'abonnement au niveau catégorie/groupe, ni de cloche de notification dans l'interface.</p>
+            </section>
+
+            {{-- Groupes de travail : feed & projets --}}
+            <section id="gt-projets" class="doc-section">
+                <h2>GT — Feed d'activité &amp; projets</h2>
 
                 <h3>Activité récente (feed)</h3>
                 <p>L'onglet Accueil affiche un bloc <strong>« Activité récente »</strong> : les 10 derniers événements du groupe, triés du plus récent au plus ancien. Trois types d'événements sont agrégés :</p>
