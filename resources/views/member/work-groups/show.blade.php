@@ -75,6 +75,7 @@
 
     <div x-show="tab==='accueil'">
         @include('member.work-groups.partials._about')
+        @include('member.work-groups.partials._activity')
     </div>
 
     @if($canViewResources)
