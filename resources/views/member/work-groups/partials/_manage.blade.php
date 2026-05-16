@@ -60,4 +60,51 @@
             </div>
         </form>
     </details>
+
+    <h3 style="font-size:15px;margin:22px 0 8px;">Projets ({{ $projects->count() }})</h3>
+    <div class="resource-list">
+        @forelse($projects as $project)
+        <div class="resource-item" style="grid-template-columns:1fr;" x-data="{ editing:false }">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+                <span><strong>{{ $project->title }}</strong> <span class="badge" style="margin-left:6px;">{{ $project->statusLabel() }}</span></span>
+                <span style="display:flex;gap:8px;">
+                    <button type="button" @click="editing=!editing" class="text-link" style="background:none;border:none;cursor:pointer;font-size:12px;"><i data-lucide="pencil"></i></button>
+                    <form method="POST" action="{{ route('member.work-groups.projects.destroy', [$workGroup, $project]) }}" onsubmit="return confirm('Supprimer ce projet ?');">@csrf @method('DELETE')
+                        <button class="text-link" style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:12px;"><i data-lucide="trash-2"></i></button>
+                    </form>
+                </span>
+            </div>
+            <form method="POST" action="{{ route('member.work-groups.projects.update', [$workGroup, $project]) }}" x-show="editing" x-cloak style="display:grid;gap:8px;margin-top:10px;">
+                @csrf @method('PUT')
+                <input type="text" name="title" value="{{ $project->title }}" required class="form-input" style="padding:8px;border:1px solid var(--border);border-radius:8px;">
+                <textarea name="description" class="form-input" style="padding:8px;border:1px solid var(--border);border-radius:8px;">{{ $project->description }}</textarea>
+                <select name="status" class="form-input" style="padding:8px;border:1px solid var(--border);border-radius:8px;">
+                    @foreach(config('work_group_projects.statuses') as $key => $label)
+                        <option value="{{ $key }}" {{ $project->status === $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                <input type="url" name="deliverable_url" value="{{ $project->deliverable_url }}" placeholder="Lien vers l'œuvre diffusée (optionnel)" class="form-input" style="padding:8px;border:1px solid var(--border);border-radius:8px;">
+                <button class="btn btn-secondary" style="height:30px;padding:0 10px;font-size:12px;justify-self:start;">Enregistrer</button>
+            </form>
+        </div>
+        @empty
+        <p style="color:var(--muted);font-size:14px;padding:8px 0;">Aucun projet.</p>
+        @endforelse
+    </div>
+
+    <details style="margin-top:14px;">
+        <summary style="cursor:pointer;font-weight:800;color:var(--blue);">+ Nouveau projet</summary>
+        <form method="POST" action="{{ route('member.work-groups.projects.store', $workGroup) }}" style="display:grid;gap:10px;margin-top:12px;max-width:560px;">
+            @csrf
+            <input type="text" name="title" placeholder="Titre du projet" required class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
+            <textarea name="description" placeholder="Description (optionnel)" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;"></textarea>
+            <select name="status" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
+                @foreach(config('work_group_projects.statuses') as $key => $label)
+                    <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
+            </select>
+            <input type="url" name="deliverable_url" placeholder="Lien vers l'œuvre diffusée (optionnel)" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
+            <button class="btn btn-primary" style="justify-self:start;"><i data-lucide="plus"></i>Créer le projet</button>
+        </form>
+    </details>
 </div>
