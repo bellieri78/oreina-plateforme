@@ -5,12 +5,12 @@
 
 @section('content')
 <style>
-    .wg-header{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:18px;align-items:stretch;background:var(--surface-sage);border:1px solid rgba(133,183,157,0.30);border-radius:20px;padding:22px;box-shadow:var(--shadow);}
+    .wg-header{display:grid;grid-template-columns:1.7fr 1fr;gap:18px;align-items:stretch;background:var(--surface-sage);border:1px solid rgba(133,183,157,0.30);border-radius:20px;padding:22px;box-shadow:var(--shadow);}
     .wg-header-id{display:flex;flex-direction:column;justify-content:center;min-width:0;}
     .wg-header-id h1{margin:8px 0 0;font-size:clamp(22px,2.2vw,30px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;}
     .wg-header-desc{margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
     .wg-header-id .quick-actions{margin-top:16px;}
-    .wg-header-kpi{display:flex;flex-direction:column;justify-content:center;gap:16px;border-left:1px solid rgba(133,183,157,0.30);border-right:1px solid rgba(133,183,157,0.30);padding:0 22px;}
+    .wg-kpibar{display:flex;flex-wrap:wrap;gap:16px 30px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(133,183,157,0.30);}
     .wg-kpi{display:flex;align-items:center;gap:10px;}
     .wg-kpi-ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:rgba(133,183,157,0.18);color:#2f694e;flex-shrink:0;}
     .wg-kpi-ic i{width:18px;height:18px;}
@@ -24,8 +24,7 @@
     .wg-tab.is-active{background:#fff;color:var(--blue);box-shadow:var(--shadow);}
     @media (max-width:1240px){
         .wg-header{grid-template-columns:1fr;}
-        .wg-header-kpi{flex-direction:row;flex-wrap:wrap;gap:24px;border-left:0;border-right:0;border-top:1px solid rgba(133,183,157,0.30);border-bottom:1px solid rgba(133,183,157,0.30);padding:14px 0;}
-        .wg-header-cover{min-height:140px;}
+        .wg-header-cover{min-height:140px;order:-1;}
     }
 </style>
 
@@ -63,16 +62,24 @@
                     <a href="{{ $workGroup->collaborative_space_url }}" target="_blank" rel="noopener" class="btn btn-secondary"><i data-lucide="external-link"></i>Espace de travail collaboratif</a>
                 @endif
             </div>
-        </div>
 
-        <div class="wg-header-kpi">
-            <div class="wg-kpi">
-                <span class="wg-kpi-ic"><i data-lucide="users"></i></span>
-                <span class="wg-kpi-tx"><strong>{{ $workGroup->active_members_count }}</strong>membres</span>
-            </div>
-            <div class="wg-kpi">
-                <span class="wg-kpi-ic"><i data-lucide="folder"></i></span>
-                <span class="wg-kpi-tx"><strong>{{ $workGroup->has_resources ? $workGroup->resources()->count() : 0 }}</strong>ressources</span>
+            <div class="wg-kpibar">
+                <div class="wg-kpi">
+                    <span class="wg-kpi-ic"><i data-lucide="users"></i></span>
+                    <span class="wg-kpi-tx"><strong>{{ $workGroup->active_members_count }}</strong>membres</span>
+                </div>
+                <div class="wg-kpi">
+                    <span class="wg-kpi-ic"><i data-lucide="folder-kanban"></i></span>
+                    <span class="wg-kpi-tx"><strong>{{ $projects->count() }}</strong>projets</span>
+                </div>
+                <div class="wg-kpi">
+                    <span class="wg-kpi-ic"><i data-lucide="messages-square"></i></span>
+                    <span class="wg-kpi-tx"><strong>{{ $workGroup->has_forum ? $workGroup->forumThreads()->count() : 0 }}</strong>discussions</span>
+                </div>
+                <div class="wg-kpi">
+                    <span class="wg-kpi-ic"><i data-lucide="folder"></i></span>
+                    <span class="wg-kpi-tx"><strong>{{ $workGroup->has_resources ? $workGroup->resources()->count() : 0 }}</strong>ressources</span>
+                </div>
             </div>
         </div>
 
