@@ -108,10 +108,20 @@ class WorkGroupController extends Controller
 
         $projects = $workGroup->projects()->ordered()->get();
 
+        $recentThreads = $workGroup->has_forum
+            ? \App\Models\WorkGroupForumThread::whereHas('category', fn ($q) => $q->where('work_group_id', $workGroup->id))
+                ->with('author')->withCount('posts')->ordered()->limit(5)->get()
+            : collect();
+
+        $recentResources = $canViewResources
+            ? $workGroup->resources()->latest()->limit(5)->get()
+            : collect();
+
         return view('member.work-groups.show', compact(
             'workGroup', 'member', 'status', 'canManage', 'canViewResources',
             'coordinators', 'resources', 'pending', 'activeMembers',
-            'canParticipate', 'forumCategories', 'activity', 'projects'
+            'canParticipate', 'forumCategories', 'activity', 'projects',
+            'recentThreads', 'recentResources'
         ));
     }
 

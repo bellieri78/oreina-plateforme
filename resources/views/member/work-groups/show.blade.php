@@ -89,9 +89,22 @@
     </div>
 
     <div x-show="tab==='accueil'" class="grid-3" style="margin-top:18px;align-items:start;">
-        @include('member.work-groups.partials._about')
-        @include('member.work-groups.partials._activity')
-        @include('member.work-groups.partials._projects')
+        <div style="display:flex;flex-direction:column;gap:18px;">
+            @include('member.work-groups.partials._about')
+            @if($workGroup->has_forum)
+                @include('member.work-groups.partials._recent_discussions')
+            @endif
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px;">
+            @if($canViewResources)
+                @include('member.work-groups.partials._recent_resources')
+            @endif
+            @include('member.work-groups.partials._activity')
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px;">
+            @include('member.work-groups.partials._coordinators')
+            @include('member.work-groups.partials._projects')
+        </div>
     </div>
 
     @if($canViewResources)
