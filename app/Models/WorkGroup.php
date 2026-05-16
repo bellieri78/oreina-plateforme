@@ -71,6 +71,11 @@ class WorkGroup extends Model
         return $this->hasManyThrough(WorkGroupForumThread::class, WorkGroupForumCategory::class);
     }
 
+    public function projects(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(WorkGroupProject::class);
+    }
+
     public function coverUrl(): ?string
     {
         return $this->cover_image ? \Storage::url($this->cover_image) : null;
