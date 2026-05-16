@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class WorkGroup extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'description', 'usage_help', 'color', 'icon', 'website_url', 'is_active',
+        'name', 'slug', 'description', 'usage_help', 'about_points', 'color', 'icon', 'website_url', 'is_active',
         'has_resources', 'has_collaborative_space', 'collaborative_space_url',
         'has_forum', 'join_policy', 'cover_image',
     ];
@@ -108,5 +108,14 @@ class WorkGroup extends Model
         $pivot = $this->members()->where('members.id', $member->id)->first()?->pivot;
 
         return $pivot?->status;
+    }
+
+    public function aboutPointsList(): array
+    {
+        return collect(preg_split('/\r\n|\r|\n/', (string) $this->about_points))
+            ->map(fn ($l) => trim($l))
+            ->filter()
+            ->values()
+            ->all();
     }
 }

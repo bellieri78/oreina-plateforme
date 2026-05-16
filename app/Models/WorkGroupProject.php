@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WorkGroupProject extends Model
 {
-    protected $fillable = ['work_group_id', 'title', 'description', 'status', 'deliverable_url'];
+    protected $fillable = ['work_group_id', 'title', 'description', 'status', 'progress', 'deliverable_url'];
 
     public function workGroup(): BelongsTo
     {
@@ -17,6 +17,11 @@ class WorkGroupProject extends Model
     public function statusLabel(): string
     {
         return config('work_group_projects.statuses.' . $this->status, $this->status);
+    }
+
+    public function progressClamped(): int
+    {
+        return max(0, min(100, (int) $this->progress));
     }
 
     public function scopeOrdered($query)

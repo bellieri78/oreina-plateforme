@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class WorkGroupForumThread extends Model
 {
     protected $fillable = [
-        'work_group_forum_category_id', 'member_id', 'title',
+        'work_group_forum_category_id', 'member_id', 'title', 'tag',
         'is_pinned', 'is_locked', 'last_posted_at',
     ];
 
@@ -59,5 +59,10 @@ class WorkGroupForumThread extends Model
         return $member
             ? $this->subscribers()->where('members.id', $member->id)->exists()
             : false;
+    }
+
+    public function tagLabel(): ?string
+    {
+        return $this->tag ? config("work_group_forum.thread_tags.{$this->tag}", $this->tag) : null;
     }
 }
