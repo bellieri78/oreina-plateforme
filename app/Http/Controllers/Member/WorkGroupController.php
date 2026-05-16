@@ -62,10 +62,54 @@ class WorkGroupController extends Controller
                 ->get()
             : collect();
 
+        $joinEvents = $workGroup->members()
+            ->wherePivot('status', 'active')
+            ->orderByPivot('joined_at', 'desc')
+            ->limit(10)
+            ->get()
+            ->filter(fn ($m) => $m->pivot->joined_at)
+            ->map(fn ($m) => [
+                'type' => 'join',
+                'date' => \Illuminate\Support\Carbon::parse($m->pivot->joined_at),
+                'label' => ($m->full_name ?? $m->first_name ?? 'Un membre') . ' a rejoint le groupe',
+                'href' => null,
+            ]);
+
+        $threadEvents = \App\Models\WorkGroupForumThread::query()
+            ->whereHas('category', fn ($q) => $q->where('work_group_id', $workGroup->id))
+            ->with('author')
+            ->latest()
+            ->limit(10)
+            ->get()
+            ->map(fn ($t) => [
+                'type' => 'thread',
+                'date' => $t->created_at,
+                'label' => 'Nouveau fil : ' . $t->title,
+                'href' => route('member.work-groups.forum.threads.show', [$workGroup, $t]),
+            ]);
+
+        $resourceEvents = $workGroup->resources()
+            ->latest()
+            ->limit(10)
+            ->get()
+            ->map(fn ($r) => [
+                'type' => 'resource',
+                'date' => $r->created_at,
+                'label' => 'Nouvelle ressource : ' . $r->title,
+                'href' => null,
+            ]);
+
+        $activity = $joinEvents
+            ->concat($threadEvents)
+            ->concat($resourceEvents)
+            ->sortByDesc('date')
+            ->values()
+            ->take(10);
+
         return view('member.work-groups.show', compact(
             'workGroup', 'member', 'status', 'canManage', 'canViewResources',
             'coordinators', 'resources', 'pending', 'activeMembers',
-            'canParticipate', 'forumCategories'
+            'canParticipate', 'forumCategories', 'activity'
         ));
     }
 
