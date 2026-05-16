@@ -60,6 +60,10 @@
                             @if($thread->is_pinned)<i data-lucide="pin" style="width:14px;height:14px;"></i>@endif
                             <strong>{{ $thread->title }}</strong>
                         </a>
+                        @if($thread->tagLabel())
+                            @php($tc = ['question'=>['rgba(53,107,138,.12)','var(--blue)'],'echange'=>['rgba(133,183,157,.18)','#2f694e'],'outil'=>['rgba(237,196,66,.18)','#8b6c05'],'actualite'=>['rgba(124,58,237,.10)','#7c3aed']][$thread->tag] ?? ['var(--surface-soft,#eee)','var(--muted)'])
+                            <span style="font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;background:{{ $tc[0] }};color:{{ $tc[1] }};margin-left:6px;">{{ $thread->tagLabel() }}</span>
+                        @endif
                         @if($thread->is_locked)<span class="badge gold" style="margin-left:6px;">Verrouillé</span>@endif
                         <small style="display:block;color:var(--muted);">
                             par {{ $thread->author?->full_name ?? $thread->author?->first_name ?? 'Membre supprimé' }}
@@ -91,6 +95,12 @@
                 @endforeach
             </select>
             <input type="text" name="title" placeholder="Titre du fil" required class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
+            <select name="tag" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
+                <option value="">— Sans étiquette —</option>
+                @foreach(config('work_group_forum.thread_tags') as $tk => $tl)
+                    <option value="{{ $tk }}">{{ $tl }}</option>
+                @endforeach
+            </select>
             <textarea name="content" placeholder="Votre message…" required rows="4" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;"></textarea>
             <button class="btn btn-primary" style="justify-self:start;"><i data-lucide="message-square-plus"></i>Publier le fil</button>
         </form>

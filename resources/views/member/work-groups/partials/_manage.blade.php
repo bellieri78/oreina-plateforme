@@ -84,6 +84,7 @@
                     @endforeach
                 </select>
                 <input type="url" name="deliverable_url" value="{{ $project->deliverable_url }}" placeholder="Lien vers l'œuvre diffusée (optionnel)" class="form-input" style="padding:8px;border:1px solid var(--border);border-radius:8px;">
+                <input type="number" name="progress" value="{{ $project->progress }}" min="0" max="100" placeholder="Avancement % (0-100)" class="form-input" style="padding:8px;border:1px solid var(--border);border-radius:8px;max-width:200px;">
                 <button class="btn btn-secondary" style="height:30px;padding:0 10px;font-size:12px;justify-self:start;">Enregistrer</button>
             </form>
         </div>
@@ -104,6 +105,7 @@
                 @endforeach
             </select>
             <input type="url" name="deliverable_url" placeholder="Lien vers l'œuvre diffusée (optionnel)" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;">
+            <input type="number" name="progress" min="0" max="100" placeholder="Avancement % (0 par defaut)" class="form-input" style="padding:10px;border:1px solid var(--border);border-radius:10px;max-width:220px;">
             <button class="btn btn-primary" style="justify-self:start;"><i data-lucide="plus"></i>Créer le projet</button>
         </form>
     </details>

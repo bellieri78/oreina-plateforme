@@ -54,6 +54,7 @@ class WorkGroupForumController extends Controller
             'work_group_forum_category_id' => 'required|integer',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'tag' => 'nullable|in:' . implode(',', array_keys(config('work_group_forum.thread_tags'))),
         ]);
 
         $category = WorkGroupForumCategory::where('id', $data['work_group_forum_category_id'])
@@ -67,6 +68,7 @@ class WorkGroupForumController extends Controller
                 'work_group_forum_category_id' => $category->id,
                 'member_id' => $member?->id,
                 'title' => $data['title'],
+                'tag' => $data['tag'] ?? null,
                 'last_posted_at' => now(),
             ]);
             WorkGroupForumPost::create([

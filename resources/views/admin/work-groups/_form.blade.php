@@ -17,6 +17,11 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label" for="about_points">Points cles (carte A propos)</label>
+            <textarea name="about_points" id="about_points" class="form-input" rows="4" placeholder="Une ligne = une puce a coche, affichee dans la carte A propos du groupe (optionnel)">{{ old('about_points', $workGroup->about_points ?? '') }}</textarea>
+        </div>
+
+        <div class="form-group">
             <label class="form-label" for="website_url">Site web</label>
             <input type="url" name="website_url" id="website_url" class="form-input" value="{{ old('website_url', $workGroup->website_url ?? '') }}" placeholder="https://...">
             @error('website_url')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror

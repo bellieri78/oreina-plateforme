@@ -16,6 +16,7 @@ class WorkGroupProjectController extends Controller
             'description' => 'nullable|string',
             'status' => 'required|in:' . implode(',', array_keys(config('work_group_projects.statuses'))),
             'deliverable_url' => 'nullable|url|max:500',
+            'progress' => 'nullable|integer|min:0|max:100',
         ];
     }
 
