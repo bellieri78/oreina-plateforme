@@ -182,6 +182,11 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         Route::post('/groupes-de-travail/{workGroup:slug}/ressources', [\App\Http\Controllers\Member\WorkGroupResourceController::class, 'store'])->name('work-groups.resources.store');
         Route::delete('/groupes-de-travail/{workGroup:slug}/ressources/{resource}', [\App\Http\Controllers\Member\WorkGroupResourceController::class, 'destroy'])->name('work-groups.resources.destroy');
 
+        // Work Groups — projets en cours (gestion par coordinateur)
+        Route::post('/groupes-de-travail/{workGroup:slug}/projets', [\App\Http\Controllers\Member\WorkGroupProjectController::class, 'store'])->name('work-groups.projects.store');
+        Route::put('/groupes-de-travail/{workGroup:slug}/projets/{project}', [\App\Http\Controllers\Member\WorkGroupProjectController::class, 'update'])->name('work-groups.projects.update');
+        Route::delete('/groupes-de-travail/{workGroup:slug}/projets/{project}', [\App\Http\Controllers\Member\WorkGroupProjectController::class, 'destroy'])->name('work-groups.projects.destroy');
+
         // Work Groups — forum : catégories (gestion par coordinateur)
         Route::post('/groupes-de-travail/{workGroup:slug}/forum/categories', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'store'])->name('work-groups.forum.categories.store');
         Route::put('/groupes-de-travail/{workGroup:slug}/forum/categories/{category}', [\App\Http\Controllers\Member\WorkGroupForumCategoryController::class, 'update'])->name('work-groups.forum.categories.update');
