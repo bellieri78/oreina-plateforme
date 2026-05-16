@@ -206,13 +206,13 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         Route::post('/groupes-de-travail/{workGroup:slug}/forum/fils/{thread}/reponses', [\App\Http\Controllers\Member\WorkGroupForumPostController::class, 'store'])->name('work-groups.forum.posts.store');
         Route::put('/groupes-de-travail/{workGroup:slug}/forum/reponses/{post}', [\App\Http\Controllers\Member\WorkGroupForumPostController::class, 'update'])->name('work-groups.forum.posts.update');
         Route::delete('/groupes-de-travail/{workGroup:slug}/forum/reponses/{post}', [\App\Http\Controllers\Member\WorkGroupForumPostController::class, 'destroy'])->name('work-groups.forum.posts.destroy');
+
+        // Chat prive 1:1 (reserve adherents a jour)
+        Route::get('/chat', [MemberChatController::class, 'index'])->name('chat');
     });
 
     // Legacy redirects (map → annuaire)
     Route::get('/carte', fn () => redirect('/espace-membre/annuaire', 301))->name('map');
-
-    // Chat
-    Route::get('/chat', [MemberChatController::class, 'index'])->name('chat');
 
     // Mes contributions
     Route::get('/contributions', [MemberWorkGroupController::class, 'contributions'])->name('contributions');
