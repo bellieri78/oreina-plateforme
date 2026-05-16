@@ -20,7 +20,7 @@
         @endif
         @if($project->deliverable_url)
         <a href="{{ $project->deliverable_url }}" target="_blank" rel="noopener" class="text-link" style="display:inline-flex;margin-top:6px;">
-            <i data-lucide="external-link" style="width:14px;height:14px;"></i>Voir l'oeuvre diffusee
+            <i data-lucide="external-link" style="width:14px;height:14px;"></i>Voir l'œuvre diffusée
         </a>
         @endif
     </div>
