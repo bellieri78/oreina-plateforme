@@ -106,10 +106,12 @@ class WorkGroupController extends Controller
             ->values()
             ->take(10);
 
+        $projects = $workGroup->projects()->ordered()->get();
+
         return view('member.work-groups.show', compact(
             'workGroup', 'member', 'status', 'canManage', 'canViewResources',
             'coordinators', 'resources', 'pending', 'activeMembers',
-            'canParticipate', 'forumCategories', 'activity'
+            'canParticipate', 'forumCategories', 'activity', 'projects'
         ));
     }
 
