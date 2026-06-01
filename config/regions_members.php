@@ -5,21 +5,22 @@
  * "Réseau des adhérents" du dashboard membre.
  *
  * Les coordonnées x/y sont relatives au viewBox SVG 200x200 utilisé dans
- * resources/views/member/partials/_reseau_map.blade.php.
+ * resources/views/member/partials/_reseau_map.blade.php, calées sur le tracé
+ * réel de la France (docs/france.svg) tel que ramené dans ce viewBox.
  * Les DOM-TOM ne sont pas mappés (comptés dans le total mais hors carte).
  */
 
 return [
 
     'regions' => [
-        'HDF' => ['label' => 'Hauts-de-France',     'x' => 105, 'y' => 30],
-        'IDF' => ['label' => 'Île-de-France',       'x' => 105, 'y' => 60],
-        'GE'  => ['label' => 'Grand Est',           'x' => 150, 'y' => 55],
-        'BRE' => ['label' => 'Bretagne',            'x' => 35,  'y' => 75],
-        'PDL' => ['label' => 'Pays de la Loire',    'x' => 60,  'y' => 90],
-        'NA'  => ['label' => 'Nouvelle-Aquitaine',  'x' => 75,  'y' => 130],
-        'OCC' => ['label' => 'Occitanie',           'x' => 110, 'y' => 160],
-        'AURA'=> ['label' => 'AURA + PACA',         'x' => 155, 'y' => 130],
+        'HDF' => ['label' => 'Hauts-de-France',     'x' => 101, 'y' => 31],
+        'IDF' => ['label' => 'Île-de-France',       'x' => 96,  'y' => 58],
+        'GE'  => ['label' => 'Grand Est',           'x' => 131, 'y' => 76],
+        'BRE' => ['label' => 'Bretagne',            'x' => 29,  'y' => 68],
+        'PDL' => ['label' => 'Pays de la Loire',    'x' => 75,  'y' => 76],
+        'NA'  => ['label' => 'Nouvelle-Aquitaine',  'x' => 68,  'y' => 130],
+        'OCC' => ['label' => 'Occitanie',           'x' => 94,  'y' => 155],
+        'AURA'=> ['label' => 'AURA + PACA',         'x' => 135, 'y' => 130],
     ],
 
     'departments' => [

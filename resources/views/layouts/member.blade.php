@@ -134,10 +134,10 @@
             border-radius: 16px;
             display: grid;
             place-items: center;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.10);
+            background: #FFFFFF;
+            border: 1px solid rgba(255,255,255,0.85);
             font-weight: 900;
-            color: white;
+            color: var(--forest);
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -239,11 +239,20 @@
             font-weight: 600;
             font-size: 15px;
         }
-        .nav-item:hover,
-        .nav-item.active {
+        .nav-item:hover {
             background: rgba(133,183,157,0.16);
             border-color: rgba(133,183,157,0.18);
             color: white;
+        }
+        .nav-item.active {
+            background: #FFFFFF;
+            border-color: #FFFFFF;
+            color: var(--forest);
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+        }
+        .nav-item.active .icon {
+            color: var(--forest);
         }
         .nav-item .icon {
             color: rgba(255,255,255,0.84);
@@ -1249,7 +1258,7 @@
         /* ═══ Suggestions pour vous ═══ */
         .suggestions-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 14px;
             margin-top: 22px;
         }
@@ -1305,6 +1314,9 @@
         @media (max-width: 1240px) {
             .grid-3 { grid-template-columns: 1fr; }
         }
+        /* Variante : cartes étirées à la même hauteur (bas alignés) */
+        .grid-3--stretch { align-items: stretch; }
+        .grid-3--stretch > .panel { display: flex; flex-direction: column; }
 
         /* Grid & Stack */
         .grid {
@@ -1656,6 +1668,527 @@
                 justify-self: start;
             }
         }
+        /* ═══════════════════════════════════════════════════
+           DASHBOARD V6 — refonte d'après docs/dashboard2.pdf
+        ═══════════════════════════════════════════════════ */
+
+        /* ─── Sidebar : carte « Besoin d'aide ? » ─── */
+        .sidebar-help {
+            margin: 4px 4px 0;
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+        }
+        .sidebar-help-text {
+            display: block;
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.72);
+            margin-bottom: 12px;
+        }
+        .sidebar-help-text strong {
+            display: block;
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .sidebar-help .btn-help {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: var(--forest);
+            border: 1px solid rgba(255,255,255,0.16);
+            color: white;
+            font-weight: 800;
+            font-size: 13px;
+            transition: 0.2s ease;
+        }
+        .sidebar-help .btn-help:hover {
+            background: rgba(255,255,255,0.10);
+        }
+
+        /* ─── HERO — photo plein cadre + voile dégradé ─── */
+        .hero-banner {
+            position: relative;
+            display: block;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            background: var(--forest);
+            box-shadow: var(--shadow);
+            min-height: 300px;
+        }
+        /* Voile de lisibilité : foncé à gauche (texte) → transparent à droite (sujet) */
+        .hero-banner::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(95deg,
+                rgba(13,33,28,0.95) 0%,
+                rgba(15,38,32,0.88) 30%,
+                rgba(20,55,44,0.55) 58%,
+                rgba(20,55,44,0.12) 82%,
+                rgba(20,55,44,0) 100%);
+        }
+        .hero-banner-body {
+            position: relative;
+            z-index: 2;
+            padding: 40px 44px;
+            max-width: 620px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+        }
+        .hero-banner-body .eyebrow {
+            background: rgba(255,255,255,0.14);
+            color: rgba(255,255,255,0.92);
+            backdrop-filter: blur(4px);
+        }
+        .hero-banner-body h1 {
+            margin: 0;
+            color: white;
+            font-size: clamp(34px, 4.4vw, 52px);
+            font-weight: 800;
+            line-height: 0.98;
+            letter-spacing: -0.05em;
+        }
+        .hero-banner-body .hero-lede {
+            margin: 12px 0 0;
+            color: rgba(255,255,255,0.82);
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 480px;
+        }
+        .hero-stats {
+            margin-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .hero-stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(4px);
+        }
+        .hero-stat svg {
+            width: 18px;
+            height: 18px;
+            color: var(--sage);
+            flex-shrink: 0;
+        }
+        .hero-stat-text small {
+            display: block;
+            font-size: 11px;
+            color: rgba(255,255,255,0.64);
+            line-height: 1.2;
+        }
+        .hero-stat-text strong {
+            display: block;
+            font-size: 15px;
+            color: white;
+            line-height: 1.2;
+            margin-top: 1px;
+        }
+        .hero-actions {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .hero-actions .btn-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            height: 46px;
+            padding: 0 20px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+        .hero-actions .btn-hero-solid {
+            background: var(--gold);
+            color: var(--forest);
+        }
+        .hero-actions .btn-hero-solid:hover {
+            background: #f2d165;
+            transform: translateY(-1px);
+        }
+        .hero-actions .btn-hero-ghost {
+            background: rgba(255,255,255,0.10);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.22);
+        }
+        .hero-actions .btn-hero-ghost:hover {
+            background: rgba(255,255,255,0.18);
+            transform: translateY(-1px);
+        }
+        .hero-banner-media {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .hero-banner-media img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: right center;
+        }
+
+        /* ─── Cartes stats (4) ─── */
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+        @media (max-width: 1100px) {
+            .stat-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 560px) {
+            .stat-cards { grid-template-columns: 1fr; }
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            text-align: left;
+            transition: 0.25s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 44px rgba(22,48,43,0.12);
+        }
+        .stat-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            align-self: center;
+        }
+        .stat-card-icon svg { width: 24px; height: 24px; }
+        .stat-card-body { min-width: 0; flex: 1; text-align: left; }
+        .stat-card-label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .stat-card-value {
+            display: block;
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            margin-top: 2px;
+        }
+        .stat-card-sub {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .stat-card-sub.is-link { color: var(--blue); font-weight: 800; }
+        .stat-card-sub svg { width: 13px; height: 13px; }
+
+        /* ─── Rangée centrale : Mes espaces | Actualités | À la une ─── */
+        .grid-spaces {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr 0.78fr;
+            gap: 18px;
+            align-items: start;
+        }
+        @media (max-width: 1240px) {
+            .grid-spaces { grid-template-columns: 1fr 1fr; }
+            .grid-spaces > :last-child { grid-column: 1 / -1; }
+        }
+        @media (max-width: 860px) {
+            .grid-spaces { grid-template-columns: 1fr; }
+            .grid-spaces > :last-child { grid-column: auto; }
+        }
+        /* Variante : colonnes étirées à la même hauteur (bas alignés) */
+        .grid-spaces--stretch { align-items: stretch; }
+        .grid-spaces--stretch > .panel { display: flex; flex-direction: column; }
+
+        /* ─── Mes espaces — liste ─── */
+        .spaces-list {
+            display: grid;
+            gap: 6px;
+        }
+        .space-row {
+            display: grid;
+            grid-template-columns: 44px 1fr auto 18px;
+            gap: 14px;
+            align-items: center;
+            padding: 12px;
+            border-radius: 14px;
+            transition: background 0.2s;
+        }
+        .space-row:hover { background: var(--surface-soft); }
+        .space-row-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        .space-row-icon svg { width: 22px; height: 22px; }
+        .space-row-body { min-width: 0; }
+        .space-row-body strong {
+            display: block;
+            font-size: 15px;
+            line-height: 1.25;
+        }
+        .space-row-body span {
+            display: block;
+            margin-top: 2px;
+            font-size: 12.5px;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .space-row-chip {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+        .space-row-chip.sage { background: rgba(133,183,157,0.18); color: #2f694e; }
+        .space-row-chip.gold { background: rgba(237,196,66,0.20); color: #8b6c05; }
+        .space-row-chip.blue { background: rgba(53,107,138,0.10); color: var(--blue); }
+        .space-row-chip.muted { background: var(--surface-soft); color: var(--muted); border: 1px solid var(--border); }
+        .space-row .chev {
+            width: 18px;
+            height: 18px;
+            color: var(--muted);
+        }
+
+        /* ─── À la une — cover Lepis ─── */
+        .feature-card {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            min-height: 320px;
+            display: flex;
+            align-items: flex-end;
+            box-shadow: var(--shadow);
+            background: var(--forest);
+        }
+        .feature-card img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 30%, rgba(22,48,43,0.82) 100%);
+        }
+        .feature-card-body {
+            position: relative;
+            z-index: 2;
+            padding: 22px;
+            color: white;
+            width: 100%;
+        }
+        .feature-card-tag {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            z-index: 2;
+            background: rgba(255,255,255,0.16);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 999px;
+        }
+        .feature-card-body h3 {
+            margin: 0;
+            color: white;
+            font-size: 22px;
+            line-height: 1.15;
+        }
+        .feature-card-body p {
+            margin: 6px 0 0;
+            font-size: 13px;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.5;
+        }
+        .feature-card-body .btn-feature {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            height: 38px;
+            padding: 0 16px;
+            border-radius: 12px;
+            background: var(--gold);
+            color: var(--forest);
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .feature-card-body .btn-feature:hover { transform: translateY(-1px); }
+
+        /* ─── Rangée basse : 4 colonnes ─── */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            align-items: start;
+        }
+        @media (max-width: 1240px) {
+            .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 700px) {
+            .grid-4 { grid-template-columns: 1fr; }
+        }
+        /* Cartes de la rangée basse plus compactes */
+        .grid-4 .panel { padding: 20px; }
+        .grid-4 .panel-head { margin-bottom: 14px; }
+        .grid-4 .panel-head h2 { font-size: 18px; }
+
+        /* ─── Suggestions avec visuel (texte + image côte à côte) ─── */
+        .suggestion-card.has-image {
+            padding: 0;
+            overflow: hidden;
+            flex-direction: row;
+            align-items: stretch;
+        }
+        .suggestion-card.has-image .sugg-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-width: 0;
+        }
+        .suggestion-card.has-image .sugg-media {
+            width: 104px;
+            flex-shrink: 0;
+            background: var(--surface-soft);
+        }
+        .suggestion-card.has-image .sugg-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ─── Topbar : bouton CTA vert (Accès aux groupes) ─── */
+        .btn-topbar-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 42px;
+            padding: 0 18px;
+            border-radius: 12px;
+            background: var(--gold);
+            color: var(--forest);
+            font-weight: 800;
+            font-size: 14px;
+            transition: 0.2s ease;
+            white-space: nowrap;
+        }
+        .btn-topbar-cta:hover { background: #f2d165; transform: translateY(-1px); }
+        .btn-topbar-cta svg { width: 18px; height: 18px; }
+
+        @media (max-width: 760px) {
+            .hero-banner-body { padding: 28px 24px; max-width: none; }
+            /* Sur mobile, voile plus couvrant (texte par-dessus la photo) */
+            .hero-banner::before {
+                background: linear-gradient(95deg,
+                    rgba(13,33,28,0.94) 0%,
+                    rgba(15,38,32,0.86) 45%,
+                    rgba(20,55,44,0.62) 100%);
+            }
+        }
+
+        /* ═══ Raffinements V6.1 — calage sur docs/dashboard2.pdf ═══ */
+        /* Hero recalibré (moins haut, titre moins massif) */
+        .hero-banner { min-height: 282px; }
+        .hero-banner-body { padding: 34px 40px; min-height: 282px; max-width: 900px; }
+        .hero-banner-body h1 { font-size: clamp(32px, 3.3vw, 44px); letter-spacing: -0.04em; }
+        .hero-banner-body .hero-lede { font-size: 15px; margin-top: 10px; }
+        /* Puces stats : une seule ligne */
+        .hero-stats { gap: 8px; margin-top: 18px; flex-wrap: nowrap; }
+        .hero-stat { padding: 8px 12px; white-space: nowrap; min-width: 0; }
+        .hero-stat svg { width: 16px; height: 16px; }
+        .hero-stat-text small,
+        .hero-stat-text strong { white-space: nowrap; }
+        .hero-stat-text strong { font-size: 14px; }
+        .hero-actions { margin-top: 20px; }
+        .hero-actions .btn-hero { height: 44px; font-size: 13.5px; }
+        /* En dessous d'une certaine largeur, on autorise le retour à la ligne */
+        @media (max-width: 1080px) {
+            .hero-stats { flex-wrap: wrap; }
+        }
+
+        /* Titres de section du dashboard : échelle réduite + anti-chevauchement */
+        .grid-spaces .panel-head,
+        .grid-4 .panel-head {
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .grid-spaces .panel-head h2,
+        .grid-4 .panel-head h2 {
+            font-size: 18px;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+        }
+        .grid-spaces .panel-head .text-link,
+        .grid-4 .panel-head .text-link {
+            font-size: 12.5px;
+            gap: 6px;
+        }
+        .grid-spaces .panel-head .text-link svg,
+        .grid-4 .panel-head .text-link svg { width: 13px; height: 13px; }
+
+        /* "À la une" et "Suggestions pour vous" : mêmes proportions */
+        .grid-spaces > div > .panel-head { margin-bottom: 14px; }
+        .grid-spaces > div > .panel-head h2 { font-size: 18px; letter-spacing: -0.03em; }
+        .suggestions-grid + *, /* no-op safeguard */
+        section > h2 { font-size: 22px; }
+
+        /* Cartes stats : libellés sur une ligne */
+        .stat-card-label { white-space: nowrap; }
+        .stat-card-value { font-size: 30px; }
+
     </style>
 
     @stack('styles')
@@ -1682,7 +2215,7 @@
             {{-- Brand --}}
             <a href="{{ route('hub.home') }}" class="brand">
                 <div class="brand-mark">
-                    <img src="/images/logo.jpg" alt="O" onerror="this.style.display='none'; this.parentNode.textContent='O';">
+                    <img src="/images/LOGO-OREINA-PAPILLON-CORAIL-SEUL_blanc.png" alt="OREINA" onerror="this.style.display='none'; this.parentNode.textContent='O';">
                 </div>
                 <div class="brand-text">
                     <strong>OREINA</strong>
@@ -1692,23 +2225,19 @@
 
             @include('member.partials._sidebar_user_card')
 
-            @include('member.partials._sidebar_progress')
-
-            @include('member.partials._sidebar_roles')
-
-            {{-- Navigation — Mon espace --}}
+            {{-- Navigation — Tableau de bord --}}
             <nav class="nav-group">
-                <div class="nav-title">Mon espace</div>
+                <div class="nav-title">Tableau de bord</div>
                 <a href="{{ route('member.dashboard') }}" class="nav-item {{ request()->routeIs('member.dashboard') ? 'active' : '' }}">
-                    <i data-lucide="layout-dashboard" class="icon"></i>
-                    <span class="nav-label">Tableau de bord</span>
+                    <i data-lucide="home" class="icon"></i>
+                    <span class="nav-label">Accueil</span>
                 </a>
                 <a href="{{ route('member.profile') }}" class="nav-item {{ request()->routeIs('member.profile*') && !request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
-                    <i data-lucide="user-round" class="icon"></i>
+                    <i data-lucide="circle-user-round" class="icon"></i>
                     <span class="nav-label">Mon profil</span>
                 </a>
                 <a href="{{ route('member.membership') }}" class="nav-item {{ request()->routeIs('member.membership*') ? 'active' : '' }}">
-                    <i data-lucide="heart" class="icon"></i>
+                    <i data-lucide="badge-check" class="icon"></i>
                     <span class="nav-label">Mon adhésion</span>
                 </a>
                 <a href="{{ route('member.profile.preferences') }}" class="nav-item {{ request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
@@ -1717,72 +2246,75 @@
                 </a>
             </nav>
 
-            {{-- Navigation — Contribuer --}}
+            {{-- Navigation — Ma contribution --}}
             <nav class="nav-group">
-                <div class="nav-title">Contribuer</div>
-                <a href="{{ route('journal.submissions.create') }}" class="nav-item {{ request()->routeIs('journal.submissions.create') ? 'active' : '' }}">
-                    <i data-lucide="file-plus" class="icon"></i>
-                    <span class="nav-label">Soumettre un article</span>
+                <div class="nav-title">Ma contribution</div>
+                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Mes observations — bientôt disponible via Artemisiae');">
+                    <i data-lucide="binoculars" class="icon"></i>
+                    <span class="nav-label">Mes observations</span>
                 </a>
-                <a href="{{ route('journal.submissions.index') }}" class="nav-item {{ request()->routeIs('journal.submissions*') ? 'active' : '' }}">
-                    <i data-lucide="file-check" class="icon"></i>
-                    <span class="nav-label">Mes soumissions</span>
+                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Validations — bientôt disponible via Artemisiae');">
+                    <i data-lucide="check-check" class="icon"></i>
+                    <span class="nav-label">Validations</span>
                 </a>
-
-                @if($isAuthCurrentMember)
-                <a href="{{ route('member.contributions') }}" class="nav-item {{ request()->routeIs('member.contributions*') ? 'active' : '' }}">
-                    <i data-lucide="folder-open" class="icon"></i>
-                    <span class="nav-label">Mes contributions</span>
-                </a>
-                <a href="{{ route('member.documents') }}" class="nav-item {{ request()->routeIs('member.documents*') ? 'active' : '' }}">
+                <a href="{{ route('journal.submissions.index') }}" class="nav-item {{ request()->routeIs('journal.submissions*') || request()->routeIs('journal.articles*') ? 'active' : '' }}">
                     <i data-lucide="file-text" class="icon"></i>
-                    <span class="nav-label">Mes documents</span>
+                    <span class="nav-label">Articles & publications</span>
+                </a>
+                @if($isAuthCurrentMember)
+                <a href="{{ route('member.documents') }}" class="nav-item {{ request()->routeIs('member.documents*') ? 'active' : '' }}">
+                    <i data-lucide="files" class="icon"></i>
+                    <span class="nav-label">Documents partagés</span>
                 </a>
                 @else
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
-                    <i data-lucide="folder-open" class="icon"></i>
-                    <span class="nav-label">Mes contributions</span>
-                    <span class="nav-badge-lock">Adhérent</span>
-                </a>
-                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
-                    <i data-lucide="file-text" class="icon"></i>
-                    <span class="nav-label">Mes documents</span>
+                    <i data-lucide="files" class="icon"></i>
+                    <span class="nav-label">Documents partagés</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 @endif
             </nav>
 
-            {{-- Navigation — Réseau --}}
+            {{-- Navigation — Le réseau --}}
             <nav class="nav-group">
-                <div class="nav-title">Réseau</div>
+                <div class="nav-title">Le réseau</div>
                 @if($isAuthCurrentMember)
-                <a href="{{ route('member.directory.index') }}" class="nav-item {{ request()->routeIs('member.directory*') ? 'active' : '' }}">
-                    <i data-lucide="users-round" class="icon"></i>
-                    <span class="nav-label">Annuaire des adhérents</span>
-                </a>
-                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') ? 'active' : '' }}">
+                <a href="{{ route('member.work-groups') }}" class="nav-item {{ request()->routeIs('member.work-groups*') || request()->routeIs('member.contributions*') ? 'active' : '' }}">
                     <i data-lucide="users" class="icon"></i>
-                    <span class="nav-label">Mes groupes</span>
+                    <span class="nav-label">Groupes & projets</span>
                 </a>
                 <a href="{{ route('member.chat') }}" class="nav-item {{ request()->routeIs('member.chat*') ? 'active' : '' }}">
                     <i data-lucide="message-circle" class="icon"></i>
-                    <span class="nav-label">Chat</span>
+                    <span class="nav-label">Chat réseau</span>
                     @if($chatUnreadCount > 0)<span class="nav-badge-count">{{ $chatUnreadCount }}</span>@endif
+                </a>
+                <a href="{{ route('member.directory.index') }}" class="nav-item {{ request()->routeIs('member.directory*') ? 'active' : '' }}">
+                    <i data-lucide="users-round" class="icon"></i>
+                    <span class="nav-label">Annuaire membres</span>
+                </a>
+                <a href="{{ route('member.directory.index') }}#carte" class="nav-item {{ request()->routeIs('member.map') ? 'active' : '' }}">
+                    <i data-lucide="map-pin" class="icon"></i>
+                    <span class="nav-label">Carte des adhérents</span>
                 </a>
                 @else
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
-                    <i data-lucide="users-round" class="icon"></i>
-                    <span class="nav-label">Annuaire des adhérents</span>
-                    <span class="nav-badge-lock">Adhérent</span>
-                </a>
-                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
                     <i data-lucide="users" class="icon"></i>
-                    <span class="nav-label">Mes groupes</span>
+                    <span class="nav-label">Groupes & projets</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
                     <i data-lucide="message-circle" class="icon"></i>
-                    <span class="nav-label">Chat</span>
+                    <span class="nav-label">Chat réseau</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="users-round" class="icon"></i>
+                    <span class="nav-label">Annuaire membres</span>
+                    <span class="nav-badge-lock">Adhérent</span>
+                </a>
+                <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
+                    <i data-lucide="map-pin" class="icon"></i>
+                    <span class="nav-label">Carte des adhérents</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 @endif
@@ -1791,55 +2323,44 @@
             {{-- Navigation — Ressources --}}
             <nav class="nav-group">
                 <div class="nav-title">Ressources</div>
-                <a href="{{ route('journal.articles.index') }}" class="nav-item {{ request()->routeIs('journal.articles*') ? 'active' : '' }}">
-                    <i data-lucide="book-open" class="icon"></i>
-                    <span class="nav-label">Chersotis</span>
-                </a>
                 @if($isAuthCurrentMember)
                 <a href="{{ route('hub.lepis.bulletins.index') }}" class="nav-item {{ request()->routeIs('member.lepis*') ? 'active' : '' }}">
                     <i data-lucide="newspaper" class="icon"></i>
-                    <span class="nav-label">Lepis</span>
+                    <span class="nav-label">Lepis (bulletin)</span>
                 </a>
                 @else
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
                     <i data-lucide="newspaper" class="icon"></i>
-                    <span class="nav-label">Lepis</span>
+                    <span class="nav-label">Lepis (bulletin)</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 @endif
-                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Publications bientôt disponibles');">
+                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Guides & protocoles — bientôt disponibles');">
+                    <i data-lucide="book-open" class="icon"></i>
+                    <span class="nav-label">Guides & protocoles</span>
+                </a>
+                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Publications — bientôt disponibles');">
                     <i data-lucide="book-marked" class="icon"></i>
                     <span class="nav-label">Publications</span>
                 </a>
-                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Documents bientôt disponibles');">
-                    <i data-lucide="folder" class="icon"></i>
-                    <span class="nav-label">Documents</span>
-                </a>
-                <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Webinaires & replays bientôt disponibles');">
-                    <i data-lucide="video" class="icon"></i>
-                    <span class="nav-label">Webinaires & replays</span>
-                </a>
-            </nav>
-
-            {{-- Navigation — Aide --}}
-            <nav class="nav-group">
-                <div class="nav-title">Aide</div>
                 <a href="{{ route('hub.faq') }}" class="nav-item">
-                    <i data-lucide="circle-help" class="icon"></i>
-                    <span class="nav-label">FAQ</span>
-                </a>
-                <a href="mailto:contact@oreina.org" class="nav-item">
-                    <i data-lucide="mail" class="icon"></i>
-                    <span class="nav-label">Nous contacter</span>
+                    <i data-lucide="link" class="icon"></i>
+                    <span class="nav-label">Liens utiles</span>
                 </a>
             </nav>
 
-            {{-- Footer: Artemisiae CTA + return + logout --}}
+            {{-- Footer: Besoin d'aide + retour + logout --}}
             <div class="sidebar-footer">
-                <a href="#" class="sidebar-cta" onclick="event.preventDefault(); alert('Lien Artemisiae à configurer');">
-                    <i data-lucide="external-link" class="icon"></i>
-                    <span class="nav-label">Explorer Artemisiae</span>
-                </a>
+                <div class="sidebar-help">
+                    <span class="sidebar-help-text">
+                        <strong>Besoin d'aide&nbsp;?</strong>
+                        Consultez notre centre d'aide ou contactez-nous.
+                    </span>
+                    <a href="{{ route('hub.faq') }}" class="btn-help">
+                        <i data-lucide="life-buoy" class="icon"></i>
+                        <span class="nav-label">Centre d'aide</span>
+                    </a>
+                </div>
                 @if($authUser?->isAdmin() || $authUser?->isEditor())
                 <a href="{{ route('admin.dashboard') }}" class="nav-item">
                     <i data-lucide="shield" class="icon"></i>
@@ -1854,7 +2375,7 @@
                     @csrf
                     <button type="submit" class="nav-item nav-item-danger" style="width:100%; background:none; border:none; cursor:pointer; text-align:left;">
                         <i data-lucide="log-out" class="icon"></i>
-                        <span class="nav-label">Déconnexion</span>
+                        <span class="nav-label">Se déconnecter</span>
                     </button>
                 </form>
             </div>
@@ -1879,12 +2400,14 @@
             {{-- Topbar --}}
             <div class="topbar">
                 <div class="topbar-inner">
+                    @hasSection('page-title')
                     <div class="topbar-title">
-                        <strong>@yield('page-title', 'Tableau de bord')</strong>
+                        <strong>@yield('page-title')</strong>
                         @hasSection('page-subtitle')
                             <span>@yield('page-subtitle')</span>
                         @endif
                     </div>
+                    @endif
                     @include('member.partials._topbar_tools')
                 </div>
             </div>

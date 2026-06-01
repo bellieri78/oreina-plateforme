@@ -2,15 +2,15 @@
 $actus = [
     [
         'thumb' => 'images/projets/qualif/stigmella-hemargyrella.jpg',
-        'type' => 'Article',
-        'type_color' => 'blue',
+        'type' => 'Vie associative',
+        'type_color' => 'sage',
         'title' => 'Une nouvelle espèce de Zygaena découverte dans le Massif central',
         'meta' => 'Par Jean-Luc Couzi · il y a 4h',
     ],
     [
         'thumb' => 'images/pourquoi/chersotis-oreina.jpg',
         'type' => 'Événement',
-        'type_color' => 'sage',
+        'type_color' => 'blue',
         'title' => 'Sortie collective — Inventaire des Lépidoptères de nuit',
         'meta' => '12 juin 2024 · Saint-Nectaire (63)',
     ],
@@ -20,20 +20,6 @@ $actus = [
         'type_color' => 'gold',
         'title' => 'Relecture Chersotis n°1-2026 : appel aux relecteurs',
         'meta' => 'Date limite : 30 juin 2024',
-    ],
-    [
-        'thumb' => 'images/projets/ident/pyrgus-malvoides.jpg',
-        'type' => 'Observation remarquable',
-        'type_color' => 'coral',
-        'title' => 'Agrius convolvuli observé en migration dans le Gers',
-        'meta' => 'Par Maxime Guérin · il y a 1j',
-    ],
-    [
-        'thumb' => 'images/magazine/oreina-n68.jpg',
-        'type' => 'Publication',
-        'type_color' => 'sage',
-        'title' => 'Le nouveau bulletin OREINA n°1-2026 est disponible !',
-        'meta' => 'Par l\'équipe de rédaction · il y a 2j',
     ],
 ];
 @endphp

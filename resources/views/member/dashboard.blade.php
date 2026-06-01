@@ -1,85 +1,49 @@
 @extends('layouts.member')
 
 @section('title', 'Tableau de bord')
-@section('page-title', 'Tableau de bord membre')
-@section('page-subtitle', 'Votre espace personnel')
 
 @section('topbar-actions')
-    <button class="btn btn-secondary"><i data-lucide="database"></i>Explorer Artemisiae</button>
-    <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
+    <a href="{{ route('member.work-groups') }}" class="btn-topbar-cta"><i data-lucide="users"></i>Accès aux groupes</a>
 @endsection
 
 @section('content')
 
     {{-- ═══════════════════════════════════════════════════
-         HERO — 2 colonnes (texte + photo papillon)
+         HERO — bandeau vert forêt + photo papillon
     ═══════════════════════════════════════════════════ --}}
-    <section class="welcome">
+    @include('member.partials._hero_banner')
 
-        @if($isCurrentMember)
-        <article class="welcome-main is-member">
-            <div class="eyebrow eyebrow-member">
-                <i data-lucide="check-circle"></i>
-                Adhérent actif · {{ now()->year }}
-            </div>
-            <h1>Bonjour {{ $member?->first_name ?? $user->name }}&nbsp;!</h1>
-            <p>
-                Cet espace est pensé comme un outil d'action : suivre vos contributions,
-                retrouver vos dernières activités et rester connecté à la vie du réseau.
-            </p>
-            <div class="quick-actions">
-                <a href="{{ route('member.work-groups') }}" class="btn btn-primary"><i data-lucide="users"></i>Accès aux groupes</a>
-                <a href="{{ route('member.profile') }}" class="btn btn-secondary"><i data-lucide="user-round"></i>Compléter mon profil</a>
-                <a href="{{ route('hub.lepis.bulletins.index') }}" class="btn btn-secondary"><i data-lucide="newspaper"></i>Lepis</a>
-            </div>
-        </article>
-        @else
-        <article class="welcome-main is-visitor">
-            <div class="eyebrow eyebrow-visitor">
-                <i data-lucide="sparkles"></i>
-                Compte visiteur
-            </div>
-            <h1>Bonjour {{ $member?->first_name ?? $user->name }}&nbsp;!</h1>
-            <p>
-                Vous avez un compte OREINA. Depuis cet espace, vous pouvez soumettre des articles
-                à Chersotis, notre revue scientifique. Pour accéder à toutes les fonctionnalités
-                (Lepis, groupes de travail, annuaire, chat), rejoignez l'association.
-            </p>
-            <div class="quick-actions">
-                <a href="{{ route('journal.submissions.create') }}" class="btn btn-primary"><i data-lucide="file-plus"></i>Soumettre un article</a>
-                <a href="{{ route('hub.membership') }}" class="btn btn-secondary"><i data-lucide="heart-plus"></i>Adhérer à OREINA</a>
-            </div>
-        </article>
-        @endif
-
-        @include('member.partials._hero_carousel')
-
-    </section>
-
-    @include('member.partials._kpi_bar')
-
-    @include('member.partials._groups_carousel')
-
-    @if($isCurrentMember)
-    <section class="grid" style="grid-template-columns: 1.5fr 1fr;">
-        @include('member.partials._actualites_demo')
-        @include('member.partials._ressources_recentes')
-    </section>
-    @endif
-
-    @if($isCurrentMember)
-    <section class="grid-3">
-        @include('member.partials._contributions_list')
-        @include('member.partials._reseau_map')
-        @include('member.partials._agenda')
-    </section>
-    @endif
-
-    @include('member.partials._suggestions')
+    {{-- ═══════════════════════════════════════════════════
+         CARTES STATS — 4 indicateurs clés
+    ═══════════════════════════════════════════════════ --}}
+    @include('member.partials._stat_cards')
 
     @if($isCurrentMember)
     {{-- ═══════════════════════════════════════════════════
-         ZONE B — Priorité immédiate (À faire + Mes soumissions)
+         RANGÉE CENTRALE — Mes espaces | Actualités | À la une
+    ═══════════════════════════════════════════════════ --}}
+    <section class="grid-spaces grid-spaces--stretch">
+        @include('member.partials._mes_espaces')
+        @include('member.partials._actualites_demo')
+        @include('member.partials._a_la_une')
+    </section>
+
+    {{-- ═══════════════════════════════════════════════════
+         RANGÉE BASSE — Réseau | Ressources | Agenda
+    ═══════════════════════════════════════════════════ --}}
+    <section class="grid-3 grid-3--stretch">
+        @include('member.partials._reseau_map')
+        @include('member.partials._ressources_recentes')
+        @include('member.partials._agenda')
+    </section>
+
+    {{-- ═══════════════════════════════════════════════════
+         SUGGESTIONS POUR VOUS
+    ═══════════════════════════════════════════════════ --}}
+    @include('member.partials._suggestions')
+
+    {{-- ═══════════════════════════════════════════════════
+         PRIORITÉ — À faire + Mes soumissions Chersotis
     ═══════════════════════════════════════════════════ --}}
     <section class="grid">
         <article class="card panel">
@@ -108,6 +72,16 @@
                         <p>Choisissez vos thématiques ou espaces de contribution pour personnaliser votre tableau de bord.</p>
                     </div>
                     <span class="status sage">Suggestion</span>
+                </article>
+                @endif
+
+                @if($member->biography && (count($myGroupIds) > 0 || $workGroups->count() === 0))
+                <article class="todo-item" style="background:var(--surface-sage);">
+                    <div>
+                        <strong>Tout est à jour&nbsp;!</strong>
+                        <p>Votre profil est complet et vous êtes connecté au réseau. Merci pour votre engagement.</p>
+                    </div>
+                    <span class="status sage">À jour</span>
                 </article>
                 @endif
             </div>
@@ -222,7 +196,7 @@
         </div>
     </section>
 
-    {{-- Mes soumissions Chersotis (pour non-adhérents — pour les adhérents, c'est en Zone B) --}}
+    {{-- Mes soumissions Chersotis (non-adhérents) --}}
     <section>
         <div class="card panel">
             <div class="panel-head">
@@ -292,6 +266,5 @@
         </div>
     </section>
     @endif
-
 
 @endsection

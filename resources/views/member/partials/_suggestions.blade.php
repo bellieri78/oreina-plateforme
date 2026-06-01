@@ -1,63 +1,71 @@
 @php
 $cards = [];
 
-if ($suggestionWorkGroup) {
-    $cards[] = [
-        'eyebrow' => 'Groupes à rejoindre',
-        'title' => $suggestionWorkGroup->name,
-        'subtitle' => \Str::limit($suggestionWorkGroup->description ?? 'Groupe thématique', 60),
-        'cta_label' => 'Rejoindre',
-        'cta_href' => route('member.work-groups.show', $suggestionWorkGroup),
-        'cta_class' => 'btn-primary',
-    ];
-}
-
 if ($suggestionArticle) {
     $cards[] = [
-        'eyebrow' => 'Article recommandé',
-        'title' => $suggestionArticle->title,
-        'subtitle' => 'Par ' . ($suggestionArticle->author?->name ?? 'auteur inconnu'),
-        'cta_label' => 'Lire l\'article',
-        'cta_href' => route('journal.submissions.show', $suggestionArticle),
+        'eyebrow'   => 'Article',
+        'title'     => \Str::limit($suggestionArticle->title, 64),
+        'subtitle'  => 'Par ' . ($suggestionArticle->author?->name ?? 'auteur OREINA'),
+        'cta_label' => "Lire l'article",
         'cta_class' => 'btn-secondary',
+        'cta_href'  => route('journal.submissions.show', $suggestionArticle),
+        'image'     => asset('images/projets/ident/pyrgus-malvoides.jpg'),
     ];
 }
 
-// Observation tendance — hardcodé Phase 1
+// Observation locale — démo Phase 1
 $cards[] = [
-    'eyebrow' => 'Observation tendance',
-    'title' => 'Zygaena fausta',
-    'subtitle' => '12 observations ce mois-ci',
+    'eyebrow'   => 'Observation locale',
+    'title'     => 'Zygaena fausta',
+    'subtitle'  => 'Vu dans les Alpes-de-Haute-Provence',
     'cta_label' => 'Voir les observations',
-    'cta_href' => '#',
     'cta_class' => 'btn-secondary',
+    'cta_href'  => '#',
+    'image'     => asset('images/projets/qualif/stigmella-hemargyrella.jpg'),
 ];
 
-if ($suggestionEvent) {
+// Ressource — démo Phase 1
+$cards[] = [
+    'eyebrow'   => 'Ressource',
+    'title'     => "Clé d'identification des Zygènes",
+    'subtitle'  => 'Version mise à jour 2024',
+    'cta_label' => 'Consulter',
+    'cta_class' => 'btn-secondary',
+    'cta_href'  => '#',
+    'image'     => asset('images/pourquoi/chersotis-oreina.jpg'),
+];
+
+if ($suggestionWorkGroup) {
     $cards[] = [
-        'eyebrow' => 'Événement proche',
-        'title' => $suggestionEvent->title,
-        'subtitle' => $suggestionEvent->location_city ?? 'En ligne',
-        'cta_label' => 'En savoir plus',
-        'cta_href' => route('hub.events.show', $suggestionEvent),
+        'eyebrow'   => 'Groupe à rejoindre',
+        'title'     => $suggestionWorkGroup->name,
+        'subtitle'  => \Str::limit($suggestionWorkGroup->description ?? 'Groupe thématique', 56),
+        'cta_label' => 'Rejoindre',
         'cta_class' => 'btn-primary',
+        'cta_href'  => route('member.work-groups.show', $suggestionWorkGroup),
+        'image'     => asset('images/magazine/oreina-n68.jpg'),
     ];
 }
 @endphp
 
 @if($isCurrentMember && count($cards) >= 2)
 <section>
-    <h2 style="margin:24px 0 14px;">Suggestions pour vous</h2>
+    <h2 style="margin:8px 0 14px;">Suggestions pour vous</h2>
     <div class="suggestions-grid">
-        @foreach($cards as $c)
-        <article class="suggestion-card">
-            <span class="eyebrow">{{ $c['eyebrow'] }}</span>
-            <strong>{{ $c['title'] }}</strong>
-            <p>{{ $c['subtitle'] }}</p>
-            <a href="{{ $c['cta_href'] }}" class="btn {{ $c['cta_class'] }}"
-               @if($c['cta_href'] === '#') onclick="event.preventDefault(); alert('Bientôt disponible');" @endif>
-                {{ $c['cta_label'] }}
-            </a>
+        @foreach(array_slice($cards, 0, 3) as $c)
+        <article class="suggestion-card has-image">
+            <div class="sugg-body">
+                <span class="eyebrow">{{ $c['eyebrow'] }}</span>
+                <strong>{{ $c['title'] }}</strong>
+                <p>{{ $c['subtitle'] }}</p>
+                <a href="{{ $c['cta_href'] }}" class="btn {{ $c['cta_class'] }}"
+                   @if($c['cta_href'] === '#') onclick="event.preventDefault(); alert('Bientôt disponible');" @endif>
+                    {{ $c['cta_label'] }}
+                </a>
+            </div>
+            <div class="sugg-media">
+                <img src="{{ $c['image'] }}" alt="" onerror="this.parentNode.style.display='none';">
+            </div>
         </article>
         @endforeach
     </div>

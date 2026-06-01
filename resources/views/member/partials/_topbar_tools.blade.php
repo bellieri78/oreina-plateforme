@@ -1,6 +1,8 @@
-<div x-data="{ searchOpen: false, bellOpen: false }" class="topbar-tools-wrapper" style="display:flex;align-items:center;gap:12px;flex:1;justify-content:flex-end;">
+<div x-data="{ searchOpen: false, bellOpen: false }" class="topbar-tools-wrapper" style="display:flex;align-items:center;gap:12px;flex:1;">
 
-    <div class="topbar-search" style="position:relative;" @click.outside="searchOpen = false">
+    <div style="flex:1;min-width:0;"></div>
+
+    <div class="topbar-search" style="position:relative;flex:0 1 460px;" @click.outside="searchOpen = false">
         <i data-lucide="search" style="width:16px;height:16px;color:var(--muted);"></i>
         <input type="text" placeholder="Rechercher un taxon, un article, un membre…"
                @focus="searchOpen = true"
@@ -17,6 +19,7 @@
         </div>
     </div>
 
+    <div style="flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-end;gap:12px;">
     <div class="topbar-tools">
         <div style="position:relative;" @click.outside="bellOpen = false">
             <button type="button" class="topbar-icon" @click="bellOpen = !bellOpen">
@@ -30,10 +33,20 @@
         <a href="mailto:contact@oreina.org" class="topbar-icon" title="Contact">
             <i data-lucide="mail"></i>
         </a>
+        @if($isAuthCurrentMember)
+        <a href="{{ route('member.chat') }}" class="topbar-icon" title="Chat réseau" style="position:relative;">
+            <i data-lucide="message-circle"></i>
+            @if($chatUnreadCount > 0)
+            <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--coral);border:1.5px solid var(--bg);"></span>
+            @endif
+        </a>
+        @else
         <a href="{{ route('hub.events.index') }}" class="topbar-icon" title="Agenda">
             <i data-lucide="calendar-days"></i>
         </a>
+        @endif
     </div>
 
     @yield('topbar-actions')
+    </div>
 </div>
