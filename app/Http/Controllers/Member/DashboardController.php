@@ -48,6 +48,14 @@ class DashboardController extends Controller
             ->withCount(['forumThreads', 'resources', 'members'])
             ->limit(8)->get() ?? collect();
 
+        if ($member && $member->isCurrentMember()) {
+            $memberArticles = \App\Models\Article::visibleToMember($member)->published()
+                ->latest('published_at')->limit(4)->get();
+        } else {
+            $memberArticles = \App\Models\Article::publicOnly()->published()
+                ->latest('published_at')->limit(4)->get();
+        }
+
         if ($member) {
             $upcomingEvents = Event::with('workGroup')
                 ->visibleToMember($member)
@@ -151,7 +159,8 @@ class DashboardController extends Controller
             'latestLepisBulletin',
             'suggestionWorkGroup',
             'suggestionArticle',
-            'suggestionEvent'
+            'suggestionEvent',
+            'memberArticles'
         ));
     }
 

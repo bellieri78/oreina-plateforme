@@ -24,7 +24,7 @@
     ═══════════════════════════════════════════════════ --}}
     <section class="grid-spaces grid-spaces--stretch">
         @include('member.partials._mes_espaces')
-        @include('member.partials._actualites_demo')
+        @include('member.partials._actualites')
         @include('member.partials._a_la_une')
     </section>
 

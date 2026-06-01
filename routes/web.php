@@ -216,6 +216,9 @@ Route::prefix('espace-membre')->name('member.')->middleware(['auth'])->group(fun
         Route::get('/chat', [MemberChatController::class, 'index'])->name('chat');
     });
 
+    // Actualités filtrées membres
+    Route::get('/actualites', [\App\Http\Controllers\Member\ArticleController::class, 'index'])->name('articles.index');
+
     // Legacy redirects (map → annuaire)
     Route::get('/carte', fn () => redirect('/espace-membre/annuaire', 301))->name('map');
 
