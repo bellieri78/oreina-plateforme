@@ -76,6 +76,11 @@ class WorkGroup extends Model
         return $this->hasMany(WorkGroupProject::class);
     }
 
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
     public function coverUrl(): ?string
     {
         return $this->cover_image ? \Storage::url($this->cover_image) : null;
