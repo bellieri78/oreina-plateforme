@@ -394,6 +394,24 @@ class Member extends Model
         return (bool) $this->directory_opt_in && $this->isCurrentMember();
     }
 
+    public function effectiveAdherentRoles(): array
+    {
+        $roles = collect($this->adherent_roles ?? []);
+
+        foreach ($roles->all() as $r) {
+            foreach (self::ADHERENT_ROLE_CASCADE[$r] ?? [] as $implied) {
+                $roles->push($implied);
+            }
+        }
+
+        return $roles->unique()->values()->all();
+    }
+
+    public function hasAdherentRole(string $role): bool
+    {
+        return in_array($role, $this->effectiveAdherentRoles(), true);
+    }
+
     public function directoryDepartment(): ?string
     {
         return $this->postal_code ? substr($this->postal_code, 0, 2) : null;
