@@ -230,6 +230,25 @@
 
                 <h3>Capacités éditoriales Chersotis</h3>
                 <p>En complément du rôle global, un système de <strong>capacités éditoriales</strong> (chief_editor, editor, reviewer, layout_editor, lepis_editor) permet à un même utilisateur d'occuper plusieurs rôles dans la revue Chersotis. Voir la section dédiée <a href="#capacites-editoriales" style="color:#356B8A;">Capacités éditoriales</a> pour le détail des 5 rôles, la règle de séparation, et la gestion.</p>
+
+                <h3>Fonctions adhérent (CA, Bureau, Validateur)</h3>
+                <p>À ne pas confondre avec le rôle outil ci-dessus (qui gouverne l'accès aux applications). Un adhérent peut porter une ou plusieurs <strong>fonctions adhérent</strong>, gérées sur sa fiche (<em>Adhérents → ouvrir la fiche → Modifier → bloc « Rôles adhérent »</em>) :</p>
+                <div class="doc-table">
+                    <table class="table">
+                        <thead>
+                            <tr><th>Clé</th><th>Fonction</th><th>Effet sur l'agenda</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>ca</code></td><td>Conseil d'administration</td><td>Voit les événements ciblés « CA » (+ Public/Adhérents).</td></tr>
+                            <tr><td><code>bureau</code></td><td>Bureau</td><td>Voit « Bureau » <strong>et</strong> « CA » (cascade), + Public/Adhérents.</td></tr>
+                            <tr><td><code>validateur</code></td><td>Validateur</td><td>Voit les événements ciblés « Validateur » (fonction indépendante).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Le champ est <strong>multi-valeur</strong> (on peut cumuler, ex. Bureau + Validateur). Ces fonctions servent au <strong>ciblage des événements</strong> de l'agenda (visibilité « Restreint » — voir <a href="#evenements" style="color:#356B8A;">Événements</a>). <em>Pour déclarer un membre du bureau : cocher « Bureau » sur sa fiche.</em></p>
+                <div class="doc-info">
+                    Ces fonctions n'alimentent pas (encore) la page publique <strong>« Équipe »</strong>, qui reste éditée séparément. Elles ne donnent aucun accès à l'extranet : seul le rôle outil <code>editor</code>/<code>admin</code> ouvre <code>/extranet</code>.
+                </div>
             </section>
 
             {{-- Inscription et rattachement --}}
@@ -1332,6 +1351,18 @@
                     <li><strong>Description</strong> : details de l'evenement</li>
                     <li><strong>Type</strong> : sortie terrain, conference, AG, etc.</li>
                 </ul>
+
+                <h3>Visibilité et public ciblé</h3>
+                <p>Chaque événement porte une <strong>visibilité</strong> qui détermine où il apparaît :</p>
+                <ul>
+                    <li><strong>Public</strong> : visible sur le site (hub), dans l'agenda public, l'API publique et l'espace membre. Réglage par défaut.</li>
+                    <li><strong>Adhérents</strong> : visible uniquement dans l'espace membre, pour tous les adhérents à jour. N'apparaît jamais sur le site public.</li>
+                    <li><strong>Restreint</strong> : réservé à certaines <strong>fonctions adhérent</strong> (CA, Bureau, Validateur — multi-sélection). Seuls les adhérents porteurs d'une fonction ciblée le voient.</li>
+                </ul>
+                <p>La logique est <strong>cumulative</strong> : un membre du <strong>Bureau</strong> voit aussi les événements ciblés <strong>CA</strong> (et « Adhérents »). En revanche les fonctions « métier » comme <strong>Validateur</strong> sont indépendantes (un événement « Validateur » n'est vu que par les validateurs). Les fonctions adhérent s'attribuent sur la fiche du membre — voir <a href="#roles-acces" style="color:#356B8A;">Rôles et accès</a>.</p>
+                <div class="doc-info">
+                    Les <strong>réunions de groupe de travail</strong> (visio ou présentiel) ne se créent pas ici mais depuis la page du groupe, par un coordinateur — voir <a href="#gt-projets" style="color:#356B8A;">Groupes de travail</a>. Elles remontent automatiquement dans l'agenda des membres du groupe.
+                </div>
             </section>
 
             {{-- Espace membre : presentation & acces --}}
@@ -1371,7 +1402,9 @@
                     <li><strong>Mes groupes</strong> : carrousel des groupes de travail dont l'adhérent est membre, avec compteurs fils/ressources.</li>
                     <li><strong>Actualités</strong> : bloc de <strong>démonstration</strong> (contenu fictif) tant que la source d'actualités n'est pas branchée.</li>
                     <li><strong>Ressources récentes</strong> : dernier bulletin Lepis visible.</li>
-                    <li><strong>Mes contributions</strong>, <strong>Carte du réseau des adhérents</strong> (clusters par région, calculés depuis les codes postaux), <strong>Agenda</strong> (prochains événements publiés), <strong>Suggestions</strong> (un groupe / un article / un événement à découvrir).</li>
+                    <li><strong>Carte du réseau des adhérents</strong> : tracé réel de la France avec des clusters par région, et les compteurs <strong>inscrits à l'annuaire</strong> / <strong>départements représentés</strong> — calculés sur les adhérents <strong>opt-in à l'annuaire et à jour</strong> (et non sur l'ensemble des membres).</li>
+                    <li><strong>Agenda</strong> : les prochains événements <strong>visibles par l'adhérent</strong> selon leur visibilité (public, adhérents, fonction ciblée) et selon ses groupes de travail. Chaque ligne porte un repère de source (nom du groupe, « Visio », « Adhérents », CA/Bureau…). Voir la section <a href="#evenements" style="color:#356B8A;">Événements</a>.</li>
+                    <li><strong>Suggestions</strong> : trois cartes à découvrir (article, observation, ressource, groupe à rejoindre…).</li>
                 </ul>
                 <div class="doc-warning">
                     Si un adhérent s'étonne d'un compteur « 0 observation », c'est normal : l'espace membre n'est pas encore relié à Artemisiae. Ce n'est pas un bug de données.
@@ -1560,6 +1593,10 @@
                     <li><strong>Archivé</strong> — clos / historique.</li>
                 </ul>
                 <p><strong>Gestion</strong> : dans l'onglet <em>Gérer</em>, un coordinateur crée un projet, modifie son statut en ligne et le supprime. <strong>Affichage</strong> : le bloc « Projets en cours » apparaît dans l'onglet Accueil, en lecture, <strong>visible en aperçu</strong> (un adhérent non-membre voit donc ce que produit le groupe). Les projets sont triés par statut (À lancer et En cours en tête) puis par date de création décroissante.</p>
+
+                <h3>Réunions &amp; événements du groupe</h3>
+                <p>Un <strong>coordinateur</strong> peut planifier des <strong>réunions</strong> depuis la page du groupe (bloc <strong>« Prochaines réunions »</strong>, onglet Accueil) : titre, date et heure de début (et fin optionnelle), puis au choix un <strong>lien visio</strong> ou un <strong>lieu</strong> en présentiel. Seuls les coordinateurs créent, modifient ou suppriment ces réunions ; tout membre du groupe les consulte.</p>
+                <p>Ce sont des <strong>événements à visibilité « groupe »</strong> : ils n'apparaissent ni sur le site public, ni pour les adhérents hors du groupe, mais remontent automatiquement dans l'<strong>agenda de l'espace membre</strong> des membres concernés (avec le nom du groupe ou la mention « Visio » comme repère).</p>
             </section>
 
             {{-- Lepis --}}
