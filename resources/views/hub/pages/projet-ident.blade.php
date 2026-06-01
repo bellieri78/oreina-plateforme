@@ -209,9 +209,9 @@
                 <ul class="list-disc pl-8 space-y-3 marker:text-oreina-green">
                     <li><span class="pl-2 inline-block">la <strong>cartographie des agrégats</strong> : recensement systématique des complexes d'espèces problématiques, en priorisant ceux qui concernent les espèces suivies par EU-PoMS et les Macrohétérocères ;</span></li>
                     <li><span class="pl-2 inline-block">la <strong>typologie de la difficulté</strong> : classement de chaque espèce, à chacun de ses stades biologiques, dans les cinq niveaux de la typologie PatriNat ;</span></li>
+                    <li><span class="pl-2 inline-block">la <strong>construction d'un référentiel opérationnel pour les validateurs</strong> : le <a href="{{ route('hub.outils.niveaux-determination') }}" class="text-oreina-coral font-bold hover:underline">référentiel des niveaux de détermination</a>, élaboré par le COTECH dans la dynamique d'<em>Artemisiae</em>, attribue à chaque taxon et chaque stade une exigence documentaire et un niveau de validité atteignable. Aujourd'hui utilisé comme outil de travail par les validateurs — pour conforter une décision difficile ou structurer un agrégat critique — il a vocation à être à terme implémenté dans la plateforme ;</span></li>
                     <li><span class="pl-2 inline-block">la <strong>production de guides et tutoriels</strong> : rédaction de fiches descriptives, clés d'identification illustrées, guides de dissection pour les groupes nécessitant un examen morphologique interne ;</span></li>
                     <li><span class="pl-2 inline-block">la <strong>mise à jour des cartes de répartition</strong> : actualisation des cartes départementales dans le cadre du programme ABDSM, pour identifier précisément les zones de sympatrie qui génèrent les vraies difficultés d'identification.</span></li>
-                    <li><span class="pl-2 inline-block">l'<strong>opérationnalisation pour la saisie sur <em>Artemisiae</em></strong> : déclinaison de la typologie en une grille d'exigences documentaires concrètes — le <a href="{{ route('hub.outils.niveaux-determination') }}" class="text-oreina-coral font-bold hover:underline">référentiel des niveaux de détermination</a>, qui définit, taxon par taxon et stade par stade, la nature de la preuve à fournir et le niveau de validité atteignable ;</span></li>
                 </ul>
                 <p>
                     Toutes ces ressources sont diffusées en libre accès via le portail <em>Artemisiae</em>, qui est conçu comme le vecteur principal de ce corpus documentaire.
@@ -353,10 +353,10 @@
                 <div>
                     <h3 class="text-xl font-bold text-oreina-dark mb-4">Au moment de la saisie</h3>
                     <p class="text-slate-600 mb-4">
-                        Lorsqu'un observateur saisit une donnée sur <em>Artemisiae</em>, la plateforme peut désormais lui signaler que l'espèce déclarée appartient à un agrégat connu, et lui indiquer la nature des risques de confusion dans son département. Selon la difficulté typologique, elle peut suggérer une <strong>confirmation par photo de critères spécifiques</strong>, signaler la nécessité d'un examen morphologique, ou orienter vers un guide dédié.
+                        Aujourd'hui, le référentiel des niveaux de détermination est mobilisé par les validateurs d'<em>Artemisiae</em> pour calibrer les exigences documentaires demandées à l'observateur lors d'une donnée difficile et pour structurer la constitution des agrégats critiques dans la plateforme. À terme, son <strong>implémentation directe dans <em>Artemisiae</em></strong> permettra de signaler l'observateur dès la saisie&nbsp;: alerte sur l'appartenance à un agrégat, indication des risques de confusion dans son département, suggestion d'une <strong>photo de critères spécifiques</strong> ou orientation vers un guide dédié.
                     </p>
                     <p class="text-slate-600">
-                        Cette aide contextuelle évite des erreurs en amont et renforce la qualité de la donnée dès l'origine, sans alourdir le processus de saisie pour les espèces inconfondables.
+                        Cette aide contextuelle, déjà à l'œuvre en aval via le travail des validateurs, est conçue pour renforcer la qualité de la donnée dès l'origine quand elle sera intégrée à l'interface, sans alourdir la saisie pour les espèces inconfondables.
                     </p>
                 </div>
 
@@ -366,7 +366,7 @@
                         Pour les naturalistes en formation continue, IDENT fournit une véritable <strong>cartographie progressive de la difficulté</strong>. Un débutant peut consulter la liste des singletons (T1) et des espèces faciles (T2) de sa région : autant d'objectifs accessibles pour acquérir une première compétence solide. Un naturaliste plus avancé peut s'attaquer aux agrégats T3-T4 avec les guides illustrés produits par l'association.
                     </p>
                     <p class="text-slate-600">
-                        Les <strong>fiches taxons d'<em>Artemisiae</em></strong> intègrent désormais ces informations : niveau de difficulté, agrégats associés, critères distinctifs, lien vers les guides. C'est un outil unique en France pour comprendre, espèce par espèce, le degré de fiabilité qu'on peut accorder à une identification de terrain.
+                        Les <strong>fiches taxons d'<em>Artemisiae</em></strong> ont vocation à intégrer progressivement ces informations — niveau de difficulté, agrégats associés, critères distinctifs, lien vers les guides — au fur et à mesure de l'implémentation du référentiel dans la plateforme. C'est, à terme, un outil unique en France pour comprendre, espèce par espèce, le degré de fiabilité qu'on peut accorder à une identification de terrain.
                     </p>
                 </div>
             </div>
@@ -393,8 +393,8 @@
                         <div class="w-16 h-16 mx-auto mb-3 bg-oreina-coral rounded-2xl flex items-center justify-center shadow-md">
                             <i data-lucide="wand-sparkles" style="width:30px;height:30px;color:#fff"></i>
                         </div>
-                        <h4 class="font-bold text-oreina-dark text-sm mb-1">3. Aide à la saisie</h4>
-                        <p class="text-xs text-slate-500">Signalement automatique des risques de confusion lors de la saisie sur <em>Artemisiae</em>.</p>
+                        <h4 class="font-bold text-oreina-dark text-sm mb-1">3. Aide à la validation</h4>
+                        <p class="text-xs text-slate-500">Mobilisation par les validateurs d'<em>Artemisiae</em>. Aide à la saisie en interface à terme.</p>
                     </div>
                     <div class="text-center">
                         <div class="w-16 h-16 mx-auto mb-3 bg-oreina-blue rounded-2xl flex items-center justify-center shadow-md">

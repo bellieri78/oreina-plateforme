@@ -1,7 +1,7 @@
 @extends('layouts.hub')
 
-@section('title', 'Niveaux de détermination - Référentiel d\'Artemisiae')
-@section('meta_description', 'Le référentiel des niveaux de détermination d\'Artemisiae : grille à 7 niveaux + catégories mines/fourreaux pour qualifier la difficulté d\'identification de chaque taxon. Fichier en accès libre, versionné, citable.')
+@section('title', 'Niveaux de détermination - Référentiel oreina pour les validateurs')
+@section('meta_description', 'Le référentiel oreina des niveaux de détermination des Lépidoptères de France : grille à 7 niveaux + catégories mines/fourreaux, construite par le COTECH IDENT pour conforter les validateurs d\'Artemisiae. Fichier en accès libre, versionné, citable.')
 
 @section('content')
     {{-- Header --}}
@@ -21,7 +21,7 @@
                     </div>
                     <h1 class="text-4xl sm:text-5xl font-bold text-oreina-dark">Niveaux de détermination</h1>
                     <p class="text-lg sm:text-xl text-slate-600 mt-4 max-w-2xl">
-                        Le référentiel qui attribue, taxon par taxon et stade par stade, un niveau de difficulté d'identification — et les exigences documentaires associées sur <em>Artemisiae</em>
+                        Le référentiel qui attribue, taxon par taxon et stade par stade, un niveau de difficulté d'identification : un outil de travail pour les validateurs d'<em>Artemisiae</em>, construit par le COTECH IDENT
                     </p>
                 </div>
                 <div class="grid grid-cols-2 gap-3 text-sm bg-white p-5 rounded-2xl border border-slate-200 lg:min-w-[420px]">
@@ -31,7 +31,7 @@
                     </div>
                     <div>
                         <p class="text-slate-400 text-xs uppercase tracking-wide">Cible</p>
-                        <p class="font-bold text-oreina-dark">Observateurs, validateurs, plateformes</p>
+                        <p class="font-bold text-oreina-dark">Validateurs, observateurs, plateformes</p>
                     </div>
                     <div>
                         <p class="text-slate-400 text-xs uppercase tracking-wide">Accès</p>
@@ -49,7 +49,7 @@
     {{-- Chapô --}}
     <section class="py-16 bg-slate-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-5 gap-12 items-center">
+            <div class="grid lg:grid-cols-5 gap-12 items-start">
                 <div class="lg:col-span-2">
                     <div class="rounded-3xl shadow-lg flex items-center justify-center bg-gradient-to-br from-oreina-yellow/15 to-oreina-coral/10 relative overflow-hidden" style="min-height: 340px;">
                         <i data-lucide="list-tree" style="width:140px;height:140px;color:#8b6c05;opacity:0.85"></i>
@@ -59,34 +59,39 @@
                     </div>
                 </div>
                 <div class="lg:col-span-3 text-slate-600 space-y-6">
-                    <p class="text-xl leading-relaxed">
-                        Tous les Lépidoptères n'offrent pas la même prise à l'identification. Certains se reconnaissent d'un coup d'œil ; d'autres réclament l'examen attentif d'une bonne photographie ; d'autres encore ne livrent leur identité qu'au prix d'une préparation génitalique, d'un élevage, d'un enregistrement sonore ou d'un séquençage.
-                    </p>
+                    <div class="border-l-4 border-oreina-coral pl-5 py-1">
+                        <p class="text-lg sm:text-xl text-oreina-dark font-bold leading-snug italic">
+                            «&nbsp;Comment définir, pour chaque espèce et chaque stade biologique, la difficulté de détermination&nbsp;? Comment s'assurer que, d'un validateur à l'autre, les données sont traitées équitablement&nbsp;?&nbsp;»
+                        </p>
+                    </div>
                     <p class="leading-relaxed">
-                        Le référentiel des <strong>niveaux de détermination</strong> formalise cette inégalité : il attribue à chaque taxon, et pour chaque stade biologique, un degré de difficulté qui détermine la nature de la preuve à fournir et le niveau de validité atteignable par la donnée. C'est l'outil structurant qu'utilise <em>Artemisiae</em> pour qualifier ses 6 000+ taxons.
+                        Le <strong>référentiel des niveaux de détermination</strong> répond à ces deux questions. Il attribue à chaque taxon, et pour chaque stade biologique, un degré de difficulté de détermination qui détermine la nature de la preuve à fournir et le niveau de validité atteignable par la donnée. C'est l'outil structurant qu'utilise <em>Artemisiae</em>, le portail naturaliste d'oreina dédié aux Lépidoptères de France, pour qualifier ses 6&nbsp;000+ taxons et fonder une validation cohérente à l'échelle du réseau.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- Articulation avec la typologie T1-T5 PatriNat --}}
+    {{-- Pour comprendre : pourquoi un référentiel --}}
     <section class="py-16 bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10">
                 <div class="eyebrow blue mb-4 inline-flex">
-                    <i class="icon icon-blue" data-lucide="git-fork"></i>
-                    Articulation
+                    <i class="icon icon-blue" data-lucide="lightbulb"></i>
+                    Pour comprendre
                 </div>
-                <h2 class="text-3xl font-bold text-oreina-dark">Un outil opérationnel adossé à la typologie nationale T1-T5</h2>
+                <h2 class="text-3xl font-bold text-oreina-dark">Une grille construite par oreina pour les Lépidoptères de France</h2>
             </div>
 
             <div class="text-slate-600 leading-relaxed space-y-6">
                 <p>
-                    La grille présentée ici n'est pas une typologie concurrente de la <strong>typologie T1-T5 développée par PatriNat (MNHN)</strong>, qui structure le projet IDENT à l'échelle nationale. Elle en est <strong>la déclinaison opérationnelle pour la saisie sur <em>Artemisiae</em></strong> : là où T1-T5 décrit la difficulté intrinsèque d'identification d'un taxon (à vue, à vue + manipulation, dissection, séquençage), la grille Artemisiae traduit cette difficulté en <em>exigences documentaires concrètes</em> (preuve à fournir, validation automatique ou manuelle, validité atteignable) et y ajoute des dimensions spécifiques aux Lépidoptères&nbsp;: identification sonore, identification moléculaire, complexes systématiques, mines et fourreaux.
+                    Tous les Lépidoptères n'offrent pas la même prise à l'identification. Certains se reconnaissent d'un coup d'œil&nbsp;; d'autres réclament l'examen attentif d'une bonne photographie&nbsp;; d'autres encore ne livrent leur identité qu'au prix d'une préparation génitalique, d'un élevage, d'un enregistrement sonore ou d'un séquençage. Sans cadre partagé, cette inégalité ouvre un risque concret&nbsp;: <strong>deux validateurs face à la même donnée peuvent ne pas demander la même preuve, et ne pas attribuer la même validité</strong>.
                 </p>
                 <p>
-                    Concrètement, un observateur n'a pas besoin de connaître la typologie PatriNat pour saisir une donnée — il rencontre la grille Artemisiae, qui lui indique directement&nbsp;: «&nbsp;pour cette espèce, à ce stade, une photo couvrant tel critère est attendue&nbsp;». La cohérence est assurée à la conception du référentiel par le COTECH IDENT.
+                    À ce jour, <strong>il n'existe pas de cadre national de référence sur la difficulté d'identification des Lépidoptères de France</strong>. Aucun référentiel public, ni PatriNat, ni un autre acteur, ne propose une grille consolidée à cette échelle. C'est ce vide qu'oreina comble. Le <strong>référentiel des niveaux de détermination est un travail collégial du COTECH IDENT</strong>, conduit dans la dynamique d'<em>Artemisiae</em> par les coordinateurs des quatre observatoires de la plateforme : Rhopalocères, Zygènes, Hétérocères, Microlépidoptères. C'est aujourd'hui la grille de travail d'<em>Artemisiae</em> et, à notre connaissance, la seule formalisation à cette échelle pour les Lépidoptères de France.
+                </p>
+                <p>
+                    Concrètement, le référentiel est <strong>déjà activement mobilisé par les validateurs</strong> pour conforter une décision sur une donnée difficile, décider du contenu d'un agrégat à constituer dans <em>Artemisiae</em>, et calibrer les exigences documentaires demandées à l'observateur. Son <strong>implémentation directe dans l'interface de saisie</strong>, pour exposer à l'observateur le niveau d'exigence attendu dès le choix du taxon et structurer une validation algorithmique des niveaux les plus aisés, est l'un des chantiers inscrits aux perspectives.
                 </p>
             </div>
         </div>
@@ -104,26 +109,26 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="card p-6 bg-white border-t-4 border-oreina-green">
-                    <div class="pub-card-icon sage mb-4">
-                        <i class="icon icon-sage" data-lucide="user-check"></i>
-                    </div>
-                    <h3 class="font-bold text-oreina-dark mb-2">Aider l'observateur</h3>
-                    <p class="text-sm text-slate-600">Comprendre, dès la saisie, le niveau d'exigence attendu&nbsp;: quelle preuve fournir, quel type de critère regarder, à quel stade.</p>
-                </div>
                 <div class="card p-6 bg-white border-t-4 border-oreina-blue">
                     <div class="pub-card-icon blue mb-4">
                         <i class="icon icon-blue" data-lucide="badge-check"></i>
                     </div>
-                    <h3 class="font-bold text-oreina-dark mb-2">Outiller le validateur</h3>
-                    <p class="text-sm text-slate-600">Standardiser les exigences documentaires (photo, série, dissection, son, barcode) et automatiser ce qui peut l'être pour les taxons aisés.</p>
+                    <h3 class="font-bold text-oreina-dark mb-2">Conforter les validateurs</h3>
+                    <p class="text-sm text-slate-600">Standardiser les exigences documentaires (photo, série, dissection, son, barcode) et fournir un appui partagé sur lequel s'adosser pour qualifier une donnée ou construire un agrégat critique.</p>
+                </div>
+                <div class="card p-6 bg-white border-t-4 border-oreina-green">
+                    <div class="pub-card-icon sage mb-4">
+                        <i class="icon icon-sage" data-lucide="user-check"></i>
+                    </div>
+                    <h3 class="font-bold text-oreina-dark mb-2">Outiller l'observateur</h3>
+                    <p class="text-sm text-slate-600">Comprendre le niveau d'exigence attendu&nbsp;: quelle preuve fournir, quel type de critère regarder, à quel stade, y compris en amont d'une éventuelle exposition dans l'interface de saisie.</p>
                 </div>
                 <div class="card p-6 bg-white border-t-4 border-oreina-coral">
                     <div class="pub-card-icon coral mb-4">
                         <i class="icon icon-coral" data-lucide="gauge"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2">Hiérarchiser la validité</h3>
-                    <p class="text-sm text-slate-600">Attribuer aux données un niveau de validité («&nbsp;probable&nbsp;», «&nbsp;très probable&nbsp;») cohérent avec la qualité de la preuve apportée.</p>
+                    <p class="text-sm text-slate-600">Permettre d'attribuer aux données un niveau de validité («&nbsp;probable&nbsp;», «&nbsp;très probable&nbsp;») cohérent avec la qualité de la preuve apportée, pratique alignée sur celle des grandes plateformes naturalistes européennes.</p>
                 </div>
             </div>
 
@@ -144,7 +149,7 @@
                     La grille
                 </div>
                 <h2 class="text-3xl font-bold text-oreina-dark">Sept niveaux d'identification</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl">Pour les niveaux 1 et 2, la validation peut être automatique. À partir du niveau 3, elle devient nécessairement humaine et exige une preuve documentaire dont la nature est définie a priori.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl">Aux niveaux 1 et 2, une validation automatique est envisageable à l'avenir. À partir du niveau 3, elle est nécessairement humaine et exige une preuve documentaire dont la nature est définie a priori.</p>
             </div>
 
             <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
@@ -153,7 +158,7 @@
                         <tr>
                             <th class="px-4 py-3 text-left font-bold text-oreina-dark">Niveau</th>
                             <th class="px-4 py-3 text-left font-bold text-oreina-dark">Libellé</th>
-                            <th class="px-4 py-3 text-left font-bold text-oreina-dark">Validation</th>
+                            <th class="px-4 py-3 text-left font-bold text-oreina-dark">Mode de validation</th>
                             <th class="px-4 py-3 text-left font-bold text-oreina-dark">Exigence documentaire</th>
                             <th class="px-4 py-3 text-left font-bold text-oreina-dark">Validité atteignable</th>
                         </tr>
@@ -162,14 +167,14 @@
                         <tr>
                             <td class="px-4 py-4"><span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-oreina-green/15 text-oreina-green font-bold">1</span></td>
                             <td class="px-4 py-4 text-slate-700">Taxon à identification aisée</td>
-                            <td class="px-4 py-4"><span class="text-xs font-bold text-oreina-green uppercase">Automatique</span></td>
+                            <td class="px-4 py-4"><span class="text-xs font-bold text-oreina-green uppercase">Automatisable</span></td>
                             <td class="px-4 py-4 text-slate-600">Aucune preuve à l'appui</td>
                             <td class="px-4 py-4 text-slate-600">« probable »</td>
                         </tr>
                         <tr>
                             <td class="px-4 py-4"><span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-oreina-turquoise/15 text-oreina-turquoise font-bold">2</span></td>
                             <td class="px-4 py-4 text-slate-700">Taxon confondable</td>
-                            <td class="px-4 py-4"><span class="text-xs font-bold text-oreina-turquoise uppercase">Automatique</span></td>
+                            <td class="px-4 py-4"><span class="text-xs font-bold text-oreina-turquoise uppercase">Automatisable</span></td>
                             <td class="px-4 py-4 text-slate-600">Photo visualisant les critères</td>
                             <td class="px-4 py-4 text-slate-600">« probable » à « très probable »</td>
                         </tr>
@@ -203,7 +208,7 @@
                         </tr>
                         <tr>
                             <td class="px-4 py-4"><span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-200 text-slate-700 font-bold">7</span></td>
-                            <td class="px-4 py-4 text-slate-700">Complexes systématiques (« bordéliques »)</td>
+                            <td class="px-4 py-4 text-slate-700">Complexes systématiques non résolus</td>
                             <td class="px-4 py-4"><span class="text-xs font-bold text-slate-500 uppercase">Approche écologique</span></td>
                             <td class="px-4 py-4 text-slate-600">Proposition du complexe à la saisie (ex.&nbsp;<em>Phengaris</em>)</td>
                             <td class="px-4 py-4 text-slate-600">—</td>
@@ -229,7 +234,7 @@
                     Référentiel additionnel
                 </div>
                 <h2 class="text-3xl font-bold text-oreina-dark">Mines et fourreaux : une grille parallèle</h2>
-                <p class="text-slate-500 mt-3 max-w-3xl">Les stades larvaires mineurs et fourreaux — typiques de nombreuses familles de Microlépidoptères (Coleophoridae, Gracillariidae, Nepticulidae, Elachistidae…) — appellent une approche spécifique. Quatre catégories ont été définies.</p>
+                <p class="text-slate-500 mt-3 max-w-3xl">Les stades larvaires mineurs et fourreaux, typiques de nombreuses familles de Microlépidoptères (Coleophoridae, Gracillariidae, Nepticulidae, Elachistidae…), appellent une approche spécifique. Quatre catégories ont été définies.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -276,7 +281,7 @@
                     <strong class="text-oreina-dark">Deux règles transversales encadrent ces catégories&nbsp;:</strong>
                 </p>
                 <ul class="list-disc pl-8 space-y-2 marker:text-oreina-coral text-sm text-slate-600">
-                    <li><span class="pl-2 inline-block">la <strong>mention de la plante-hôte est obligatoire</strong> pour toute donnée de mine — blocage à la saisie en cas d'omission&nbsp;;</span></li>
+                    <li><span class="pl-2 inline-block">la <strong>mention de la plante-hôte est obligatoire</strong> pour toute donnée de mine, règle qui guide aujourd'hui les échanges entre validateur et observateur, et qui sera matérialisée par un blocage à la saisie lors de l'implémentation à venir&nbsp;;</span></li>
                     <li><span class="pl-2 inline-block">pour chaque observateur, la <strong>première donnée d'une espèce</strong> doit être accompagnée d'une photo, quel que soit le niveau.</span></li>
                 </ul>
             </div>
@@ -301,11 +306,11 @@
                 <ul class="list-disc pl-8 space-y-3 marker:text-oreina-blue">
                     <li><span class="pl-2 inline-block">la <strong>littérature de référence</strong> (guides nationaux, monographies, faunes européennes)&nbsp;;</span></li>
                     <li><span class="pl-2 inline-block">la <strong>consultation des plateformes naturalistes européennes</strong> équivalentes, dont en particulier la base <em>Micro-moth Verification Guidance</em> de Butterfly Conservation (Royaume-Uni), qui a servi de référence méthodologique pour la catégorisation des mines et fourreaux&nbsp;;</span></li>
-                    <li><span class="pl-2 inline-block">l'expertise des <strong>coordinateurs des quatre observatoires</strong> d'Artemisiae (Rhopalocères, Zygènes, Hétérocères, Microlépidoptères)&nbsp;;</span></li>
+                    <li><span class="pl-2 inline-block">l'expertise des <strong>coordinateurs des quatre observatoires</strong> d'<em>Artemisiae</em> (Rhopalocères, Zygènes, Hétérocères, Microlépidoptères)&nbsp;;</span></li>
                     <li><span class="pl-2 inline-block">pour chaque <strong>stade biologique pertinent</strong>, un niveau distinct (un adulte peut être niveau 2 et sa chenille niveau 4, ou inversement).</span></li>
                 </ul>
                 <p>
-                    Techniquement, le référentiel s'appuie sur deux fichiers&nbsp;: <code class="text-xs bg-slate-100 px-2 py-1 rounded">niveaux_determination.csv</code> (le référentiel lui-même) et <code class="text-xs bg-slate-100 px-2 py-1 rounded">resultats_determination.csv</code> (l'attribution taxon par taxon). Les deux sont intégrés au schéma PostgreSQL d'<em>Artemisiae</em> avec contraintes d'intégrité référentielle, et chaque attribution peut être documentée par un commentaire libre.
+                    Techniquement, le référentiel est structuré en deux fichiers&nbsp;: <code class="text-xs bg-slate-100 px-2 py-1 rounded">niveaux_determination.csv</code> (le référentiel lui-même) et <code class="text-xs bg-slate-100 px-2 py-1 rounded">resultats_determination.csv</code> (l'attribution taxon par taxon). Chaque attribution peut être documentée par un commentaire libre. Cette structure est conçue pour être directement intégrable au schéma PostgreSQL d'<em>Artemisiae</em> lors de l'implémentation, avec contraintes d'intégrité référentielle.
                 </p>
             </div>
         </div>
@@ -367,7 +372,7 @@
                         {{-- N1 --}}
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-bold text-slate-700">Niveau 1 — identification aisée</span>
+                                <span class="font-bold text-slate-700">Niveau 1 : identification aisée</span>
                                 <span class="text-slate-500">447&nbsp;taxons · 7,4&nbsp;%</span>
                             </div>
                             <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -377,7 +382,7 @@
                         {{-- N2 --}}
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-bold text-slate-700">Niveau 2 — confondable</span>
+                                <span class="font-bold text-slate-700">Niveau 2 : confondable</span>
                                 <span class="text-slate-500">2&nbsp;391&nbsp;taxons · 39,5&nbsp;%</span>
                             </div>
                             <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -387,7 +392,7 @@
                         {{-- N3 --}}
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-bold text-slate-700">Niveau 3 — rare</span>
+                                <span class="font-bold text-slate-700">Niveau 3 : rare</span>
                                 <span class="text-slate-500">680&nbsp;taxons · 11,2&nbsp;%</span>
                             </div>
                             <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -397,7 +402,7 @@
                         {{-- N4 --}}
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-bold text-slate-700">Niveau 4 — détermination difficile</span>
+                                <span class="font-bold text-slate-700">Niveau 4 : détermination difficile</span>
                                 <span class="text-slate-500">2&nbsp;520&nbsp;taxons · 41,6&nbsp;%</span>
                             </div>
                             <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -407,7 +412,7 @@
                         {{-- N5 --}}
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-bold text-slate-700">Niveau 5 — sonore</span>
+                                <span class="font-bold text-slate-700">Niveau 5 : sonore</span>
                                 <span class="text-slate-500">6&nbsp;taxons · 0,1&nbsp;%</span>
                             </div>
                             <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -417,7 +422,7 @@
                         {{-- N6 --}}
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-bold text-slate-700">Niveau 6 — moléculaire</span>
+                                <span class="font-bold text-slate-700">Niveau 6 : moléculaire</span>
                                 <span class="text-slate-500">14&nbsp;taxons · 0,2&nbsp;%</span>
                             </div>
                             <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -428,7 +433,7 @@
                 </div>
 
                 <p class="text-sm text-slate-600 mt-5 italic">
-                    <strong>Lecture&nbsp;:</strong> environ 47&nbsp;% des taxons français se rangent dans les niveaux 1 et 2 (validation automatique potentielle), tandis que <strong>plus de 53&nbsp;% relèvent des niveaux 3 ou supérieurs</strong>, soit une validation humaine obligatoire.
+                    <strong>Lecture&nbsp;:</strong> environ 47&nbsp;% des taxons français se rangent dans les niveaux 1 et 2 (validation automatisable à terme), tandis que <strong>plus de 53&nbsp;% relèvent des niveaux 3 ou supérieurs</strong>, soit une validation humaine obligatoire.
                 </p>
             </div>
 
@@ -493,7 +498,7 @@
                 <div class="card p-6 bg-white">
                     <h3 class="text-lg font-bold text-oreina-dark mb-3">Les stades pré-imaginaux</h3>
                     <p class="text-sm text-slate-600 mb-4">
-                        La documentation des stades précoces est encore parcellaire — c'est un chantier en cours. L'écrasante majorité des taxons documentés à ces stades relève du niveau 4.
+                        La documentation des stades précoces est encore parcellaire, c'est un chantier en cours. L'écrasante majorité des taxons documentés à ces stades relève du niveau 4.
                     </p>
                     <ul class="text-sm text-slate-600 space-y-2">
                         <li><strong>Chenille</strong>&nbsp;: 1 126 taxons renseignés <span class="text-slate-400">(789 au niveau 4, soit 70&nbsp;%)</span></li>
@@ -591,7 +596,7 @@
                         Pour toute réutilisation dans une publication, un rapport d'étude ou un protocole de validation&nbsp;:
                     </p>
                     <div class="bg-slate-50 rounded-lg p-3 border border-slate-200 text-xs text-slate-700 leading-relaxed font-mono">
-                        oreina ([Année]). Niveaux de détermination des Lépidoptères de France — Artemisiae, v[X.Y]. [URL]
+                        oreina ([Année]). Niveaux de détermination des Lépidoptères de France, v[X.Y]. [URL]
                     </div>
                     <p class="text-xs text-slate-500 mt-3">Licence&nbsp;: à préciser (Creative Commons recommandée).</p>
                 </div>
@@ -657,10 +662,10 @@
                 </div>
                 <div class="card p-6 bg-slate-50">
                     <div class="pub-card-icon sage mb-3">
-                        <i class="icon icon-sage" data-lucide="eye"></i>
+                        <i class="icon icon-sage" data-lucide="plug-zap"></i>
                     </div>
-                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Exposer la grille à la saisie</h3>
-                    <p class="text-xs text-slate-600">Afficher le niveau d'exigence attendu directement dans l'interface d'<em>Artemisiae</em>, dès le choix du taxon.</p>
+                    <h3 class="font-bold text-oreina-dark mb-2 text-sm">Implémenter dans <em>Artemisiae</em></h3>
+                    <p class="text-xs text-slate-600">Intégrer le référentiel au schéma de la base, l'exposer à la saisie pour l'observateur, et structurer la validation algorithmique des niveaux 1 et 2 et la validation manuelle des niveaux supérieurs.</p>
                 </div>
             </div>
         </div>
@@ -701,14 +706,14 @@
                         <i class="icon icon-gold" data-lucide="search"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-coral transition">Projet IDENT</h3>
-                    <p class="text-xs text-slate-500">Le cadre méthodologique&nbsp;: typologie T1-T5 PatriNat, agrégats, sympatrie, cartes ABDSM.</p>
+                    <p class="text-xs text-slate-500">Le cadre méthodologique&nbsp;: typologie de la difficulté, agrégats, sympatrie, cartes ABDSM.</p>
                 </a>
                 <a href="{{ route('hub.outils.labo-lepidos') }}" class="card p-6 hover:shadow-lg transition group">
                     <div class="pub-card-icon coral mb-4">
                         <i class="icon icon-coral" data-lucide="flask-conical"></i>
                     </div>
                     <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-coral transition">Labo Lépidos</h3>
-                    <p class="text-xs text-slate-500">Les webinaires dédiés aux complexes d'espèces — la pédagogie qui complète le référentiel.</p>
+                    <p class="text-xs text-slate-500">Les webinaires dédiés aux complexes d'espèces, la pédagogie qui complète le référentiel.</p>
                 </a>
                 <a href="{{ route('hub.projets.qualif') }}" class="card p-6 hover:shadow-lg transition group">
                     <div class="pub-card-icon sage mb-4">
@@ -721,8 +726,8 @@
                     <div class="pub-card-icon blue mb-4">
                         <i class="icon icon-blue" data-lucide="external-link"></i>
                     </div>
-                    <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-blue transition">Artemisiae</h3>
-                    <p class="text-xs text-slate-500">Le portail de saisie où la grille est mobilisée au quotidien par observateurs et validateurs.</p>
+                    <h3 class="font-bold text-oreina-dark mb-2 group-hover:text-oreina-blue transition"><em>Artemisiae</em></h3>
+                    <p class="text-xs text-slate-500">Le portail de saisie dont la dynamique a permis de construire ce référentiel, et qui en sera à terme l'environnement d'implémentation.</p>
                 </a>
             </div>
         </div>
