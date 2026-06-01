@@ -72,8 +72,9 @@ class ActivityFeed extends Component
             $items = $items->merge($issues);
         }
 
-        // Upcoming/recent events (global)
+        // Upcoming/recent events (global) — défense: pas de fuite d'évènements non-publics
         $events = Event::where('status', 'published')
+            ->publicOnly()
             ->where('start_date', '>=', now()->subDays(7))
             ->orderBy('start_date', 'asc')
             ->limit(5)

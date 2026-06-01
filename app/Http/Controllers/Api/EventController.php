@@ -17,7 +17,8 @@ class EventController extends Controller
         $perPage = min($request->input('per_page', 15), 50);
 
         $events = Event::query()
-            ->where('is_published', true)
+            ->where('status', 'published')
+            ->publicOnly()
             ->orderBy('start_date', 'desc')
             ->paginate($perPage);
 
@@ -40,7 +41,8 @@ class EventController extends Controller
         $limit = min($request->input('limit', 10), 30);
 
         $events = Event::query()
-            ->where('is_published', true)
+            ->where('status', 'published')
+            ->publicOnly()
             ->where('start_date', '>=', now())
             ->orderBy('start_date', 'asc')
             ->limit($limit)
@@ -57,7 +59,7 @@ class EventController extends Controller
      */
     public function show(Event $event): JsonResponse
     {
-        if (!$event->is_published) {
+        if ($event->status !== 'published' || $event->visibility !== Event::VIS_PUBLIC) {
             abort(404);
         }
 

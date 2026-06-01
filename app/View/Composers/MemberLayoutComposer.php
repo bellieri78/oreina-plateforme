@@ -13,7 +13,9 @@ class MemberLayoutComposer
             return;
         }
 
+        // défense: pas de fuite d'évènements non-publics
         $view->with('upcomingEvents', Event::where('status', 'published')
+            ->publicOnly()
             ->where('start_date', '>=', now())
             ->orderBy('start_date', 'asc')
             ->limit(10)
