@@ -2232,6 +2232,10 @@
                     <i data-lucide="home" class="icon"></i>
                     <span class="nav-label">Accueil</span>
                 </a>
+                <a href="{{ route('member.articles.index') }}" class="nav-item {{ request()->routeIs('member.articles*') ? 'active' : '' }}">
+                    <i data-lucide="newspaper" class="icon"></i>
+                    <span class="nav-label">Actualités</span>
+                </a>
                 <a href="{{ route('member.profile') }}" class="nav-item {{ request()->routeIs('member.profile*') && !request()->routeIs('member.profile.preferences*') ? 'active' : '' }}">
                     <i data-lucide="circle-user-round" class="icon"></i>
                     <span class="nav-label">Mon profil</span>

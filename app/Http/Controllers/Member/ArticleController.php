@@ -5,24 +5,28 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Member;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
-        $member = Member::where('user_id', $user->id)->first();
+        $member = Member::where('user_id', auth()->id())->first();
 
-        if ($member && $member->isCurrentMember()) {
-            $articles = Article::visibleToMember($member)->published()
-                ->latest('published_at')
-                ->paginate(12);
-        } else {
-            $articles = Article::publicOnly()->published()
-                ->latest('published_at')
-                ->paginate(12);
+        $base = ($member && $member->isCurrentMember())
+            ? Article::visibleToMember($member)
+            : Article::publicOnly();
+
+        $query = $base->published()->with('author');
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->get('category'));
         }
 
-        return view('member.articles.index', compact('articles', 'member'));
+        $articles = $query->latest('published_at')->paginate(12)->withQueryString();
+
+        $categories = Article::whereNotNull('category')->distinct()->pluck('category')->sort();
+
+        return view('member.articles.index', compact('articles', 'categories'));
     }
 }
