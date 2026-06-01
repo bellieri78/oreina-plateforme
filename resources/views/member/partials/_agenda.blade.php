@@ -11,7 +11,7 @@
     @else
         <div class="agenda-list">
             @foreach($upcomingEvents->take(4) as $event)
-            <a href="{{ route('hub.events.show', $event) }}" class="agenda-item" style="text-decoration:none;color:inherit;">
+            <a href="{{ route('hub.events.show', $event) }}" class="agenda-item" style="grid-template-columns:56px 1fr auto;text-decoration:none;color:inherit;">
                 <div class="agenda-date">
                     <small>{{ $event->start_date->translatedFormat('M') }}</small>
                     <strong>{{ $event->start_date->format('d') }}</strong>
@@ -22,6 +22,21 @@
                         @if($event->location_city){{ $event->location_city }}@else{{ $event->start_date->format('H\hi') }}@endif
                     </small>
                 </div>
+                @php
+                    $aud = $event->audience_roles ?? [];
+                    if ($event->visibility === \App\Models\Event::VIS_GROUP) {
+                        $repere = $event->workGroup?->name ?? 'Groupe';
+                    } elseif ($event->meeting_url) {
+                        $repere = 'Visio';
+                    } elseif ($event->visibility === \App\Models\Event::VIS_RESTRICTED && $aud) {
+                        $repere = implode(' · ', array_map(fn ($r) => \App\Models\Member::ADHERENT_ROLES[$r] ?? $r, $aud));
+                    } elseif ($event->visibility === \App\Models\Event::VIS_MEMBERS) {
+                        $repere = 'Adhérents';
+                    } else {
+                        $repere = 'À venir';
+                    }
+                @endphp
+                <span class="space-row-chip gold">{{ $repere }}</span>
             </a>
             @endforeach
         </div>

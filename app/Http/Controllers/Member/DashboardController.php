@@ -23,6 +23,10 @@ class DashboardController extends Controller
         $currentMembership = $member?->currentMembership();
         $isCurrentMember = $member?->isCurrentMember() ?? false;
 
+        $chatUnreadCount = ($member && $isCurrentMember)
+            ? app(\App\Services\ChatService::class)->unreadConversationCount($member)
+            : 0;
+
         $recentDonations = $member?->donations()
             ->orderBy('donation_date', 'desc')
             ->limit(3)
@@ -41,14 +45,25 @@ class DashboardController extends Controller
 
         // Mes groupes & projets (cards) — groupes dont l'adhérent est membre
         $myWorkGroups = $member?->workGroups()->active()
-            ->withCount(['forumThreads', 'resources'])
+            ->withCount(['forumThreads', 'resources', 'members'])
             ->limit(8)->get() ?? collect();
 
-        $upcomingEvents = Event::where('status', 'published')
-            ->where('start_date', '>=', now())
-            ->orderBy('start_date', 'asc')
-            ->limit(5)
-            ->get();
+        if ($member) {
+            $upcomingEvents = Event::with('workGroup')
+                ->visibleToMember($member)
+                ->where('status', 'published')
+                ->where('start_date', '>=', now())
+                ->orderBy('start_date', 'asc')
+                ->limit(5)
+                ->get();
+        } else {
+            $upcomingEvents = Event::publicOnly()
+                ->where('status', 'published')
+                ->where('start_date', '>=', now())
+                ->orderBy('start_date', 'asc')
+                ->limit(5)
+                ->get();
+        }
 
         $mySubmissions = Submission::where('author_id', $user->id)
             ->orderBy('created_at', 'desc')
@@ -75,10 +90,19 @@ class DashboardController extends Controller
         // Carousel "Espèce du mois"
         $lepidopteraSlides = LepidopteraOfMonth::active()->ordered()->get();
 
-        // Carte "Réseau des adhérents" : clusters par région
+        // Carte "Réseau des adhérents" : basée sur l'annuaire (membres opt-in à jour)
         $membersByRegion = $this->computeMembersByRegion();
-        $totalActiveMembers = Member::where('is_active', true)->count();
-        $randomMemberAvatars = Member::where('is_active', true)
+        $directoryMembersCount = Member::inDirectory()->count();
+        $departmentsRepresented = Member::inDirectory()
+            ->whereNotNull('postal_code')
+            ->selectRaw('SUBSTRING(postal_code FROM 1 FOR 2) as dept')
+            ->get()
+            ->pluck('dept')
+            ->filter()
+            ->unique()
+            ->count();
+        $membershipEndsAt = $currentMembership?->end_date;
+        $randomMemberAvatars = Member::inDirectory()
             ->whereNotNull('photo_path')
             ->inRandomOrder()
             ->limit(4)
@@ -109,6 +133,7 @@ class DashboardController extends Controller
             'member',
             'currentMembership',
             'isCurrentMember',
+            'chatUnreadCount',
             'recentDonations',
             'latestIssues',
             'workGroups',
@@ -119,7 +144,9 @@ class DashboardController extends Controller
             'mySubmissions',
             'lepidopteraSlides',
             'membersByRegion',
-            'totalActiveMembers',
+            'directoryMembersCount',
+            'departmentsRepresented',
+            'membershipEndsAt',
             'randomMemberAvatars',
             'latestLepisBulletin',
             'suggestionWorkGroup',
@@ -135,7 +162,7 @@ class DashboardController extends Controller
      */
     private function computeMembersByRegion(): array
     {
-        $rows = Member::where('is_active', true)
+        $rows = Member::inDirectory()
             ->whereNotNull('postal_code')
             ->selectRaw('SUBSTRING(postal_code FROM 1 FOR 2) as dept, COUNT(*) as n')
             ->groupBy('dept')
