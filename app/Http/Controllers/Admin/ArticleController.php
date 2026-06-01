@@ -81,12 +81,19 @@ class ArticleController extends Controller
             'content' => 'required|string',
             'category' => 'nullable|string|max:100',
             'status' => 'required|in:draft,submitted,validated,published',
+            'visibility' => 'required|in:public,members,restricted',
+            'audience_roles' => 'nullable|array|required_if:visibility,restricted',
+            'audience_roles.*' => 'in:ca,bureau,validateur',
             'author_id' => 'nullable|exists:users,id',
             'is_featured' => 'boolean',
             'published_at' => 'nullable|date',
             'featured_image' => 'nullable|image|max:5120',
             'document' => 'nullable|file|max:20480',
         ]);
+
+        if (($validated['visibility'] ?? 'public') !== 'restricted') {
+            $validated['audience_roles'] = null;
+        }
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
@@ -141,6 +148,9 @@ class ArticleController extends Controller
             'content' => 'required|string',
             'category' => 'nullable|string|max:100',
             'status' => 'required|in:draft,submitted,validated,published',
+            'visibility' => 'required|in:public,members,restricted',
+            'audience_roles' => 'nullable|array|required_if:visibility,restricted',
+            'audience_roles.*' => 'in:ca,bureau,validateur',
             'author_id' => 'nullable|exists:users,id',
             'is_featured' => 'boolean',
             'published_at' => 'nullable|date',
@@ -148,6 +158,10 @@ class ArticleController extends Controller
             'featured_image' => 'nullable|image|max:5120',
             'document' => 'nullable|file|max:20480',
         ]);
+
+        if (($validated['visibility'] ?? 'public') !== 'restricted') {
+            $validated['audience_roles'] = null;
+        }
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
