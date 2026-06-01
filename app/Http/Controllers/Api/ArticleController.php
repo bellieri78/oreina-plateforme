@@ -17,6 +17,7 @@ class ArticleController extends Controller
         $perPage = min($request->input('per_page', 15), 50);
 
         $articles = Article::published()
+            ->publicOnly()
             ->with('author:id,name')
             ->orderBy('published_at', 'desc')
             ->paginate($perPage);
@@ -44,7 +45,7 @@ class ArticleController extends Controller
     public function show(Article $article): JsonResponse
     {
         // Only show published articles
-        if (!$article->isPublished()) {
+        if (!$article->isPublished() || $article->visibility !== Article::VIS_PUBLIC) {
             abort(404);
         }
 
@@ -63,6 +64,7 @@ class ArticleController extends Controller
         $perPage = min($request->input('per_page', 15), 50);
 
         $articles = Article::published()
+            ->publicOnly()
             ->where('category', $category)
             ->with('author:id,name')
             ->orderBy('published_at', 'desc')
