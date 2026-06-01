@@ -10,6 +10,10 @@ class Article extends Model
 {
     use SoftDeletes;
 
+    public const VIS_PUBLIC = 'public';
+    public const VIS_MEMBERS = 'members';
+    public const VIS_RESTRICTED = 'restricted';
+
     protected $fillable = [
         'author_id',
         'title',
@@ -28,6 +32,8 @@ class Article extends Model
         'is_featured',
         'newsletter_sent',
         'views_count',
+        'visibility',
+        'audience_roles',
     ];
 
     protected $casts = [
@@ -35,6 +41,7 @@ class Article extends Model
         'published_at' => 'datetime',
         'is_featured' => 'boolean',
         'newsletter_sent' => 'boolean',
+        'audience_roles' => 'array',
     ];
 
     public function author(): BelongsTo
