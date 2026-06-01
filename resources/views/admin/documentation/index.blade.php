@@ -1329,13 +1329,22 @@
                         <span class="step-number">3</span>
                         <div class="step-content">
                             <strong>Publie</strong>
-                            <p>L'article est visible sur le site public.</p>
+                            <p>L'article est publie ; sa diffusion depend ensuite de sa visibilite (voir ci-dessous).</p>
                         </div>
                     </div>
                 </div>
 
                 <h3>Categories</h3>
                 <p>Chaque article doit etre associe a une categorie : Actualite, Science, Association, etc.</p>
+
+                <h3>Visibilité et public ciblé</h3>
+                <p>Comme les événements, chaque article porte une <strong>visibilité</strong> qui détermine où il apparaît :</p>
+                <ul>
+                    <li><strong>Public</strong> : visible sur le site (hub), l'API publique et l'espace membre. Réglage par défaut.</li>
+                    <li><strong>Adhérents</strong> : visible uniquement dans l'espace membre, pour tous les adhérents à jour. N'apparaît jamais sur le site public.</li>
+                    <li><strong>Restreint</strong> : réservé à certaines <strong>fonctions adhérent</strong> (CA, Bureau, Validateur — multi-sélection), avec la même <strong>cascade cumulative</strong> que les événements (le Bureau voit aussi les articles ciblés « CA » ; Validateur est indépendant). Les fonctions s'attribuent sur la fiche du membre — voir <a href="#roles-acces" style="color:#356B8A;">Rôles et accès</a>.</li>
+                </ul>
+                <p>Les articles non-publics ne fuient <strong>jamais</strong> sur le site public ni l'API. Ils remontent côté espace membre, en <strong>flux unifié</strong> (publics + réservés au profil) : sur le tableau de bord (bloc « Actualités du réseau ») et sur la page <strong>Actualités</strong> dédiée (entrée de sidebar). Un adhérent expiré ne voit que les articles publics. La page de détail d'un article réservé renvoie une 404 à qui n'y a pas droit.</p>
             </section>
 
             {{-- Evenements --}}
@@ -1383,7 +1392,7 @@
                 <h3>Structure de la barre latérale</h3>
                 <p>La navigation est regroupée par familles :</p>
                 <ul>
-                    <li><strong>Mon espace</strong> : Tableau de bord, Mon profil, Mon adhésion, Préférences.</li>
+                    <li><strong>Mon espace</strong> : Tableau de bord, Actualités, Mon profil, Mon adhésion, Préférences.</li>
                     <li><strong>Contribuer</strong> : Soumettre un article, Mes soumissions, Mes contributions ⛔, Mes documents ⛔.</li>
                     <li><strong>Réseau</strong> : Annuaire des adhérents ⛔, Mes groupes ⛔, Chat ⛔.</li>
                     <li><strong>Ressources</strong> : Chersotis (la revue), Lepis ⛔, et trois entrées « bientôt disponible » (Publications, Documents, Webinaires &amp; replays).</li>
@@ -1400,7 +1409,7 @@
                     <li><strong>Carrousel « Espèce du mois »</strong> : alimenté par la table dédiée, gérée en extranet.</li>
                     <li><strong>Barre KPI</strong> : dons cumulés, nombre de dons, années d'adhésion, articles soumis/publiés (réels). En revanche <strong>observations transmises</strong>, <strong>validations</strong> et <strong>documents partagés</strong> sont affichés à 0 — placeholders en attente de l'intégration Artemisiae.</li>
                     <li><strong>Mes groupes</strong> : carrousel des groupes de travail dont l'adhérent est membre, avec compteurs fils/ressources.</li>
-                    <li><strong>Actualités</strong> : bloc de <strong>démonstration</strong> (contenu fictif) tant que la source d'actualités n'est pas branchée.</li>
+                    <li><strong>Actualités du réseau</strong> : vrai feed des derniers articles <strong>visibles par l'adhérent</strong> (publics + réservés à son profil), avec un repère « Adhérents » / CA / Bureau sur les articles non publics. Lien « Voir toutes les actualités » vers la page dédiée. Voir la section <a href="#articles" style="color:#356B8A;">Articles</a>.</li>
                     <li><strong>Ressources récentes</strong> : dernier bulletin Lepis visible.</li>
                     <li><strong>Carte du réseau des adhérents</strong> : tracé réel de la France avec des clusters par région, et les compteurs <strong>inscrits à l'annuaire</strong> / <strong>départements représentés</strong> — calculés sur les adhérents <strong>opt-in à l'annuaire et à jour</strong> (et non sur l'ensemble des membres).</li>
                     <li><strong>Agenda</strong> : les prochains événements <strong>visibles par l'adhérent</strong> selon leur visibilité (public, adhérents, fonction ciblée) et selon ses groupes de travail. Chaque ligne porte un repère de source (nom du groupe, « Visio », « Adhérents », CA/Bureau…). Voir la section <a href="#evenements" style="color:#356B8A;">Événements</a>.</li>
