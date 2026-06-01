@@ -122,6 +122,7 @@
         </div>
         <div style="display:flex;flex-direction:column;gap:18px;">
             @include('member.work-groups.partials._projects')
+            @include('member.work-groups.partials._events')
             @include('member.work-groups.partials._activity')
         </div>
     </div>

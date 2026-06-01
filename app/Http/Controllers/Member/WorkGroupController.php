@@ -129,12 +129,19 @@ class WorkGroupController extends Controller
                 ->with('author')->withCount('posts')->ordered()->limit(5)->get()
             : collect();
 
+        $upcomingGroupEvents = $workGroup->events()
+            ->where('status', 'published')
+            ->where('start_date', '>=', now())
+            ->orderBy('start_date')
+            ->get();
+
         return view('member.work-groups.show', compact(
             'workGroup', 'member', 'status', 'canManage', 'canViewResources',
             'coordinators', 'pending', 'activeMembers', 'canParticipate',
             'forumCategories', 'activity', 'projects', 'recentThreads',
             'members', 'documentsCount', 'threadsCount',
-            'recentDocuments', 'recentLinks', 'documents', 'links'
+            'recentDocuments', 'recentLinks', 'documents', 'links',
+            'upcomingGroupEvents'
         ));
     }
 
