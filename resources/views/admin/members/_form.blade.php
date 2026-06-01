@@ -115,6 +115,18 @@
             <textarea name="interests" id="interests" rows="3" class="form-input">{{ old('interests', $member?->interests ?? '') }}</textarea>
             @error('interests')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
         </div>
+        <div class="form-group">
+            <label class="form-label">Rôles adhérent</label>
+            @php $roles = old('adherent_roles', $member?->adherent_roles ?? []); @endphp
+            @foreach(\App\Models\Member::ADHERENT_ROLES as $key => $label)
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; margin-bottom:0.25rem;">
+                    <input type="checkbox" name="adherent_roles[]" value="{{ $key }}"
+                           {{ in_array($key, $roles) ? 'checked' : '' }} style="width:auto;">
+                    <span>{{ $label }}</span>
+                </label>
+            @endforeach
+            <p style="color:#6b7280; font-size:0.75rem; margin-top:0.25rem;">Le bureau voit aussi les événements ciblés CA.</p>
+        </div>
     </div>
 </div>
 

@@ -109,12 +109,15 @@ class MemberController extends Controller
             'newsletter_subscribed' => 'boolean',
             'consent_communication' => 'boolean',
             'consent_image' => 'boolean',
+            'adherent_roles' => 'nullable|array',
+            'adherent_roles.*' => 'in:ca,bureau,validateur',
         ]);
 
         $validated['is_active'] = $request->has('is_active');
         $validated['newsletter_subscribed'] = $request->has('newsletter_subscribed');
         $validated['consent_communication'] = $request->has('consent_communication');
         $validated['consent_image'] = $request->has('consent_image');
+        $validated['adherent_roles'] = $request->input('adherent_roles', []);
 
         $member = Member::create($validated);
 
@@ -167,12 +170,15 @@ class MemberController extends Controller
             'newsletter_subscribed' => 'boolean',
             'consent_communication' => 'boolean',
             'consent_image' => 'boolean',
+            'adherent_roles' => 'nullable|array',
+            'adherent_roles.*' => 'in:ca,bureau,validateur',
         ]);
 
         $validated['is_active'] = $request->has('is_active');
         $validated['newsletter_subscribed'] = $request->has('newsletter_subscribed');
         $validated['consent_communication'] = $request->has('consent_communication');
         $validated['consent_image'] = $request->has('consent_image');
+        $validated['adherent_roles'] = $request->input('adherent_roles', []);
 
         $member->update($validated);
 

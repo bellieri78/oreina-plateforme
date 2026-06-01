@@ -114,6 +114,15 @@
                     @else
                         <span class="badge badge-danger">Inactif</span>
                     @endif
+                    @if(!empty($member->adherent_roles))
+                        <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.5rem;">
+                            @foreach($member->adherent_roles as $r)
+                                <span class="badge" style="background:#e8f0ea; color:#2C5F2D; padding:2px 8px; border-radius:9999px; font-size:0.75rem;">
+                                    {{ \App\Models\Member::ADHERENT_ROLES[$r] ?? $r }}
+                                </span>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
                 <div style="border-top: 1px solid #e5e7eb; padding-top: 1rem;">
