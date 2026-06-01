@@ -10,6 +10,11 @@ class Event extends Model
 {
     use SoftDeletes;
 
+    public const VIS_PUBLIC = 'public';
+    public const VIS_MEMBERS = 'members';
+    public const VIS_RESTRICTED = 'restricted';
+    public const VIS_GROUP = 'group';
+
     protected $fillable = [
         'organizer_id',
         'title',
@@ -31,6 +36,10 @@ class Event extends Model
         'price',
         'status',
         'published_at',
+        'visibility',
+        'audience_roles',
+        'work_group_id',
+        'meeting_url',
     ];
 
     protected $casts = [
@@ -41,11 +50,17 @@ class Event extends Model
         'longitude' => 'decimal:8',
         'price' => 'decimal:2',
         'registration_required' => 'boolean',
+        'audience_roles' => 'array',
     ];
 
     public function organizer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'organizer_id');
+    }
+
+    public function workGroup(): BelongsTo
+    {
+        return $this->belongsTo(WorkGroup::class);
     }
 
     public function isUpcoming(): bool
