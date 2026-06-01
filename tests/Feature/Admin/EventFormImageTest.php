@@ -22,6 +22,7 @@ class EventFormImageTest extends TestCase
             'title' => 'Avec image',
             'start_date' => now()->addWeek()->format('Y-m-d H:i'),
             'status' => 'draft',
+            'visibility' => 'public',
             'featured_image' => UploadedFile::fake()->image('cover.jpg', 800, 600),
         ]);
 
@@ -52,6 +53,7 @@ class EventFormImageTest extends TestCase
             'title' => 'Existant',
             'start_date' => now()->addWeek()->format('Y-m-d H:i'),
             'status' => 'draft',
+            'visibility' => 'public',
             'featured_image' => UploadedFile::fake()->image('new.jpg', 800, 600),
         ]);
 
@@ -72,6 +74,7 @@ class EventFormImageTest extends TestCase
             'title' => 'Mauvais format',
             'start_date' => now()->addWeek()->format('Y-m-d H:i'),
             'status' => 'draft',
+            'visibility' => 'public',
             'featured_image' => UploadedFile::fake()->create('document.pdf', 100, 'application/pdf'),
         ]);
 
