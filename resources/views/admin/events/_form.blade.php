@@ -95,6 +95,31 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label" for="visibility">Visibilité *</label>
+            <select name="visibility" id="visibility" class="form-input" required
+                    onchange="document.getElementById('audience-roles-block').style.display = this.value === 'restricted' ? 'block' : 'none'">
+                @php $vis = old('visibility', $event->visibility ?? 'public'); @endphp
+                <option value="public" {{ $vis === 'public' ? 'selected' : '' }}>Public (site + espace membre)</option>
+                <option value="members" {{ $vis === 'members' ? 'selected' : '' }}>Adhérents (espace membre)</option>
+                <option value="restricted" {{ $vis === 'restricted' ? 'selected' : '' }}>Restreint (fonctions)</option>
+            </select>
+            @error('visibility')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+        </div>
+
+        <div class="form-group" id="audience-roles-block" style="{{ old('visibility', $event->visibility ?? 'public') === 'restricted' ? '' : 'display:none;' }}">
+            <label class="form-label">Fonctions ciblées *</label>
+            @php $selectedRoles = old('audience_roles', $event->audience_roles ?? []); @endphp
+            @foreach(\App\Models\Member::ADHERENT_ROLES as $key => $label)
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; margin-bottom:0.25rem;">
+                    <input type="checkbox" name="audience_roles[]" value="{{ $key }}"
+                           {{ in_array($key, $selectedRoles) ? 'checked' : '' }} style="width:auto;">
+                    <span>{{ $label }}</span>
+                </label>
+            @endforeach
+            @error('audience_roles')<p style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ $message }}</p>@enderror
+        </div>
+
+        <div class="form-group">
             <label class="form-label" for="event_type">Type</label>
             <input type="text" name="event_type" id="event_type" class="form-input" value="{{ old('event_type', $event->event_type ?? '') }}" placeholder="ex: Conference, Sortie terrain...">
         </div>

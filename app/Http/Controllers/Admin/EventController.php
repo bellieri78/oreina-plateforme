@@ -98,10 +98,17 @@ class EventController extends Controller
             'registration_url' => 'nullable|url',
             'price' => 'nullable|numeric|min:0',
             'status' => 'required|in:draft,published',
+            'visibility' => 'required|in:public,members,restricted',
+            'audience_roles' => 'nullable|array|required_if:visibility,restricted',
+            'audience_roles.*' => 'in:ca,bureau,validateur',
             'organizer_id' => 'nullable|exists:users,id',
             'published_at' => 'nullable|date',
             'featured_image' => 'nullable|image|max:5120',
         ]);
+
+        if (($validated['visibility'] ?? 'public') !== 'restricted') {
+            $validated['audience_roles'] = null;
+        }
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
@@ -159,10 +166,17 @@ class EventController extends Controller
             'registration_url' => 'nullable|url',
             'price' => 'nullable|numeric|min:0',
             'status' => 'required|in:draft,published',
+            'visibility' => 'required|in:public,members,restricted',
+            'audience_roles' => 'nullable|array|required_if:visibility,restricted',
+            'audience_roles.*' => 'in:ca,bureau,validateur',
             'organizer_id' => 'nullable|exists:users,id',
             'published_at' => 'nullable|date',
             'featured_image' => 'nullable|image|max:5120',
         ]);
+
+        if (($validated['visibility'] ?? 'public') !== 'restricted') {
+            $validated['audience_roles'] = null;
+        }
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
