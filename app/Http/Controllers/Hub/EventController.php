@@ -10,10 +10,12 @@ class EventController extends Controller
     public function index()
     {
         $upcomingEvents = Event::published()
+            ->publicOnly()
             ->upcoming()
             ->paginate(6);
 
         $pastEvents = Event::published()
+            ->publicOnly()
             ->where('start_date', '<', now())
             ->orderBy('start_date', 'desc')
             ->take(3)
@@ -32,11 +34,14 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        if ($event->status !== 'published') {
-            abort(404);
-        }
+        $member = auth()->check()
+            ? \App\Models\Member::where('user_id', auth()->id())->first()
+            : null;
+
+        abort_unless($event->status === 'published' && $event->isVisibleToMember($member), 404);
 
         $relatedEvents = Event::published()
+            ->publicOnly()
             ->upcoming()
             ->where('id', '!=', $event->id)
             ->where('event_type', $event->event_type)
