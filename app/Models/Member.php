@@ -21,6 +21,22 @@ class Member extends Model
     public const TYPE_ENTREPRISE = 'entreprise';
     public const TYPE_AUTRE = 'autre';
 
+    // Rôles adhérent (gouvernance)
+    public const ADHERENT_ROLE_CA = 'ca';
+    public const ADHERENT_ROLE_BUREAU = 'bureau';
+    public const ADHERENT_ROLE_VALIDATEUR = 'validateur';
+
+    public const ADHERENT_ROLES = [
+        self::ADHERENT_ROLE_CA => "Conseil d'administration",
+        self::ADHERENT_ROLE_BUREAU => 'Bureau',
+        self::ADHERENT_ROLE_VALIDATEUR => 'Validateur',
+    ];
+
+    /** Cascade : une clé donne accès aux clés listées (gouvernance). */
+    protected const ADHERENT_ROLE_CASCADE = [
+        self::ADHERENT_ROLE_BUREAU => [self::ADHERENT_ROLE_CA],
+    ];
+
     // Civilites
     public const CIVILITES = ['M.', 'Mme', 'Dr', 'Pr'];
 
@@ -61,6 +77,7 @@ class Member extends Model
         'birth_date',
         'profession',
         'interests',
+        'adherent_roles',
         'photo_path',
         'newsletter_subscribed',
         'is_active',
@@ -106,6 +123,7 @@ class Member extends Model
         'directory_phone_visible' => 'boolean',
         'directory_groups' => 'array',
         'directory_opt_in_at' => 'datetime',
+        'adherent_roles' => 'array',
     ];
 
     protected static function booted(): void
