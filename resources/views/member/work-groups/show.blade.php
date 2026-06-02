@@ -17,10 +17,16 @@
     .gt-hero-thumb img{width:100%;height:100%;object-fit:cover;}
     .gt-hero-thumb i{width:48px;height:48px;color:#fff;opacity:.85;}
     .gt-hero-body{flex:1;min-width:0;}
-    .gt-hero-title{margin:0;font-size:clamp(22px,2.2vw,30px);font-weight:800;letter-spacing:-0.02em;display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;color:#fff;}
-    .gt-pill{font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,0.18);color:#fff;}
-    .gt-hero-desc{margin:10px 0 0;color:rgba(255,255,255,0.88);font-size:15px;line-height:1.6;max-width:640px;}
-    .gt-meta{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:rgba(255,255,255,0.82);}
+    .gt-hero-title{margin:0;font-size:clamp(20px,1.8vw,26px);font-weight:800;letter-spacing:-0.02em;display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;color:#fff;}
+    .gt-pill{font-size:11px;font-weight:800;padding:4px 11px;border-radius:999px;background:rgba(255,255,255,0.18);color:#fff;}
+    .gt-hero-desc{margin:8px 0 0;color:rgba(255,255,255,0.88);font-size:14px;line-height:1.55;max-width:640px;}
+    .gt-meta{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:rgba(255,255,255,0.82);}
+
+    /* Échelle typographique compacte (fidèle à la maquette GT2), limitée à cette page */
+    .gt-page .panel-head{margin-bottom:14px;}
+    .gt-page .panel-head h2{font-size:16px;line-height:1.3;letter-spacing:-0.01em;}
+    .gt-page .card.panel{padding:18px;}
+    .gt-page h3{font-size:14px;}
     .gt-meta span{display:inline-flex;align-items:center;gap:6px;}
     .gt-meta i{width:14px;height:14px;}
     .gt-hero-actions{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
@@ -52,7 +58,7 @@
     }
 </style>
 
-<div x-data="{ tab: new URLSearchParams(location.search).get('tab') || 'accueil', membersOpen:false, newThread:false }">
+<div class="gt-page" x-data="{ tab: new URLSearchParams(location.search).get('tab') || 'accueil', membersOpen:false, newThread:false }">
 
     @if(session('success'))<div class="flash-success"><i data-lucide="check-circle"></i>{{ session('success') }}</div>@endif
     @if(session('error'))<div class="flash-error"><i data-lucide="alert-circle"></i>{{ session('error') }}</div>@endif
