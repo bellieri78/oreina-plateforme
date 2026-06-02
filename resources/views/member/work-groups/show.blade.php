@@ -64,7 +64,7 @@
     </div>
 
     {{-- ===================== TABLEAU DE BORD (accueil) ===================== --}}
-    <div x-show="tab==='accueil'">
+    <div x-show="tab==='accueil'" x-cloak>
         <div class="gt-row1">
             @include('member.work-groups.partials.dashboard._hero')
             @include('member.work-groups.partials.dashboard._about_card')
