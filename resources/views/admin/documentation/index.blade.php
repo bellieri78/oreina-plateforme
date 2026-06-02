@@ -59,7 +59,7 @@
                 <a href="#em-dashboard" class="doc-nav-link">Tableau de bord</a>
                 <a href="#em-profil" class="doc-nav-link">Profil &amp; adhésion</a>
                 <a href="#em-documents" class="doc-nav-link">Documents &amp; revue</a>
-                <a href="#em-reseau" class="doc-nav-link">Réseau &amp; chat</a>
+                <a href="#em-reseau" class="doc-nav-link">Réseau &amp; messagerie</a>
             </div>
 
             <div class="doc-nav-section">
@@ -193,7 +193,7 @@
                                 <td><code>user</code></td>
                                 <td>✅ Oui</td>
                                 <td>❌ Non (403)</td>
-                                <td>Adhérent standard : accès à son espace personnel, chat, GT, Lepis</td>
+                                <td>Adhérent standard : accès à son espace personnel, messagerie, GT, Lepis</td>
                             </tr>
                             <tr>
                                 <td><code>author</code></td>
@@ -320,7 +320,7 @@
                                 <td>✅ Oui</td>
                             </tr>
                             <tr>
-                                <td>Chat adhérents</td>
+                                <td>Messagerie adhérents</td>
                                 <td>❌ Non</td>
                                 <td>✅ Oui</td>
                             </tr>
@@ -1459,22 +1459,25 @@
 
             {{-- Espace membre : reseau (annuaire, groupes, chat) --}}
             <section id="em-reseau" class="doc-section">
-                <h2>EM — Réseau : annuaire, groupes, chat</h2>
+                <h2>EM — Réseau : annuaire, groupes, messagerie</h2>
 
                 <h3>Annuaire des adhérents</h3>
-                <p>Réservé aux adhérents à jour <strong>et</strong> sur opt-in (voir Préférences) : seul un adhérent inscrit à l'annuaire peut le consulter, et n'y voit que les autres inscrits. Recherche par nom, filtres par département et par groupe d'affichage. Une fiche s'ouvre en modale ; le téléphone n'apparaît que si l'adhérent l'a explicitement autorisé. L'adhérent ne se voit jamais lui-même dans la liste (sa fiche renvoie 404).</p>
+                <p>Réservé aux adhérents à jour <strong>et</strong> sur opt-in (voir Préférences) : seul un adhérent inscrit à l'annuaire peut le consulter, et n'y voit que les autres inscrits. Recherche par nom, filtres par département et par groupe d'affichage. Une fiche s'ouvre en modale ; le téléphone n'apparaît que si l'adhérent l'a explicitement autorisé. L'adhérent inscrit <strong>se voit aussi lui-même</strong> dans la liste, repéré par un badge « Vous » ; sa propre fiche propose « Gérer ma fiche annuaire » (vers ses préférences) plutôt qu'un envoi de message.</p>
 
                 <h3>Mes groupes</h3>
                 <p>Point d'entrée vers les groupes de travail de l'adhérent (détaillés dans la section <em>Groupes de travail</em> de cette documentation). « Mes contributions » récapitule par ailleurs les groupes rejoints.</p>
 
-                <h3>Chat &amp; à venir</h3>
-                <p>L'entrée <strong>Chat</strong> est une page préparée mais non encore fonctionnelle (les échanges se font aujourd'hui via le forum de chaque groupe de travail). De même, <strong>Publications</strong>, <strong>Documents</strong> et <strong>Webinaires &amp; replays</strong> de la rubrique Ressources, ainsi que le lien <strong>Artemisiae</strong>, sont des emplacements réservés affichant « bientôt disponible ». À communiquer tel quel à un adhérent qui pose la question.</p>
+                <h3>Messagerie adhérents</h3>
+                <p>L'entrée <strong>« Messagerie adhérents »</strong> de la barre latérale (anciennement « Chat réseau ») est une <strong>messagerie privée 1:1</strong> entre adhérents, fondée sur l'annuaire (opt-in) : on contacte un adhérent depuis sa fiche d'annuaire, un compteur de messages non lus s'affiche dans la sidebar et la barre du haut, avec blocage possible d'un correspondant. Le libellé apparaît au même endroit côté sidebar, barre du haut et carte « Mes espaces ».</p>
+
+                <h3>Espaces à venir</h3>
+                <p><strong>Publications</strong>, <strong>Documents</strong> et <strong>Webinaires &amp; replays</strong> de la rubrique Ressources, ainsi que le lien <strong>Artemisiae</strong>, sont des emplacements réservés affichant « bientôt disponible ». À communiquer tel quel à un adhérent qui pose la question.</p>
             </section>
 
             {{-- Groupes de travail : presentation & acces --}}
             <section id="groupes-travail" class="doc-section">
                 <h2>Groupes de travail</h2>
-                <p>Les groupes de travail (GT) sont les espaces collaboratifs thématiques du réseau OREINA (taxonomie, séquençage, etc.). Chaque GT dispose d'une page dédiée dans l'<strong>espace membre</strong> (section <em>Bénévolat</em> de la barre latérale) organisée en onglets : <strong>Accueil</strong>, <strong>Ressources</strong>, <strong>Discussions</strong> et <strong>Gérer</strong>. La configuration d'un GT se fait depuis l'extranet (<code>/extranet/work-groups</code>) ; l'animation au quotidien (membres, forum, projets) se fait côté espace membre par les coordinateurs.</p>
+                <p>Les groupes de travail (GT) sont les espaces collaboratifs thématiques du réseau OREINA (taxonomie, séquençage, etc.). Chaque GT dispose d'une page dédiée dans l'<strong>espace membre</strong> (section <em>Bénévolat</em> de la barre latérale), présentée depuis 2026 comme un <strong>tableau de bord d'une seule page</strong> : bandeau d'en-tête (titre, « À propos » + coordinateurs) puis des cartes — Activité du groupe, Membres, Prochaine réunion, Projets collaboratifs, Ressources, Liens rapides et Discussions récentes. Les liens <strong>« Voir tous »</strong> ouvrent les vues détaillées (forum complet, documents, ressources, projets, à propos, gestion) sans changer de page. La configuration d'un GT se fait depuis l'extranet (<code>/extranet/work-groups</code>) ; l'animation au quotidien (membres, forum, projets, réunions) se fait côté espace membre par les coordinateurs.</p>
 
                 <h3>Qui voit quoi : les 3 niveaux d'accès</h3>
                 <p>L'accès à un GT s'articule autour de trois niveaux de permission cumulatifs :</p>
@@ -1584,8 +1587,8 @@
             <section id="gt-projets" class="doc-section">
                 <h2>GT — Feed d'activité &amp; projets</h2>
 
-                <h3>Activité récente (feed)</h3>
-                <p>L'onglet Accueil affiche un bloc <strong>« Activité récente »</strong> : les 10 derniers événements du groupe, triés du plus récent au plus ancien. Trois types d'événements sont agrégés :</p>
+                <h3>Activité du groupe (feed)</h3>
+                <p>Le tableau de bord affiche une carte <strong>« Activité du groupe »</strong> : les 10 derniers événements du groupe, triés du plus récent au plus ancien. Trois types d'événements sont agrégés :</p>
                 <ul>
                     <li>un adhérent a <strong>rejoint</strong> le groupe ;</li>
                     <li>un <strong>nouveau fil</strong> de discussion a été créé (cliquable) ;</li>
@@ -1601,10 +1604,10 @@
                     <li><strong>Diffusé</strong> — livrable publié (renseigner le lien) ;</li>
                     <li><strong>Archivé</strong> — clos / historique.</li>
                 </ul>
-                <p><strong>Gestion</strong> : dans l'onglet <em>Gérer</em>, un coordinateur crée un projet, modifie son statut en ligne et le supprime. <strong>Affichage</strong> : le bloc « Projets en cours » apparaît dans l'onglet Accueil, en lecture, <strong>visible en aperçu</strong> (un adhérent non-membre voit donc ce que produit le groupe). Les projets sont triés par statut (À lancer et En cours en tête) puis par date de création décroissante.</p>
+                <p><strong>Gestion</strong> : depuis la vue <em>Gérer</em> (accessible via « Voir tous »), un coordinateur crée un projet, modifie son statut en ligne et le supprime. <strong>Affichage</strong> : la carte « Projets collaboratifs » du tableau de bord montre les premiers projets, en lecture, <strong>visible en aperçu</strong> (un adhérent non-membre voit donc ce que produit le groupe). Les projets sont triés par statut (À lancer et En cours en tête) puis par date de création décroissante.</p>
 
                 <h3>Réunions &amp; événements du groupe</h3>
-                <p>Un <strong>coordinateur</strong> peut planifier des <strong>réunions</strong> depuis la page du groupe (bloc <strong>« Prochaines réunions »</strong>, onglet Accueil) : titre, date et heure de début (et fin optionnelle), puis au choix un <strong>lien visio</strong> ou un <strong>lieu</strong> en présentiel. Seuls les coordinateurs créent, modifient ou suppriment ces réunions ; tout membre du groupe les consulte.</p>
+                <p>Un <strong>coordinateur</strong> planifie des <strong>réunions</strong> directement depuis la page du groupe — <strong>aucun accès à l'extranet n'est requis</strong> (le droit vient du statut de coordinateur). Sur le tableau de bord, la carte <strong>« Prochaine réunion »</strong> propose un bouton <strong>« Planifier une réunion »</strong> (visible pour le coordinateur même quand aucune réunion n'existe encore) qui ouvre le formulaire <strong>en un clic</strong> : titre, début (et fin optionnelle), format <em>Visioconférence</em> (avec lien) ou <em>Présentiel</em> (lieu / ville), description. Après enregistrement, on revient sur la liste des réunions, qui affiche <strong>toutes</strong> les réunions (passées incluses, marquées « Passée »). Seuls les coordinateurs créent, modifient ou suppriment ; tout membre du groupe les consulte.</p>
                 <p>Ce sont des <strong>événements à visibilité « groupe »</strong> : ils n'apparaissent ni sur le site public, ni pour les adhérents hors du groupe, mais remontent automatiquement dans l'<strong>agenda de l'espace membre</strong> des membres concernés (avec le nom du groupe ou la mention « Visio » comme repère).</p>
             </section>
 
