@@ -79,6 +79,18 @@ class WorkGroupShowDashboardTest extends TestCase
             ->assertDontSee('Prochaine réunion', false);
     }
 
+    public function test_coordinator_sees_plan_meeting_cta_when_no_event(): void
+    {
+        [$u, $m] = $this->makeActiveMember();
+        $wg = WorkGroup::create(['name' => 'GT Coord Sans Reunion', 'is_active' => true]);
+        $wg->members()->attach($m->id, ['role' => 'coordinator', 'status' => 'active', 'joined_at' => now()]);
+
+        $this->actingAs($u)
+            ->get(route('member.work-groups.show', $wg))
+            ->assertOk()
+            ->assertSee('Planifier une réunion', false);
+    }
+
     public function test_quick_links_card_shown_when_drive_url_set(): void
     {
         [$u, $m] = $this->makeActiveMember();

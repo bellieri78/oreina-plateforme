@@ -1,6 +1,7 @@
-@if($nextEvent)
+@if($nextEvent || $canManage)
 <div class="card panel">
     <div class="panel-head"><div><h2>Prochaine réunion</h2></div></div>
+    @if($nextEvent)
     <div class="gt-next">
         <div class="gt-next-date">
             <strong>{{ $nextEvent->start_date->format('d') }}</strong>
@@ -22,5 +23,9 @@
         </div>
     </div>
     <button type="button" @click="tab='evenements'" class="gt-fullbtn">Voir tous les événements</button>
+    @else
+    <p style="color:var(--muted);font-size:14px;margin:0 0 4px;">Aucune réunion programmée.</p>
+    <button type="button" @click="tab='evenements'" class="gt-fullbtn"><i data-lucide="calendar-plus" style="width:15px;height:15px;vertical-align:-2px;"></i> Planifier une réunion</button>
+    @endif
 </div>
 @endif
