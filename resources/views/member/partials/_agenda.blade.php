@@ -11,7 +11,12 @@
     @else
         <div class="agenda-list">
             @foreach($upcomingEvents->take(4) as $event)
-            <a href="{{ route('hub.events.show', $event) }}" class="agenda-item" style="grid-template-columns:56px 1fr auto;text-decoration:none;color:inherit;">
+            @php
+                $eventHref = ($event->visibility === \App\Models\Event::VIS_GROUP && $event->workGroup)
+                    ? route('member.work-groups.show', $event->workGroup)
+                    : route('hub.events.show', $event);
+            @endphp
+            <a href="{{ $eventHref }}" class="agenda-item" style="grid-template-columns:56px 1fr auto;text-decoration:none;color:inherit;">
                 <div class="agenda-date">
                     <small>{{ $event->start_date->translatedFormat('M') }}</small>
                     <strong>{{ $event->start_date->format('d') }}</strong>

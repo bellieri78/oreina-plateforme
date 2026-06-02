@@ -10,6 +10,11 @@
     .gt-page .card.panel{padding:18px;}
     .gt-page h3{font-size:14px;}
 
+    /* Champs de formulaire (alignes sur les autres formulaires) */
+    .gt-page .wg-field-label{display:block;font-size:13px;font-weight:700;margin-bottom:5px;color:var(--text);}
+    .gt-page .wg-field{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;background:#fff;color:var(--text);}
+    .gt-page .wg-field:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(133,183,157,0.25);}
+
     .gt-breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:14px;}
     .gt-breadcrumb a{color:var(--muted);text-decoration:none;}
     .gt-breadcrumb a:hover{color:var(--forest);}
@@ -97,7 +102,7 @@
     }
 </style>
 
-<div class="gt-page" x-data="{ tab: new URLSearchParams(location.search).get('tab') || 'accueil', membersOpen:false, newThread:false }">
+<div class="gt-page" x-data="{ tab: new URLSearchParams(location.search).get('tab') || 'accueil', membersOpen:false, newThread:false, planMeeting:false }">
 
     @if(session('success'))<div class="flash-success"><i data-lucide="check-circle"></i>{{ session('success') }}</div>@endif
     @if(session('error'))<div class="flash-error"><i data-lucide="alert-circle"></i>{{ session('error') }}</div>@endif

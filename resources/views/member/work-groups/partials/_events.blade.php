@@ -5,55 +5,63 @@
     <div class="panel-head" style="display:flex; justify-content:space-between; align-items:center;">
         <div><h2>Prochaines réunions</h2></div>
         @if($canManage)
-        <button type="button" class="btn btn-secondary"
-            onclick="var f=document.getElementById('wg-event-form');f.style.display=f.style.display==='block'?'none':'block';">
-            <i data-lucide="calendar-plus"></i>Planifier
+        <button type="button" class="btn btn-secondary" @click="planMeeting = !planMeeting">
+            <i data-lucide="calendar-plus"></i><span x-text="planMeeting ? 'Fermer' : 'Planifier'"></span>
         </button>
         @endif
     </div>
 
     @if($canManage)
-    <form id="wg-event-form" method="POST" action="{{ route('member.work-groups.events.store', $workGroup) }}"
-          style="display:none; margin:12px 0; padding:14px; border:1px solid var(--border); border-radius:14px;"
-          x-data="{ mode: 'online' }">
-        @csrf
-        <div class="form-group">
-            <label>Titre</label>
-            <input type="text" name="title" required class="form-input" value="{{ old('title') }}">
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <div class="form-group">
-                <label>Début</label>
-                <input type="datetime-local" name="start_date" required class="form-input" value="{{ old('start_date') }}">
-            </div>
-            <div class="form-group">
-                <label>Fin (optionnel)</label>
-                <input type="datetime-local" name="end_date" class="form-input" value="{{ old('end_date') }}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Mode</label>
-            <select name="mode" x-model="mode" class="form-input">
-                <option value="online">Visio</option>
-                <option value="onsite">Présentiel</option>
-            </select>
-        </div>
-        <div class="form-group" x-show="mode === 'online'">
-            <label>Lien visio</label>
-            <input type="url" name="meeting_url" class="form-input" placeholder="https://..." value="{{ old('meeting_url') }}">
-        </div>
-        <template x-if="mode === 'onsite'">
+    <div x-show="planMeeting" x-cloak x-transition style="margin:6px 0 18px; padding:18px; border:1px solid var(--border); border-radius:14px; background:var(--surface-soft);">
+        <form method="POST" action="{{ route('member.work-groups.events.store', $workGroup) }}" x-data="{ mode: 'online' }" style="display:grid; gap:14px; max-width:620px;">
+            @csrf
             <div>
-                <div class="form-group"><label>Lieu</label><input type="text" name="location_name" class="form-input" value="{{ old('location_name') }}"></div>
-                <div class="form-group"><label>Ville</label><input type="text" name="location_city" class="form-input" value="{{ old('location_city') }}"></div>
+                <label class="wg-field-label">Titre de la réunion</label>
+                <input type="text" name="title" required value="{{ old('title') }}" class="wg-field" placeholder="Ex : Point d'étape Atlas Grand Est">
             </div>
-        </template>
-        <div class="form-group">
-            <label>Description (optionnel)</label>
-            <textarea name="description" rows="2" class="form-input">{{ old('description') }}</textarea>
-        </div>
-        <button type="submit" class="btn btn-primary"><i data-lucide="check"></i>Enregistrer</button>
-    </form>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                <div>
+                    <label class="wg-field-label">Début</label>
+                    <input type="datetime-local" name="start_date" required value="{{ old('start_date') }}" class="wg-field">
+                </div>
+                <div>
+                    <label class="wg-field-label">Fin (optionnel)</label>
+                    <input type="datetime-local" name="end_date" value="{{ old('end_date') }}" class="wg-field">
+                </div>
+            </div>
+            <div>
+                <label class="wg-field-label">Format</label>
+                <select name="mode" x-model="mode" class="wg-field">
+                    <option value="online">Visioconférence</option>
+                    <option value="onsite">Présentiel</option>
+                </select>
+            </div>
+            <div x-show="mode === 'online'">
+                <label class="wg-field-label">Lien visio</label>
+                <input type="url" name="meeting_url" class="wg-field" placeholder="https://..." value="{{ old('meeting_url') }}">
+            </div>
+            <template x-if="mode === 'onsite'">
+                <div style="display:grid; gap:14px;">
+                    <div>
+                        <label class="wg-field-label">Lieu</label>
+                        <input type="text" name="location_name" class="wg-field" placeholder="Nom du lieu" value="{{ old('location_name') }}">
+                    </div>
+                    <div>
+                        <label class="wg-field-label">Ville</label>
+                        <input type="text" name="location_city" class="wg-field" placeholder="Ville" value="{{ old('location_city') }}">
+                    </div>
+                </div>
+            </template>
+            <div>
+                <label class="wg-field-label">Description (optionnel)</label>
+                <textarea name="description" rows="2" class="wg-field">{{ old('description') }}</textarea>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button type="submit" class="btn btn-primary"><i data-lucide="check"></i>Enregistrer la réunion</button>
+                <button type="button" class="btn btn-secondary" @click="planMeeting = false">Annuler</button>
+            </div>
+        </form>
+    </div>
     @endif
 
     @forelse($upcomingGroupEvents as $ev)
