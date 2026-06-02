@@ -1,3 +1,4 @@
+@if(count($quickLinks))
 <div class="card panel">
     <div class="panel-head"><div><h2>Liens rapides</h2></div></div>
     @foreach($quickLinks as $link)
@@ -7,3 +8,4 @@
     </a>
     @endforeach
 </div>
+@endif

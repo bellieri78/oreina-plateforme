@@ -1,3 +1,4 @@
+@if($nextEvent)
 <div class="card panel">
     <div class="panel-head"><div><h2>Prochaine réunion</h2></div></div>
     <div class="gt-next">
@@ -22,3 +23,4 @@
     </div>
     <button type="button" @click="tab='evenements'" class="text-link" style="background:none;border:none;cursor:pointer;margin-top:12px;display:inline-flex;"><i data-lucide="arrow-right"></i>Voir tous les événements</button>
 </div>
+@endif
