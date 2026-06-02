@@ -88,29 +88,33 @@
             </div>
         </div>
 
-        <div class="rounded-xl p-6 text-white max-w-md" style="background:linear-gradient(to bottom right, var(--sage), var(--forest))">
-            <div class="flex justify-between items-start mb-6">
-                <div>
-                    <div class="text-xs opacity-75 uppercase tracking-wider">Association</div>
-                    <div class="text-xl font-bold">OREINA</div>
-                </div>
-                <div class="text-right">
-                    <div class="text-xs opacity-75">Valide jusqu'au</div>
-                    <div class="font-semibold">{{ $currentMembership->end_date->format('d/m/Y') }}</div>
-                </div>
+        <div class="relative overflow-hidden rounded-xl max-w-md" style="background:#ffffff; border:1px solid #DBCBC7; aspect-ratio:1.585;">
+            <img src="/images/logo-papillon-watermark.png" alt="" aria-hidden="true"
+                 class="absolute pointer-events-none" style="top:4%; right:4%; width:55%;"
+                 onerror="this.style.display='none';">
+
+            <div class="absolute" style="top:1.25rem; left:1.25rem;">
+                <div class="uppercase tracking-wider" style="font-size:0.65rem; color:#7DA0B5;">Association</div>
+                <div class="font-bold" style="font-size:1.5rem; color:#356B8A; letter-spacing:0.03em;">OREINA</div>
             </div>
-            <div class="mb-4">
-                <div class="text-xs opacity-75 uppercase tracking-wider mb-1">Membre</div>
-                <div class="text-lg font-semibold">{{ $member->full_name }}</div>
+
+            <div class="absolute" style="top:33%; left:1.25rem;">
+                <div class="uppercase tracking-wider" style="font-size:0.65rem; color:#7DA0B5;">Membre</div>
+                <div class="font-semibold" style="font-size:1.15rem; color:#356B8A;">{{ $member->full_name }}</div>
             </div>
-            <div class="flex justify-between items-end">
-                <div>
-                    <div class="text-xs opacity-75">N° adhérent</div>
-                    <div class="font-mono">{{ $member->member_number ?? 'N/A' }}</div>
-                </div>
-                <div class="text-xs opacity-75">
-                    {{ $currentMembership->membershipType?->name ?? 'Membre' }}
-                </div>
+
+            <div class="absolute" style="top:58%; left:1.25rem;">
+                <div class="uppercase tracking-wider" style="font-size:0.65rem; color:#7DA0B5;">Valide jusqu'au</div>
+                <div class="font-semibold" style="font-size:0.95rem; color:#356B8A;">{{ $currentMembership->end_date->format('d/m/Y') }}</div>
+            </div>
+
+            <div class="absolute" style="bottom:1.25rem; left:1.25rem;">
+                <div class="uppercase tracking-wider" style="font-size:0.65rem; color:#7DA0B5;">N° adhérent</div>
+                <div class="font-mono font-semibold" style="color:#356B8A;">{{ $member->member_number ?? 'N/A' }}</div>
+            </div>
+
+            <div class="absolute font-semibold" style="bottom:1.25rem; right:1.25rem; font-size:0.95rem; color:#356B8A;">
+                {{ $currentMembership->membershipType?->name ?? 'Membre' }}
             </div>
         </div>
 
@@ -158,7 +162,7 @@
                                 {{ $membership->membershipType?->name ?? 'Standard' }}
                             </td>
                             <td class="py-3" style="color:var(--muted)">
-                                {{ number_format($membership->amount ?? 0, 2, ',', ' ') }} €
+                                {{ number_format($membership->amount_paid ?? 0, 2, ',', ' ') }} €
                             </td>
                             <td class="py-3">
                                 @if($membership->status === 'active' && $membership->end_date >= now())
@@ -166,7 +170,7 @@
                                 @elseif($membership->status === 'active')
                                     <span class="badge coral">Expirée</span>
                                 @else
-                                    <span class="badge" style="background:var(--surface-amber);color:var(--amber)">{{ ucfirst($membership->status) }}</span>
+                                    <span class="badge" style="background:var(--surface-amber);color:var(--amber)">{{ ['expired' => 'Expirée', 'cancelled' => 'Annulée', 'pending' => 'En attente'][$membership->status] ?? ucfirst($membership->status) }}</span>
                                 @endif
                             </td>
                             <td class="py-3 text-right">

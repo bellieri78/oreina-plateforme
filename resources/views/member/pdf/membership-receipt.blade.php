@@ -82,8 +82,16 @@
     </style>
 </head>
 <body>
+    @php
+        $logoPath = public_path('images/logo.jpg');
+        $logoData = is_file($logoPath) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($logoPath)) : null;
+    @endphp
     <div class="header">
-        <div class="logo">OREINA</div>
+        @if($logoData)
+            <img src="{{ $logoData }}" alt="OREINA" style="height: 70px; margin-bottom: 8px;">
+        @else
+            <div class="logo">OREINA</div>
+        @endif
         <div class="logo-sub">Association pour l'étude et la protection des Lépidoptères de France</div>
     </div>
 
@@ -118,11 +126,11 @@
                         Période : {{ $membership->start_date->format('d/m/Y') }} au {{ $membership->end_date->format('d/m/Y') }}
                     </span>
                 </td>
-                <td style="text-align: right;">{{ number_format($membership->amount ?? 0, 2, ',', ' ') }} €</td>
+                <td style="text-align: right;">{{ number_format($membership->amount_paid ?? 0, 2, ',', ' ') }} €</td>
             </tr>
             <tr class="total">
                 <td>Total</td>
-                <td style="text-align: right;">{{ number_format($membership->amount ?? 0, 2, ',', ' ') }} €</td>
+                <td style="text-align: right;">{{ number_format($membership->amount_paid ?? 0, 2, ',', ' ') }} €</td>
             </tr>
         </tbody>
     </table>

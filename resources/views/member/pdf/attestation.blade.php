@@ -66,8 +66,16 @@
     </style>
 </head>
 <body>
+    @php
+        $logoPath = public_path('images/logo.jpg');
+        $logoData = is_file($logoPath) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($logoPath)) : null;
+    @endphp
     <div class="header">
-        <div class="logo">OREINA</div>
+        @if($logoData)
+            <img src="{{ $logoData }}" alt="OREINA" style="height: 70px; margin-bottom: 8px;">
+        @else
+            <div class="logo">OREINA</div>
+        @endif
         <div class="logo-sub">Association pour l'étude et la protection des Lépidoptères de France</div>
     </div>
 
@@ -91,8 +99,8 @@
 
         <p>Type d'adhésion : <strong>{{ $membership->membershipType?->name ?? 'Membre' }}</strong></p>
 
-        @if($membership->amount)
-        <p>Montant de la cotisation : <strong>{{ number_format($membership->amount, 2, ',', ' ') }} €</strong></p>
+        @if($membership->amount_paid)
+        <p>Montant de la cotisation : <strong>{{ number_format($membership->amount_paid, 2, ',', ' ') }} €</strong></p>
         @endif
 
         <p>Cette attestation est délivrée pour servir et valoir ce que de droit.</p>

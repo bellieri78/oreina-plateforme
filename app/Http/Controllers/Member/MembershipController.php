@@ -54,7 +54,7 @@ class MembershipController extends Controller
             'membership' => $currentMembership,
         ]);
 
-        $pdf->setPaper([0, 0, 243, 153], 'landscape'); // Credit card size: 85.6mm x 54mm
+        $pdf->setPaper([0, 0, 243, 153], 'portrait'); // Credit card size: 85.6mm x 54mm (DomPDF renders this array as landscape)
 
         return $pdf->download('carte-adherent-oreina-' . date('Y') . '.pdf');
     }
