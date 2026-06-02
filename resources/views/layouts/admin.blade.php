@@ -281,6 +281,10 @@
             </script>
 
             <div class="sidebar-footer">
+                <a href="{{ route('member.dashboard') }}" class="sidebar-footer-link" title="Retourner à mon espace membre">
+                    <i data-lucide="circle-arrow-left"></i>
+                    <span class="sidebar-footer-link-label">Mon espace membre</span>
+                </a>
                 <div class="user-menu">
                     <div class="user-avatar">{{ substr(auth()->user()->name ?? 'A', 0, 1) }}</div>
                     <div class="user-info">
