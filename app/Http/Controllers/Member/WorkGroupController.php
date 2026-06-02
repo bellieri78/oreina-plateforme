@@ -135,13 +135,44 @@ class WorkGroupController extends Controller
             ->orderBy('start_date')
             ->get();
 
+        // --- Données du tableau de bord (maquette GT2) ---
+        $resourceCounts = [];
+        $resourceTotal = 0;
+        if ($canViewResources) {
+            $byCategory = $workGroup->resources()
+                ->selectRaw('category, COUNT(*) as aggregate')
+                ->groupBy('category')
+                ->pluck('aggregate', 'category');
+            foreach (array_keys(config('work_group_resources.categories')) as $catKey) {
+                $resourceCounts[$catKey] = (int) ($byCategory[$catKey] ?? 0);
+            }
+            $resourceTotal = array_sum($resourceCounts);
+        }
+
+        $nextEvent = $upcomingGroupEvents->first();
+
+        $latestMembers = $members
+            ->filter(fn ($m) => $m->pivot->joined_at)
+            ->sortByDesc(fn ($m) => (string) $m->pivot->joined_at)
+            ->take(3)
+            ->values();
+
+        $quickLinks = [];
+        if ($workGroup->has_collaborative_space && ! empty($workGroup->collaborative_space_url)) {
+            $quickLinks[] = ['label' => 'Drive collaboratif', 'url' => $workGroup->collaborative_space_url, 'icon' => 'folder'];
+        }
+        if (! empty($workGroup->website_url)) {
+            $quickLinks[] = ['label' => 'Site web', 'url' => $workGroup->website_url, 'icon' => 'globe'];
+        }
+
         return view('member.work-groups.show', compact(
             'workGroup', 'member', 'status', 'canManage', 'canViewResources',
             'coordinators', 'pending', 'activeMembers', 'canParticipate',
             'forumCategories', 'activity', 'projects', 'recentThreads',
             'members', 'documentsCount', 'threadsCount',
             'recentDocuments', 'recentLinks', 'documents', 'links',
-            'upcomingGroupEvents'
+            'upcomingGroupEvents',
+            'resourceCounts', 'resourceTotal', 'nextEvent', 'latestMembers', 'quickLinks'
         ));
     }
 
