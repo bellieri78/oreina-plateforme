@@ -63,8 +63,10 @@
     .directory-list { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
     .directory-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:transform .15s; }
     .directory-card:hover { transform:translateY(-2px); }
-    .directory-card-name { font-weight:700; }
+    .directory-card-name { font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
     .directory-card-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+    .directory-card-self { border-color:var(--forest); box-shadow:0 0 0 1px var(--forest) inset; }
+    .directory-card .badge-self { background:var(--forest); color:#fff; }
 
     /* Badges spécifiques à l'annuaire — surcharge volontaire du .badge du layout */
     .directory-card .badge { display:inline-block; padding:2px 8px; font-size:12px; border-radius:6px; background:var(--surface-soft); border:none; font-weight:600; color:var(--muted); white-space:nowrap; }
@@ -143,8 +145,11 @@
                 <p class="directory-side-count" x-text="membersInSelectedDept().length + ' membre' + (membersInSelectedDept().length > 1 ? 's' : '')"></p>
                 <div class="directory-side-list">
                     <template x-for="m in membersInSelectedDept()" :key="m.id">
-                        <div class="directory-card" @click="openModal(m.id)">
-                            <div class="directory-card-name" x-text="m.first_name + ' ' + m.last_name"></div>
+                        <div class="directory-card" :class="{ 'directory-card-self': m.is_self }" @click="openModal(m.id)">
+                            <div class="directory-card-name">
+                                <span x-text="m.first_name + ' ' + m.last_name"></span>
+                                <span class="badge badge-self" x-show="m.is_self">Vous</span>
+                            </div>
                             <div class="directory-card-meta">
                                 <template x-for="g in m.groups">
                                     <span class="badge" :class="'badge-group-' + g" x-text="groupLabel(g)"></span>
@@ -160,8 +165,11 @@
     {{-- Vue Liste --}}
     <div x-show="view === 'liste'" x-cloak class="directory-list">
         <template x-for="m in members" :key="m.id">
-            <div class="directory-card" @click="openModal(m.id)">
-                <div class="directory-card-name" x-text="m.first_name + ' ' + m.last_name"></div>
+            <div class="directory-card" :class="{ 'directory-card-self': m.is_self }" @click="openModal(m.id)">
+                <div class="directory-card-name">
+                    <span x-text="m.first_name + ' ' + m.last_name"></span>
+                    <span class="badge badge-self" x-show="m.is_self">Vous</span>
+                </div>
                 <div class="directory-card-meta">
                     <span class="badge" x-show="m.department" x-text="'Dépt ' + m.department"></span>
                     <template x-for="g in m.groups">

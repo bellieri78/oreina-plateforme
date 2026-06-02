@@ -90,9 +90,23 @@ class DirectoryShowTest extends TestCase
             ->assertNotFound();
     }
 
-    public function test_show_returns_404_for_self(): void
+    public function test_show_returns_own_card_for_self_when_opt_in(): void
     {
-        $this->authMember->update(['directory_opt_in' => true, 'postal_code' => '75001']);
+        $this->authMember->update([
+            'directory_opt_in' => true, 'postal_code' => '75001',
+            'first_name' => 'Self', 'last_name' => 'CALLER',
+        ]);
+        $this->actingAs($this->authUser)
+            ->get(route('member.directory.show', $this->authMember))
+            ->assertOk()
+            ->assertSeeText('Self CALLER')
+            ->assertSeeText('Vous')
+            ->assertSeeText('Gérer ma fiche annuaire');
+    }
+
+    public function test_show_returns_404_for_self_when_not_opt_in(): void
+    {
+        $this->authMember->update(['directory_opt_in' => false, 'postal_code' => '75001']);
         $this->actingAs($this->authUser)
             ->get(route('member.directory.show', $this->authMember))
             ->assertNotFound();

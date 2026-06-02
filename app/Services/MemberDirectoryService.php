@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class MemberDirectoryService
 {
-    public function filter(array $params, Member $excluding): Collection
+    public function filter(array $params, Member $self): Collection
     {
-        $query = Member::inDirectory()->where('id', '!=', $excluding->id);
+        // L'adhérent courant figure dans ses propres résultats s'il est lui-même
+        // dans l'annuaire (scope inDirectory : opt-in + adhésion à jour).
+        $query = Member::inDirectory();
 
         if (!empty($params['departments']) && is_array($params['departments'])) {
             $query->where(function ($q) use ($params) {
@@ -39,7 +41,7 @@ class MemberDirectoryService
         return $query->orderBy('last_name')->orderBy('first_name')->get();
     }
 
-    public function toJsonRow(Member $member): array
+    public function toJsonRow(Member $member, ?int $selfId = null): array
     {
         $phone = ($member->directory_phone_visible && !empty($member->mobile))
             ? $member->mobile
@@ -54,6 +56,7 @@ class MemberDirectoryService
             'phone'      => $phone,
             'groups'     => $member->directory_groups ?? [],
             'photo_url'  => $member->photo_path ? Storage::disk('public')->url($member->photo_path) : null,
+            'is_self'    => $selfId !== null && $member->id === $selfId,
         ];
     }
 }

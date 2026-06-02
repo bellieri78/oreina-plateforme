@@ -35,7 +35,7 @@ class DirectoryController extends Controller
 
         return response()->json([
             'count' => $members->count(),
-            'members' => $members->map(fn ($m) => $this->service->toJsonRow($m))->values(),
+            'members' => $members->map(fn ($m) => $this->service->toJsonRow($m, $member?->id))->values(),
         ]);
     }
 
@@ -43,7 +43,7 @@ class DirectoryController extends Controller
     {
         $self = $request->attributes->get('current_member');
 
-        if (!$self || $id === $self->id) {
+        if (!$self) {
             abort(404);
         }
 
@@ -53,6 +53,7 @@ class DirectoryController extends Controller
             'member' => $member,
             'phone' => ($member->directory_phone_visible && !empty($member->mobile)) ? $member->mobile : null,
             'groups' => $member->directory_groups ?? [],
+            'isSelf' => $member->id === $self->id,
         ]);
     }
 

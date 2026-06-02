@@ -58,15 +58,31 @@ class DirectoryDataTest extends TestCase
         return $m;
     }
 
-    public function test_data_excludes_self(): void
+    public function test_data_includes_self_when_opt_in(): void
     {
         $other = $this->makeOptInOther();
 
         $response = $this->actingAs($this->authUser)->getJson('/espace-membre/annuaire/data');
 
         $response->assertOk();
-        $ids = collect($response->json('members'))->pluck('id')->all();
+        $rows = collect($response->json('members'));
+        $ids = $rows->pluck('id')->all();
         $this->assertContains($other->id, $ids);
+        $this->assertContains($this->authMember->id, $ids);
+
+        $selfRow = $rows->firstWhere('id', $this->authMember->id);
+        $this->assertTrue($selfRow['is_self']);
+        $otherRow = $rows->firstWhere('id', $other->id);
+        $this->assertFalse($otherRow['is_self']);
+    }
+
+    public function test_data_excludes_self_when_not_opt_in(): void
+    {
+        $this->authMember->update(['directory_opt_in' => false]);
+
+        $response = $this->actingAs($this->authUser)->getJson('/espace-membre/annuaire/data');
+
+        $ids = collect($response->json('members'))->pluck('id')->all();
         $this->assertNotContains($this->authMember->id, $ids);
     }
 

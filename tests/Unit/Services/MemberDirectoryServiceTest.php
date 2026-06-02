@@ -21,7 +21,9 @@ class MemberDirectoryServiceTest extends TestCase
     {
         parent::setUp();
         $this->service = new MemberDirectoryService();
-        $this->excluding = $this->makeMember(['first_name' => 'Self', 'last_name' => 'EXCLUDING']);
+        // Adhérent courant : lui-même dans l'annuaire (opt-in + à jour), sans dépt/groupe
+        // pour ne pas interférer avec les tests de filtre par département/groupe/recherche.
+        $this->excluding = $this->makeOptInMember(['first_name' => 'Self', 'last_name' => 'EXCLUDING']);
     }
 
     private function makeMember(array $attrs = []): Member
@@ -51,13 +53,28 @@ class MemberDirectoryServiceTest extends TestCase
         return $member;
     }
 
-    public function test_filter_excludes_self(): void
+    public function test_filter_includes_self_when_in_directory(): void
     {
         $other = $this->makeOptInMember(['postal_code' => '75001', 'first_name' => 'Other']);
 
         $results = $this->service->filter([], $this->excluding);
 
-        $this->assertSame([$other->id], $results->pluck('id')->all());
+        $this->assertEqualsCanonicalizing(
+            [$this->excluding->id, $other->id],
+            $results->pluck('id')->all()
+        );
+    }
+
+    public function test_to_json_row_flags_self(): void
+    {
+        $other = $this->makeOptInMember(['first_name' => 'Other']);
+
+        $selfRow = $this->service->toJsonRow($this->excluding, $this->excluding->id);
+        $otherRow = $this->service->toJsonRow($other, $this->excluding->id);
+
+        $this->assertTrue($selfRow['is_self']);
+        $this->assertFalse($otherRow['is_self']);
+        $this->assertFalse($this->service->toJsonRow($other)['is_self']);
     }
 
     public function test_filter_by_single_department(): void

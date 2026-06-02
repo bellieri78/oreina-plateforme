@@ -8,7 +8,12 @@
             </div>
         @endif
         <div>
-            <h2>{{ $member->first_name }} {{ $member->last_name }}</h2>
+            <h2>
+                {{ $member->first_name }} {{ $member->last_name }}
+                @if(!empty($isSelf))
+                    <span class="badge" style="background:var(--forest);color:#fff;">Vous</span>
+                @endif
+            </h2>
             @php($dept = $member->directoryDepartment())
             @if($dept)
                 <span class="badge">Département {{ $dept }}</span>
@@ -44,8 +49,14 @@
     </div>
 
     <div class="directory-modal-actions" style="margin-top:18px;">
-        <a href="{{ route('member.chat', ['with' => $member->id]) }}" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
-            <i data-lucide="message-circle" aria-hidden="true"></i> Envoyer un message
-        </a>
+        @if(!empty($isSelf))
+            <a href="{{ route('member.profile.preferences') }}" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+                <i data-lucide="settings" aria-hidden="true"></i> Gérer ma fiche annuaire
+            </a>
+        @else
+            <a href="{{ route('member.chat', ['with' => $member->id]) }}" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;">
+                <i data-lucide="message-circle" aria-hidden="true"></i> Envoyer un message
+            </a>
+        @endif
     </div>
 </div>
