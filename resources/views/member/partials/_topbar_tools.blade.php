@@ -34,7 +34,7 @@
             <i data-lucide="mail"></i>
         </a>
         @if($isAuthCurrentMember)
-        <a href="{{ route('member.chat') }}" class="topbar-icon" title="Chat réseau" style="position:relative;">
+        <a href="{{ route('member.chat') }}" class="topbar-icon" title="Messagerie adhérents" style="position:relative;">
             <i data-lucide="message-circle"></i>
             @if($chatUnreadCount > 0)
             <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--coral);border:1.5px solid var(--bg);"></span>

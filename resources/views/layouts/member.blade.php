@@ -2213,7 +2213,7 @@
         {{-- LEFT SIDEBAR --}}
         <aside class="sidebar" id="memberSidebar">
             {{-- Brand --}}
-            <a href="{{ route('hub.home') }}" class="brand">
+            <a href="{{ route('member.dashboard') }}" class="brand">
                 <div class="brand-mark">
                     <img src="/images/LOGO-OREINA-PAPILLON-CORAIL-SEUL_blanc.png" alt="OREINA" onerror="this.style.display='none'; this.parentNode.textContent='O';">
                 </div>
@@ -2289,7 +2289,7 @@
                 </a>
                 <a href="{{ route('member.chat') }}" class="nav-item {{ request()->routeIs('member.chat*') ? 'active' : '' }}">
                     <i data-lucide="message-circle" class="icon"></i>
-                    <span class="nav-label">Chat réseau</span>
+                    <span class="nav-label">Messagerie adhérents</span>
                     @if($chatUnreadCount > 0)<span class="nav-badge-count">{{ $chatUnreadCount }}</span>@endif
                 </a>
                 <a href="{{ route('member.directory.index') }}" class="nav-item {{ request()->routeIs('member.directory*') ? 'active' : '' }}">
@@ -2308,7 +2308,7 @@
                 </a>
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">
                     <i data-lucide="message-circle" class="icon"></i>
-                    <span class="nav-label">Chat réseau</span>
+                    <span class="nav-label">Messagerie adhérents</span>
                     <span class="nav-badge-lock">Adhérent</span>
                 </a>
                 <a href="{{ route('hub.membership') }}" class="nav-item nav-item-locked">

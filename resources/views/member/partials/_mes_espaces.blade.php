@@ -38,13 +38,13 @@
             </div>
         @endforelse
 
-        {{-- Chat réseau --}}
+        {{-- Messagerie adhérents --}}
         <a href="{{ route('member.chat') }}" class="space-row">
             <span class="space-row-icon" style="background: #7c3aed;">
                 <i data-lucide="message-circle"></i>
             </span>
             <span class="space-row-body">
-                <strong>Chat réseau</strong>
+                <strong>Messagerie adhérents</strong>
                 <span>Échanges entre tous les membres</span>
             </span>
             @if($chatUnreadCount > 0)
