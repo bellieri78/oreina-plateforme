@@ -1,5 +1,5 @@
 <div class="card panel">
-    <div class="panel-head"><div><h2>Activité récente</h2></div></div>
+    <div class="panel-head"><div><h2>Activité du groupe</h2></div></div>
 
     @forelse($activity as $event)
     <div style="display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
