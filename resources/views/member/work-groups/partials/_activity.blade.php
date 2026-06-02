@@ -1,19 +1,25 @@
+@php
+    $actPalette = [
+        'join'     => ['#fdeede','#b45309','user-plus'],
+        'thread'   => ['#e7f3ec','#2f694e','message-square'],
+        'resource' => ['#f3ecfb','#7c3aed','folder'],
+    ];
+@endphp
 <div class="card panel">
     <div class="panel-head"><div><h2>Activité du groupe</h2></div></div>
 
     @forelse($activity as $event)
-    <div style="display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
-        <div class="reseau-avatar" style="margin:0;width:32px;height:32px;flex-shrink:0;">
-            <i data-lucide="{{ $event['type'] === 'join' ? 'user-plus' : ($event['type'] === 'thread' ? 'message-square' : 'folder') }}" style="width:15px;height:15px;"></i>
-        </div>
-        <div style="flex:1;min-width:0;">
+    @php($pal = $actPalette[$event['type']] ?? ['#e4eef5','#356B8A','activity'])
+    <div class="gt-feed-item">
+        <span class="gt-feed-ic" style="background:{{ $pal[0] }};color:{{ $pal[1] }};"><i data-lucide="{{ $pal[2] }}"></i></span>
+        <div class="gt-feed-body">
             @if($event['href'])
-                <a href="{{ $event['href'] }}" class="text-link" style="display:block;">{{ $event['label'] }}</a>
+                <a href="{{ $event['href'] }}" class="text-link" style="display:block;font-weight:700;color:var(--text);">{{ $event['label'] }}</a>
             @else
-                <span style="display:block;">{{ $event['label'] }}</span>
+                <span style="display:block;font-weight:700;">{{ $event['label'] }}</span>
             @endif
-            <small style="color:var(--muted);">{{ $event['date']->diffForHumans() }}</small>
         </div>
+        <span class="gt-feed-time">{{ $event['date']->diffForHumans() }}</span>
     </div>
     @empty
     <p style="color:var(--muted);padding:8px 0;">Aucune activité récente.</p>

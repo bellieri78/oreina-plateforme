@@ -3,7 +3,10 @@
     <div class="panel-head"><div><h2>Liens rapides</h2></div></div>
     @foreach($quickLinks as $link)
     <a href="{{ $link['url'] }}" target="_blank" rel="noopener" class="gt-quick-item">
-        <span style="display:inline-flex;align-items:center;gap:10px;"><i data-lucide="{{ $link['icon'] }}"></i>{{ $link['label'] }}</span>
+        <span style="display:inline-flex;align-items:center;gap:10px;">
+            <span class="gt-sq" style="background:#e4eef5;color:#356B8A;"><i data-lucide="{{ $link['icon'] }}"></i></span>
+            {{ $link['label'] }}
+        </span>
         <i data-lucide="chevron-right" style="width:16px;height:16px;color:var(--muted);"></i>
     </a>
     @endforeach
