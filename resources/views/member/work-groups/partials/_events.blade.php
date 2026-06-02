@@ -1,9 +1,10 @@
 @php
     $canManage = $workGroup->isCoordinator($member);
+    $eventsList = $allGroupEvents ?? $upcomingGroupEvents;
 @endphp
 <div class="card panel" style="margin-top:18px;">
     <div class="panel-head" style="display:flex; justify-content:space-between; align-items:center;">
-        <div><h2>Prochaines réunions</h2></div>
+        <div><h2>Réunions du groupe</h2></div>
         @if($canManage)
         <button type="button" class="btn btn-secondary" @click="planMeeting = !planMeeting">
             <i data-lucide="calendar-plus"></i><span x-text="planMeeting ? 'Fermer' : 'Planifier'"></span>
@@ -13,7 +14,18 @@
 
     @if($canManage)
     <div x-show="planMeeting" x-cloak x-transition style="margin:6px 0 18px; padding:18px; border:1px solid var(--border); border-radius:14px; background:var(--surface-soft);">
-        <form method="POST" action="{{ route('member.work-groups.events.store', $workGroup) }}" x-data="{ mode: 'online' }" style="display:grid; gap:14px; max-width:620px;">
+        @if($errors->any())
+        <div class="flash-error" style="margin-bottom:14px;">
+            <i data-lucide="alert-circle"></i>
+            <div>
+                <strong>Le formulaire contient des erreurs :</strong>
+                <ul style="margin:6px 0 0; padding-left:18px;">
+                    @foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
+        <form method="POST" action="{{ route('member.work-groups.events.store', $workGroup) }}" x-data="{ mode: '{{ old('mode', 'online') }}' }" style="display:grid; gap:14px; max-width:620px;">
             @csrf
             <div>
                 <label class="wg-field-label">Titre de la réunion</label>
@@ -64,16 +76,17 @@
     </div>
     @endif
 
-    @forelse($upcomingGroupEvents as $ev)
-        <div class="agenda-item" style="grid-template-columns:56px 1fr auto; padding:10px 0; border-bottom:1px solid var(--border);">
+    @forelse($eventsList as $ev)
+        <div class="agenda-item" style="grid-template-columns:56px 1fr auto; padding:10px 0; border-bottom:1px solid var(--border);{{ $ev->start_date->isPast() ? 'opacity:.6;' : '' }}">
             <div class="agenda-date">
                 <small>{{ $ev->start_date->translatedFormat('M') }}</small>
                 <strong>{{ $ev->start_date->format('d') }}</strong>
             </div>
             <div class="agenda-item-body">
                 <strong>{{ $ev->title }}</strong>
+                @if($ev->start_date->isPast())<span class="badge" style="margin-left:6px;">Passée</span>@endif
                 <small>
-                    {{ $ev->start_date->format('H\hi') }}
+                    {{ $ev->start_date->translatedFormat('d M Y') }} · {{ $ev->start_date->format('H\hi') }}
                     @if($ev->meeting_url) · <a href="{{ $ev->meeting_url }}" target="_blank" rel="noopener">Lien visio</a>
                     @elseif($ev->location_city) · {{ $ev->location_city }}@endif
                 </small>
@@ -89,6 +102,6 @@
             @endif
         </div>
     @empty
-        <p style="color:var(--muted); padding:10px 0;">Aucune réunion programmée.</p>
+        <p style="color:var(--muted); padding:10px 0;">Aucune réunion pour le moment.</p>
     @endforelse
 </div>

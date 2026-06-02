@@ -102,7 +102,7 @@
     }
 </style>
 
-<div class="gt-page" x-data="{ tab: new URLSearchParams(location.search).get('tab') || 'accueil', membersOpen:false, newThread:false, planMeeting:false }">
+<div class="gt-page" x-data="{ tab: '{{ $errors->any() ? 'evenements' : '' }}' || new URLSearchParams(location.search).get('tab') || 'accueil', membersOpen:false, newThread:false, planMeeting:{{ $errors->any() ? 'true' : 'false' }} }">
 
     @if(session('success'))<div class="flash-success"><i data-lucide="check-circle"></i>{{ session('success') }}</div>@endif
     @if(session('error'))<div class="flash-error"><i data-lucide="alert-circle"></i>{{ session('error') }}</div>@endif

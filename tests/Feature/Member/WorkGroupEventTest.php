@@ -72,6 +72,41 @@ class WorkGroupEventTest extends TestCase
         $this->assertDatabaseMissing('events', ['title' => 'Tentative']);
     }
 
+    public function test_store_redirects_to_events_tab(): void
+    {
+        [$u, $m] = $this->member();
+        $wg = WorkGroup::create(['name' => 'GT Redirect', 'is_active' => true]);
+        $wg->members()->attach($m->id, ['role' => 'coordinator', 'status' => 'active', 'joined_at' => now()]);
+
+        $this->actingAs($u)
+            ->post(route('member.work-groups.events.store', $wg), [
+                'title' => 'Reunion redirigee',
+                'start_date' => now()->addWeek()->format('Y-m-d\TH:i'),
+                'mode' => 'online',
+                'meeting_url' => 'https://meet.example.org/r',
+            ])
+            ->assertRedirect(route('member.work-groups.show', $wg).'?tab=evenements')
+            ->assertSessionHas('success');
+    }
+
+    public function test_events_management_list_shows_past_event(): void
+    {
+        [$u, $m] = $this->member();
+        $wg = WorkGroup::create(['name' => 'GT Passe', 'is_active' => true]);
+        $wg->members()->attach($m->id, ['role' => 'coordinator', 'status' => 'active', 'joined_at' => now()]);
+        $wg->events()->create([
+            'title' => 'Reunion passee X', 'slug' => 'reunion-passee-x',
+            'start_date' => now()->subDays(3), 'status' => 'published',
+            'visibility' => Event::VIS_GROUP, 'organizer_id' => $u->id,
+        ]);
+
+        // La liste de gestion (allGroupEvents) doit inclure les réunions passées
+        $this->actingAs($u)
+            ->get(route('member.work-groups.show', $wg))
+            ->assertOk()
+            ->assertSee('Reunion passee X');
+    }
+
     public function test_online_mode_requires_meeting_url(): void
     {
         [$u, $m] = $this->member();

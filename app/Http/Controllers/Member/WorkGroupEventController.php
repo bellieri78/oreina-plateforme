@@ -58,7 +58,14 @@ class WorkGroupEventController extends Controller
 
         $workGroup->events()->create($payload);
 
-        return back()->with('success', 'Réunion planifiée.');
+        return redirect(route('member.work-groups.show', $workGroup).'?tab=evenements')
+            ->with('success', 'Réunion planifiée.');
+    }
+
+    private function eventsTabRedirect(WorkGroup $workGroup, string $message)
+    {
+        return redirect(route('member.work-groups.show', $workGroup).'?tab=evenements')
+            ->with('success', $message);
     }
 
     public function update(Request $request, WorkGroup $workGroup, Event $event)
@@ -69,7 +76,7 @@ class WorkGroupEventController extends Controller
         $data = $request->validate($this->rules());
         $event->update($this->payload($data, $workGroup, $event->organizer_id ?? $request->user()->id));
 
-        return back()->with('success', 'Réunion mise à jour.');
+        return $this->eventsTabRedirect($workGroup, 'Réunion mise à jour.');
     }
 
     public function destroy(Request $request, WorkGroup $workGroup, Event $event)
@@ -79,6 +86,6 @@ class WorkGroupEventController extends Controller
 
         $event->delete();
 
-        return back()->with('success', 'Réunion supprimée.');
+        return $this->eventsTabRedirect($workGroup, 'Réunion supprimée.');
     }
 }

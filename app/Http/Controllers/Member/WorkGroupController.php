@@ -135,6 +135,11 @@ class WorkGroupController extends Controller
             ->orderBy('start_date')
             ->get();
 
+        // Liste complète (passées + à venir) pour la vue de gestion des réunions
+        $allGroupEvents = $workGroup->events()
+            ->orderBy('start_date', 'desc')
+            ->get();
+
         // --- Données du tableau de bord (maquette GT2) ---
         $resourceCounts = [];
         $resourceTotal = 0;
@@ -171,7 +176,7 @@ class WorkGroupController extends Controller
             'forumCategories', 'activity', 'projects', 'recentThreads',
             'members', 'documentsCount', 'threadsCount',
             'recentDocuments', 'recentLinks', 'documents', 'links',
-            'upcomingGroupEvents',
+            'upcomingGroupEvents', 'allGroupEvents',
             'resourceCounts', 'resourceTotal', 'nextEvent', 'latestMembers', 'quickLinks'
         ));
     }
