@@ -64,6 +64,8 @@
     .directory-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:transform .15s; }
     .directory-card:hover { transform:translateY(-2px); }
     .directory-card-name { font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .directory-avatar { width:36px; height:36px; border-radius:50%; flex-shrink:0; overflow:hidden; display:inline-flex; align-items:center; justify-content:center; background:var(--forest); color:#fff; font-size:13px; font-weight:700; text-transform:uppercase; }
+    .directory-avatar img { width:100%; height:100%; object-fit:cover; }
     .directory-card-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
     .directory-card-self { border-color:var(--forest); box-shadow:0 0 0 1px var(--forest) inset; }
     .directory-card .badge-self { background:var(--forest); color:#fff; }
@@ -147,6 +149,10 @@
                     <template x-for="m in membersInSelectedDept()" :key="m.id">
                         <div class="directory-card" :class="{ 'directory-card-self': m.is_self }" @click="openModal(m.id)">
                             <div class="directory-card-name">
+                                <span class="directory-avatar">
+                                    <template x-if="m.photo_url"><img :src="m.photo_url" :alt="m.first_name + ' ' + m.last_name"></template>
+                                    <template x-if="!m.photo_url"><span x-text="initials(m)"></span></template>
+                                </span>
                                 <span x-text="m.first_name + ' ' + m.last_name"></span>
                                 <span class="badge badge-self" x-show="m.is_self">Vous</span>
                             </div>
@@ -167,6 +173,10 @@
         <template x-for="m in members" :key="m.id">
             <div class="directory-card" :class="{ 'directory-card-self': m.is_self }" @click="openModal(m.id)">
                 <div class="directory-card-name">
+                    <span class="directory-avatar">
+                        <template x-if="m.photo_url"><img :src="m.photo_url" :alt="m.first_name + ' ' + m.last_name"></template>
+                        <template x-if="!m.photo_url"><span x-text="initials(m)"></span></template>
+                    </span>
                     <span x-text="m.first_name + ' ' + m.last_name"></span>
                     <span class="badge badge-self" x-show="m.is_self">Vous</span>
                 </div>
@@ -264,6 +274,10 @@ function directoryApp() {
 
         groupLabel(slug) {
             return GROUP_LABELS[slug] || slug;
+        },
+
+        initials(m) {
+            return ((m.first_name || '').charAt(0) + (m.last_name || '').charAt(0));
         },
 
         syncUrl() {
