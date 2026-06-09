@@ -17,7 +17,7 @@ class MemberUserLinkService
     {
         $emailMatches = Member::query()
             ->withoutAccount()
-            ->where('anonymise', false)
+            ->notAnonymized()
             ->whereRaw('lower(email) = ?', [mb_strtolower((string) $user->email)])
             ->get();
 
@@ -27,7 +27,7 @@ class MemberUserLinkService
         if ($name !== '') {
             $nameMatches = Member::query()
                 ->withoutAccount()
-                ->where('anonymise', false)
+                ->notAnonymized()
                 ->where(function ($q) use ($name) {
                     $q->whereRaw("lower(trim(coalesce(first_name,'') || ' ' || coalesce(last_name,''))) = ?", [$name])
                       ->orWhereRaw("lower(trim(coalesce(last_name,'') || ' ' || coalesce(first_name,''))) = ?", [$name]);
@@ -76,6 +76,10 @@ class MemberUserLinkService
      */
     public function unlink(Member $member): void
     {
+        if ($member->user_id === null) {
+            return;
+        }
+
         $oldUserId = $member->user_id;
 
         Member::whereKey($member->id)->update(['user_id' => null]);
@@ -86,7 +90,7 @@ class MemberUserLinkService
             AuditLog::ACTION_UPDATE,
             ['user_id' => $oldUserId],
             ['user_id' => null],
-            "Detachement manuel du compte #{$oldUserId}"
+            "Détachement manuel du compte #{$oldUserId}"
         );
     }
 }
