@@ -64,4 +64,63 @@ class MemberUserLinkServiceTest extends TestCase
         $this->assertNotContains($linked->id, $ids);
         $this->assertNotContains($anon->id, $ids);
     }
+
+    public function test_link_sets_user_id_atomically_and_audits(): void
+    {
+        $user = User::factory()->create();
+        $member = $this->makeMember();
+
+        $service = new \App\Services\MemberUserLinkService();
+        $ok = $service->link($user, $member);
+
+        $this->assertTrue($ok);
+        $this->assertSame($user->id, $member->fresh()->user_id);
+        $this->assertDatabaseHas('audit_logs', [
+            'table_name' => 'members',
+            'record_id'  => $member->id,
+            'action'     => 'UPDATE',
+        ]);
+    }
+
+    public function test_link_refused_when_member_already_taken(): void
+    {
+        $owner = User::factory()->create();
+        $other = User::factory()->create();
+        $member = $this->makeMember(['user_id' => $owner->id]);
+
+        $service = new \App\Services\MemberUserLinkService();
+        $ok = $service->link($other, $member);
+
+        $this->assertFalse($ok);
+        $this->assertSame($owner->id, $member->fresh()->user_id);
+    }
+
+    public function test_link_refused_when_user_already_has_member(): void
+    {
+        $user = User::factory()->create();
+        $this->makeMember(['email' => 'first@example.com', 'user_id' => $user->id]);
+        $candidate = $this->makeMember(['email' => 'second@example.com']);
+
+        $service = new \App\Services\MemberUserLinkService();
+        $ok = $service->link($user, $candidate);
+
+        $this->assertFalse($ok);
+        $this->assertNull($candidate->fresh()->user_id);
+    }
+
+    public function test_unlink_clears_user_id_and_audits(): void
+    {
+        $user = User::factory()->create();
+        $member = $this->makeMember(['user_id' => $user->id]);
+
+        $service = new \App\Services\MemberUserLinkService();
+        $service->unlink($member);
+
+        $this->assertNull($member->fresh()->user_id);
+        $this->assertDatabaseHas('audit_logs', [
+            'table_name' => 'members',
+            'record_id'  => $member->id,
+            'action'     => 'UPDATE',
+        ]);
+    }
 }
