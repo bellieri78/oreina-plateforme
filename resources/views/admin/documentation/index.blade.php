@@ -2712,6 +2712,26 @@
                 <h2>Gestion des Utilisateurs</h2>
                 <p>Gerez les comptes utilisateurs et leurs droits d'acces a l'extranet.</p>
 
+                <h3>Compte utilisateur et fiche contact</h3>
+                <p>Deux notions distinctes coexistent et ne doivent pas être confondues :</p>
+                <ul>
+                    <li><strong>Le compte utilisateur</strong> (table <code>users</code>) : l'identité de <em>connexion</em> — e-mail, mot de passe, rôle, permissions, accès SSO. C'est ce que gère cette page.</li>
+                    <li><strong>La fiche contact / adhérent</strong> (table <code>members</code>) : l'identité <em>métier</em> — adhésions, dons, RGPD, annuaire, groupes de travail. Elle se gère depuis <a href="#contacts" style="color:#356B8A;">Contacts</a>.</li>
+                </ul>
+                <p>
+                    Les deux sont reliés par un lien <strong>1 pour 1 facultatif</strong> (champ <code>user_id</code> de la fiche) : une fiche peut exister <strong>sans</strong> compte (adhérent jamais connecté, contact importé) et un compte peut exister <strong>sans</strong> fiche (éditeur ou reviewer non adhérent). Depuis la fiche d'un utilisateur, la carte « Fiche contact » donne accès au contact rattaché.
+                </p>
+
+                <h3>Rattacher un compte à une fiche contact</h3>
+                <p>
+                    À l'inscription publique, le compte est <strong>automatiquement</strong> rattaché à une fiche existante si les e-mails correspondent (voir <a href="#inscription" style="color:#356B8A;">Inscription et rattachement</a>). Pour tous les autres cas — e-mail différent, compte créé via l'API ou en back-office — un outil de rattachement manuel est intégré à cette page :
+                </p>
+                <ul>
+                    <li>Dans la <strong>liste des utilisateurs</strong>, la colonne <strong>Fiche contact</strong> affiche la fiche reliée (ou « — » si aucune). Le filtre <strong>Fiche : Sans fiche</strong> isole les comptes orphelins.</li>
+                    <li>Sur la <strong>fiche d'un utilisateur</strong>, la carte <strong>Fiche contact</strong> propose des suggestions automatiques (même e-mail ou même nom) et une recherche libre ; un clic sur <strong>Rattacher</strong> relie la fiche, le bouton <strong>Détacher</strong> corrige une erreur.</li>
+                    <li>Seules les fiches <strong>sans compte</strong> sont proposées (pas de risque de relier la fiche d'un autre adhérent). Le rattachement ne modifie <strong>jamais</strong> les adresses e-mail : l'e-mail de connexion et l'e-mail de contact peuvent légitimement différer.</li>
+                </ul>
+
                 <h3>Roles disponibles</h3>
                 <div class="doc-table">
                     <table class="table">
