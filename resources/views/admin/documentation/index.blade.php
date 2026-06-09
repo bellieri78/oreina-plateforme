@@ -351,6 +351,32 @@
                     <strong>Rattachement manuel :</strong> Si l'email du compte ne correspond pas à celui de la fiche adhérent (email différent, faute de frappe...), un administrateur peut rattacher manuellement le compte en modifiant le champ <code>user_id</code> de la fiche membre dans l'extranet, ou en mettant à jour l'email de l'adhérent pour qu'il corresponde.<br><br>
                     <strong>Important :</strong> Le rattachement automatique ne fonctionne que si l'adhérent a été créé dans l'extranet <strong>avant</strong> la création du compte. Si le compte est créé en premier, il faudra rattacher manuellement après création de la fiche adhérent.
                 </div>
+
+                <h3>Rattacher manuellement un compte à une fiche contact</h3>
+                <p>
+                    Le rattachement automatique par e-mail ne fonctionne que si le compte et la fiche
+                    adhérent partagent la même adresse. Pour tous les autres cas (e-mail différent, compte
+                    créé via l'API ou par un administrateur), un outil manuel est disponible depuis
+                    <strong>Utilisateurs</strong>.
+                </p>
+                <ul>
+                    <li>
+                        Dans la liste des utilisateurs, la colonne <strong>Fiche contact</strong> indique si
+                        un compte est relié à une fiche. Le filtre <strong>Sans fiche</strong> isole les
+                        comptes orphelins.
+                    </li>
+                    <li>
+                        Sur la fiche d'un utilisateur, la carte <strong>Fiche contact</strong> propose des
+                        suggestions automatiques (même e-mail ou même nom) et une recherche libre. Un clic
+                        sur <strong>Rattacher</strong> relie la fiche au compte ; le bouton
+                        <strong>Détacher</strong> permet de corriger une erreur.
+                    </li>
+                    <li>
+                        Seules les fiches <strong>sans compte</strong> sont proposées (aucun risque de voler
+                        la fiche d'un autre adhérent). Le rattachement ne modifie jamais les adresses e-mail :
+                        l'e-mail de connexion et l'e-mail de contact peuvent légitimement différer.
+                    </li>
+                </ul>
             </section>
 
             {{-- Tableau de bord --}}
