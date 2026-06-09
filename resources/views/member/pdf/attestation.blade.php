@@ -69,6 +69,12 @@
     @php
         $logoPath = public_path('images/logo.jpg');
         $logoData = is_file($logoPath) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($logoPath)) : null;
+
+        $assocPresident = \App\Models\Setting::getValue('association_president', '');
+        $assocCity      = \App\Models\Setting::getValue('association_city', 'Paris') ?: 'Paris';
+        $assocAddress   = \App\Models\Setting::getValue('association_address', '');
+        $assocWebsite   = \App\Models\Setting::getValue('association_website', 'www.oreina.org');
+        $assocEmail     = \App\Models\Setting::getValue('contact_email', 'contact@oreina.org');
     @endphp
     <div class="header">
         @if($logoData)
@@ -85,7 +91,7 @@
         <p>Je soussigné(e), Président(e) de l'association OREINA, certifie que :</p>
 
         <div class="member-info">
-            <p><strong>{{ $member->civilite }} {{ $member->full_name }}</strong></p>
+            <p><strong>{{ $member->full_name }}</strong></p>
             @if($member->address)
             <p>{{ $member->address }}</p>
             <p>{{ $member->postal_code }} {{ $member->city }}</p>
@@ -107,14 +113,17 @@
     </div>
 
     <div class="signature">
-        <p>Fait à Paris, le {{ now()->format('d/m/Y') }}</p>
+        <p>Fait à {{ $assocCity }}, le {{ now()->format('d/m/Y') }}</p>
         <p>Le/La Président(e)</p>
+        @if($assocPresident)
+            <p style="margin-top:4px;"><strong>{{ $assocPresident }}</strong></p>
+        @endif
         <div class="signature-line"></div>
     </div>
 
     <div class="footer">
         <p>OREINA - Association loi 1901</p>
-        <p>Siège social : [Adresse du siège] | contact@oreina.org | www.oreina.org</p>
+        <p>{{ $assocAddress ? 'Siège social : ' . $assocAddress . ' | ' : '' }}{{ $assocEmail }} | {{ $assocWebsite }}</p>
     </div>
 </body>
 </html>

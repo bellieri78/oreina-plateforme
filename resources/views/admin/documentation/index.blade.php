@@ -3304,6 +3304,18 @@ MAIL_FROM_NAME="Chersotis, OREINA"</pre>
                     <li><strong>Mode maintenance</strong> : desactiver temporairement l'acces public</li>
                 </ul>
 
+                <h4>Association &amp; documents officiels</h4>
+                <p>Ces champs alimentent l'<strong>attestation d'adhésion</strong>, le <strong>reçu d'adhésion</strong> et le <strong>reçu fiscal (Cerfa)</strong> téléchargés par les adhérents.</p>
+                <ul>
+                    <li><strong>Nom du président(e)</strong> : affiché sous « Le/La Président(e) » au bas des attestations (zone de signature). Laissé vide = seul l'intitulé « Le/La Président(e) » apparaît.</li>
+                    <li><strong>Ville d'émission</strong> : la ville du « Fait à … » daté sur l'attestation (par défaut « Paris »).</li>
+                    <li><strong>Adresse du siège social</strong> : affichée dans le pied de page des documents et sur le reçu fiscal Cerfa.</li>
+                    <li><strong>Site web</strong> : affiché dans le pied de page des documents.</li>
+                </ul>
+                <div class="doc-info">
+                    <strong>Astuce :</strong> l'e-mail du pied de page reprend l'<em>Email de contact</em> des paramètres généraux. Après modification, les PDF générés tiennent compte des nouvelles valeurs immédiatement.
+                </div>
+
                 <h4>Revue scientifique</h4>
                 <ul>
                     <li><strong>Nom de la revue</strong> : titre officiel de la publication</li>

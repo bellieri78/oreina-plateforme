@@ -85,6 +85,10 @@
     @php
         $logoPath = public_path('images/logo.jpg');
         $logoData = is_file($logoPath) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents($logoPath)) : null;
+
+        $assocAddress = \App\Models\Setting::getValue('association_address', '');
+        $assocWebsite = \App\Models\Setting::getValue('association_website', 'www.oreina.org');
+        $assocEmail   = \App\Models\Setting::getValue('contact_email', 'contact@oreina.org');
     @endphp
     <div class="header">
         @if($logoData)
@@ -101,7 +105,7 @@
     </div>
 
     <div class="member-info">
-        <strong>{{ $member->civilite }} {{ $member->full_name }}</strong><br>
+        <strong>{{ $member->full_name }}</strong><br>
         @if($member->address)
             {{ $member->address }}<br>
             {{ $member->postal_code }} {{ $member->city }}<br>
@@ -147,7 +151,7 @@
 
     <div class="footer">
         <p>OREINA - Association loi 1901</p>
-        <p>Siège social : [Adresse] | contact@oreina.org | www.oreina.org</p>
+        <p>{{ $assocAddress ? 'Siège social : ' . $assocAddress . ' | ' : '' }}{{ $assocEmail }} | {{ $assocWebsite }}</p>
         <p style="margin-top: 10px;">Ce document ne constitue pas un reçu fiscal.</p>
     </div>
 </body>

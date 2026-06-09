@@ -121,10 +121,11 @@
         <div class="mt-4 flex gap-3">
             <a href="{{ route('member.membership.card') }}" class="btn btn-primary">
                 <i data-lucide="download"></i>
-                Télécharger en PDF
+                Télécharger la carte adhérent
             </a>
             <a href="{{ route('member.membership.attestation') }}" class="btn btn-secondary">
-                Attestation d'adhésion
+                <i data-lucide="download"></i>
+                Télécharger l'attestation d'adhésion
             </a>
         </div>
     </div>

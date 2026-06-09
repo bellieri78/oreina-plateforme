@@ -25,6 +25,7 @@ class SettingsController extends Controller
 
         $groups = [
             'general' => 'Parametres generaux',
+            'association' => 'Association & documents officiels',
             'journal' => 'Revue scientifique',
             'emails' => 'Emails',
             'memberships' => 'Adhesions',

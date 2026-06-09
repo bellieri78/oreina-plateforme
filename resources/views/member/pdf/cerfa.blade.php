@@ -102,7 +102,7 @@
     <h2>1. Organisme bénéficiaire du don</h2>
     <div class="section">
         <div class="row"><span class="label">Nom :</span> OREINA - Les Lépidoptères de France</div>
-        <div class="row"><span class="label">Adresse :</span> [Adresse du siège social]</div>
+        <div class="row"><span class="label">Adresse :</span> {{ \App\Models\Setting::getValue('association_address', '') ?: '[Adresse du siège social]' }}</div>
         <div class="row"><span class="label">Objet :</span> Étude et protection des Lépidoptères de France</div>
         <div class="row">
             <span class="checkbox checked"></span> reconnu d'utilité publique
