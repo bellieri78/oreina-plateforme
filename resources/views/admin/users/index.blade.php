@@ -105,11 +105,17 @@
                         <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Actif</option>
                         <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactif</option>
                     </select>
+
+                    <select name="member_link" class="form-select">
+                        <option value="">Fiche : toutes</option>
+                        <option value="linked" {{ request('member_link') === 'linked' ? 'selected' : '' }}>Avec fiche</option>
+                        <option value="none" {{ request('member_link') === 'none' ? 'selected' : '' }}>Sans fiche</option>
+                    </select>
                 </div>
 
                 <div class="filters-actions">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
-                    @if(request()->hasAny(['search', 'role', 'status']))
+                    @if(request()->hasAny(['search', 'role', 'status', 'member_link']))
                         <a href="{{ route('admin.users.index') }}" class="btn btn-ghost">Reset</a>
                     @endif
                 </div>
@@ -129,6 +135,7 @@
                         <th>Utilisateur</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>Fiche contact</th>
                         <th>Statut</th>
                         <th>Cree le</th>
                         <th class="text-right">Actions</th>
@@ -173,6 +180,15 @@
                                 </span>
                             </td>
                             <td>
+                                @if($u->member)
+                                    <a href="{{ route('admin.members.show', $u->member) }}" class="badge badge-success" style="text-decoration: none;">
+                                        {{ $u->member->full_name }}
+                                    </a>
+                                @else
+                                    <span style="color: #9ca3af;">—</span>
+                                @endif
+                            </td>
+                            <td>
                                 @if($u->is_active)
                                     <span class="badge badge-success">Actif</span>
                                 @else
@@ -210,7 +226,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">
+                            <td colspan="8">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">
                                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="48" height="48">

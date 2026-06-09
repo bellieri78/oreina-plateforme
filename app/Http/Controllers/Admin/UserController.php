@@ -35,7 +35,15 @@ class UserController extends Controller
             $query->where('is_active', $request->get('status') === 'active');
         }
 
-        $users = $query->orderBy('name')->paginate(20)->withQueryString();
+        if ($request->filled('member_link')) {
+            if ($request->get('member_link') === 'linked') {
+                $query->whereHas('member');
+            } elseif ($request->get('member_link') === 'none') {
+                $query->whereDoesntHave('member');
+            }
+        }
+
+        $users = $query->with('member')->orderBy('name')->paginate(20)->withQueryString();
 
         $stats = [
             'total' => User::count(),

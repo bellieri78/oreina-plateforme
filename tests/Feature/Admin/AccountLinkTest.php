@@ -128,4 +128,18 @@ class AccountLinkTest extends TestCase
             ->assertOk()
             ->assertJson(['results' => []]);
     }
+
+    public function test_index_filter_none_shows_only_unlinked_users(): void
+    {
+        $admin = $this->admin();
+        $linkedUser = User::factory()->create(['name' => 'Compte Lie']);
+        $this->makeMember(['email' => 'lie@example.com', 'user_id' => $linkedUser->id]);
+        $orphanUser = User::factory()->create(['name' => 'Compte Orphelin']);
+
+        $this->actingAs($admin)
+            ->get(route('admin.users.index', ['member_link' => 'none']))
+            ->assertOk()
+            ->assertSee('Compte Orphelin')
+            ->assertDontSee('Compte Lie');
+    }
 }
