@@ -42,4 +42,26 @@ class MemberUserLinkServiceTest extends TestCase
         );
         $this->assertTrue(User::withoutMember()->where('id', $user->id)->doesntExist());
     }
+
+    public function test_suggestions_match_email_then_name_and_exclude_linked_and_anonymized(): void
+    {
+        $user = User::factory()->create([
+            'name'  => 'Marie Martin',
+            'email' => 'marie@perso.fr',
+        ]);
+
+        $byEmail = $this->makeMember(['first_name' => 'Autre', 'last_name' => 'Nom', 'email' => 'marie@perso.fr']);
+        $byName = $this->makeMember(['first_name' => 'Marie', 'last_name' => 'Martin', 'email' => 'm.martin@asso.org']);
+        $linked = $this->makeMember(['first_name' => 'Marie', 'last_name' => 'Martin', 'email' => 'x@example.com', 'user_id' => $user->id]);
+        // members.email est unique en base : l'anonymise matche donc par nom (pas par email).
+        $anon = $this->makeMember(['first_name' => 'Marie', 'last_name' => 'Martin', 'email' => 'anon@perso.fr', 'anonymise' => true]);
+        $this->makeMember(['first_name' => 'Paul', 'last_name' => 'Durand', 'email' => 'paul@example.com']);
+
+        $service = new \App\Services\MemberUserLinkService();
+        $ids = $service->suggestionsFor($user)->pluck('id')->all();
+
+        $this->assertSame([$byEmail->id, $byName->id], array_slice($ids, 0, 2));
+        $this->assertNotContains($linked->id, $ids);
+        $this->assertNotContains($anon->id, $ids);
+    }
 }
