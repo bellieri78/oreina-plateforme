@@ -82,4 +82,35 @@ class AccountLinkTest extends TestCase
 
         $this->assertNull($member->fresh()->user_id);
     }
+
+    public function test_member_search_returns_only_unlinked_candidates(): void
+    {
+        $admin = $this->admin();
+        $target = User::factory()->create();
+        $linkedUser = User::factory()->create();
+
+        $hit = $this->makeMember(['first_name' => 'Camille', 'last_name' => 'Bernard', 'email' => 'camille@example.com']);
+        $this->makeMember(['first_name' => 'Camille', 'last_name' => 'Linked', 'email' => 'cl@example.com', 'user_id' => $linkedUser->id]);
+
+        $response = $this->actingAs($admin)
+            ->getJson(route('admin.users.member-search', $target) . '?q=camille');
+
+        $response->assertOk();
+        $ids = collect($response->json('results'))->pluck('id')->all();
+
+        $this->assertContains($hit->id, $ids);
+        $this->assertCount(1, $ids);
+    }
+
+    public function test_member_search_ignores_short_queries(): void
+    {
+        $admin = $this->admin();
+        $target = User::factory()->create();
+        $this->makeMember();
+
+        $this->actingAs($admin)
+            ->getJson(route('admin.users.member-search', $target) . '?q=a')
+            ->assertOk()
+            ->assertJson(['results' => []]);
+    }
 }
