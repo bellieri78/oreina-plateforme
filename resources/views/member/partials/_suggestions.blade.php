@@ -8,7 +8,7 @@ if ($suggestionArticle) {
         'subtitle'  => 'Par ' . ($suggestionArticle->author?->name ?? 'auteur OREINA'),
         'cta_label' => "Lire l'article",
         'cta_class' => 'btn-secondary',
-        'cta_href'  => route('journal.submissions.show', $suggestionArticle),
+        'cta_href'  => route('journal.articles.show', $suggestionArticle),
         'image'     => asset('images/projets/ident/pyrgus-malvoides.jpg'),
     ];
 }

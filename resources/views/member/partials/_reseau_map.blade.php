@@ -1,9 +1,9 @@
-<article class="card panel">
+<a href="{{ route('member.directory.index') }}" class="card panel" style="text-decoration:none;color:inherit;display:block;">
     <div class="panel-head">
         <div>
             <h2>Réseau des adhérents</h2>
         </div>
-        <a href="{{ route('member.directory.index') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir la carte complète</a>
+        <span class="text-link"><i data-lucide="arrow-right"></i>Voir la carte complète</span>
     </div>
 
     <div class="reseau-map-wrap">
@@ -53,4 +53,4 @@
         @endif
     </div>
     @endif
-</article>
+</a>

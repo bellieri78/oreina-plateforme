@@ -12,7 +12,7 @@ $resources = [
         <div>
             <h2>Ressources récentes</h2>
         </div>
-        <a href="{{ route('hub.lepis.bulletins.index') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir toutes les ressources</a>
+        <a href="#" class="text-link" onclick="event.preventDefault(); alert('Bientôt disponible');"><i data-lucide="arrow-right"></i>Voir toutes les ressources</a>
     </div>
 
     <div class="resource-list">

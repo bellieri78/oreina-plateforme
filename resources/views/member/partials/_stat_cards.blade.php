@@ -6,7 +6,7 @@
 @endphp
 <section class="stat-cards">
     {{-- Adhésion à jour --}}
-    <div class="stat-card">
+    <a href="{{ route('member.membership') }}" class="stat-card" style="text-decoration:none;color:inherit;">
         <div class="stat-card-icon" style="background: rgba(133,183,157,0.18); color: #2f694e;">
             <i data-lucide="badge-check"></i>
         </div>
@@ -18,7 +18,7 @@
                 Valide jusqu'au {{ $membershipEndsAt ? $membershipEndsAt->translatedFormat('d M Y') : '—' }}
             </span>
         </div>
-    </div>
+    </a>
 
     {{-- Groupes rejoints --}}
     <a href="{{ route('member.work-groups') }}" class="stat-card" style="text-decoration:none;color:inherit;">

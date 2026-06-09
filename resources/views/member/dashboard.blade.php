@@ -56,23 +56,23 @@
 
             <div class="todo-list">
                 @if(!$member->biography)
-                <article class="todo-item">
+                <a href="{{ route('member.profile') }}" class="todo-item" style="text-decoration:none;color:inherit;">
                     <div>
                         <strong>Compléter votre présentation membre</strong>
                         <p>Ajoutez une courte biographie et vos centres d'intérêt pour mieux apparaître dans le réseau.</p>
                     </div>
                     <span class="status gold">Prioritaire</span>
-                </article>
+                </a>
                 @endif
 
                 @if($workGroups->count() > 0 && count($myGroupIds) === 0)
-                <article class="todo-item">
+                <a href="{{ route('member.work-groups') }}" class="todo-item" style="text-decoration:none;color:inherit;">
                     <div>
                         <strong>Rejoindre un groupe de travail</strong>
                         <p>Choisissez vos thématiques ou espaces de contribution pour personnaliser votre tableau de bord.</p>
                     </div>
                     <span class="status sage">Suggestion</span>
-                </article>
+                </a>
                 @endif
 
                 @if($member->biography && (count($myGroupIds) > 0 || $workGroups->count() === 0))

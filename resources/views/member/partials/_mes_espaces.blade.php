@@ -1,7 +1,7 @@
 <article class="card panel">
     <div class="panel-head">
         <div>
-            <h2>Mes espaces</h2>
+            <h2>Mes Espaces participatifs</h2>
         </div>
         <a href="{{ route('member.work-groups') }}" class="text-link"><i data-lucide="arrow-right"></i>Voir tous mes espaces</a>
     </div>
