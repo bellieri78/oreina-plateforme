@@ -348,7 +348,7 @@
                 </div>
 
                 <div class="doc-info">
-                    <strong>Rattachement manuel :</strong> Si l'email du compte ne correspond pas à celui de la fiche adhérent (email différent, faute de frappe...), un administrateur peut rattacher manuellement le compte en modifiant le champ <code>user_id</code> de la fiche membre dans l'extranet, ou en mettant à jour l'email de l'adhérent pour qu'il corresponde.<br><br>
+                    <strong>Rattachement manuel :</strong> Si l'email du compte ne correspond pas à celui de la fiche adhérent (email différent, faute de frappe...), un administrateur peut rattacher manuellement le compte via l'outil dédié décrit ci-dessous (<a href="#inscription" style="color:#356B8A;">Rattacher manuellement un compte à une fiche contact</a>).<br><br>
                     <strong>Important :</strong> Le rattachement automatique ne fonctionne que si l'adhérent a été créé dans l'extranet <strong>avant</strong> la création du compte. Si le compte est créé en premier, il faudra rattacher manuellement après création de la fiche adhérent.
                 </div>
 
