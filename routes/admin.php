@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\WorkGroupController;
 use App\Http\Controllers\Admin\LepisBulletinController;
 use App\Http\Controllers\Admin\LepisSuggestionController;
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\AccountLinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,6 +186,9 @@ Route::middleware(['web', 'admin'])->prefix('extranet')->name('admin.')->group(f
     Route::put('users/{user}/permissions', [UserController::class, 'updatePermissions'])->name('users.permissions.update');
     Route::put('users/{user}/capabilities', [UserController::class, 'updateCapabilities'])
         ->name('users.capabilities.update');
+    Route::get('users/{user}/member-search', [AccountLinkController::class, 'search'])->name('users.member-search');
+    Route::post('users/{user}/link-member', [AccountLinkController::class, 'store'])->name('users.link-member');
+    Route::post('users/{user}/unlink-member', [AccountLinkController::class, 'destroy'])->name('users.unlink-member');
     Route::resource('users', UserController::class);
 
     // Chersotis — file d'attente éditoriale
