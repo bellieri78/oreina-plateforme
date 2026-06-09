@@ -652,6 +652,11 @@ class Member extends Model
         return $query->where('contact_type', self::TYPE_INDIVIDUEL);
     }
 
+    public function scopeWithoutAccount($query)
+    {
+        return $query->whereNull('user_id');
+    }
+
     public function scopeOrganisations($query)
     {
         return $query->whereIn('contact_type', [

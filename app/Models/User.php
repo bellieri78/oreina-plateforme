@@ -306,6 +306,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->whereNotNull('claimed_at');
     }
 
+    public function scopeWithoutMember($query)
+    {
+        return $query->whereDoesntHave('member');
+    }
+
     public function isGhost(): bool
     {
         return $this->password === null
