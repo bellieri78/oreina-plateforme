@@ -58,6 +58,21 @@ class AccountLinkTest extends TestCase
         $this->assertSame($owner->id, $member->fresh()->user_id);
     }
 
+    public function test_link_refused_when_target_user_already_has_member(): void
+    {
+        $admin = $this->admin();
+        $target = User::factory()->create();
+        $existing = $this->makeMember(['user_id' => $target->id]);
+        $candidate = $this->makeMember();
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.link-member', $target), ['member_id' => $candidate->id])
+            ->assertSessionHas('error');
+
+        $this->assertNull($candidate->fresh()->user_id);
+        $this->assertSame($target->id, $existing->fresh()->user_id);
+    }
+
     public function test_admin_can_unlink_member(): void
     {
         $admin = $this->admin();

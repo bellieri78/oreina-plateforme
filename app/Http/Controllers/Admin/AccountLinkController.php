@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\User;
 use App\Services\MemberUserLinkService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class AccountLinkController extends Controller
@@ -51,7 +52,7 @@ class AccountLinkController extends Controller
     /**
      * Rattache une fiche au compte.
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request, User $user): RedirectResponse
     {
         $validated = $request->validate([
             'member_id' => 'required|integer|exists:members,id',
@@ -73,7 +74,7 @@ class AccountLinkController extends Controller
     /**
      * Détache la fiche du compte.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         if ($user->member) {
             $this->linker->unlink($user->member);
