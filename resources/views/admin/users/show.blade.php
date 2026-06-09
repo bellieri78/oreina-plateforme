@@ -144,6 +144,8 @@
                 </div>
             </div>
 
+            @include('admin.users.partials._member-link-card')
+
             {{-- Permissions --}}
             <div class="card">
                 <div class="card-header">

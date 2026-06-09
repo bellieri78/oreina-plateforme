@@ -76,8 +76,13 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user->loadCount(['articles', 'submissions', 'assignedReviews']);
+        $user->load('member');
 
-        return view('admin.users.show', compact('user'));
+        $memberSuggestions = $user->member
+            ? collect()
+            : app(\App\Services\MemberUserLinkService::class)->suggestionsFor($user);
+
+        return view('admin.users.show', compact('user', 'memberSuggestions'));
     }
 
     public function edit(User $user)
