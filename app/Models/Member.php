@@ -128,6 +128,13 @@ class Member extends Model
 
     protected static function booted(): void
     {
+        // Numéro adhérent généré automatiquement s'il n'est pas fourni
+        static::creating(function (Member $member) {
+            if (blank($member->member_number)) {
+                $member->member_number = self::generateMemberNumber();
+            }
+        });
+
         // Auto-uppercase last name
         static::saving(function (Member $member) {
             if ($member->last_name) {
@@ -806,12 +813,21 @@ class Member extends Model
     public static function generateMemberNumber(): string
     {
         $year = date('Y');
-        $lastMember = self::whereYear('created_at', $year)
-            ->orderBy('id', 'desc')
-            ->first();
+        $prefix = 'OR' . $year;
 
-        $sequence = $lastMember ? (int) substr($lastMember->member_number, -4) + 1 : 1;
+        // On se base sur la plus grande séquence existante du préfixe courant :
+        // les numéros legacy / importés qui ne suivent pas le format sont ignorés.
+        $sequence = (int) self::query()
+            ->where('member_number', 'like', $prefix . '%')
+            ->pluck('member_number')
+            ->map(fn ($number) => preg_match('/^' . $prefix . '(\d+)$/', (string) $number, $m) ? (int) $m[1] : 0)
+            ->max();
 
-        return sprintf('OR%s%04d', $year, $sequence);
+        do {
+            $sequence++;
+            $candidate = sprintf('%s%04d', $prefix, $sequence);
+        } while (self::where('member_number', $candidate)->exists());
+
+        return $candidate;
     }
 }

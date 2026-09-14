@@ -397,13 +397,6 @@ class WebhookController extends Controller
      */
     private function generateMemberNumber(): string
     {
-        $year = now()->format('Y');
-        $lastMember = Member::whereYear('created_at', now()->year)
-            ->orderBy('id', 'desc')
-            ->first();
-
-        $sequence = $lastMember ? (intval(substr($lastMember->member_number, -4)) + 1) : 1;
-
-        return "OR{$year}" . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+        return Member::generateMemberNumber();
     }
 }
